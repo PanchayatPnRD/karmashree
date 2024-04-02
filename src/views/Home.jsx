@@ -1,11 +1,9 @@
 import { Carousel } from "flowbite-react";
 import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
-import curveBorder from "../assets/img/curve_border.jpg"
+
 
 const Home = () => {
-  
-
   return (
     <div className="h-80">
       <Carousel>
@@ -78,7 +76,8 @@ const Home = () => {
         </div>
       </div>
       <Cards />
-      <img src={curveBorder} alt="" />
+      {/* <img src={curveBorder} alt="" /> */}
+      <div className="bg-curve h-[30px]"></div>
       <div className="h-40"></div>
       <Footer />
     </div>

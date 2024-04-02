@@ -9,9 +9,9 @@ export default {
     extend: {
       backgroundImage: {
         banner: "url('./src/assets/img/mamta_banner_bg.png')",
+        curve: "url('./src/assets/img/curve_border2.png')",
       },
     },
-   
   },
   plugins: [require("flowbite/plugin")],
 };

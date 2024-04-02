@@ -1,19 +1,20 @@
-export const Footer = () => {
+export const Footer = ({bg}) => {
+
   return (
     <>
-      <section class="main-footer">
-        <div class="bg-transparent">
+      <section className="main-footer">
+        <div className={bg || "bg-transparent"}>
           <img
             src="https://prd.wb.gov.in/img/mainfooterbg.png"
             alt=""
-            class="img-fluid"
+            className="img-fluid"
           />
         </div>
-        <div class="site-wrapper">
-          <div class="row">
-            <div class="site-inner-wrapper">
-              {/* <div class="footnav">
-							<ul class="footer-menu">
+        {/* <div className="site-wrapper">
+          <div className="row">
+            <div className="site-inner-wrapper">
+              <div className="footnav">
+							<ul className="footer-menu">
 								<li><a href="https://prd.wb.gov.in/contact-us">Contact Us</a></li>
 								<li><a href="https://prd.wb.gov.in/help">Help</a></li>
 								<li><a href="https://prd.wb.gov.in/feed-back">Feedback</a></li>
@@ -21,17 +22,17 @@ export const Footer = () => {
 								<li><a href="https://prd.wb.gov.in/rti-acts">RTI</a></li>
 								<li><a href="https://prd.wb.gov.in/site-map">Site Map</a></li>
 							</ul>
-						</div> */}
+						</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
             
-      <div class="copyright">
-        <div class="site-wrapper">
-          <div class="row">
-            <div class="site-inner-wrapper">
-              <div class="copyinner">
+      <div className="copyright">
+        <div className="site-wrapper">
+          <div className="row">
+            <div className="site-inner-wrapper">
+              <div className="copyinner">
                 <div className="flex flex-col items-center bg-[#d7e2f6]">
                   <p className="text">
                     © 2024 Designed and Developed By{" "}
@@ -45,7 +46,7 @@ export const Footer = () => {
                     above
                   </p>
                 </div>
-                {/* <div class="visitor-count">
+                {/* <div className="visitor-count">
 								<h4>Current Visitors : 5638</h4>
 								<h4>Total Visitors : 281893</h4>
 							</div> */}

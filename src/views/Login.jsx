@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <>
       <div className="rounded-sm bg-zinc-50 py-20 px-60">
-        <div className="flex items-center border rounded-xl shadow-2xl bg-white p-8 py-12">
+        <div className="flex items-center rounded-xl shadow-2xl bg-white p-8 py-12">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 text-center">
               <span className="mt-15 inline-block">
@@ -202,7 +202,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer bg={"bg-zinc-50"} />
     </>
   );
 };
