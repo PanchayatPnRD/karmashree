@@ -8,7 +8,7 @@ import Contact from "./views/Contact";
 function App() {
   return (
     <>
-      <div className="">
+      <div className="overflow-y-hidde">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
