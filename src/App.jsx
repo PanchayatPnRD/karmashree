@@ -12,7 +12,7 @@ function App() {
       <div className="">
         <Routes>
           <Route
-            path="/app"
+            path=""
             element={
               <>
                 <Navbar />
@@ -21,7 +21,7 @@ function App() {
             }
           />
           <Route
-            path="/app/login"
+            path="/login"
             element={
               <>
                 <Navbar />
@@ -30,7 +30,7 @@ function App() {
             }
           />
           <Route
-            path="/app/contact"
+            path="/contact"
             element={
               <>
                 <Navbar />

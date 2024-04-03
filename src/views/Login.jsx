@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Login_logo } from "../components/Logo";
+import { useState } from "react";
+import { Icon } from "@iconify/react";
 
 const Login = () => {
+  const [isPassword, setIsPassword] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <>
       <div className="flex flex-col h-remaining justify-between">
@@ -32,26 +38,41 @@ const Login = () => {
                         <input
                           type="email"
                           placeholder="Enter Username"
-                          className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          className="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 text-black outline-none"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div className="mb-6">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
+                      <label className="mb-1 block font-medium text-black dark:text-white">
                         Password
                       </label>
-                      <div className="relative">
+                      <div className="relative flex justify-between border-black focus-within:border-blue-600 overflow-hidden focus-within:ring-blue-600 focus-within:ring-1 rounded-lg border bg-transparent pr-4 text-black outline-none">
                         <input
-                          type="password"
+                          type={isPassword ? "password" : "text"}
                           placeholder="Enter password"
-                          className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          className="focus:ring-0 border-0 flex-grow py-4"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
+                        <button
+                          type="button"
+                          className="text-3xl text-zinc-500"
+                          onClick={() => setIsPassword((prev) => !prev)}
+                        >
+                          {isPassword ? (
+                            <Icon icon={"iconamoon:eye-light"} />
+                          ) : (
+                            <Icon icon={"iconamoon:eye-off-light"} />
+                          )}
+                        </button>
                       </div>
                     </div>
 
                     <div className="mb-5">
-                      <Link to={"/dashboard"} >
+                      <Link to={"/dashboard"}>
                         <input
                           type="submit"
                           value="Sign In"
