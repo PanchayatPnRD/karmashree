@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        banner: "url('./src/assets/img/mamta_banner_bg.png')",
-        curve: "url('./src/assets/img/curve_border2.png')",
+        banner: "url('/assets/img/mamta_banner_bg.png')",
+        curve: "url('/assets/img/curve_border2.png')",
       },
       height: {
         remaining: "calc(100vh - 98px)", // Adjust the '4rem' value to match your navbar height

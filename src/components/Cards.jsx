@@ -6,39 +6,29 @@ import { GiPayMoney } from "react-icons/gi";
 import { FaPeopleCarryBox } from "react-icons/fa6";
 
 export const Cards = () => {
+  const iconClass = "text-green-600 text-7xl";
+
+  const cardList = [
+    { text: "total of sectors", Icon: FaUsersBetweenLines },
+    { text: "total no of funding", Icon: HiMiniCurrencyRupee },
+    { text: "total no of schemes", Icon: LuTreeDeciduous },
+    { text: "total project cost", Icon: MdGroups3 },
+    { text: "total amount spent", Icon: GiPayMoney },
+    { text: "total no of workers", Icon: FaPeopleCarryBox },
+  ];
+
   return (
     <>
       <div className="bg-banner h-64 flex items-center justify-evenly">
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <FaUsersBetweenLines className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total no of sectors</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <HiMiniCurrencyRupee className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total no of funding</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <LuTreeDeciduous className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total no of schemes</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <MdGroups3 className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total project cost</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <GiPayMoney className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total amount spent</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
-        <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
-          <FaPeopleCarryBox className="text-green-600 text-7xl" />
-          <h4 className="capitalize">total no of workers</h4>
-          <h1 className="text-2xl font-bold tracking-tight">666</h1>
-        </div>
+        {cardList.map(({ text, Icon }) => {
+          return (
+            <div className="size-48 space-y-4 bg-emerald-100 shadow-lg rounded-xl flex flex-col items-center justify-center">
+              <Icon className={iconClass} />
+              <h4 className="capitalize">{text}</h4>
+              <h1 className="text-2xl font-bold tracking-tight">666</h1>
+            </div>
+          );
+        })}
       </div>
     </>
   );

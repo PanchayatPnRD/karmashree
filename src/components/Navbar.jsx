@@ -1,5 +1,5 @@
 import { Karmashree_logo } from "./Logo";
-import emblem from "../assets/logo/biswa.png";
+import emblem from "/assets/logo/biswa.png";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
