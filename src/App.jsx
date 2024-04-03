@@ -4,16 +4,41 @@ import "./App.css";
 import Home from "./views/Home";
 import Login from "./views/Login";
 import Contact from "./views/Contact";
+import Dashboard from "./views/Dashboard";
 
 function App() {
   return (
     <>
-      <div className="overflow-y-hidde">
-        <Navbar />
+      <div className="">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/app"
+            element={
+              <>
+                <Navbar />
+                <Home />
+              </>
+            }
+          />
+          <Route
+            path="/app/login"
+            element={
+              <>
+                <Navbar />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/app/contact"
+            element={
+              <>
+                <Navbar />
+                <Contact />
+              </>
+            }
+          />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </>

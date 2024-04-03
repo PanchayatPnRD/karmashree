@@ -51,11 +51,13 @@ const Login = () => {
                     </div>
 
                     <div className="mb-5">
-                      <input
-                        type="submit"
-                        value="Sign In"
-                        className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
-                      />
+                      <Link to={"/dashboard"} >
+                        <input
+                          type="submit"
+                          value="Sign In"
+                          className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
+                        />
+                      </Link>
                     </div>
 
                     <div className="mt-6 text-center">

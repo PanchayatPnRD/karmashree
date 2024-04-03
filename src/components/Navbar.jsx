@@ -6,7 +6,7 @@ export const Navbar = () => {
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 i z-50 bg-white shadow-lg">
-        <Link to={"/"} className="flex items-center space-x-2 w-fit">
+        <Link to={"/app"} className="flex items-center space-x-2 w-fit">
           <div className="flex">
             <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
             <img src={emblem} alt="" className="h-16" />
@@ -21,17 +21,17 @@ export const Navbar = () => {
           </div>
         </Link>
         <div className="h-12 flexitems-center space-x-4">
-          <Link to={"/"}>
+          <Link to={"/app"}>
             <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
               Home
             </button>
           </Link>
-          <Link to={"/login"}>
+          <Link to={"/app/login"}>
             <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
               Login
             </button>
           </Link>
-          <Link to={"/contact"}>
+          <Link to={"/app/contact"}>
             <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
               Contact Us
             </button>
