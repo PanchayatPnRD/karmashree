@@ -44,14 +44,14 @@ function App() {
             path="/dashboard"
             element={<Dashboard text={"Dashboard Body"}></Dashboard>}
           />
-          {sideBarList.map(({text,route,Text}) => {
+          {sideBarList.map(({text,route}) => {
             return (
               <Route
                 
                 path={route}
                 element={
                   <>
-                    <Dashboard text={text}><Text/></Dashboard>
+                    <Dashboard text={text}></Dashboard>
                   </>
                 }
               />
