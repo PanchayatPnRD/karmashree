@@ -59,7 +59,7 @@ const Dashboard = () => {
 
           <div className="flex justify-center items-center flex-grow">
             <span className="text-bold text-5xl font-semibold text-zinc-700">
-              Dynamic body
+              Home Pages body
             </span>
           </div>
           <Footer className="justify-items-end" />
