@@ -6,6 +6,7 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
+import Register from "./views/Register/Register";
 
 function App() {
   return (
@@ -43,19 +44,21 @@ function App() {
             path="/dashboard"
             element={<Dashboard text={"Dashboard Body"}></Dashboard>}
           />
-          {sideBarList.map((e) => {
+          {sideBarList.map(({text,route,Text}) => {
             return (
               <Route
-                key={e.text}
-                path={e.route}
+                
+                path={route}
                 element={
                   <>
-                    <Dashboard text={e.text}></Dashboard>
+                    <Dashboard text={text}><Text/></Dashboard>
                   </>
                 }
               />
             );
           })}
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </>
