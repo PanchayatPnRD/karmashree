@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import { Sidebar } from "flowbite-react";
+import { Sidebar } from "../components/Sidebar";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { Karmashree_logo } from "../components/Logo";
 import { Footer } from "../components/Footer";
@@ -17,7 +17,7 @@ import {
 const Dashboard = () => {
   return (
     <>
-      <div className="px-8 shadow-lg">
+      <div className="px-8 shadow-lg flex-col flex sticky top-0 left-0 z-50">
         <Navbar className="bg-transparent">
           <Navbar.Brand>
             <Karmashree_logo className="fill-blue-600 h-16 w-fit" />
@@ -48,37 +48,11 @@ const Dashboard = () => {
             <Navbar.Toggle />
           </div>
         </Navbar>
+
+        <div></div>
       </div>
-      <Sidebar className="flex flex-col flex-grow">
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={HiChartPie}>
-              Dashboard
-            </Sidebar.Item>
-            <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-              <Sidebar.Item href="#">Products</Sidebar.Item>
-              <Sidebar.Item href="#">Sales</Sidebar.Item>
-              <Sidebar.Item href="#">Refunds</Sidebar.Item>
-              <Sidebar.Item href="#">Shipping</Sidebar.Item>
-            </Sidebar.Collapse>
-            <Sidebar.Item href="#" icon={HiInbox}>
-              Inbox
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiUser}>
-              Users
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiShoppingBag}>
-              Products
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiArrowSmRight}>
-              Sign In
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiTable}>
-              Sign Up
-            </Sidebar.Item>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
-      </Sidebar>
+      <Sidebar />
+      {/* <div className="h-remaining"></div> */}
       <Footer />
     </>
   );

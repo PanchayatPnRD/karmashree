@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
   return (
     <>
-      <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 i z-50 bg-white shadow-lg">
+      <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
         <Link to={"/"} className="flex items-center space-x-2 w-fit">
           <div className="flex">
             <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
