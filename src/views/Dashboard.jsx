@@ -7,9 +7,9 @@ import { Routes, Route } from "react-router-dom";
 
 import { Footer } from "../components/Footer";
 
-const Dashboard = () => {
+const Dashboard = ({children,text}) => {
   return (
-    <div>
+    <>
       <Navbar />
 
       <div className="h-remaining z-10 flex bg-zinc-100">
@@ -20,14 +20,14 @@ const Dashboard = () => {
         <div className="flex-grow flex flex-col m-4 mx-8 shadow-xl bg-white">
           <div className="flex justify-center items-center flex-grow">
             <span className="text-bold text-5xl font-semibold text-zinc-700">
-              Dashboard body
+              {text}
             </span>
           </div>
 
           <Footer className="justify-items-end" />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
