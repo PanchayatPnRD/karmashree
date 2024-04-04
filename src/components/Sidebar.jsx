@@ -1,6 +1,6 @@
 export const Sidebar = () => {
   return (
-    <>
+    <div className="border">
       {/* <!-- Navigation Toggle --> */}
       <button
         type="button"
@@ -496,6 +496,7 @@ export const Sidebar = () => {
         </nav>
       </div>
       {/* End Sidebar  */}
-    </>
+    </div>
   );
 };
+
