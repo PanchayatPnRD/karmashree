@@ -14,7 +14,11 @@ export const sideBarList = [
 
 export const Sidebar = () => {
   return (
-    <div className="h-full bg-blue-950 flex flex-col">
+    <div className="h-full bg-blue-950 flex flex-col flex-grow pt-3">
+      <SidebarElement to="/dashboard" className={"py-2.5 pl-16"}>
+        <div className=" items-center capitalize">Dashboard</div>
+      </SidebarElement>
+
       <SidebarExpand text={"User Master"}>
         {sideBarList.slice(0, 2).map((e) => {
           return (
@@ -24,6 +28,7 @@ export const Sidebar = () => {
           );
         })}
       </SidebarExpand>
+
       {sideBarList.slice(2, sideBarList.length).map((e) => {
         return (
           <SidebarElement to={e.route}>

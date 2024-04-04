@@ -7,9 +7,10 @@ export const SidebarElement = ({ to, children, className }) => {
   return (
     <div className={className || "py-2.5 pl-16 "}>
       <NavLink
+        end
         to={to}
         className={({ isActive }) =>
-          isActive ? "text-white font-bold" : "text-white/70 font-normal"
+          isActive ? "text-white font-bold transition-all duration" : "text-white/70 font-normal transition-all duration"
         }
       >
         {children}
@@ -26,7 +27,7 @@ export const SidebarExpand = ({ text, children }) => {
   }, [isopen]);
 
   return (
-    <div className={"flex flex-col pt-2.5 pl-16 " + textColor}>
+    <div className={"flex flex-col pl-16 " + textColor}>
       <button
         className="flex py-2.5 space-x-2 items-center"
         onClick={() => setIsopen((prev) => !prev)}
