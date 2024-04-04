@@ -15,7 +15,10 @@ export const SidebarExpand = ({ text, children }) => {
 
   return (
     <div className="flex flex-col">
-      <button onClick={() => setIsopen((prev) => !prev)}>{text}</button>
+      <button className="flex" onClick={() => setIsopen((prev) => !prev)}>
+        <span>{text}</span>
+        {isopen ? (<Icon icon={"ep:arrow-down"} />):(<Icon icon={"ep:arrow-up"} />)}
+      </button>
       {isopen && children}
     </div>
   );
