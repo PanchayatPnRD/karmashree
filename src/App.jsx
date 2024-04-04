@@ -6,6 +6,7 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
+import Register from "./views/Register/Register";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               </>
             }
           />
+<<<<<<< Updated upstream
           <Route
             path="/dashboard"
             element={<Dashboard text={"Dashboard Body"}></Dashboard>}
@@ -56,6 +58,10 @@ function App() {
               />
             );
           })}
+=======
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Register />} />
+>>>>>>> Stashed changes
         </Routes>
       </div>
     </>
