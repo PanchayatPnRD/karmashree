@@ -1,8 +1,8 @@
 import { Children } from "react";
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
-
+import Register from "../views/Register/Register";
 export const sideBarList = [
-  { text: "New user", route: "/dashboard/new-master" },
+  { text:"Register",Text: Register, route: "/dashboard/register" },
   { text: "user list", route: "/dashboard/user-list" },
   { text: "Action Plan", route: "/dashboard/action-plan" },
   { text: "scheme", route: "/dashboard/scheme" },

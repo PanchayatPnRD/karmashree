@@ -40,28 +40,25 @@ function App() {
               </>
             }
           />
-<<<<<<< Updated upstream
           <Route
             path="/dashboard"
             element={<Dashboard text={"Dashboard Body"}></Dashboard>}
           />
-          {sideBarList.map((e) => {
+          {sideBarList.map(({text,route,Text}) => {
             return (
               <Route
-                key={e.text}
-                path={e.route}
+                
+                path={route}
                 element={
                   <>
-                    <Dashboard text={e.text}></Dashboard>
+                    <Dashboard text={text}><Text/></Dashboard>
                   </>
                 }
               />
             );
           })}
-=======
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/register" element={<Register />} />
->>>>>>> Stashed changes
         </Routes>
       </div>
     </>
