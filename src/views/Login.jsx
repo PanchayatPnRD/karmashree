@@ -14,18 +14,22 @@ const Login = () => {
 
   function handleSubmit() {
     if (username.length > 0 && password.length > 0) navigate("/dashboard");
-    else setShowToast(true)
+    else setShowToast(true);
   }
 
   return (
     <>
-      {showToast && <Toast className="fixed top-32 right-6 z-50">
-        <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500">
-          <Icon icon="bi:exclamation" className="text-xl" />
-        </div>
-        <div className="ml-3 text-sm font-normal">Set yourself free.</div>
-        <Toast.Toggle onDismiss={()=>setShowToast((prev)=>!prev)} />
-      </Toast>}
+      {showToast && (
+        <Toast className="fixed top-32 right-6 z-50 bg-red-400">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-900">
+            <Icon icon="bi:exclamation" className="text-xl" />
+          </div>
+          <div className="ml-3 text-white text-lg font-semibold">
+            Required fields missing
+          </div>
+          <Toast.Toggle onDismiss={() => setShowToast((prev) => !prev)} />
+        </Toast>
+      )}
 
       <div className="flex flex-col h-remaining justify-between">
         <main className="flex-grow">
