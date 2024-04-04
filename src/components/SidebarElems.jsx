@@ -23,7 +23,7 @@ export const SidebarExpand = ({ text, children }) => {
   const [isopen, setIsopen] = useState(false);
 
   const textColor = useMemo(() => {
-    return isopen ? "text-white font-bold" : "text-white/70";
+    return isopen ? "text-white font-bold transition-all" : "text-white/70 transition-all";
   }, [isopen]);
 
   return (

@@ -40,18 +40,19 @@ function App() {
               </>
             }
           />
-          <Route
+          {/* <Route
             path="/dashboard"
             element={<Dashboard text={"Dashboard Body"}></Dashboard>}
-          />
-          {sideBarList.map(({text,route}) => {
+          /> */}
+          {sideBarList.map(({ route, Component }) => {
             return (
               <Route
-                
                 path={route}
                 element={
                   <>
-                    <Dashboard text={text}></Dashboard>
+                    <Dashboard>
+                      <Component />
+                    </Dashboard>
                   </>
                 }
               />

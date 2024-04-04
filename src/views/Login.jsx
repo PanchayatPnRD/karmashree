@@ -117,13 +117,6 @@ const Login = () => {
                 </div>
 
                 <div className="mb-5">
-                  {/* <button
-                    type="button"
-                    value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
-                    onClick={onSubmit}
-                  /> */}
-
                   <button
                     type="button"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
@@ -131,7 +124,6 @@ const Login = () => {
                   >
                     Submit
                   </button>
-
                 </div>
 
                 <div className="mt-6 text-center">
@@ -143,8 +135,8 @@ const Login = () => {
             </div>
           </div>
         </div>
-        </div>
-  
+      </div>
+      <Footer bg={"bg-zinc-50"} />
     </>
   );
 };

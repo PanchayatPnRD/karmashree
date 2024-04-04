@@ -14,6 +14,9 @@ export default {
       height: {
         remaining: "calc(100vh - 98px)", // Adjust the '4rem' value to match your navbar height
       },
+      minHeight: {
+        remaining: "calc(100vh - 98px)", // Adjust the '4rem' value
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

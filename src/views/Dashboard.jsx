@@ -7,22 +7,18 @@ import { Routes, Route } from "react-router-dom";
 
 import { Footer } from "../components/Footer";
 
-const Dashboard = ({children,text}) => {
+const Dashboard = ({ children, text }) => {
   return (
     <>
       <Navbar />
 
-      <div className="h-remaining z-10 flex bg-zinc-100">
-        <div className="w-[25%] h-remaining">
+      <div className="flex bg-cyan-50">
+        <div className="w-1/4 xl:w-1/5 inset-y-0 top-[98px] min-h-remaining bg-blue-950 fixed overflow-y-auto">
           <Sidebar />
         </div>
 
-        <div className="flex-grow flex flex-col m-4 mx-8 shadow-xl bg-white">
-          {/* <div className="flex justify-center items-center flex-grow"> */}
-            {/* <span className="text-bold text-5xl font-semibold text-zinc-700"> */}
-              {children}
-            {/* </span> */}
-          {/* </div> */}
+        <div className=" ml-[26vw] m-4 xl:ml-[21vw] flex flex-col shadow-xl bg-white">
+          {children}
 
           <Footer className="justify-items-end" />
         </div>
