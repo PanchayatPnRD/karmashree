@@ -18,11 +18,11 @@ const Dashboard = ({children,text}) => {
         </div>
 
         <div className="flex-grow flex flex-col m-4 mx-8 shadow-xl bg-white">
-          <div className="flex justify-center items-center flex-grow">
-            <span className="text-bold text-5xl font-semibold text-zinc-700">
+          {/* <div className="flex justify-center items-center flex-grow"> */}
+            {/* <span className="text-bold text-5xl font-semibold text-zinc-700"> */}
               {children}
-            </span>
-          </div>
+            {/* </span> */}
+          {/* </div> */}
 
           <Footer className="justify-items-end" />
         </div>
