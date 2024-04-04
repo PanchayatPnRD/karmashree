@@ -17,7 +17,7 @@ const Dashboard = ({ children, text }) => {
           <Sidebar />
         </div>
 
-        <div className=" ml-[26vw] m-4 xl:ml-[21vw] flex flex-col shadow-xl bg-white">
+        <div className="min-h-remaining ml-[26vw] xl:ml-[21vw] flex flex-col shadow-xl bg-white">
           {children}
 
           <Footer className="justify-items-end" />
