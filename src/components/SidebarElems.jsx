@@ -10,7 +10,7 @@ export const SidebarElement = ({ to, children, className }) => {
         end
         to={to}
         className={({ isActive }) =>
-          isActive ? "text-white font-bold transition-all duration" : "text-white/70 font-normal transition-all duration"
+          isActive ? "text-white font-bold transition-all " : "text-white/70 font-normal transition-all"
         }
       >
         {children}
