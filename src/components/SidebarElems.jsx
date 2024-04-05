@@ -5,13 +5,22 @@ import { useState } from "react";
 
 export const SidebarElement = ({ to, children, className }) => {
   return (
-    <div className={className || "py-2.5 pl-16 "}>
+    <div
+      className={
+        (className || "py-2.5 pl-16 ") +
+        " hover:bg-blue-800/40 rounded-lg transition-all duration-100"
+      }
+    >
       <NavLink
         end
         to={to}
-        className={({ isActive }) =>
-          isActive ? "text-white font-bold transition-all " : "text-white/70 font-normal transition-all"
-        }
+        className={({ isActive }) => {
+          return (
+            (isActive
+              ? "text-white font-extrabold"
+              : "text-white/40 font-normal") + " transition-all duration-300"
+          );
+        }}
       >
         {children}
       </NavLink>
@@ -23,13 +32,13 @@ export const SidebarExpand = ({ text, children }) => {
   const [isopen, setIsopen] = useState(false);
 
   const textColor = useMemo(() => {
-    return isopen ? "text-white font-bold transition-all" : "text-white/70 transition-all";
+    return isopen ? "text-white font-extrabold" : "text-white/40";
   }, [isopen]);
 
   return (
-    <div className={"flex flex-col pl-16 " + textColor}>
+    <div className={"flex flex-col transition-all " + textColor}>
       <button
-        className="flex py-2.5 space-x-2 items-center"
+        className="flex py-2.5 pl-16 space-x-2 rounded-lg items-center hover:bg-blue-800/40 transition-all duration-100"
         onClick={() => setIsopen((prev) => !prev)}
       >
         <span>{text}</span>
@@ -39,7 +48,7 @@ export const SidebarExpand = ({ text, children }) => {
           <Icon icon={"ep:arrow-down-bold"} />
         )}
       </button>
-      {isopen && children}
+      <div className="pl-16">{isopen && children}</div>
     </div>
   );
 };
