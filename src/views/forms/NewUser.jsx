@@ -1,4 +1,5 @@
-import { useState, } from "react";
+import { useState } from "react";
+import Dropdown from "../../components/Dropdown";
 
 const NewUser = () => {
   const [formData, setFormData] = useState({
@@ -26,26 +27,13 @@ const NewUser = () => {
       <div className="mx-auto mt-2">
         <div className="flex w-full space-x-4">
           <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Department
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              // onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>
-                Select a area
-              </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
-            </select>
+            <Dropdown
+              label="Department"
+              options={["Option 1", "Option 2", "Option 3"]}
+              value={""}
+              onChange={(e) => console.log(e.target)}
+              className="mb-4"
+            />
           </div>
           <div>
             <label
