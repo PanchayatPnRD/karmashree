@@ -9,7 +9,7 @@ import WorkAlloc from "../views/forms/WorkAlloc";
 import DashboardHome from "../views/forms/DashboardHome";
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
-import Register from "../views/Register/Register";
+// import Register from "../views/Register/Register";
 export const sideBarList = [
   { Component: DashboardHome, text: "Home", route: "/dashboard" },
   { Component: NewUser, text: "new user", route: "/dashboard/new-user" },
