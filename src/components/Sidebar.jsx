@@ -32,12 +32,11 @@ export const sideBarList = [
     route: "/dashboard/contractor-master",
   },
   { Component: Employment, text: "employment", route: "/dashboard/employment" },
-  
 ];
 
 export const Sidebar = () => {
   return (
-    <div className=" flex flex-col pt-3">
+    <div className=" flex flex-col p-3">
       <SidebarElement to="/dashboard" className={"py-2.5 pl-16"}>
         <div className=" items-center capitalize">Home</div>
       </SidebarElement>
