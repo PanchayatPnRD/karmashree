@@ -37,14 +37,17 @@ export const sideBarList = [
 export const Sidebar = () => {
   return (
     <div className=" flex flex-col p-3">
-      <SidebarElement to="/dashboard" className={"py-2.5 pl-16"}>
+      <SidebarElement to="/dashboard" customCss={"py-2.5 pl-16"}>
         <div className=" items-center capitalize">Home</div>
       </SidebarElement>
 
       <SidebarExpand text={"User Master"}>
         {sideBarList.slice(1, 3).map((e) => {
           return (
-            <SidebarElement to={e.route} className={"py-2 pl-8"}>
+            <SidebarElement
+              to={e.route}
+              customCss={"py-2 pl-16 text-red-500"}
+            >
               <div className=" items-center capitalize">{e.text}</div>
             </SidebarElement>
           );
@@ -53,7 +56,7 @@ export const Sidebar = () => {
 
       {sideBarList.slice(3, sideBarList.length).map((e) => {
         return (
-          <SidebarElement to={e.route}>
+          <SidebarElement to={e.route} customCss={"py-2.5 pl-16"}>
             <div className=" items-center capitalize">{e.text}</div>
           </SidebarElement>
         );

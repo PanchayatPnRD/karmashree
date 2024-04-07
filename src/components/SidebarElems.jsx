@@ -1,14 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 export const SidebarElement = ({ to, children, className }) => {
+  const navigate = useNavigate()
   return (
     <div
+      onClick={()=>navigate(to)}
       className={
         (className || "py-2.5 pl-16 ") +
-        " hover:bg-blue-800/40 rounded-lg transition-all duration-100"
+        " hover:bg-blue-800/40 rounded-lg transition-all duration-100 cursor-pointer"
       }
     >
       <NavLink
@@ -17,7 +19,7 @@ export const SidebarElement = ({ to, children, className }) => {
         className={({ isActive }) => {
           return (
             (isActive
-              ? "text-white font-extrabold"
+              ? "text-white font-semibold"
               : "text-white/40 font-normal") + " transition-all duration-300"
           );
         }}
@@ -32,7 +34,7 @@ export const SidebarExpand = ({ text, children }) => {
   const [isopen, setIsopen] = useState(false);
 
   const textColor = useMemo(() => {
-    return isopen ? "text-white font-extrabold" : "text-white/40";
+    return isopen ? "text-white font-semibold" : "text-white/40";
   }, [isopen]);
 
   return (

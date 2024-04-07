@@ -34,6 +34,6 @@ export const getLogin = async (userId, password, onSuccess, onFailure) => {
 
         }
     } catch (error) {
-        console.log("fdgdf")
+        console.log(error)
     }
 };

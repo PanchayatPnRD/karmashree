@@ -1,8 +1,16 @@
 import { Karmashree_logo } from "./Logo";
 import emblem from "/assets/logo/biswa.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Dropdown, DropdownItem } from "./Dropdown";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const DashboardNavbar = () => {
+  function handleItemClick(e) {
+    e.preventDefault();
+    console.log(e.target.value);
+  }
+
+  const navigate = useNavigate();
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
@@ -20,23 +28,39 @@ export const DashboardNavbar = () => {
             </h3>
           </div>
         </Link>
-        <div className="h-12 flexitems-center space-x-4">
-          <Link to={"/"}>
-            <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
-              Home
-            </button>
-          </Link>
-          <Link to={"/login"}>
-            <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
-              Login
-            </button>
-          </Link>
-          <Link to={"/contact"}>
-            <button className="px-4 p-2 border border-zinc-200 rounded-full hover:bg-sky-950 hover:text-white transition-all duration-300">
-              Contact Us
-            </button>
-          </Link>
-        </div>
+
+        <Dropdown
+          Button={
+            <Icon
+              className="text-5xl"
+              icon="lets-icons:user-cicrle-duotone"
+            ></Icon>
+          }
+        >
+          <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
+            <label htmlFor="">Hello Username</label>
+          </div>
+          <DropdownItem
+            className="space-x-2"
+            onClick={() => navigate("/dashboard/profile")}
+          >
+            <Icon
+              className="text-2xl text-zinc-400"
+              icon="material-symbols:settings"
+            ></Icon>
+            <span>Profile</span>
+          </DropdownItem>
+          <DropdownItem
+            className="space-x-2"
+            onClick={() => navigate("/login")}
+          >
+            <Icon
+              className="text-2xl text-zinc-400"
+              icon="material-symbols:logout"
+            ></Icon>
+            <span>Sign out</span>
+          </DropdownItem>
+        </Dropdown>
       </div>
     </>
   );

@@ -47,7 +47,7 @@ const Login = () => {
   return (
     <>
       <ToastContainer />
-      <div className="rounded-sm bg-zinc-50 py-20 px-60">
+      <div className="rounded-sm bg-zinc-50 py-20 px-60 flex-grow">
         <div className="flex items-center rounded-xl shadow-2xl bg-white p-8 py-12">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 text-center">
