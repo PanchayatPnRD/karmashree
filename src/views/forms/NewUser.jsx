@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllDesignationList,getAllDepartmentList, getAllDistrictList, getAllRoleList, getAllSubDivisionList, getAllBlockList } from "../../Service/NewUserService";
+import { addNewUser,getAllDesignationList,getAllDepartmentList, getAllDistrictList, getAllRoleList, getAllSubDivisionList, getAllBlockList } from "../../Service/NewUserService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -177,34 +177,51 @@ const onDesignation=(e)=>{
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a department")
-    } else if (!userData?.category === "HQ" || userData?.category === "HD" && district === ""|| userData?.category === "DEPT" && district === ""|| userData?.category === "DIST" && district === ""|| userData?.category === "SUB" && district === ""|| userData?.category === "BLOCK" && district === "") {
-      toast.error("Please select a district")
-    } else if (!userData?.category === "HQ" ||userData?.category === "DIST" && subDivision === ""||userData?.category === "SUB" && subDivision === ""|| userData?.category === "BLOCK" && subDivision === "") {
-      toast.error("Please select a sub division")
-    } else if (!userData?.category === "HQ" && block === ""|| userData?.category === "SUB" && block === ""|| userData?.category === "BLOCK" && block === "") {
-      toast.error("Please select a block")
-    } else if (userId === "") {
-      toast.error("Please type your userId")
-    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
-      toast.error("Password must contain at least 12 characters, including uppercase, lowercase,numerical and special characters.")
-    } else if (password.length != 12) {
-      toast.error("minimun 12 digit password are required")
-    } else if (officeName === "") {
-      toast.error("Please type your office name")
-    } else if (nodalOfficerName === "") {
-      toast.error("Please type your nodal officer name")
-    } else if (contactNumber.length != 10) {
-      toast.error("Please type your 10 digit contact number")
-    } else if (!email) {
-      toast.error("Please enter valid email id")
-    } else if (designation==="") {
-      toast.error("Please select a designation")
-    }else if (userAddress === "") {
-      toast.error("Please type user address")
-    } else if (role === "") {
-      toast.error("Please selct role")
+    // } else if (!userData?.category === "HQ" || userData?.category === "HD" && district === ""|| userData?.category === "DEPT" && district === ""|| userData?.category === "DIST" && district === ""|| userData?.category === "SUB" && district === ""|| userData?.category === "BLOCK" && district === "") {
+    //   toast.error("Please select a district")
+    // } else if (!userData?.category === "HQ" ||userData?.category === "DIST" && subDivision === ""||userData?.category === "SUB" && subDivision === ""|| userData?.category === "BLOCK" && subDivision === "") {
+    //   toast.error("Please select a sub division")
+    // } else if (!userData?.category === "HQ" && block === ""|| userData?.category === "SUB" && block === ""|| userData?.category === "BLOCK" && block === "") {
+    //   toast.error("Please select a block")
+    // } else if (userId === "") {
+    //   toast.error("Please type your userId")
+    // } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
+    //   toast.error("Password must contain at least 12 characters, including uppercase, lowercase,numerical and special characters.")
+    // } else if (password.length != 12) {
+    //   toast.error("minimun 12 digit password are required")
+    // } else if (officeName === "") {
+    //   toast.error("Please type your office name")
+    // } else if (nodalOfficerName === "") {
+    //   toast.error("Please type your nodal officer name")
+    // } else if (contactNumber.length != 10) {
+    //   toast.error("Please type your 10 digit contact number")
+    // } else if (!email) {
+    //   toast.error("Please enter valid email id")
+    // } else if (designation==="") {
+    //   toast.error("Please select a designation")
+    // }else if (userAddress === "") {
+    //   toast.error("Please type user address")
+    // } else if (role === "") {
+    //   toast.error("Please selct role")
+    // }
     } else {
+      addNewUser(userData?.category === "HQ"?department:allDepartmentList[0]?.departmentNo,
+      district?district:null,subDivision?subDivision:null,block?block:null,userId,password,
+      officeName,nodalOfficerName,contactNumber,emailInput,designation,userAddress,role,
+      userData?.category === "HQ"?"HD":userData?.category === "HD"?"DEPT":userData?.category === "DEPT"?"DIST":
+      userData?.category === "DIST"?"SUB":userData?.category === "SUB"?"BLOCK":"BLOCK",
+      "","A",1,role,role,"",userData?.userIndex,userData?.userIndex,
+        (r) => {
+            console.log(r, "response")
+            if (r.success === true) {
+                toast.success(r.message)
+                navigate("/user")
+            } else {
+                console.log("nononononono")
+                toast.error(r.message)
 
+            }
+        })
     }
   }
   return (
