@@ -37,8 +37,8 @@ export const sideBarList = [
 export const Sidebar = () => {
   return (
     <div className=" flex flex-col p-3">
-      <SidebarElement to="/dashboard" customCss={"py-2.5 pl-16"}>
-        <div className=" items-center capitalize">Home</div>
+      <SidebarElement to="/dashboard" className={"flex justify-center bg-blue-700"}>
+        <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
 
       <SidebarExpand text={"User Master"}>
