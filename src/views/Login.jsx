@@ -21,10 +21,20 @@ const Login = () => {
       getLogin(UserID, password, (res) => {
         console.log(res, "response");
         if (res.errorCode == 0) {
-          //   localStorage.setItem("gs3_AuthToken", res.data.accessToken);
+          const userdata = {
+            category: res?.result?.category,
+            departmentNo: res?.result?.departmentNo,
+            districtcode: res?.result?.districtcode,           
+            
+          }
+          
           localStorage.setItem("karmashree_AuthToken", res.result.token);
+          localStorage.setItem("karmashree_User", JSON.stringify(userdata))
+
           toast.success(res.message);
           navigate("/dashboard");
+          window.location.reload();
+
         } else if (res.errorCode == 1) {
           console.log("nononononono");
           toast.error(res.message);

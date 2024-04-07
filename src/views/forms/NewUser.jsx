@@ -1,28 +1,197 @@
-import { useState, } from "react";
+import React, { useState, useEffect } from 'react';
+import { getAllDepartmentList, getAllDistrictList, getAllRoleList, getAllSubDivisionList, getAllBlockList } from "../../Service/NewUserService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const NewUser = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [department, setDepartment] = useState("");
+  const [allDepartmentList, setAllDepartmentList] = useState([]);
+  const [district, setDistrict] = useState("");
+  const [allDistrictList, setAllDistrictList] = useState([]);
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [officeName, setOfficeName] = useState("");
+  const [nodalOfficerName, setNodalOfficerName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [allRoleList, setAllRoleList] = useState([]);
+  const [allSubDivisionList, setAllSubDivisionList] = useState([])
+  const [allBlockList, setAllBlockList] = useState([])
+  const [userData, setUserData] = useState(null);
+  const [subDivision, setSubDivision] = useState("");
+  const [block, setBlock] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [role, setRole] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission, e.g., send data to backend
-    console.log(formData);
-  };
+
+  useEffect(() => {
+    const jsonString = localStorage.getItem('karmashree_User');
+    const data = JSON.parse(jsonString);
+    setUserData(data);
+    getAllDepartmentList(data?.departmentNo).then(function (result) {
+      const response = result?.data?.result;
+      setAllDepartmentList(response);
+    });
+    getDistrictDataList();
+    getRoleDataList();
+  }, []);
+
+  console.log(userData?.departmentNo, "departmentNo")
+
+  //Department list
+  // async function getDepartmentDataList() {
+
+  // }
+  console.log(allDepartmentList, "allDepartmentList")
+  let departmentListDropdown = <option>Loading...</option>;
+  if (allDepartmentList && allDepartmentList.length > 0) {
+    departmentListDropdown = allDepartmentList.map((deptRow, index) => (
+      <option value={deptRow.departmentNo}>{deptRow.departmentName}</option>
+    ))
+  }
+
+  //District list
+  async function getDistrictDataList() {
+    getAllDistrictList().then(function (result) {
+      const response = result?.data?.result;
+      setAllDistrictList(response);
+    });
+  }
+
+  let districtListDropdown = <option>Loading...</option>;
+  if (allDistrictList && allDistrictList.length > 0) {
+    districtListDropdown = allDistrictList.map((distRow, index) => (
+      <option value={distRow.districtCode}>{distRow.districtName}</option>
+    ))
+  }
+
+  //Role list
+  async function getRoleDataList() {
+    getAllRoleList().then(function (result) {
+      const response = result?.data?.result;
+      setAllRoleList(response);
+    });
+  }
+
+  let roleListDropdown = <option>Loading...</option>;
+  if (allRoleList && allRoleList.length > 0) {
+    roleListDropdown = allRoleList.map((roleRow, index) => (
+      <option value={roleRow.id}>{roleRow.role_type}</option>
+    ))
+  }
+
+  const onDepartment = (e) => {
+    setDepartment(e.target.value);
+  }
+
+  const onDistrict = (e) => {
+    console.log(e.target.value, "district")
+    setDistrict(e.target.value)
+    getAllSubDivisionList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllSubDivisionList(response);
+    });
+
+    getAllBlockList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllBlockList(response);
+
+
+    });
+  }
+
+  let subDivisionDropdown = <option>Loading...</option>;
+  if (allSubDivisionList && allSubDivisionList.length > 0) {
+    subDivisionDropdown = allSubDivisionList.map((subdivRow, index) => (
+      <option value={subdivRow.subdivCode}>{subdivRow.subdivName}</option>
+    ))
+  }
+  let blockDropdown = <option>Loading...</option>;
+  if (allBlockList && allBlockList.length > 0) {
+    blockDropdown = allBlockList.map((blockRow, index) => (
+      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+    ))
+  }
+  const onUserId = (e) => {
+    setUserId(e.target.value)
+  }
+
+  const onPassword = (e) => {
+    setPassword(e.target.value)
+  }
+
+  const onOfficeName = (e) => {
+    setOfficeName(e.target.value)
+  }
+
+  const onNodalOfficerName = (e) => {
+    setNodalOfficerName(e.target.value)
+
+  }
+
+  const onContactNumber = (e) => {
+    setContactNumber(e.target.value)
+  }
+
+  const onEmail = (e) => {
+    setEmailInput(e.target.value)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmail(emailRegex.test(e.target.value));
+  }
+
+  const onUserAddress = (e) => {
+    setUserAddress(e.target.value)
+  }
+
+  const onSubDivision = (e) => {
+    setSubDivision(e.target.value)
+  }
+
+  const onBlock = (e) => {
+    setBlock(e.target.value)
+  }
+
+  const onRole = (e) => {
+    setRole(e.target.value)
+  }
+  console.log(district, subDivision, block, "ababa")
+  const onRegister = () => {
+    if (userData?.category === "HQ" && department === "") {
+      toast.error("Please select a department")
+    } else if (!userData?.category === "HQ" || userData?.category === "HD" && district === ""|| userData?.category === "DEPT" && district === ""|| userData?.category === "DIST" && district === ""|| userData?.category === "SUB" && district === ""|| userData?.category === "BLOCK" && district === "") {
+      toast.error("Please select a district")
+    } else if (!userData?.category === "HQ" ||userData?.category === "DIST" && subDivision === ""||userData?.category === "SUB" && subDivision === ""|| userData?.category === "BLOCK" && subDivision === "") {
+      toast.error("Please select a sub division")
+    } else if (!userData?.category === "HQ" && block === ""|| userData?.category === "SUB" && block === ""|| userData?.category === "BLOCK" && block === "") {
+      toast.error("Please select a block")
+    } else if (userId === "") {
+      toast.error("Please type your userId")
+    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
+      toast.error("Password must contain at least 12 characters, including uppercase, lowercase,numerical and special characters.")
+    } else if (password.length != 12) {
+      toast.error("minimun 12 digit password are required")
+    } else if (officeName === "") {
+      toast.error("Please type your office name")
+    } else if (nodalOfficerName === "") {
+      toast.error("Please type your nodal officer name")
+    } else if (contactNumber.length != 10) {
+      toast.error("Please type your 10 digit contact number")
+    } else if (!email) {
+      toast.error("Please enter valid email id")
+    } else if (userAddress === "") {
+      toast.error("Please type user address")
+    } else if (role === "") {
+      toast.error("Please selct role")
+    } else {
+
+    }
+  }
   return (
     <div className="flex-grow ">
+      <ToastContainer />
       <div className="mx-auto mt-2">
         <div className="flex w-full space-x-4">
           <div>
@@ -36,110 +205,128 @@ const NewUser = () => {
               id="country"
               name="country"
               required
-              value={formData.country}
-              // onChange={handleChange}
+              onChange={onDepartment}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
             >
               <option value="" selected hidden>
-                Select a area
+                {userData?.category === "HQ" ? "Select a Department" : departmentListDropdown}
               </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
+              {departmentListDropdown}
             </select>
           </div>
-          <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium text-gray-700"
-            >
-              District
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              // onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>
-                Select a district
-              </option>
-              <option value="rural">dd</option>
-              <option value="urban">dd1</option>
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Sub-Division
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              // onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>
-                Select a sub-division
-              </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
-            </select>
-          </div>
-        </div>
-        <div className="flex w-full space-x-4">
-          <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Block
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              // onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>
-                Select a block
-              </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium text-gray-700"
-            >
-              GP
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              // onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>
-                Select a gp
-              </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
-            </select>
-          </div>
+          {userData?.category === "HQ" ? "" :
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                District
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                onChange={onDistrict}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a district
+                </option>
+                {districtListDropdown}
+              </select>
+            </div>}
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" ? "" :
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Sub-Division
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                onChange={onSubDivision}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a sub-division
+                </option>
+                {subDivisionDropdown}
+              </select>
+            </div>}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="flex w-full space-x-4">
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" ? "" :
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Block
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onBlock}
+              >
+                <option value="" selected hidden>
+                  Select a block
+                </option>
+                {blockDropdown}
+              </select>
+            </div>}
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" ? "" :
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                GP
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                // onChange={handleChange}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a gp
+                </option>
+                <option value="rural">Rural</option>
+                <option value="urban">Urban</option>
+              </select>
+            </div>}
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" ? "" :
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Area
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                // onChange={handleChange}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a area
+                </option>
+                <option value="rural">Rural</option>
+                <option value="urban">Urban</option>
+              </select>
+            </div>}
+        </div>
+
+        <form className="space-y-6">
           <div>
             <label
               htmlFor="username"
@@ -152,9 +339,7 @@ const NewUser = () => {
               name="username"
               type="text"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
+              onChange={onUserId}
               placeholder="type your User Id"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -172,9 +357,7 @@ const NewUser = () => {
               name="password"
               type="password"
               autoComplete="new-password"
-              required
-              value={formData.password}
-              onChange={handleChange}
+              onChange={onPassword}
               placeholder="type your Password"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -191,9 +374,7 @@ const NewUser = () => {
               name="username"
               type="text"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
+              onChange={onOfficeName}
               placeholder="type your office name"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -210,9 +391,7 @@ const NewUser = () => {
               name="username"
               type="text"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
+              onChange={onNodalOfficerName}
               placeholder="type your Nodal officer name"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -222,16 +401,14 @@ const NewUser = () => {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Contact NUmber
+              Contact Number
             </label>
             <input
               id="username"
               name="username"
               type="number"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
+              onChange={onContactNumber}
               placeholder="type your Contact number"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -246,11 +423,9 @@ const NewUser = () => {
             <input
               id="username"
               name="username"
-              type="email"
+              type="text"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
+              onChange={onEmail}
               placeholder="type your email id"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
@@ -265,16 +440,12 @@ const NewUser = () => {
             <select
               id="country"
               name="country"
-              required
-              value={formData.country}
-              onChange={handleChange}
+              // onChange={handleChange}
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             >
               <option value="" selected hidden>
                 Select a Designation
               </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
             </select>
           </div>
           <div>
@@ -284,15 +455,13 @@ const NewUser = () => {
             >
               User Address
             </label>
-            <input
+            <textarea
               id="username"
               name="username"
-              type="text"
+              type="textarea"
               autoComplete="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="type your User address"
+              onChange={onUserAddress}
+              placeholder="type your user address"
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             />
           </div>
@@ -305,24 +474,22 @@ const NewUser = () => {
               Role
             </label>
             <select
-              id="country"
-              name="country"
-              required
-              value={formData.country}
-              onChange={handleChange}
+              id="role"
+              name="role"
+              onChange={onRole}
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             >
               <option value="" selected hidden>
                 Select a role
               </option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
+              {roleListDropdown}
             </select>
           </div>
           <div>
             <button
-              type="submit"
+              type="button"
               className="w-1/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onRegister}
             >
               Register
             </button>
