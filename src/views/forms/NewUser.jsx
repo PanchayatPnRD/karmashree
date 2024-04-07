@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllDepartmentList, getAllDistrictList, getAllRoleList, getAllSubDivisionList, getAllBlockList } from "../../Service/NewUserService";
+import { getAllDesignationList,getAllDepartmentList, getAllDistrictList, getAllRoleList, getAllSubDivisionList, getAllBlockList } from "../../Service/NewUserService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,7 +24,10 @@ const NewUser = () => {
   const [block, setBlock] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [role, setRole] = useState("");
+  const [allDesignationList, setAllDesignationList] = useState([]);
+  const [designation, setDesignation] = useState("");
 
+  
 
 
   useEffect(() => {
@@ -35,17 +38,25 @@ const NewUser = () => {
       const response = result?.data?.result;
       setAllDepartmentList(response);
     });
+
+    getAllDesignationList(data?.category).then(function (result) {
+      const response = result?.data?.result;
+      console.log(response,"sibamdey")
+      setAllDesignationList(response?.result);
+    });
     getDistrictDataList();
     getRoleDataList();
   }, []);
 
-  console.log(userData?.departmentNo, "departmentNo")
+//Designation list
+  let designationListDropdown = <option>Loading...</option>;
+  if (allDesignationList && allDesignationList.length > 0) {
+    designationListDropdown = allDesignationList.map((desgRow, index) => (
+      <option value={desgRow.designationId}>{desgRow.designation}</option>
+    ))
+  }
 
   //Department list
-  // async function getDepartmentDataList() {
-
-  // }
-  console.log(allDepartmentList, "allDepartmentList")
   let departmentListDropdown = <option>Loading...</option>;
   if (allDepartmentList && allDepartmentList.length > 0) {
     departmentListDropdown = allDepartmentList.map((deptRow, index) => (
@@ -157,6 +168,11 @@ const NewUser = () => {
   const onRole = (e) => {
     setRole(e.target.value)
   }
+
+const onDesignation=(e)=>{
+  setDesignation(e.target.value)
+}
+
   console.log(district, subDivision, block, "ababa")
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
@@ -181,7 +197,9 @@ const NewUser = () => {
       toast.error("Please type your 10 digit contact number")
     } else if (!email) {
       toast.error("Please enter valid email id")
-    } else if (userAddress === "") {
+    } else if (designation==="") {
+      toast.error("Please select a designation")
+    }else if (userAddress === "") {
       toast.error("Please type user address")
     } else if (role === "") {
       toast.error("Please selct role")
@@ -280,7 +298,7 @@ const NewUser = () => {
                 {blockDropdown}
               </select>
             </div>}
-          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" ? "" :
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" || userData?.category === "BLOCK"? "" :
             <div>
               <label
                 htmlFor="country"
@@ -302,7 +320,7 @@ const NewUser = () => {
                 <option value="urban">Urban</option>
               </select>
             </div>}
-          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" ? "" :
+          {userData?.category === "HQ" || userData?.category === "HD" || userData?.category === "DEPT" || userData?.category === "DIST" || userData?.category === "SUB" || userData?.category === "BLOCK"? "" :
             <div>
               <label
                 htmlFor="country"
@@ -440,12 +458,13 @@ const NewUser = () => {
             <select
               id="country"
               name="country"
-              // onChange={handleChange}
+              onChange={onDesignation}
               className="mt-1 p-2 block w-1/3 border border-gray-300 rounded-md"
             >
               <option value="" selected hidden>
                 Select a Designation
               </option>
+              {designationListDropdown}
             </select>
           </div>
           <div>

@@ -25,6 +25,7 @@ const Login = () => {
             category: res?.result?.category,
             departmentNo: res?.result?.departmentNo,
             districtcode: res?.result?.districtcode,           
+            userIndex: res?.result?.userIndex,           
             
           }
           
