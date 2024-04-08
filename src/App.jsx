@@ -7,6 +7,7 @@ import Login from "./views/Login";
 import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
+import OTPConfirm from "./views/OtpConfirm";
 
 function App() {
   return (
@@ -27,6 +28,15 @@ function App() {
             <div className="flex flex-col min-h-screen">
               <Navbar />
               <Login />
+            </div>
+          }
+        />
+        <Route
+          path="/otp"
+          element={
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <OTPConfirm />
             </div>
           }
         />
@@ -56,7 +66,6 @@ function App() {
           );
         })}
         <Route
-          
           path={"/dashboard/profile"}
           element={
             <>

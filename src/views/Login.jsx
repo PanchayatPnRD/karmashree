@@ -24,18 +24,16 @@ const Login = () => {
           const userdata = {
             category: res?.result?.category,
             departmentNo: res?.result?.departmentNo,
-            districtcode: res?.result?.districtcode,           
-            userIndex: res?.result?.userIndex,           
-            
-          }
-          
+            districtcode: res?.result?.districtcode,
+            userIndex: res?.result?.userIndex,
+          };
+
           localStorage.setItem("karmashree_AuthToken", res.result.token);
-          localStorage.setItem("karmashree_User", JSON.stringify(userdata))
+          localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
           toast.success(res.message);
           navigate("/dashboard");
           window.location.reload();
-
         } else if (res.errorCode == 1) {
           console.log("nononononono");
           toast.error(res.message);
@@ -48,7 +46,7 @@ const Login = () => {
     <>
       <ToastContainer />
       <div className="rounded-sm bg-zinc-50 py-20 px-60 flex-grow">
-        <div className="flex items-center rounded-xl shadow-2xl bg-white p-8 py-12">
+        <div className="flex items-center rounded-xl shadow-2xl bg-white p-8">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 text-center">
               <span className="mt-15 inline-block">
@@ -73,10 +71,8 @@ const Login = () => {
                       type="text"
                       placeholder="Enter your User Id"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      onChange={(e)=>setUserID(e.target.value)}
+                      onChange={(e) => setUserID(e.target.value)}
                     />
-
-                    
                   </div>
                 </div>
 
@@ -112,12 +108,12 @@ const Login = () => {
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
                     onClick={onSubmit}
                   >
-                    Submit
+                    Log in
                   </button>
                 </div>
 
                 <div className="mt-6 text-center">
-                  <Link>
+                  <Link to={"/password-reset"}>
                     <p className="text-red-600">Forgot Password ?</p>
                   </Link>
                 </div>

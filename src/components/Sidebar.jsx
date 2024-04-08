@@ -7,6 +7,8 @@ import Scheme from "../views/forms/Scheme";
 import UserList from "../views/forms/UserList";
 import WorkAlloc from "../views/forms/WorkAlloc";
 import DashboardHome from "../views/forms/DashboardHome";
+import { useResolvedPath, useMatch } from "react-router-dom";
+import classNames from 'classnames';
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
 // import Register from "../views/Register/Register";
@@ -35,11 +37,14 @@ export const sideBarList = [
 ];
 
 export const Sidebar = () => {
+  let resolved = useResolvedPath("/dashboard");
+  let match = useMatch({ path: resolved.pathname, end: true });
+
   return (
     <div className=" flex flex-col p-3">
       <SidebarElement
         to="/dashboard"
-        className={"flex justify-center bg-blue-700 hover:bg-blue-600"}
+        className={"flex justify-center bg-blue-600/20 hover:bg-blue-600"}
       >
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
