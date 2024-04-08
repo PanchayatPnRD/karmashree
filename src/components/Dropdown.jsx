@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { Children,cloneElement,useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 
 // Dropdown Component
@@ -33,7 +33,6 @@ export const Dropdown = ({ children,onClick, Button }) => {
           onClick={handleClick}
         >
           {Button}
-         
         </button>
       </div>
 
@@ -45,7 +44,10 @@ export const Dropdown = ({ children,onClick, Button }) => {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {children}
+            {/* Render the children with the isVisible state and toggleVisibility function */}
+            {Children.map(children, (child) =>
+              cloneElement(child, { isOpen, setIsOpen })
+            )}
           </div>
         </div>
       )}
@@ -54,7 +56,13 @@ export const Dropdown = ({ children,onClick, Button }) => {
 };
 
 // Dropdown Item Component
-export const DropdownItem = ({ children ,onClick,className}) => {
+export const DropdownItem = ({ children, onClick, className ,isOpen, setIsOpen}) => {
+  
+  function handleClick() {
+    setIsOpen(!isOpen)
+    onClick()
+  }
+
   return (
     <a
       href="#"
@@ -63,7 +71,7 @@ export const DropdownItem = ({ children ,onClick,className}) => {
         "focus:outline-none focus:bg-gray-100 focus:text-gray-900",
         className
       )}
-      onClick={onClick}
+      onClick={handleClick}
       role="menuitem"
     >
       {children}

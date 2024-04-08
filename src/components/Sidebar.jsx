@@ -37,17 +37,17 @@ export const sideBarList = [
 export const Sidebar = () => {
   return (
     <div className=" flex flex-col p-3">
-      <SidebarElement to="/dashboard" className={"flex justify-center bg-blue-700"}>
+      <SidebarElement
+        to="/dashboard"
+        className={"flex justify-center bg-blue-700 hover:bg-blue-600"}
+      >
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
 
       <SidebarExpand text={"User Master"}>
         {sideBarList.slice(1, 3).map((e) => {
           return (
-            <SidebarElement
-              to={e.route}
-              customCss={"py-2 pl-16 text-red-500"}
-            >
+            <SidebarElement to={e.route} customCss={"py-2 pl-16 text-red-500"}>
               <div className=" items-center capitalize">{e.text}</div>
             </SidebarElement>
           );
