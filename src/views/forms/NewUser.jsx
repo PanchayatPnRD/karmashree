@@ -313,7 +313,7 @@ const NewUser = () => {
         </div>
 
         <form className="flex">
-          <div className="w-full px-16 space-y-6 ">
+          <div className="w-full px-16 space-y-6 pb-10">
             <div>
               <label
                 htmlFor="country"
@@ -336,6 +336,77 @@ const NewUser = () => {
                 {departmentListDropdown}
               </select>
             </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Nodal Officer Name
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                onChange={onNodalOfficerName}
+                placeholder="type your Nodal officer name"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                nodal officer mobile number
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="number"
+                autoComplete="username"
+                onChange={onContactNumber}
+                placeholder="type your Contact number"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                nodal officer email address
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                onChange={onEmail}
+                placeholder="type your email id"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                nodal officer Designation
+              </label>
+              <select
+                id="country"
+                name="country"
+                onChange={onDesignation}
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a Designation
+                </option>
+                {designationListDropdown}
+              </select>
+            </div>
+
             {userData?.category === "HQ" ? (
               ""
             ) : (
@@ -473,41 +544,7 @@ const NewUser = () => {
                 </select>
               </div>
             )}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Id
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onUserId}
-                placeholder="type your User Id"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                onChange={onPassword}
-                placeholder="type your Password"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
             <div>
               <label
                 htmlFor="username"
@@ -522,93 +559,6 @@ const NewUser = () => {
                 autoComplete="username"
                 onChange={onOfficeName}
                 placeholder="type your office name"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nodal Officer Name
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onNodalOfficerName}
-                placeholder="type your Nodal officer name"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contact Number
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="number"
-                autoComplete="username"
-                onChange={onContactNumber}
-                placeholder="type your Contact number"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onEmail}
-                placeholder="type your email id"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Designation
-              </label>
-              <select
-                id="country"
-                name="country"
-                onChange={onDesignation}
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a Designation
-                </option>
-                {designationListDropdown}
-              </select>
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Address
-              </label>
-              <textarea
-                id="username"
-                name="username"
-                type="textarea"
-                autoComplete="username"
-                onChange={onUserAddress}
-                placeholder="type your user address"
                 className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
               />
             </div>
@@ -633,14 +583,46 @@ const NewUser = () => {
               </select>
             </div>
             <div>
-              <button
-                type="button"
-                className="w-2/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={onRegister}
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
               >
-                Register
-              </button>
+                User Id
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                onChange={onUserId}
+                placeholder="type your User Id"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
             </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                onChange={onPassword}
+                placeholder="type your Password"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
+            </div>
+            <button
+              type="button"
+              className="w-2/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onRegister}
+            >
+              Register
+            </button>
           </div>
         </form>
       </div>
