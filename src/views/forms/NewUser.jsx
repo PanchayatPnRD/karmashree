@@ -187,7 +187,7 @@ const onDesignation=(e)=>{
       toast.error("Please select a block")
     } else if (userId === "") {
       toast.error("Please type your userId")
-    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/)) {
+    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/)) {
       toast.error("Password must contain at min 6 characters and max 16 characters, including uppercase, lowercase,numerical and special characters.")
     } else if (officeName === "") {
       toast.error("Please type your office name")
@@ -214,9 +214,8 @@ const onDesignation=(e)=>{
             console.log(r, "response")
             if (r.errorCode == 0) {
                 toast.success(r.message)
-                navigate("/")
+                navigate("/user-list")
             } else {
-                console.log("nononononono")
                 toast.error(r.message)
 
             }
