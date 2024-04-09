@@ -6,8 +6,8 @@ export const getAllDepartmentList = async (deptId) => {
     );
 }
 
-export const getAllDistrictList = async () => {
-    return await webApi.get(`/api/mastertable/getAllDistricts`,
+export const getAllDistrictList = async (data) => {
+    return await webApi.get(`/api/mastertable/getAllDistricts/${data?data:0}`,
     );
 }
 
