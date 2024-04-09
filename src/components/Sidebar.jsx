@@ -3,6 +3,8 @@ import Contractor from "../views/forms/Contractor";
 import Demand from "../views/forms/Demand";
 import Employment from "../views/forms/Employment";
 import NewUser from "../views/forms/NewUser";
+import Department from "../views/forms/Department";
+import Designation from "../views/forms/Designation";
 import Scheme from "../views/forms/Scheme";
 import UserList from "../views/forms/UserList";
 import WorkAlloc from "../views/forms/WorkAlloc";
@@ -13,16 +15,36 @@ import classNames from 'classnames';
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
 // import Register from "../views/Register/Register";
 export const sideBarList = [
-  { Component: DashboardHome, text: "Home", route: "/dashboard" },
-  { Component: NewUser, text: "new user", route: "/dashboard/new-user" },
-  { Component: UserList, text: "user list", route: "/dashboard/user-list" },
+  {
+    Component: DashboardHome,
+    text: "Home",
+    route: "/dashboard",
+  },
+  {
+    Component: NewUser,
+    text: "new user",
+    route: "/dashboard/new-user",
+  },
+  {
+    Component: UserList,
+    text: "user list",
+    route: "/dashboard/user-list",
+  },
   {
     Component: ActionPlan,
     text: "Action Plan",
     route: "/dashboard/action-plan",
   },
-  { Component: Scheme, text: "scheme", route: "/dashboard/scheme" },
-  { Component: Demand, text: "demand", route: "/dashboard/demand" },
+  {
+    Component: Scheme,
+    text: "scheme",
+    route: "/dashboard/scheme",
+  },
+  {
+    Component: Demand,
+    text: "demand",
+    route: "/dashboard/demand",
+  },
   {
     Component: WorkAlloc,
     text: "work allocation",
@@ -33,7 +55,21 @@ export const sideBarList = [
     text: "contractor master",
     route: "/dashboard/contractor-master",
   },
-  { Component: Employment, text: "employment", route: "/dashboard/employment" },
+  {
+    Component: Designation,
+    text: "designation master",
+    route: "/dashboard/designation-master",
+  },
+  {
+    Component: Department,
+    text: "department master",
+    route: "/dashboard/department-master",
+  },
+  {
+    Component: Employment,
+    text: "employment",
+    route: "/dashboard/employment",
+  },
 ];
 
 export const Sidebar = () => {
