@@ -37,11 +37,11 @@ const NewUser = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [technicalOfficerName, setTechnicalOfficerName] = useState("");
-  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] = useState("");
-  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] = useState("");
+  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] =
+    useState("");
+  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
+    useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
-
-
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -188,20 +188,20 @@ const NewUser = () => {
   };
 
   const onTechnicalOfficerName = (e) => {
-    setTechnicalOfficerName(e.target.value)
-  }
+    setTechnicalOfficerName(e.target.value);
+  };
 
   const onTechnicalOfficerDesignation = (e) => {
-    setTechnicalOfficerDesignation(e.target.value)
-  }
+    setTechnicalOfficerDesignation(e.target.value);
+  };
 
   const onTechnicalOfficerContactNumber = (e) => {
-    setTechnicalOfficerContactNumber(e.target.value)
-  }
+    setTechnicalOfficerContactNumber(e.target.value);
+  };
 
   const onTechnicalOfficerEmail = (e) => {
-    setTechnicalOfficerEmail(e.target.value)
-  }
+    setTechnicalOfficerEmail(e.target.value);
+  };
 
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
@@ -240,8 +240,7 @@ const NewUser = () => {
       toast.error("Please type your office name");
     } else if (role === "") {
       toast.error("Please selct role");
-    }
-    else if (userId === "") {
+    } else if (userId === "") {
       toast.error("Please type your userId");
     } else if (
       !password.match(
@@ -273,14 +272,14 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-            ? "DEPT"
-            : userData?.category === "DEPT"
-              ? "DIST"
-              : userData?.category === "DIST"
-                ? "SUB"
-                : userData?.category === "SUB"
-                  ? "BLOCK"
-                  : "BLOCK",
+          ? "DEPT"
+          : userData?.category === "DEPT"
+          ? "DIST"
+          : userData?.category === "DIST"
+          ? "SUB"
+          : userData?.category === "SUB"
+          ? "BLOCK"
+          : "BLOCK",
         "",
         "A",
         1,
@@ -289,10 +288,10 @@ const NewUser = () => {
         "",
         userData?.userIndex,
         userData?.userIndex,
-        technicalOfficerName?technicalOfficerName:"",
-        technicalOfficerDesignation?technicalOfficerDesignation:"",
-        technicalOfficerContactNumber?technicalOfficerContactNumber:"",
-        technicalOfficerEmail?technicalOfficerEmail:"",
+        technicalOfficerName ? technicalOfficerName : "",
+        technicalOfficerDesignation ? technicalOfficerDesignation : "",
+        technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
+        technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -344,7 +343,7 @@ const NewUser = () => {
         </div>
 
         <form className="flex">
-          <div className="w-full px-16 space-y-4 pb-10">
+          <div className="w-full px-36 space-y-6 pb-10">
             <div>
               <label
                 htmlFor="country"
@@ -357,7 +356,7 @@ const NewUser = () => {
                 name="country"
                 required
                 onChange={onDepartment}
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
                   {userData?.category === "HQ"
@@ -381,7 +380,7 @@ const NewUser = () => {
                 autoComplete="username"
                 onChange={onNodalOfficerName}
                 placeholder="type your Nodal officer name"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -394,11 +393,12 @@ const NewUser = () => {
               <input
                 id="username"
                 name="username"
+                max={10}
                 type="number"
                 autoComplete="username"
                 onChange={onContactNumber}
                 placeholder="type your Contact number"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -415,7 +415,7 @@ const NewUser = () => {
                 autoComplete="username"
                 onChange={onEmail}
                 placeholder="type your email id"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -429,7 +429,7 @@ const NewUser = () => {
                 id="country"
                 name="country"
                 onChange={onDesignation}
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
                   Select a Designation
@@ -453,7 +453,7 @@ const NewUser = () => {
                   name="country"
                   required
                   onChange={onDistrict}
-                  className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
                     Select a district
@@ -463,8 +463,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -479,7 +479,7 @@ const NewUser = () => {
                   name="country"
                   required
                   onChange={onSubDivision}
-                  className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
                     Select a sub-division
@@ -489,9 +489,9 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ? (
               ""
             ) : (
               <div>
@@ -505,7 +505,7 @@ const NewUser = () => {
                   id="country"
                   name="country"
                   required
-                  className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onBlock}
                 >
                   <option value="" selected hidden>
@@ -516,11 +516,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -535,7 +535,7 @@ const NewUser = () => {
                   name="country"
                   required
                   // onChange={handleChange}
-                  className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
                     Select a gp
@@ -546,11 +546,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -565,7 +565,7 @@ const NewUser = () => {
                   name="country"
                   required
                   // onChange={handleChange}
-                  className="mt-1 p-2 w-2/3 block border border-gray-300 rounded-md"
+                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
                     Select a area
@@ -590,22 +590,15 @@ const NewUser = () => {
                 autoComplete="username"
                 onChange={onOfficeName}
                 placeholder="type your office name"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Role
-              </label>
               <select
-                id="role"
                 name="role"
                 onChange={onRole}
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
                   Select a role
@@ -627,7 +620,7 @@ const NewUser = () => {
                 autoComplete="username"
                 onChange={onUserAddress}
                 placeholder="type your office address"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -640,11 +633,10 @@ const NewUser = () => {
               <input
                 id="username"
                 name="username"
-                type="text"
                 autoComplete="username"
                 onChange={onUserId}
                 placeholder="type your User Id"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -661,17 +653,21 @@ const NewUser = () => {
                 autoComplete="new-password"
                 onChange={onPassword}
                 placeholder="type your Password"
-                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-            <div>
-              <label htmlFor="username"
-                className="block text-sm font-medium text-gray-700">
+            <div className="flex space-x-4 items-center">
+              <input
+                id="technicalOfficer"
+                type="checkbox"
+                checked={isChecked}
+                onChange={onAddTechnicalOfficer}
+              />
+              <label htmlFor="technicalOfficer" className="font-bold">
                 Add Technical Officer
               </label>
-              <input type="checkbox" checked={isChecked} onChange={onAddTechnicalOfficer} />
             </div>
-            {isChecked ?
+            {isChecked ? (
               <>
                 <div>
                   <label
@@ -687,7 +683,7 @@ const NewUser = () => {
                     autoComplete="username"
                     onChange={onTechnicalOfficerName}
                     placeholder="type Technical officer name"
-                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   />
                 </div>
                 <div>
@@ -701,7 +697,7 @@ const NewUser = () => {
                     id="country"
                     name="country"
                     onChange={onTechnicalOfficerDesignation}
-                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   >
                     <option value="" selected hidden>
                       Select a Designation
@@ -723,7 +719,7 @@ const NewUser = () => {
                     autoComplete="username"
                     onChange={onTechnicalOfficerContactNumber}
                     placeholder="type your Contact number"
-                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   />
                 </div>
                 <div>
@@ -740,17 +736,22 @@ const NewUser = () => {
                     autoComplete="username"
                     onChange={onTechnicalOfficerEmail}
                     placeholder="type your email id"
-                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   />
                 </div>
-              </> : ""}
-            <button
-              type="button"
-              className="w-2/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={onRegister}
-            >
-              Register
-            </button>
+              </>
+            ) : (
+              ""
+            )}
+            <div className="flex justify-center items-center">
+              <button
+                type="button"
+                className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={onRegister}
+              >
+                Register
+              </button>
+            </div>
           </div>
         </form>
       </div>
