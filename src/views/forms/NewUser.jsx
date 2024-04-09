@@ -35,6 +35,13 @@ const NewUser = () => {
   const [allDesignationList, setAllDesignationList] = useState([]);
   const [designation, setDesignation] = useState("");
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+  const [technicalOfficerName, setTechnicalOfficerName] = useState("");
+  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] = useState("");
+  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] = useState("");
+  const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
+
+
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -176,7 +183,26 @@ const NewUser = () => {
     setDesignation(e.target.value);
   };
 
-  console.log(district, subDivision, block, "ababa");
+  const onAddTechnicalOfficer = (e) => {
+    setIsChecked(!isChecked);
+  };
+
+  const onTechnicalOfficerName = (e) => {
+    setTechnicalOfficerName(e.target.value)
+  }
+
+  const onTechnicalOfficerDesignation = (e) => {
+    setTechnicalOfficerDesignation(e.target.value)
+  }
+
+  const onTechnicalOfficerContactNumber = (e) => {
+    setTechnicalOfficerContactNumber(e.target.value)
+  }
+
+  const onTechnicalOfficerEmail = (e) => {
+    setTechnicalOfficerEmail(e.target.value)
+  }
+
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a department");
@@ -202,7 +228,20 @@ const NewUser = () => {
       (userData?.category === "BLOCK" && block === "")
     ) {
       toast.error("Please select a block");
-    } else if (userId === "") {
+    } else if (nodalOfficerName === "") {
+      toast.error("Please type your nodal officer name");
+    } else if (contactNumber.length != 10) {
+      toast.error("Please type 10 digit Nodal officer mobile number");
+    } else if (!email) {
+      toast.error("Please enter Nodal officer valid email id");
+    } else if (designation === "") {
+      toast.error("Please select Nodal officer designation");
+    } else if (officeName === "") {
+      toast.error("Please type your office name");
+    } else if (role === "") {
+      toast.error("Please selct role");
+    }
+    else if (userId === "") {
       toast.error("Please type your userId");
     } else if (
       !password.match(
@@ -212,20 +251,8 @@ const NewUser = () => {
       toast.error(
         "Password must contain at min 6 characters and max 16 characters, including uppercase, lowercase,numerical and special characters."
       );
-    } else if (officeName === "") {
-      toast.error("Please type your office name");
-    } else if (nodalOfficerName === "") {
-      toast.error("Please type your nodal officer name");
-    } else if (contactNumber.length != 10) {
-      toast.error("Please type your 10 digit contact number");
-    } else if (!email) {
-      toast.error("Please enter valid email id");
-    } else if (designation === "") {
-      toast.error("Please select a designation");
     } else if (userAddress === "") {
       toast.error("Please type user address");
-    } else if (role === "") {
-      toast.error("Please selct role");
     } else {
       addNewUser(
         userData?.category === "HQ"
@@ -246,14 +273,14 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DEPT"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST"
-          ? "SUB"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DEPT"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST"
+                ? "SUB"
+                : userData?.category === "SUB"
+                  ? "BLOCK"
+                  : "BLOCK",
         "",
         "A",
         1,
@@ -432,8 +459,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -458,9 +485,9 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ? (
               ""
             ) : (
               <div>
@@ -485,11 +512,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -515,11 +542,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -616,6 +643,86 @@ const NewUser = () => {
                 className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
               />
             </div>
+            <div>
+              <label htmlFor="username"
+                className="block text-sm font-medium text-gray-700">
+                Add Technical Officer
+              </label>
+              <input type="checkbox" checked={isChecked} onChange={onAddTechnicalOfficer} />
+            </div>
+            {isChecked ?
+              <>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Technical Officer Name
+                  </label>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    onChange={onTechnicalOfficerName}
+                    placeholder="type Technical officer name"
+                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700 capitalize"
+                  >
+                    Technical officer Designation
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    onChange={onTechnicalOfficerDesignation}
+                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected hidden>
+                      Select a Designation
+                    </option>
+                    {designationListDropdown}
+                  </select>
+                </div>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700 capitalize"
+                  >
+                    Technical officer mobile number
+                  </label>
+                  <input
+                    id="username"
+                    name="username"
+                    type="number"
+                    autoComplete="username"
+                    onChange={onTechnicalOfficerContactNumber}
+                    placeholder="type your Contact number"
+                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700 capitalize"
+                  >
+                    Technical officer email address
+                  </label>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    onChange={onTechnicalOfficerEmail}
+                    placeholder="type your email id"
+                    className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+                  />
+                </div>
+              </> : ""}
             <button
               type="button"
               className="w-2/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

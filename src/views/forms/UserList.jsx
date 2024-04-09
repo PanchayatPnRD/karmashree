@@ -160,10 +160,14 @@ const UserList = () => {
           <table className="table-auto w-full">
             <thead>
               <tr>
-                <th className="px-4 py-2">User type</th>
-                <th className="px-4 py-2">User name</th>
-                <th className="px-4 py-2">Category</th>
-                <th className="px-4 py-2">User address</th>
+                <th className="px-4 py-2">Department</th>
+                <th className="px-4 py-2">Office name</th>
+                <th className="px-4 py-2">District</th>
+                <th className="px-4 py-2">Sub Division</th>
+                <th className="px-4 py-2">Block</th>                
+                <th className="px-4 py-2">Officer name Designation</th>
+                <th className="px-4 py-2">Phone</th>
+                <th className="px-4 py-2">Status</th>                
               </tr>
             </thead>
             <tbody>
