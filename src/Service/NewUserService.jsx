@@ -93,3 +93,10 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
         console.log("fdgdf")
     }
 };
+
+//user list
+
+export const getAllUserList = async (data) => {
+    return await webApi.get(`/api/user/getUserList?created_by=${data}`,
+    );
+}
