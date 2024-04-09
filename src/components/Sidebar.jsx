@@ -31,6 +31,16 @@ export const sideBarList = [
     route: "/dashboard/user-list",
   },
   {
+    Component: Designation,
+    text: "designation master",
+    route: "/dashboard/designation-master",
+  },
+  {
+    Component: Department,
+    text: "department master",
+    route: "/dashboard/department-master",
+  },
+  {
     Component: ActionPlan,
     text: "Action Plan",
     route: "/dashboard/action-plan",
@@ -54,16 +64,6 @@ export const sideBarList = [
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-  },
-  {
-    Component: Designation,
-    text: "designation master",
-    route: "/dashboard/designation-master",
-  },
-  {
-    Component: Department,
-    text: "department master",
-    route: "/dashboard/department-master",
   },
   {
     Component: Employment,

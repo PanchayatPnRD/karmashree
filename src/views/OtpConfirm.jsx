@@ -42,6 +42,8 @@ const OTPConfirm = () => {
     //validate function login here
   }
   function resendOTP() {
+    setTimeLeft(20)
+    setIsValidating(true)
     //resend otp function login here
   }
 
