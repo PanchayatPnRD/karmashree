@@ -289,11 +289,15 @@ const NewUser = () => {
         "",
         userData?.userIndex,
         userData?.userIndex,
+        technicalOfficerName?technicalOfficerName:"",
+        technicalOfficerDesignation?technicalOfficerDesignation:"",
+        technicalOfficerContactNumber?technicalOfficerContactNumber:"",
+        technicalOfficerEmail?technicalOfficerEmail:"",
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             toast.success(r.message);
-            navigate("/user-list");
+            navigate("/dashboard/user-list");
           } else {
             toast.error(r.message);
           }
@@ -340,7 +344,7 @@ const NewUser = () => {
         </div>
 
         <form className="flex">
-          <div className="w-full px-16 space-y-6 pb-10">
+          <div className="w-full px-16 space-y-4 pb-10">
             <div>
               <label
                 htmlFor="country"
@@ -608,6 +612,23 @@ const NewUser = () => {
                 </option>
                 {roleListDropdown}
               </select>
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Office Address
+              </label>
+              <textarea
+                id="username"
+                name="username"
+                type="textArea"
+                autoComplete="username"
+                onChange={onUserAddress}
+                placeholder="type your office address"
+                className="mt-1 p-2 block w-2/3 border border-gray-300 rounded-md"
+              />
             </div>
             <div>
               <label

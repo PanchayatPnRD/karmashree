@@ -39,12 +39,14 @@ export const getAllDesignationList = async (category) => {
 
 export const addNewUser = async (departmentNo, districtcode, subDivision, blockCode, userId, password,
     officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
-    deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,onSuccess, onFailure) => {
+    deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,technicalOfficerName,
+    technicalOfficerDesignation,technicalOfficerContactNumber,technicalOfficerEmail,onSuccess, onFailure) => {
 
 
     console.log(departmentNo, districtcode, subDivision, blockCode, userId, password,
         officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
-        deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,"formData")
+        deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,technicalOfficerName,
+        technicalOfficerDesignation,technicalOfficerContactNumber,technicalOfficerEmail,"formData")
     try {
         const res = await webApi.post(
             `/api/user/create_user`, 
@@ -59,7 +61,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                     role_type:role_type,
                     userId:userId,
                     pwd:pwd,
-                    password:password,
+                    encryptpassword:password,
                     officeName:officeName,
                     userName:nodalOfficerName,
                     contactNo:contactNo,
@@ -70,6 +72,10 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                     created_by:created_by,
                     currentStatus:"A",
                     deptWing:deptWing,
+                    technical_officer:technicalOfficerName,
+                    tech_designation_id:technicalOfficerDesignation,
+                    tech_mobile:technicalOfficerContactNumber,
+                    tech_email:technicalOfficerEmail,
                 },
             
 
