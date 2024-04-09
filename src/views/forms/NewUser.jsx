@@ -57,9 +57,13 @@ const NewUser = () => {
       console.log(response, "sibamdey");
       setAllDesignationList(response?.result);
     });
-    getDistrictDataList();
+    getAllDistrictList(data?.districtcode).then(function (result) {
+      const response = result?.data?.result;
+      setAllDistrictList(response);
+    });
     getRoleDataList();
   }, []);
+  console.log(allDistrictList,"allDistrictList")
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -78,12 +82,7 @@ const NewUser = () => {
   }
 
   //District list
-  async function getDistrictDataList() {
-    getAllDistrictList().then(function (result) {
-      const response = result?.data?.result;
-      setAllDistrictList(response);
-    });
-  }
+
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -154,7 +153,10 @@ const NewUser = () => {
   };
 
   const onContactNumber = (e) => {
-    setContactNumber(e.target.value);
+    if (e.target.value.length <= 10) {
+      setContactNumber(e.target.value);
+    }
+    
   };
 
   const onEmail = (e) => {
@@ -391,10 +393,11 @@ const NewUser = () => {
                 nodal officer mobile number
               </label>
               <input
-                id="username"
+                id="tel"
                 name="username"
-                max={10}
+                maxLength={10}
                 type="number"
+                value={contactNumber}
                 autoComplete="username"
                 onChange={onContactNumber}
                 placeholder="type your Contact number"
@@ -595,6 +598,12 @@ const NewUser = () => {
             </div>
 
             <div>
+            <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Role
+              </label>
               <select
                 name="role"
                 onChange={onRole}
