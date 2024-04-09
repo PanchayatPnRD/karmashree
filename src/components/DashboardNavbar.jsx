@@ -52,7 +52,10 @@ export const DashboardNavbar = () => {
           </DropdownItem>
           <DropdownItem
             className="space-x-2"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              navigate("/login");
+              localStorage.clear();
+            }}
           >
             <Icon
               className="text-2xl text-zinc-400"
