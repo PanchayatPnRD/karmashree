@@ -8,6 +8,7 @@ import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
 import OTPConfirm from "./views/OtpConfirm";
+import Deno from "./views/forms/Deno";
 
 function App() {
   return (
@@ -71,6 +72,16 @@ function App() {
             <>
               <Dashboard>
                 <Profile />
+              </Dashboard>
+            </>
+          }
+        />
+        <Route
+          path={"/dashboard/deno"}
+          element={
+            <>
+              <Dashboard>
+                <Deno />
               </Dashboard>
             </>
           }
