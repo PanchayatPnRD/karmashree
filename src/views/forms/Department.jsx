@@ -2,13 +2,14 @@ import { Icon } from "@iconify/react";
 import { DataTable } from "../../components/DataTable";
 
 const Department = () => {
-  const head = [
-    { data: "Sl No" },
-    { data: "Designation Tier" },
-    { data: "Designation " },
-    { data: "Edit" },
-    { data: "Delete" },
+  const HeadData = [
+    "sl no",
+    "department tier",
+    "designation",
+    "edit",
+    "delete",
   ];
+
   const Data = [
     {
       tier: "HQ",
@@ -93,7 +94,7 @@ const Department = () => {
         </div>
       </div>
       <div className="px-12 flex flex-col space-y-6 py-8">
-        <DataTable data={Data} head={head} />
+        <DataTable Data={Data} Headdata={HeadData}/>
       </div>
     </div>
   );

@@ -2,6 +2,28 @@ import { useState, useEffect } from "react";
 import { DataTable } from "../../components/DataTable";
 
 const Designation = () => {
+  const HeadData = [
+    "sl no",
+    "designation tier",
+    "designation",
+    "edit",
+    "delete",
+  ];
+
+  const Data = [
+    {
+      tier: "HQ",
+      desg: "Joint Secretary",
+    },
+    {
+      tier: "BLOCK",
+      desg: "Joint Secretary",
+    },
+    {
+      tier: "HQ",
+      desg: "Joint Secretary",
+    },
+  ];
   return (
     <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
       <div className="shadow-md">
@@ -73,7 +95,7 @@ const Designation = () => {
         </div>
       </div>
       <div className="px-12 flex flex-col space-y-6 py-8">
-        <DataTable />
+        <DataTable Headdata={HeadData} Data={Data}/>
       </div>
     </div>
   );
