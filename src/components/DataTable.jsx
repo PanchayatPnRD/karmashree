@@ -15,7 +15,7 @@ export const DataTable = ({Headdata,Data}) => {
           ))}
         </Table.Head>
         <Table.Body className="divide-y">
-          {Data.map(({ tier, desg }, index) => {
+          {Data?.map(({ tier, desg }, index) => {
             return (
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -49,7 +49,7 @@ export const DataTable = ({Headdata,Data}) => {
         <Pagination
           layout="table"
           currentPage={currentPage}
-          totalPages={Data.length}
+          totalPages={Data.length || 0}
           onPageChange={onPageChange}
         />
       </div>
