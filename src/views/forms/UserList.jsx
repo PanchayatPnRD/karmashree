@@ -9,7 +9,7 @@ const UserList = () => {
   const onPageChange = (page) => setCurrentPage(page);
 
   // Queries
-  const userlist = useQuery({
+  const { data:userlist, isLoading } = useQuery({
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await axios.get(
@@ -20,7 +20,7 @@ const UserList = () => {
     },
   });
 
-   const departmentList = useQuery({
+   const { data:departmentList } = useQuery({
      queryKey: ["departmentList"],
      queryFn: async () => {
        const data = await axios.get(
@@ -89,7 +89,7 @@ const UserList = () => {
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-            {userlist.data?.map(
+            {userlist?.map(
               (
                 {
                   departmentNo,
@@ -109,7 +109,7 @@ const UserList = () => {
                       {index + 1}
                     </Table.Cell>
                     <Table.Cell>
-                      {departmentList.data[departmentNo].departmentName}
+                      {departmentList?.[departmentNo]?.departmentName}
                     </Table.Cell>
                     <Table.Cell>{category}</Table.Cell>
                     <Table.Cell>{districtcode}</Table.Cell>
@@ -128,7 +128,7 @@ const UserList = () => {
           <Pagination
             layout="table"
             currentPage={currentPage}
-            totalPages={userlist.data.length}
+            totalPages={isLoading ? 0 : userlist.length}
             onPageChange={onPageChange}
           />
         </div>
