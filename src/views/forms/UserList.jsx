@@ -9,7 +9,7 @@ const UserList = () => {
   const onPageChange = (page) => setCurrentPage(page);
 
   // Queries
-  const { data:userlist, isLoading } = useQuery({
+  const { data: userlist, isLoading } = useQuery({
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await axios.get(
@@ -20,19 +20,19 @@ const UserList = () => {
     },
   });
 
-   const { data:departmentList } = useQuery({
-     queryKey: ["departmentList"],
-     queryFn: async () => {
-       const data = await axios.get(
-         "http://43.239.110.159:8094/api/mastertable/getDepatmentlist"
-       );
-       console.log(Array.isArray(data.data.result));
-       return data.data.result;
-     },
-   });
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        "http://43.239.110.159:8094/api/mastertable/getDepatmentlist"
+      );
+      console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
 
   // Mutations
-  
+
 
   const HeadData = [
     "department",
@@ -112,9 +112,9 @@ const UserList = () => {
                       {departmentList?.[departmentNo]?.departmentName}
                     </Table.Cell>
                     <Table.Cell>{category}</Table.Cell>
-                    <Table.Cell>{districtcode}</Table.Cell>
-                    <Table.Cell>{subDivision}</Table.Cell>
-                    <Table.Cell>{blockCode}</Table.Cell>
+                    <Table.Cell>{districtcode === "0" || districtcode === "" ? "-" : districtcode}</Table.Cell>
+                    <Table.Cell>{subDivision === "0" || subDivision === "" ? "-" : subDivision}</Table.Cell>
+                    <Table.Cell>{blockCode === "0" || blockCode === "" ? "-" : blockCode}</Table.Cell>
                     <Table.Cell>{designationID}</Table.Cell>
                     <Table.Cell>{contactNo}</Table.Cell>
                     <Table.Cell>{currentStatus}</Table.Cell>

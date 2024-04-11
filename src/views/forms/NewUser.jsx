@@ -237,7 +237,7 @@ const NewUser = () => {
     ) {
       toast.error("Please select a district");
     } else if (
-      !userData?.category === "HQ" 
+      !userData?.category === "HQ"
       // (userData?.category === "DIST" && subDivision === "")
       // (userData?.category === "SUB" && subDivision === "") ||
       // (userData?.category === "BLOCK" && subDivision === "")
@@ -284,7 +284,7 @@ const NewUser = () => {
 
         userData?.category === "DIST" ? subDivision :
           userData?.subDivision ? userData?.subDivision : subDivision,
-        userData?.category === "SUB" ||userData?.category === "DIST" ? block   :
+        userData?.category === "SUB" || userData?.category === "DIST" ? block :
           userData?.blockCode ? userData?.blockCode : block,
         userId,
         password,
@@ -313,9 +313,7 @@ const NewUser = () => {
 
                     : userData?.category === "SUB"
                       ? "BLOCK"
-                      : "BLOCK",
-        "",
-        "A",
+                      : "BLOCK", "", "A",
         1,
         role,
         role,
@@ -505,7 +503,7 @@ const NewUser = () => {
             {userData?.category === "HQ" ||
               userData?.category === "HD" ||
               userData?.category === "DEPT" ||
-              userData?.category === "BLOCK" && userData?.subDivision === ""? (
+              userData?.category === "BLOCK" && userData?.subDivision === "" ? (
               ""
             ) : (
               <div>
