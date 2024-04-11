@@ -16,13 +16,14 @@ export const getAllRoleList = async () => {
     );
 }
 
-export const getAllSubDivisionList = async (districtId) => {
-    return await webApi.get(`/api/mastertable/getSubdivison/${districtId}`,
+export const getAllSubDivisionList = async (districtId,subDivision) => {
+    console.log(districtId,subDivision,"districtId,subDivision")
+    return await webApi.get(`/api/mastertable/getSubdivison/${districtId}/${subDivision?subDivision:0}`,
     );
 }
 
-export const getAllBlockList = async (districtId) => {
-    return await webApi.get(`/api/mastertable/getBlock/${districtId}`,
+export const getAllBlockList = async (districtId,blockCode) => {
+    return await webApi.get(`/api/mastertable/getBlock/${districtId}/${blockCode?blockCode:0}`,
     );
 }
 

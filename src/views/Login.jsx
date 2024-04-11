@@ -25,6 +25,8 @@ const Login = () => {
             category: res?.result?.category,
             departmentNo: res?.result?.departmentNo,
             districtcode: res?.result?.districtcode,
+            subDivision:res?.result?.subDivision,
+            blockCode:res?.result?.blockCode,
             userIndex: res?.result?.userIndex,
           };
 

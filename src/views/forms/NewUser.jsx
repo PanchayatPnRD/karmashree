@@ -61,9 +61,17 @@ const NewUser = () => {
       const response = result?.data?.result;
       setAllDistrictList(response);
     });
+    getAllSubDivisionList(data?.districtcode, data?.subDivision).then(function (result) {
+      const response = result?.data?.result;
+      setAllSubDivisionList(response);
+    });
+    getAllBlockList(data?.districtcode, data?.blockCode).then(function (result) {
+      const response = result?.data?.result;
+      setAllBlockList(response);
+    });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList,"allDistrictList")
+  console.log(allDistrictList, "allDistrictList")
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -113,12 +121,12 @@ const NewUser = () => {
   const onDistrict = (e) => {
     console.log(e.target.value, "district");
     setDistrict(e.target.value);
-    getAllSubDivisionList(e.target.value).then(function (result) {
+    getAllSubDivisionList(userData?.districtcode ? userData?.districtcode : e.target.value, userData?.subDivision).then(function (result) {
       const response = result?.data?.result;
       setAllSubDivisionList(response);
     });
 
-    getAllBlockList(e.target.value).then(function (result) {
+    getAllBlockList(e.target.value, userData?.blockCode).then(function (result) {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
@@ -156,7 +164,7 @@ const NewUser = () => {
     if (e.target.value.length <= 10) {
       setContactNumber(e.target.value);
     }
-    
+
   };
 
   const onEmail = (e) => {
@@ -210,24 +218,35 @@ const NewUser = () => {
       toast.error("Please select a department");
     } else if (
       !userData?.category === "HQ" ||
-      (userData?.category === "HD" && district === "") ||
-      (userData?.category === "DEPT" && district === "") ||
-      (userData?.category === "DIST" && district === "") ||
-      (userData?.category === "SUB" && district === "") ||
-      (userData?.category === "BLOCK" && district === "")
+      (userData?.category === "HD" && district === "")
+      // (userData?.category === "DEPT" && district === "") 
+      // (userData?.category === "DIST" && district === "") ||
+      // (userData?.category === "SUB" && district === "") ||
+      // (userData?.category === "BLOCK" && district === "")
+    ) {
+      toast.error("Please select a district");
+    } if (userData?.category === "HQ" && department === "") {
+      toast.error("Please select a department");
+    } else if (
+      !userData?.category === "HQ" ||
+      (userData?.category === "HD" && district === "")
+      // (userData?.category === "DEPT" && district === "") 
+      // (userData?.category === "DIST" && district === "") ||
+      // (userData?.category === "SUB" && district === "") ||
+      // (userData?.category === "BLOCK" && district === "")
     ) {
       toast.error("Please select a district");
     } else if (
-      !userData?.category === "HQ" ||
-      (userData?.category === "DIST" && subDivision === "") ||
-      (userData?.category === "SUB" && subDivision === "") ||
-      (userData?.category === "BLOCK" && subDivision === "")
+      !userData?.category === "HQ" 
+      // (userData?.category === "DIST" && subDivision === "")
+      // (userData?.category === "SUB" && subDivision === "") ||
+      // (userData?.category === "BLOCK" && subDivision === "")
     ) {
       toast.error("Please select a sub division");
     } else if (
       (!userData?.category === "HQ" && block === "") ||
-      (userData?.category === "SUB" && block === "") ||
-      (userData?.category === "BLOCK" && block === "")
+      (userData?.category === "SUB" && block === "")
+      // (userData?.category === "BLOCK" && block === "")
     ) {
       toast.error("Please select a block");
     } else if (nodalOfficerName === "") {
@@ -241,7 +260,9 @@ const NewUser = () => {
     } else if (officeName === "") {
       toast.error("Please type your office name");
     } else if (role === "") {
-      toast.error("Please selct role");
+      toast.error("Please select role");
+    } else if (userAddress === "") {
+      toast.error("Please type user address");
     } else if (userId === "") {
       toast.error("Please type your userId");
     } else if (
@@ -252,16 +273,19 @@ const NewUser = () => {
       toast.error(
         "Password must contain at min 6 characters and max 16 characters, including uppercase, lowercase,numerical and special characters."
       );
-    } else if (userAddress === "") {
-      toast.error("Please type user address");
     } else {
       addNewUser(
         userData?.category === "HQ"
           ? department
           : allDepartmentList[0]?.departmentNo,
-        district ? district : "",
-        subDivision ? subDivision : "",
-        block ? block : "",
+
+        userData?.category === "HD" ? district :
+          userData?.districtcode ? userData?.districtcode : district,
+
+        userData?.category === "DIST" ? subDivision :
+          userData?.subDivision ? userData?.subDivision : subDivision,
+        userData?.category === "SUB" ||userData?.category === "DIST" ? block   :
+          userData?.blockCode ? userData?.blockCode : block,
         userId,
         password,
         officeName,
@@ -274,14 +298,22 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DEPT"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST"
-          ? "SUB"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DEPT"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST" && subDivision === ""
+                && block === ""
+                ? "DIST"
+                : userData?.category === "DIST" && subDivision && block === ""
+                  ? "SUB"
+                  : userData?.category === "DIST" && subDivision
+                    && block || userData?.category === "DIST" &&
+                    subDivision === "" && block
+                    ? "BLOCK"
+
+                    : userData?.category === "SUB"
+                      ? "BLOCK"
+                      : "BLOCK",
         "",
         "A",
         1,
@@ -368,6 +400,34 @@ const NewUser = () => {
                 {departmentListDropdown}
               </select>
             </div>
+            {userData?.category === "HQ" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onDistrict}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "DEPT" ||
+                      userData?.category === "DIST" || userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
+                      ? districtListDropdown : "Select a District"
+                    }
+                  </option>
+                  {districtListDropdown}
+                </select>
+              </div>
+            )}
             <div>
               <label
                 htmlFor="username"
@@ -441,33 +501,11 @@ const NewUser = () => {
               </select>
             </div>
 
-            {userData?.category === "HQ" ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onDistrict}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    Select a district
-                  </option>
-                  {districtListDropdown}
-                </select>
-              </div>
-            )}
+
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "BLOCK" && userData?.subDivision === ""? (
               ""
             ) : (
               <div>
@@ -485,45 +523,52 @@ const NewUser = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
-                    Select a sub-division
+
+
+                    {
+                      userData?.category === "SUB" ||
+                        userData?.category === "BLOCK"
+                        ? subDivisionDropdown : "Select a sub-division"
+                    }
                   </option>
                   {subDivisionDropdown}
                 </select>
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Block
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onBlock}
-                >
-                  <option value="" selected hidden>
-                    Select a block
-                  </option>
-                  {blockDropdown}
-                </select>
-              </div>
-            )}
+              userData?.category === "HD" ||
+              userData?.category === "DEPT"
+              ? (
+                ""
+              ) : (
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option value="" selected hidden>
+                      {userData?.category === "BLOCK" ? blockDropdown :
+                        "Select a block"}
+                    </option>
+                    {blockDropdown}
+                  </select>
+                </div>
+              )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -549,11 +594,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -598,7 +643,7 @@ const NewUser = () => {
             </div>
 
             <div>
-            <label
+              <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
