@@ -168,7 +168,7 @@ const UserList = () => {
           />
         </div>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 };
