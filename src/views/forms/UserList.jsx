@@ -31,8 +31,18 @@ const UserList = () => {
     },
   });
 
-  // Mutations
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        "http://43.239.110.159:8094/api/mastertable/DesignationList"
+      );
+      console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
 
+  // Mutations
 
   const HeadData = [
     "department",
@@ -80,7 +90,7 @@ const UserList = () => {
           <br />
         </div>
       </div>
-      <div className="flex flex-col flex-grow p-8 px-36">
+      <div className="flex flex-col flex-grow p-8 px-12">
         <Table className="">
           <Table.Head>
             <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
@@ -109,13 +119,38 @@ const UserList = () => {
                       {index + 1}
                     </Table.Cell>
                     <Table.Cell>
-                      {departmentList?.[departmentNo]?.departmentName}
+                      {/* {departmentList?.[departmentNo]?.departmentName} */}
+                      {
+                        departmentList?.[
+                          departmentList?.findIndex(
+                            (obj) => obj.departmentNo == departmentNo
+                          )
+                        ]?.departmentName || "-"
+                      }
                     </Table.Cell>
                     <Table.Cell>{category}</Table.Cell>
-                    <Table.Cell>{districtcode === "0" || districtcode === "" ? "-" : districtcode}</Table.Cell>
-                    <Table.Cell>{subDivision === "0" || subDivision === "" ? "-" : subDivision}</Table.Cell>
-                    <Table.Cell>{blockCode === "0" || blockCode === "" ? "-" : blockCode}</Table.Cell>
-                    <Table.Cell>{designationID}</Table.Cell>
+                    <Table.Cell>
+                      {districtcode === "0" || districtcode === ""
+                        ? "-"
+                        : districtcode}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {subDivision === "0" || subDivision === ""
+                        ? "-"
+                        : subDivision}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {blockCode === "0" || blockCode === "" ? "-" : blockCode}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {
+                        designationList?.[
+                          designationList?.findIndex(
+                            (obj) => obj.designationId == designationID
+                          )
+                        ]?.designation
+                      }
+                    </Table.Cell>
                     <Table.Cell>{contactNo}</Table.Cell>
                     <Table.Cell>{currentStatus}</Table.Cell>
                   </Table.Row>
