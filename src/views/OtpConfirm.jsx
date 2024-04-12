@@ -4,20 +4,31 @@ import { Login_logo } from "../components/Logo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import classNames from "classnames";
+import { getVerifyOtp } from "../Service/Otp/otpService";
+import { Link, useNavigate } from "react-router-dom";
 
 const OTPConfirm = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const [timeLeft, setTimeLeft] = useState(20);
   const [isValidating, setIsValidating] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
 
-  console.log(otp,"otp")
+  useEffect(() => {
+    const jsonString = localStorage.getItem("karmashree_User");
+    const data = JSON.parse(jsonString);
+    setUserData(data);
+  
+  });
+  console.log(otp, "otp")
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
       const updatedOtp = [...otp];
       updatedOtp[index] = value;
+      console.log(updatedOtp.join(''), "jinjoin")
       setOtp(updatedOtp);
 
       // Auto-focus the next input field
@@ -40,10 +51,34 @@ const OTPConfirm = () => {
     }
   };
 
-const validateOTP=()=>{
-  console.log("verified")
+  const validateOTP = () => {
 
-}
+    getVerifyOtp(otp.join(''),userData?.UserID, (res) => {
+      console.log(res, "response");
+      if (res.errorCode == 0) {
+        const userdata = {
+      category: res?.newPayload?.category,
+            departmentNo: res?.newPayload?.departmentNo,
+            districtcode: res?.newPayload?.districtcode,
+            subDivision:res?.newPayload?.subDivision,
+            blockCode:res?.newPayload?.blockCode,
+            userIndex: res?.newPayload?.userIndex,
+          
+        };
+        localStorage.setItem("karmashree_User", JSON.stringify(userdata));
+
+        navigate("/dashboard");
+
+        toast.success(res.message);
+        window.location.reload();
+      } else if (res.errorCode == 1) {
+        console.log("nononononono");
+        toast.error(res.message);
+      } else {
+      }
+    });
+
+  }
   function resendOTP() {
     setTimeLeft(20)
     setIsValidating(true)
@@ -95,7 +130,7 @@ const validateOTP=()=>{
                       onKeyDown={(e) => handleKeyDown(index, e)}
                       ref={(ref) => (inputRefs.current[index] = ref)}
                       className="caret-transparent size-10 bg-gray-50 rounded-md text-center text-lg font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      
+
                     />
                   </Fragment>
                 ))}

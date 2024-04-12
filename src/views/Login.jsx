@@ -22,21 +22,21 @@ const Login = () => {
         console.log(res, "response");
         if (res.errorCode == 0) {
           const userdata = {
-            category: res?.result?.category,
-            departmentNo: res?.result?.departmentNo,
-            districtcode: res?.result?.districtcode,
-            subDivision:res?.result?.subDivision,
-            blockCode:res?.result?.blockCode,
-            userIndex: res?.result?.userIndex,
+            // category: res?.result?.category,
+            // departmentNo: res?.result?.departmentNo,
+            // districtcode: res?.result?.districtcode,
+            // subDivision:res?.result?.subDivision,
+            // blockCode:res?.result?.blockCode,
+            // userIndex: res?.result?.userIndex,
             UserID:UserID
           };
 
-          localStorage.setItem("karmashree_AuthToken", res.result.token);
+          // localStorage.setItem("karmashree_AuthToken", res.result.token);
           localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
           toast.success(res.message);
           navigate("/otp");
-          window.location.reload();
+          // window.location.reload();
         } else if (res.errorCode == 1) {
           console.log("nononononono");
           toast.error(res.message);
