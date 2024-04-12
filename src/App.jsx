@@ -16,7 +16,7 @@ function App() {
     { path: "/", Element: Home },
     { path: "/login", Element: Login },
     { path: "/contact", Element: Contact },
-    { path: "/dashboard", Element: Dashboard },
+    // { path: "/dashboard", Element: Dashboard },
     { path: "/otp", Element: OTPConfirm },
     { path: "/verify", Element: ConfirmUser },
     { path: "/reset", Element: ResetPassword },
