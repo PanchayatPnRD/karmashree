@@ -11,6 +11,8 @@ const OTPConfirm = () => {
   const [timeLeft, setTimeLeft] = useState(20);
   const [isValidating, setIsValidating] = useState(true);
 
+
+  console.log(otp,"otp")
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
@@ -38,9 +40,10 @@ const OTPConfirm = () => {
     }
   };
 
-  function validateOTP() {
-    //validate function login here
-  }
+const validateOTP=()=>{
+  console.log("verified")
+
+}
   function resendOTP() {
     setTimeLeft(20)
     setIsValidating(true)
@@ -92,6 +95,7 @@ const OTPConfirm = () => {
                       onKeyDown={(e) => handleKeyDown(index, e)}
                       ref={(ref) => (inputRefs.current[index] = ref)}
                       className="caret-transparent size-10 bg-gray-50 rounded-md text-center text-lg font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      
                     />
                   </Fragment>
                 ))}

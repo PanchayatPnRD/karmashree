@@ -28,13 +28,14 @@ const Login = () => {
             subDivision:res?.result?.subDivision,
             blockCode:res?.result?.blockCode,
             userIndex: res?.result?.userIndex,
+            UserID:UserID
           };
 
           localStorage.setItem("karmashree_AuthToken", res.result.token);
           localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
           toast.success(res.message);
-          navigate("/dashboard");
+          navigate("/otp");
           window.location.reload();
         } else if (res.errorCode == 1) {
           console.log("nononononono");

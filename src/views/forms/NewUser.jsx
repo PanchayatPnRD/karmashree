@@ -267,11 +267,11 @@ const NewUser = () => {
       toast.error("Please type your userId");
     } else if (
       !password.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#@$!%*?&]{8,12}$/
       )
     ) {
       toast.error(
-        "Password must contain at min 6 characters and max 16 characters, including uppercase, lowercase,numerical and special characters."
+        "Password must contain at min 8 characters and max 12 characters, including uppercase, lowercase,numerical and special characters."
       );
     } else {
       addNewUser(
