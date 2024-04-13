@@ -43,22 +43,7 @@ const ActionPlan = () => {
           <br></br>
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_code"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Code
-                </label>
-                <input
-                  id="scheme_code"
-                  name="scheme_code"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Code"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
+              
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -72,14 +57,73 @@ const ActionPlan = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
-                  <option value="">Select Scheme Name</option>
-                  <option value="scheme1">Scheme 1</option>
-                  <option value="scheme2">Scheme 2</option>
-                  <option value="scheme3">Scheme 3</option>
+                  <option value="">Select Area</option>
+                  <option value="Rural">Rural</option>
+                  <option value="Urban">Urban 2</option>
+                  
                   {/* Add more options as needed */}
                 </select>
               </div>
-
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select District</option>
+                  <option value="Rural">Rural</option>
+                  <option value="Urban">Urban 2</option>
+                  
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Municipality/Block
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality/Block</option>
+                  <option value="Rural">Rural</option>
+                  <option value="Urban">Urban 2</option>
+                  
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Gram Panchayat
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select District</option>
+                  <option value="Rural">Rural</option>
+                  <option value="Urban">Urban 2</option>
+                  
+                  {/* Add more options as needed */}
+                </select>
+              </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
