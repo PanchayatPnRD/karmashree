@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { baseURL } from "../../WebApi/WebApi";
 import { Table, Pagination } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { TablePagination } from "../../components/DataTable";
 import axios from "axios";
 
 const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const onPageChange = (page) => setCurrentPage(page);
 
+  const [startIndex, endIndex] = useMemo(() => {
+    const start = (currentPage - 1) * 5;
+    const end = currentPage * 5;
+
+    return [start, end];
+  }, [currentPage]);
   // Queries
-  const { data: userlist, isLoading } = useQuery({
+  const { data: userlist } = useQuery({
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await axios.get(
@@ -26,7 +33,7 @@ const UserList = () => {
       const data = await axios.get(
         "http://43.239.110.159:8094/api/mastertable/getDepatmentlist"
       );
-      console.log(Array.isArray(data.data.result));
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
@@ -37,7 +44,7 @@ const UserList = () => {
       const data = await axios.get(
         "http://43.239.110.159:8094/api/mastertable/DesignationList"
       );
-      console.log(Array.isArray(data.data.result));
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
@@ -99,72 +106,73 @@ const UserList = () => {
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-            {userlist?.map(
-              (
-                {
-                  departmentNo,
-                  category,
-                  districtcode,
-                  subDivision,
-                  blockCode,
-                  designationID,
-                  contactNo,
-                  currentStatus,
-                },
-                index
-              ) => {
-                return (
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {index + 1}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {/* {departmentList?.[departmentNo]?.departmentName} */}
-                      {
-                        departmentList?.[
+            {userlist
+              ?.slice(
+                startIndex,
+                userlist.length > endIndex ? endIndex : userlist.length
+              )
+              .map(
+                (
+                  {
+                    userIndex,
+                    departmentNo,
+                    category,
+                    districtcode,
+                    subDivision,
+                    blockCode,
+                    designationID,
+                    contactNo,
+                    currentStatus,
+                  },
+                  index
+                ) => {
+                  return (
+                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {userIndex}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {/* {departmentList?.[departmentNo]?.departmentName} */}
+                        {departmentList?.[
                           departmentList?.findIndex(
                             (obj) => obj.departmentNo == departmentNo
                           )
-                        ]?.departmentName || "Karmashree Admin"
-                      }
-                    </Table.Cell>
-                    <Table.Cell>{category}</Table.Cell>
-                    <Table.Cell>
-                      {districtcode === "0" || districtcode === ""
-                        ? "-"
-                        : districtcode}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {subDivision === "0" || subDivision === ""
-                        ? "-"
-                        : subDivision}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {blockCode === "0" || blockCode === "" ? "-" : blockCode}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {
-                        designationList?.[
-                          designationList?.findIndex(
-                            (obj) => obj.designationId == designationID
-                          )
-                        ]?.designation
-                      }
-                    </Table.Cell>
-                    <Table.Cell>{contactNo}</Table.Cell>
-                    <Table.Cell>{currentStatus}</Table.Cell>
-                  </Table.Row>
-                );
-              }
-            )}
+                        ]?.departmentName || "Karmashree Admin"}
+                      </Table.Cell>
+                      <Table.Cell>{category}</Table.Cell>
+                      <Table.Cell>
+                        {parseInt(districtcode) ? districtcode : "-"}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {parseInt(subDivision) ? subDivision : "-"}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {parseInt(blockCode) ? blockCode : "-"}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {
+                          designationList?.[
+                            designationList?.findIndex(
+                              (obj) => obj.designationId == designationID
+                            )
+                          ]?.designation
+                        }
+                      </Table.Cell>
+                      <Table.Cell>{contactNo}</Table.Cell>
+                      <Table.Cell>{currentStatus}</Table.Cell>
+                    </Table.Row>
+                  );
+                }
+              )}
           </Table.Body>
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">
-          <Pagination
-            layout="table"
-            currentPage={currentPage}
-            totalPages={isLoading ? 0 : userlist.length}
-            onPageChange={onPageChange}
+          <TablePagination
+            data={userlist}
+            setCurrentPage={setCurrentPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+
           />
         </div>
       </div>

@@ -8,7 +8,7 @@ import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
 import OTPConfirm from "./views/OtpConfirm";
-import Deno from "./views/forms/Deno";
+import Dno from "./views/forms/Dno";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 
 function App() {
@@ -16,7 +16,6 @@ function App() {
     { path: "/", Element: Home },
     { path: "/login", Element: Login },
     { path: "/contact", Element: Contact },
-    // { path: "/dashboard", Element: Dashboard },
     { path: "/otp", Element: OTPConfirm },
     { path: "/verify", Element: ConfirmUser },
     { path: "/reset", Element: ResetPassword },
@@ -73,7 +72,7 @@ function App() {
           element={
             <>
               <Dashboard>
-                <Deno />
+                <Dno />
               </Dashboard>
             </>
           }
