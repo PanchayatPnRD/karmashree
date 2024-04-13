@@ -88,7 +88,7 @@ const UserList = () => {
                     /
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Work Allocation
+                    User List
                   </li>
                 </ol>
               </nav>
