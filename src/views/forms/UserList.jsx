@@ -129,7 +129,7 @@ const UserList = () => {
                   return (
                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {userIndex}
+                        {index + 1 + startIndex}
                       </Table.Cell>
                       <Table.Cell>
                         {/* {departmentList?.[departmentNo]?.departmentName} */}
