@@ -5,30 +5,31 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import classNames from "classnames";
 import { getVerifyOtp } from "../Service/Otp/otpService";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useStack } from "../functions/Stack";
 
 const OTPConfirm = () => {
+  const { stack } = useStack();
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
-  const [timeLeft, setTimeLeft] = useState(20);
+  const [timeLeft, setTimeLeft] = useState(59);
   const [isValidating, setIsValidating] = useState(true);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-
+  const { state } = useLocation();
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
-  
-  });
-  console.log(otp, "otp")
+  }, []);
+  // console.log(otp, "otp")
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
       const updatedOtp = [...otp];
       updatedOtp[index] = value;
-      console.log(updatedOtp.join(''), "jinjoin")
+      console.log(updatedOtp.join(""), "jinjoin");
       setOtp(updatedOtp);
 
       // Auto-focus the next input field
@@ -52,18 +53,16 @@ const OTPConfirm = () => {
   };
 
   const validateOTP = () => {
-
-    getVerifyOtp(otp.join(''),userData?.UserID, (res) => {
+    getVerifyOtp(otp.join(""), userData?.UserID, (res) => {
       console.log(res, "response");
       if (res.errorCode == 0) {
         const userdata = {
-      category: res?.newPayload?.category,
-            departmentNo: res?.newPayload?.departmentNo,
-            districtcode: res?.newPayload?.districtcode,
-            subDivision:res?.newPayload?.subDivision,
-            blockCode:res?.newPayload?.blockCode,
-            userIndex: res?.newPayload?.userIndex,
-          
+          category: res?.newPayload?.category,
+          departmentNo: res?.newPayload?.departmentNo,
+          districtcode: res?.newPayload?.districtcode,
+          subDivision: res?.newPayload?.subDivision,
+          blockCode: res?.newPayload?.blockCode,
+          userIndex: res?.newPayload?.userIndex,
         };
         localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
@@ -77,11 +76,10 @@ const OTPConfirm = () => {
       } else {
       }
     });
-
-  }
+  };
   function resendOTP() {
-    setTimeLeft(20)
-    setIsValidating(true)
+    setTimeLeft(59);
+    setIsValidating(true);
     //resend otp function login here
   }
 
@@ -97,6 +95,8 @@ const OTPConfirm = () => {
 
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  if (state != "login") return <Navigate to={stack[0]} />;
 
   return (
     <>
@@ -130,7 +130,6 @@ const OTPConfirm = () => {
                       onKeyDown={(e) => handleKeyDown(index, e)}
                       ref={(ref) => (inputRefs.current[index] = ref)}
                       className="caret-transparent size-10 bg-gray-50 rounded-md text-center text-lg font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-
                     />
                   </Fragment>
                 ))}

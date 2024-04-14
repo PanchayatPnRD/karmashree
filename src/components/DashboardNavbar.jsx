@@ -1,27 +1,27 @@
 import { Karmashree_logo } from "./Logo";
 import emblem from "/assets/logo/biswa.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Dropdown, DropdownItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const DashboardNavbar = () => {
-  function handleItemClick(e) {
-    e.preventDefault();
-    console.log(e.target.value);
-  }
-
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
-        <Link to={"/"} className="flex items-center space-x-2 w-fit">
+        <Link
+          to={"/dashboard"}
+          state={pathname}
+          className="flex items-center space-x-2 w-fit"
+        >
           <div className="flex">
             <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
             <img src={emblem} alt="" className="h-16" />
           </div>
           <div className="flex flex-col -space-y-1">
             <h1 className="capitalize font-semibold text-2xl tracking-tight">
-              department of panchayet & rural development
+              department of panchayat & rural development
             </h1>
             <h3 className="capitalize text-zinc-500">
               government of west bengal
@@ -53,8 +53,8 @@ export const DashboardNavbar = () => {
           <DropdownItem
             className="space-x-2"
             onClick={() => {
-              navigate("/login");
-              localStorage.clear();
+              navigate("/login", { state: "signout" });
+              localStorage.removeItem("karmashree_User");
             }}
           >
             <Icon

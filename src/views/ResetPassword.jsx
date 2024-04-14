@@ -1,14 +1,17 @@
 import { Login_logo } from "../components/Logo";
 import { Footer } from "../components/Footer";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useState, useRef, Fragment } from "react";
+import { useStack } from "../functions/Stack";
 
 export const ConfirmUser = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const [showOtp, setShowOtp] = useState(false);
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { stack} = useStack();
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
@@ -37,11 +40,10 @@ export const ConfirmUser = () => {
   };
 
   function handleSubmit() {
-    if (showOtp)
-      navigate("/reset")
-    else
-      setShowOtp(true)
+    if (showOtp) navigate("/reset", {state : "verify"});
+    else setShowOtp(true);
   }
+  if (state != "login") return <Navigate to={stack[0]} />;
 
   return (
     <>
@@ -58,7 +60,7 @@ export const ConfirmUser = () => {
           <div className="w-full xl:w-1/2 min-h-[424px]">
             <div className="flex flex-col justify-evenly min-h-[424px] capitalize">
               <h1 className="font-bold text-2xl">
-                {!showOtp ? "verify yourself":"enter otp"}
+                {!showOtp ? "verify yourself" : "enter otp"}
               </h1>
               <div className="flex flex-col space-y-6 h-48">
                 {showOtp ? (
@@ -128,6 +130,10 @@ export const ConfirmUser = () => {
 };
 
 export const ResetPassword = () => {
+  const { stack } = useStack()
+  const navigate = useNavigate()
+  const { state } = useLocation();
+  if (state != "verify") return <Navigate to={stack[0]} />;
   return (
     <>
       <div className="rounded-sm bg-zinc-50 py-20 px-60 flex-grow">
@@ -142,12 +148,8 @@ export const ResetPassword = () => {
 
           <div className="w-full xl:w-1/2 min-h-[424px]">
             <div className="flex flex-col justify-evenly min-h-[424px] capitalize">
-              <h1 className="font-bold text-2xl">
-                Reset password
-              </h1>
-              <div className="flex flex-col space-y-6 h-48">
-                
-              </div>
+              <h1 className="font-bold text-2xl">Reset password</h1>
+              <div className="flex flex-col space-y-6 h-48"></div>
               <button
                 className={classNames(
                   "capitalize text",
@@ -155,7 +157,7 @@ export const ResetPassword = () => {
                   "text-white rounded-md py-4",
                   "bg-blue-500 hover:bg-blue-500/90"
                 )}
-                
+                onClick={()=>navigate("/login",{state : "reset"})}
               >
                 Reset password
               </button>

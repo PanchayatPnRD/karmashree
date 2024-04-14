@@ -7,8 +7,8 @@ export const Dropdown = ({ children,onClick, Button }) => {
   const dropdownRef = useRef(null);
 
   function handleClick(){
-    setIsOpen(!isOpen)
-    onClick()
+    setIsOpen(e=>!e)
+    // onClick()
   }
 
   useEffect(() => {

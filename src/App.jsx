@@ -1,14 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import "./App.css";
+
 import { sideBarList } from "./components/Sidebar";
 import Home from "./views/Home";
+import Auth from "./auth/Auth";
 import Login from "./views/Login";
 import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
 import OTPConfirm from "./views/OtpConfirm";
 import Dno from "./views/forms/Dno";
+import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 
 function App() {
@@ -21,26 +24,43 @@ function App() {
     { path: "/reset", Element: ResetPassword },
   ];
 
-  return(
+  return (
     <>
       <Routes>
-        {
-          homeRoutes.map(({path,Element}, index) => {
+        {homeRoutes.slice(0, 3).map(({ path, Element }, index) => {
+          return (
+            <Route
+              key={index}
+              path={path}
+              element={
+                <Auth>
+                  <div className="flex flex-col min-h-screen">
+                    <Navbar />
+                    <Element />
+                  </div>
+                </Auth>
+              }
+            />
+          );
+        })}
+        {homeRoutes
+          .slice(3, homeRoutes.length)
+          .map(({ path, Element }, index) => {
             return (
               <Route
                 key={index}
                 path={path}
                 element={
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    <Element />
-                  </div>
+                  <Auth>
+                    <div className="flex flex-col min-h-screen">
+                      <Navbar />
+                      <Element />
+                    </div>
+                  </Auth>
                 }
               />
             );
-          })
-        }
-        
+          })}
 
         {sideBarList.map(({ route, Component, text }) => {
           return (
@@ -48,11 +68,11 @@ function App() {
               key={text}
               path={route}
               element={
-                <>
+                <Auth>
                   <Dashboard>
                     <Component />
                   </Dashboard>
-                </>
+                </Auth>
               }
             />
           );
@@ -77,6 +97,7 @@ function App() {
             </>
           }
         />
+        <Route path="*" element={<Error404/>} />
       </Routes>
     </>
   );

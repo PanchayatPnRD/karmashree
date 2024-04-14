@@ -48,7 +48,7 @@ const Home = () => {
         <div className="container mx-auto p-4 flex space-x-4">
           {portalList.map(({ href, src }) => {
             return (
-              <div className="border rounded-xl overflow-hidden">
+              <div key={src} className="border rounded-xl overflow-hidden">
                 <a href={href} target="_blank">
                   <img src={src} alt="" />
                 </a>

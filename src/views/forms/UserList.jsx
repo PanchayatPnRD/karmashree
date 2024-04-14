@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { baseURL } from "../../WebApi/WebApi";
-import { Table, Pagination } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TablePagination } from "../../components/DataTable";
@@ -49,8 +48,6 @@ const UserList = () => {
     },
   });
 
-  // Mutations
-
   const HeadData = [
     "department",
     "office name",
@@ -61,6 +58,7 @@ const UserList = () => {
     "phone",
     "status",
   ];
+  
   return (
     <>
       <div className="bg-white rounded-lg p-12">
@@ -102,7 +100,7 @@ const UserList = () => {
           <Table.Head>
             <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
             {HeadData.map((e) => (
-              <Table.HeadCell className="capitalize">{e}</Table.HeadCell>
+              <Table.HeadCell key={e} className="capitalize">{e}</Table.HeadCell>
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
@@ -127,7 +125,7 @@ const UserList = () => {
                   index
                 ) => {
                   return (
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Row key={userIndex} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                         {index + 1 + startIndex}
                       </Table.Cell>
@@ -172,11 +170,10 @@ const UserList = () => {
             setCurrentPage={setCurrentPage}
             startIndex={startIndex}
             endIndex={endIndex}
-
           />
         </div>
       </div>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };

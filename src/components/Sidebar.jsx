@@ -88,7 +88,7 @@ export const Sidebar = () => {
       <SidebarExpand text={"User Master"}>
         {sideBarList.slice(1, 3).map((e) => {
           return (
-            <SidebarElement to={e.route} customCss={"py-2 pl-16 text-red-500"}>
+            <SidebarElement key={e.route} to={e.route} customCss={"py-2 pl-16 text-red-500"}>
               <div className=" items-center capitalize">{e.text}</div>
             </SidebarElement>
           );
@@ -97,7 +97,7 @@ export const Sidebar = () => {
 
       {sideBarList.slice(3, sideBarList.length).map((e) => {
         return (
-          <SidebarElement to={e.route} customCss={"py-2.5 pl-16"}>
+          <SidebarElement key={e.route} to={e.route} customCss={"py-2.5 pl-16"}>
             <div className=" items-center capitalize">{e.text}</div>
           </SidebarElement>
         );

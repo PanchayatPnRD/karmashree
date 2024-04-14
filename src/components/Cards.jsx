@@ -22,7 +22,7 @@ export const Cards = () => {
       <div className="bg-banner h-64 flex items-center justify-evenly">
         {cardList.map(({ text, Icon }) => {
           return (
-            <div className="size-48 space-y-4 bg-emerald-100 shadow hover:shadow-xl transition-all duration-300 rounded-xl flex flex-col items-center justify-center cursor-pointer">
+            <div key={text} className="size-48 space-y-4 bg-emerald-100 shadow hover:shadow-xl transition-all duration-300 rounded-xl flex flex-col items-center justify-center cursor-pointer">
               <Icon className={iconClass} />
               <h4 className="capitalize">{text}</h4>
               <h1 className="text-2xl font-bold tracking-tight">666</h1>

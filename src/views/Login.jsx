@@ -35,7 +35,7 @@ const Login = () => {
           localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
           toast.success(res.message);
-          navigate("/otp");
+          navigate("/otp",{state:"login"});
           // window.location.reload();
         } else if (res.errorCode == 1) {
           console.log("nononononono");
@@ -116,7 +116,7 @@ const Login = () => {
                 </div>
 
                 <div className="mt-6 text-center">
-                  <Link to={"/password-reset"}>
+                  <Link to={"/verify"} state={"login"}>
                     <p className="text-red-600">Forgot Password ?</p>
                   </Link>
                 </div>
