@@ -80,21 +80,21 @@ function App() {
         <Route
           path={"/dashboard/profile"}
           element={
-            <>
+            <Auth>
               <Dashboard>
                 <Profile />
               </Dashboard>
-            </>
+            </Auth>
           }
         />
         <Route
-          path={"/dashboard/deno"}
+          path={"/dashboard/dno"}
           element={
-            <>
+            <Auth>
               <Dashboard>
                 <Dno />
               </Dashboard>
-            </>
+            </Auth>
           }
         />
         <Route path="*" element={<Error404/>} />
