@@ -9,6 +9,8 @@ import Scheme from "../views/forms/Scheme";
 import UserList from "../views/forms/UserList";
 import WorkAlloc from "../views/forms/WorkAlloc";
 import DashboardHome from "../views/forms/DashboardHome";
+import DnoList from "../views/forms/DnoList";
+import Dno from "../views/forms/Dno";
 import { useResolvedPath, useMatch } from "react-router-dom";
 import classNames from 'classnames';
 
@@ -22,13 +24,23 @@ export const sideBarList = [
   },
   {
     Component: NewUser,
-    text: "new user",
-    route: "/dashboard/new-user",
+    text: "department user",
+    route: "/dashboard/dept-user",
   },
   {
     Component: UserList,
-    text: "user list",
-    route: "/dashboard/user-list",
+    text: "department user list",
+    route: "/dashboard/dept-userlist",
+  },
+  {
+    Component: Dno,
+    text: "dNO user",
+    route: "/dashboard/dno-user",
+  },
+  {
+    Component: DnoList,
+    text: "dNO user list",
+    route: "/dashboard/dno-userlist",
   },
   {
     Component: Designation,
@@ -73,20 +85,19 @@ export const sideBarList = [
 ];
 
 export const Sidebar = () => {
-  let resolved = useResolvedPath("/dashboard");
-  let match = useMatch({ path: resolved.pathname, end: true });
+  
 
   return (
     <div className=" flex flex-col p-3">
       <SidebarElement
         to="/dashboard"
-        className={"flex justify-center bg-blue-600/20 hover:bg-blue-600"}
+        className={"flex justify-center "}
       >
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
-
+      <div className="h-2"></div>
       <SidebarExpand text={"User Master"}>
-        {sideBarList.slice(1, 3).map((e) => {
+        {sideBarList.slice(1, 5).map((e) => {
           return (
             <SidebarElement key={e.route} to={e.route} customCss={"py-2 pl-16 text-red-500"}>
               <div className=" items-center capitalize">{e.text}</div>
@@ -95,7 +106,7 @@ export const Sidebar = () => {
         })}
       </SidebarExpand>
 
-      {sideBarList.slice(3, sideBarList.length).map((e) => {
+      {sideBarList.slice(5, sideBarList.length).map((e) => {
         return (
           <SidebarElement key={e.route} to={e.route} customCss={"py-2.5 pl-16"}>
             <div className=" items-center capitalize">{e.text}</div>

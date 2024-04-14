@@ -2,7 +2,7 @@ import { Children,cloneElement,useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 
 // Dropdown Component
-export const Dropdown = ({ children,onClick, Button }) => {
+export const Dropdown = ({ children, Button }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 

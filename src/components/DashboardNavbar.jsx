@@ -1,20 +1,35 @@
 import { Karmashree_logo } from "./Logo";
 import emblem from "/assets/logo/biswa.png";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, DropdownItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const DashboardNavbar = () => {
-  const { pathname } = useLocation();
+  
+
+  const { userIndex, category } = JSON.parse(
+    localStorage.getItem("karmashree_User")
+  );
+  console.log(userIndex);
+
+  const { data: userDetails } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await axios.get(
+        "http://43.239.110.159:8094/api/user/viewuser/"+userIndex
+      );
+
+      return data.data.result;
+    },
+  });
+
   const navigate = useNavigate();
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
-        <Link
-          to={"/dashboard"}
-          state={pathname}
-          className="flex items-center space-x-2 w-fit"
-        >
+        <Link to={"/dashboard"} className="flex items-center space-x-2 w-fit">
           <div className="flex">
             <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
             <img src={emblem} alt="" className="h-16" />
@@ -31,10 +46,19 @@ export const DashboardNavbar = () => {
 
         <Dropdown
           Button={
-            <Icon
-              className="text-5xl"
-              icon="lets-icons:user-cicrle-duotone"
-            ></Icon>
+            <div className="flex justify-center items-center">
+              <div className="flex flex-col px-2">
+                <span className="text-lg font-bold text-black">
+                  {userDetails?.userId}
+                </span>
+                <span className="text-sm text-end">{category}</span>
+              </div>
+
+              <Icon
+                className="text-5xl"
+                icon="lets-icons:user-cicrle-duotone"
+              />
+            </div>
           }
         >
           <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">

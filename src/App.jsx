@@ -87,17 +87,8 @@ function App() {
             </Auth>
           }
         />
-        <Route
-          path={"/dashboard/dno"}
-          element={
-            <Auth>
-              <Dashboard>
-                <Dno />
-              </Dashboard>
-            </Auth>
-          }
-        />
-        <Route path="*" element={<Error404/>} />
+        
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </>
   );

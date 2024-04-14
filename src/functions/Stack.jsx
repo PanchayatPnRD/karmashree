@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useSessionStorage, useLocalStorage } from "@uidotdev/usehooks";
+
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const useStack = () => {
-  const [stack, setStack] = useLocalStorage("stack", []);
+  const [stack, setStack] = useLocalStorage("stack",[]);
 
   const push = (value) => {
     if (stack.length == 0 && stack[stack.length-1] != value) setStack([value]);

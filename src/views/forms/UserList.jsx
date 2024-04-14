@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import { TablePagination } from "../../components/DataTable";
 import axios from "axios";
 
@@ -173,7 +173,7 @@ const UserList = () => {
           />
         </div>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} />
+      
     </>
   );
 };
