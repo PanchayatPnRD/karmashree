@@ -29,11 +29,11 @@ const Designation = () => {
     },
   });
 
-  // const filteredData = designationList?.filter((item) =>
-  //   Object.values(item).some((value) =>
-  //     value.toString().toLowerCase().includes(search.toLowerCase())
-  //   )
-  // );
+  const filteredData = designationList?.filter((item) =>
+    Object.values(item).some((value) =>
+      value.toString().toLowerCase().includes(search.toLowerCase())
+    )
+  );
 
 
   return (

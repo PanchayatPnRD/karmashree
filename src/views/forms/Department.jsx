@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { Table, Pagination } from "flowbite-react";
+import { TablePagination } from "../../components/DataTable";
 import { Icon } from "@iconify/react";
-import {getAllDepartmentList} from "../../Service/Department/DepartmentService";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 const Department = () => {
-  const [allDepartmentList, setallDepartmentList] = useState([]);
+  const options = [5, 10, 15, 20, 30];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [results, setResults] = useState(5);
+  const [startIndex, endIndex] = useMemo(() => {
+    const start = (currentPage - 1) * results;
+    const end = currentPage * results;
 
-  useEffect(() => {
-    getAllDepartmentList().then(function (result) {
-    const response = result?.data?.result;
-    console.log(response, "sibamdey");
-    setallDepartmentList(response);
+    return [start, end];
+  }, [currentPage, results]);
+
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        "http://43.239.110.159:8094/api/mastertable/DepartmentList"
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
   });
-},[]);
   const HeadData = [
     "sl no",
     "department",
@@ -103,44 +116,78 @@ const Department = () => {
           </button>
         </div>
       </div>
-      <div className="px-12 flex flex-col space-y-6 py-8">
-      <Table>
-        <Table.Head>
-          {HeadData.map((e) => (
-            <Table.HeadCell className="capitalize">{e}</Table.HeadCell>
+      <div className=" flex justify-between px-12 items-center h-12">
+        <select
+          className="outline-none border-2 rounded-lg border-zinc-300"
+          onChange={(e) => setResults(e.target.value)}
+        >
+          {options.map((e) => (
+            <option value={e}>{e}</option>
           ))}
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {allDepartmentList?.map((d, index) => {
-            return (
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
-                </Table.Cell>
-                <Table.Cell>{d?.departmentName}</Table.Cell>
-                <Table.Cell className=" className">{d?.deptshort}</Table.Cell>
+        </select>
+        {/* <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          type="text"
+          placeholder="search"
+          className="px-4 outline-none border-2 rounded-lg border-zinc-300"
+        /> */}
+      </div>
+      <div className="px-12 flex flex-col space-y-6 py-8">
+        <Table>
+          <Table.Head>
+            {HeadData.map((e) => (
+              <Table.HeadCell className="capitalize">{e}</Table.HeadCell>
+            ))}
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {departmentList
+              ?.slice(
+                startIndex,
+                departmentList.length > endIndex
+                  ? endIndex
+                  : departmentList.length
+              )
+              .map((d, index) => {
+                return (
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {index + 1 + startIndex}
+                    </Table.Cell>
+                    <Table.Cell>{d?.departmentName}</Table.Cell>
+                    <Table.Cell className=" className">
+                      {d?.deptshort}
+                    </Table.Cell>
 
-                <Table.Cell className="flex space-x-8">
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline text-2xl"
-                  >
-                    <Icon icon={"mingcute:edit-line"} />
-                  </a>
-                </Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-red-600 hover:underline text-2xl"
-                  >
-                    <Icon icon={"ic:round-delete"} />
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
-        </Table.Body>
-      </Table>
+                    <Table.Cell className="flex space-x-8">
+                      <a
+                        href="#"
+                        className="font-medium text-cyan-600 hover:underline text-2xl"
+                      >
+                        <Icon icon={"mingcute:edit-line"} />
+                      </a>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <a
+                        href="#"
+                        className="font-medium text-red-600 hover:underline text-2xl"
+                      >
+                        <Icon icon={"ic:round-delete"} />
+                      </a>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+          </Table.Body>
+        </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <TablePagination
+            data={departmentList}
+            setCurrentPage={setCurrentPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+          />
+        </div>
       </div>
     </div>
   );
