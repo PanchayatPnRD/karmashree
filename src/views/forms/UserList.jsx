@@ -50,7 +50,6 @@ const UserList = () => {
 
   const HeadData = [
     "department",
-    "office name",
     "district",
     "sub division",
     "block",
@@ -114,7 +113,6 @@ const UserList = () => {
                   {
                     userIndex,
                     departmentNo,
-                    category,
                     districtcode,
                     subDivision,
                     blockCode,
@@ -137,7 +135,7 @@ const UserList = () => {
                           )
                         ]?.departmentName || "Karmashree Admin"}
                       </Table.Cell>
-                      <Table.Cell>{category}</Table.Cell>
+                      
                       <Table.Cell>
                         {parseInt(districtcode) ? districtcode : "-"}
                       </Table.Cell>

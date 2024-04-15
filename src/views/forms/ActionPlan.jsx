@@ -41,70 +41,38 @@ const ActionPlan = () => {
           </div>
 
           <br></br>
-          <div className="bg-white shadow-md rounded-lg p-12">
-
-            
+          <div className="bg-white border shadow-md rounded-lg">
             <div className="flex w-full space-x-4 mb-6">
-              
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Area
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Area</option>
-                  <option value="Rural">Rural</option>
-                  <option value="Urban">Urban</option>
-                  
-                  {/* Add more options as needed */}
-                </select>
+              <div className=" border">
+                <SelectELem
+                  label={"Scheme Area"}
+                  optionPlaceholder={"Select Area"}
+                  options={[
+                    { value: "Rural", text: "Rural" },
+                    { value: "Urban", text: "Urban" },
+                  ]}
+                />
               </div>
-              <div className="px-12">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select District</option>
-                  <option value="Rural">Rural</option>
-                  <option value="Urban">Urban 2</option>
-                  
-                  {/* Add more options as needed */}
-                </select>
+              <div className="">
+                <SelectELem
+                  label={"District"}
+                  optionPlaceholder={"Select District"}
+                  options={[
+                    { value: "Rural", text: "Rural" },
+                    { value: "Urban", text: "Urban 2" },
+                  ]}
+                />
               </div>
               <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Municipality/Block
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Municipality/Block</option>
-                  <option value="Rural">Rural</option>
-                  <option value="Urban">Urban 2</option>
-                  
-                  {/* Add more options as needed */}
-                </select>
+                <SelectELem
+                  label={"Municipality/Block"}
+                  optionPlaceholder={"Select Municipality/Block"}
+                  options={[
+                    { value: "Rural", text: "Rural" },
+                    { value: "Urban", text: "Urban 2" },
+                  ]}
+                />
+                
               </div>
               <div className="px-4">
                 <label
@@ -122,7 +90,7 @@ const ActionPlan = () => {
                   <option value="">Select District</option>
                   <option value="Rural">Rural</option>
                   <option value="Urban">Urban 2</option>
-                  
+
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -131,7 +99,7 @@ const ActionPlan = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Type of Sector 
+                  Type of Sector
                 </label>
                 <select
                   id="scheme_name"
@@ -253,8 +221,6 @@ const ActionPlan = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              
-              
             </div>
             <div className="flex justify-center items-center">
               <button
@@ -272,3 +238,17 @@ const ActionPlan = () => {
 };
 
 export default ActionPlan;
+
+const SelectELem = ({ label, options, optionPlaceholder }) => {
+  return (
+    <>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <select className="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+        {optionPlaceholder && <option value="">{optionPlaceholder}</option>}
+        {options.map(({ value, text }) => (
+          <option value={value}>{text}</option>
+        ))}
+      </select>
+    </>
+  );
+};
