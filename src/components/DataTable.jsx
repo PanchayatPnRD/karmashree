@@ -6,7 +6,7 @@ import UserList from "../views/forms/UserList";
 export const DataTable = ({ Headdata, Data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page) => setCurrentPage(page);
-
+console.log(Data,"Data")
   return (
     <div>
       <Table>
