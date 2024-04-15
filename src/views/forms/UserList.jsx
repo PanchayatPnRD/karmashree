@@ -6,8 +6,10 @@ import { TablePagination } from "../../components/DataTable";
 import axios from "axios";
 
 const UserList = () => {
+  
   const [currentPage, setCurrentPage] = useState(1);
-
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  console.log(userIndex)
   const [startIndex, endIndex] = useMemo(() => {
     const start = (currentPage - 1) * 5;
     const end = currentPage * 5;
@@ -19,7 +21,8 @@ const UserList = () => {
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await axios.get(
-        "http://43.239.110.159:8094/api/user/getUserList?created_by=1"
+        "http://43.239.110.159:8094/api/user/getUserList?created_by=" +
+          userIndex
       );
 
       return data.data.result.data;
@@ -57,7 +60,7 @@ const UserList = () => {
     "phone",
     "status",
   ];
-  
+
   return (
     <>
       <div className="bg-white rounded-lg p-12">
@@ -99,7 +102,9 @@ const UserList = () => {
           <Table.Head>
             <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
             {HeadData.map((e) => (
-              <Table.HeadCell key={e} className="capitalize">{e}</Table.HeadCell>
+              <Table.HeadCell key={e} className="capitalize">
+                {e}
+              </Table.HeadCell>
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
@@ -123,7 +128,10 @@ const UserList = () => {
                   index
                 ) => {
                   return (
-                    <Table.Row key={userIndex} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Row
+                      key={userIndex}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                         {index + 1 + startIndex}
                       </Table.Cell>
@@ -135,7 +143,7 @@ const UserList = () => {
                           )
                         ]?.departmentName || "Karmashree Admin"}
                       </Table.Cell>
-                      
+
                       <Table.Cell>
                         {parseInt(districtcode) ? districtcode : "-"}
                       </Table.Cell>
@@ -171,7 +179,6 @@ const UserList = () => {
           />
         </div>
       </div>
-      
     </>
   );
 };

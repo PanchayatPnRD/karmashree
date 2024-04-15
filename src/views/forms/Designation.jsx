@@ -6,16 +6,17 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const Designation = () => {
+  const [search, setSearch] = useState("");
   const HeadData = ["designation tier", "designation", "edit", "delete"];
-
+  const options = [5, 10, 15, 20, 30];
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [results, setResults] = useState(5);
   const [startIndex, endIndex] = useMemo(() => {
-    const start = (currentPage - 1) * 5;
-    const end = currentPage * 5;
+    const start = (currentPage - 1) * results;
+    const end = currentPage * results;
 
     return [start, end];
-  }, [currentPage]);
+  }, [currentPage, results]);
 
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
@@ -27,6 +28,13 @@ const Designation = () => {
       return data.data.result;
     },
   });
+
+  // const filteredData = designationList?.filter((item) =>
+  //   Object.values(item).some((value) =>
+  //     value.toString().toLowerCase().includes(search.toLowerCase())
+  //   )
+  // );
+
 
   return (
     <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
@@ -92,18 +100,36 @@ const Designation = () => {
           <button
             type="button"
             className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            // onClick={onRegister}
           >
             Submit
           </button>
         </div>
       </div>
-      <div className="px-12 flex flex-col space-y-6 py-8">
+      <div className=" flex justify-between px-12 items-center h-12">
+        <select
+          className="outline-none border-2 rounded-lg border-zinc-300"
+          onChange={(e) => setResults(e.target.value)}
+        >
+          {options.map((e) => (
+            <option value={e}>{e}</option>
+          ))}
+        </select>
+        <input
+          value={search}
+          onChange={(e)=>setSearch(e.target.value)}
+          type="text"
+          placeholder="search"
+          className="px-4 outline-none border-2 rounded-lg border-zinc-300"
+        />
+      </div>
+      <div className="px-12 flex flex-col space-y-6 pb-8">
         <Table className="">
           <Table.Head>
-            <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
+            <Table.HeadCell className="capitalize bg-zinc-200">
+              sl no
+            </Table.HeadCell>
             {HeadData.map((e) => (
-              <Table.HeadCell key={e} className="capitalize">
+              <Table.HeadCell key={e} className="capitalize bg-zinc-200">
                 {e}
               </Table.HeadCell>
             ))}
@@ -120,13 +146,15 @@ const Designation = () => {
                 ({ designationId, designationLevel, designation }, index) => (
                   <Table.Row
                     key={designationId}
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="bg-white hover:bg-zinc-50"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {index + 1 + startIndex}
                     </Table.Cell>
                     <Table.Cell>{designationLevel}</Table.Cell>
-                    <Table.Cell className="min-w-[560px]">{designation}</Table.Cell>
+                    <Table.Cell className="min-w-[560px]">
+                      {designation}
+                    </Table.Cell>
 
                     <Table.Cell>
                       <a
