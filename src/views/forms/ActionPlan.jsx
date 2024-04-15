@@ -1,16 +1,19 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
 import {
   getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
-  getAllGramPanchayatList, getAllSectorActionList,addCreateAction
+  getAllGramPanchayatList, getAllSectorActionList, addCreateAction
 } from "../../Service/ActionPlan/ActionPlanService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 const ActionPlan = () => {
   const [schemeArea, setSchemeArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
-  const [district, setDistrict] = useState([]);
+  const [district, setDistrict] = useState("");
   const [allBlockList, setAllBlockList] = useState([]);
-  const [block, setBlock] = useState([]);
+  const [block, setBlock] = useState("");
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
   const [municipality, setMunicipality] = useState("");
   const [allGpList, setAllGpList] = useState([]);
@@ -167,18 +170,57 @@ const ActionPlan = () => {
 
 
   const onRegister = () => {
-    addCreateAction(
-      
-      (r) => {
-        console.log(r, "response");
-        if (r.errorCode == 0) {
-          toast.success(r.message);
-          navigate("/dashboard/dept-userlist");
-        } else {
-          toast.error(r.message);
+    if (schemeArea === "") {
+      toast.error("Please Select Scheme Area")
+    } else if (district === "") {
+      toast.error("Please Select District")
+
+    } else if (schemeArea === "Urban" && municipality==="") {
+      toast.error("Please Select Municipality")
+
+    }else if (schemeArea === "Rural" && block==="") {
+      toast.error("Please Select Block")
+
+    }else if (schemeArea === "Rural" && gp === "") {
+      toast.error("Please Select Gram Panchayat")
+
+    }else if (sector === "") {
+      toast.error("Please Select Sector")
+
+    }else if (schemeProposed === "") {
+      toast.error("Please Type No of Schemes Proposed")
+
+    }else if (costOfSCheme === "") {
+      toast.error("Please Type Tentative Total Cost of Schemes")
+
+    }else if (totalWages === "") {
+      toast.error("Please Type Tentative Total Wage to be paid in the Schemes")
+
+    }else if (totalPersonDays === "") {
+      toast.error("Please Type Total Persondays to be Generated")
+
+    }else if (totalJobCard === "") {
+      toast.error("Please Type Total no. of Job Card Holders to be engaged")
+
+    }else if (totalAverageDays === "") {
+      toast.error("Please Type Average Days of Employment to be provided per family")
+
+    }else {
+
+
+      addCreateAction(
+
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            navigate("/dashboard/dept-userlist");
+          } else {
+            toast.error(r.message);
+          }
         }
-      }
-    );
+      );
+    }
   }
   return (
     <div className="flex-grow">
