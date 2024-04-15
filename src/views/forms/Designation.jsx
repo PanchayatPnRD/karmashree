@@ -1,29 +1,33 @@
-import { useState, useEffect } from "react";
-import { DataTable } from "../../components/DataTable";
+import { useState, useEffect, useMemo } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { TablePagination } from "../../components/DataTable";
+import { Table } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const Designation = () => {
-  const HeadData = [
-    "sl no",
-    "designation tier",
-    "designation",
-    "edit",
-    "delete",
-  ];
+  const HeadData = ["designation tier", "designation", "edit", "delete"];
 
-  const Data = [
-    {
-      tier: "HQ",
-      desg: "Joint Secretary",
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [startIndex, endIndex] = useMemo(() => {
+    const start = (currentPage - 1) * 5;
+    const end = currentPage * 5;
+
+    return [start, end];
+  }, [currentPage]);
+
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        "http://43.239.110.159:8094/api/mastertable/DesignationList"
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
     },
-    {
-      tier: "BLOCK",
-      desg: "Joint Secretary",
-    },
-    {
-      tier: "HQ",
-      desg: "Joint Secretary",
-    },
-  ];
+  });
+
   return (
     <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
       <div className="shadow-md">
@@ -95,7 +99,64 @@ const Designation = () => {
         </div>
       </div>
       <div className="px-12 flex flex-col space-y-6 py-8">
-        <DataTable Headdata={HeadData} Data={Data}/>
+        <Table className="">
+          <Table.Head>
+            <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
+            {HeadData.map((e) => (
+              <Table.HeadCell key={e} className="capitalize">
+                {e}
+              </Table.HeadCell>
+            ))}
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {designationList
+              ?.slice(
+                startIndex,
+                designationList.length > endIndex
+                  ? endIndex
+                  : designationList.length
+              )
+              .map(
+                ({ designationId, designationLevel, designation }, index) => (
+                  <Table.Row
+                    key={designationId}
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {index + 1 + startIndex}
+                    </Table.Cell>
+                    <Table.Cell>{designationLevel}</Table.Cell>
+                    <Table.Cell className="min-w-[560px]">{designation}</Table.Cell>
+
+                    <Table.Cell>
+                      <a
+                        href="#"
+                        className="font-medium text-cyan-600 hover:underline text-2xl"
+                      >
+                        <Icon icon={"mingcute:edit-line"} />
+                      </a>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <a
+                        href="#"
+                        className="font-medium text-red-600 hover:underline text-2xl"
+                      >
+                        <Icon icon={"ic:round-delete"} />
+                      </a>
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              )}
+          </Table.Body>
+        </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <TablePagination
+            data={designationList}
+            setCurrentPage={setCurrentPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+          />
+        </div>
       </div>
     </div>
   );

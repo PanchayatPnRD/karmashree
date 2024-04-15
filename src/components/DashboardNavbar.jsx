@@ -12,7 +12,7 @@ export const DashboardNavbar = () => {
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
   );
-  console.log(userIndex);
+  
 
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
@@ -62,7 +62,7 @@ export const DashboardNavbar = () => {
           }
         >
           <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
-            <label htmlFor="">Hello Username</label>
+            <label htmlFor="">Hello {userDetails?.userId}</label>
           </div>
           <DropdownItem
             className="space-x-2"
