@@ -1,7 +1,22 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DataTable } from "../../components/DataTable";
+import {getAllDesignationList} from "../../Service/Designation/DesignationServcie";
+import { Table, Pagination } from "flowbite-react";
+import { Icon } from "@iconify/react";
 
 const Designation = () => {
+  const [allDesignationList, setAllDesignationList] = useState([]);
+
+  useEffect(() => {
+  getAllDesignationList().then(function (result) {
+    const response = result?.data?.result;
+    console.log(response, "sibamdey");
+    setAllDesignationList(response);
+  });
+},[]);
+
+console.log(allDesignationList,"allDesignationList")
+
   const HeadData = [
     "sl no",
     "designation tier",
@@ -10,20 +25,6 @@ const Designation = () => {
     "delete",
   ];
 
-  const Data = [
-    {
-      tier: "HQ",
-      desg: "Joint Secretary",
-    },
-    {
-      tier: "BLOCK",
-      desg: "Joint Secretary",
-    },
-    {
-      tier: "HQ",
-      desg: "Joint Secretary",
-    },
-  ];
   return (
     <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
       <div className="shadow-md">
@@ -95,7 +96,44 @@ const Designation = () => {
         </div>
       </div>
       <div className="px-12 flex flex-col space-y-6 py-8">
-        <DataTable Headdata={HeadData} Data={Data}/>
+        {/* <DataTable Headdata={HeadData} data={allDesignationList}/> */}
+        <Table>
+        <Table.Head>
+          {HeadData.map((e) => (
+            <Table.HeadCell className="capitalize">{e}</Table.HeadCell>
+          ))}
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {allDesignationList?.map((d, index) => {
+            return (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {index + 1}
+                </Table.Cell>
+                <Table.Cell className=" className">{d?.designationLevel}</Table.Cell>
+                <Table.Cell>{d?.designation}</Table.Cell>
+
+                <Table.Cell className="flex space-x-8">
+                  <a
+                    href="#"
+                    className="font-medium text-cyan-600 hover:underline text-2xl"
+                  >
+                    <Icon icon={"mingcute:edit-line"} />
+                  </a>
+                </Table.Cell>
+                <Table.Cell>
+                  <a
+                    href="#"
+                    className="font-medium text-red-600 hover:underline text-2xl"
+                  >
+                    <Icon icon={"ic:round-delete"} />
+                  </a>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })}
+        </Table.Body>
+      </Table>
       </div>
     </div>
   );
