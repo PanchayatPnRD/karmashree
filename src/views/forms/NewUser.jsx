@@ -328,7 +328,7 @@ const NewUser = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             toast.success(r.message);
-            navigate("/dashboard/user-list");
+            navigate("/dashboard/dept-userlist");
           } else {
             toast.error(r.message);
           }
