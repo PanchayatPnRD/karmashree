@@ -1,8 +1,185 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
-
+import {
+  getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
+  getAllGramPanchayatList, getAllSectorActionList,addCreateAction
+} from "../../Service/ActionPlan/ActionPlanService";
 const ActionPlan = () => {
+  const [schemeArea, setSchemeArea] = useState("");
+  const [allDistrictList, setAllDistrictList] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [allBlockList, setAllBlockList] = useState([]);
+  const [block, setBlock] = useState([]);
+  const [allMunicipalityList, setAllMunicipalityList] = useState([]);
+  const [municipality, setMunicipality] = useState("");
+  const [allGpList, setAllGpList] = useState([]);
+  const [gp, setGp] = useState("")
+  const [allSectorList, setAllSectorList] = useState([]);
+  const [sector, setSector] = useState("")
+
+  const [schemeProposed, setSchemeProposed] = useState("");
+  const [costOfSCheme, setCostOfSCheme] = useState("");
+  const [totalWages, setTotalWages] = useState("");
+  const [totalPersonDays, setTotalPersonDays] = useState("");
+  const [totalJobCard, setTotalJobCard] = useState("");
+  const [totalAverageDays, setTotalAverageDays] = useState("");
+
+
+
+  useEffect(() => {
+    getAllDistrictActionList().then(function (result) {
+      const response = result?.data?.result;
+      setAllDistrictList(response);
+    });
+
+    getAllSectorActionList().then(function (result) {
+      const response = result?.data?.result;
+      setAllSectorList(response);
+    });
+  }, []);
+
+  //DISTRICT LIST
+
+  let districtListDropdown = <option>Loading...</option>;
+  if (allDistrictList && allDistrictList.length > 0) {
+    districtListDropdown = allDistrictList.map((distRow, index) => (
+      <option value={distRow.districtCode}>{distRow.districtName}</option>
+    ));
+  }
+
+  let sectorListDropdown = <option>Loading...</option>;
+  if (allSectorList && allSectorList.length > 0) {
+    sectorListDropdown = allSectorList.map((secRow, index) => (
+      <option value={secRow.sectorid}>{secRow.sectorname}</option>
+    ));
+  }
+
+  const onSchemeArea = (e) => {
+    setSchemeArea(e.target.value)
+  }
+
+  const onDistrict = (e) => {
+    setDistrict(e.target.value)
+    getAllBlockList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllBlockList(response);
+    });
+
+    getAllMunicipalityList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllMunicipalityList(response);
+    });
+  }
+
+  let blockListDropdown = <option>Loading...</option>;
+  if (allBlockList && allBlockList.length > 0) {
+    blockListDropdown = allBlockList.map((blockRow, index) => (
+      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+    ));
+  }
+
+  let municipalityListDropdown = <option>Loading...</option>;
+  if (allMunicipalityList && allMunicipalityList.length > 0) {
+    municipalityListDropdown = allMunicipalityList.map((munRow, index) => (
+      <option value={munRow.urbanCode}>{munRow.urbanName}</option>
+    ));
+  }
+
+  const onBlock = (e) => {
+    setBlock(e.target.value)
+    getAllGramPanchayatList(district, e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllGpList(response);
+    });
+  }
+
+
+  let GpListDropdown = <option>Loading...</option>;
+  if (allGpList && allGpList.length > 0) {
+    GpListDropdown = allGpList.map((gpRow, index) => (
+      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+    ));
+  }
+
+
+  const onMunicipality = (e) => {
+    setMunicipality(e.target.value)
+  }
+
+  const onGramPanchayat = (e) => {
+    setGp(e.target.value)
+  }
+
+  const onSector = (e) => {
+    setSector(e.target.value)
+  }
+
+  const onSchemeProposed = (e) => {
+    setSchemeProposed(e.target.value)
+  }
+
+  const onCostOfSCheme = (e) => {
+    setCostOfSCheme(e.target.value)
+  }
+
+  const onTotalWages = (e) => {
+    setTotalWages(e.target.value)
+  }
+
+  const onTotalPersonDays = (e) => {
+    setTotalPersonDays(e.target.value)
+  }
+
+  const onTotalJobCard = (e) => {
+    setTotalJobCard(e.target.value)
+  }
+
+  const onTotalAverageDays = (e) => {
+    setTotalAverageDays(e.target.value)
+  }
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
+
+  const getCurrentFinancialYear = () => {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    let financialYear = '';
+    console.log(currentMonth)
+    console.log(currentYear)
+
+    // Financial year starts from April
+    if (currentMonth >= 4) {
+      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+    } else {
+      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+    }
+
+    return financialYear;
+  };
+
+  const financialYear = getCurrentFinancialYear();
+  console.log(financialYear, "financialYear")
+  console.log(currentMonth, "currentMonth")
+  console.log(currentYear, "currentYear")
+
+
+  const onRegister = () => {
+    addCreateAction(
+      
+      (r) => {
+        console.log(r, "response");
+        if (r.errorCode == 0) {
+          toast.success(r.message);
+          navigate("/dashboard/dept-userlist");
+        } else {
+          toast.error(r.message);
+        }
+      }
+    );
+  }
   return (
     <div className="flex-grow">
       <ToastContainer />
@@ -43,57 +220,111 @@ const ActionPlan = () => {
           <br></br>
           <div className="bg-white border shadow-md rounded-lg">
             <div className="flex w-full space-x-4 mb-6">
-              <div className=" border">
-                <SelectELem
-                  label={"Scheme Area"}
-                  optionPlaceholder={"Select Area"}
-                  options={[
-                    { value: "Rural", text: "Rural" },
-                    { value: "Urban", text: "Urban" },
-                  ]}
-                />
-              </div>
-              <div className="">
-                <SelectELem
-                  label={"District"}
-                  optionPlaceholder={"Select District"}
-                  options={[
-                    { value: "Rural", text: "Rural" },
-                    { value: "Urban", text: "Urban 2" },
-                  ]}
-                />
-              </div>
-              <div className="px-4">
-                <SelectELem
-                  label={"Municipality/Block"}
-                  optionPlaceholder={"Select Municipality/Block"}
-                  options={[
-                    { value: "Rural", text: "Rural" },
-                    { value: "Urban", text: "Urban 2" },
-                  ]}
-                />
-                
-              </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Gram Panchayat
+                  Scheme Area
                 </label>
                 <select
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onSchemeArea}
                 >
-                  <option value="">Select District</option>
+                  <option selected hidden>Select Scheme area</option>
                   <option value="Rural">Rural</option>
-                  <option value="Urban">Urban 2</option>
+                  <option value="Urban">Urban</option>
 
-                  {/* Add more options as needed */}
                 </select>
               </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onDistrict}
+                >
+                  <option selected hidden>Select District</option>
+                  {districtListDropdown}
+
+                </select>
+              </div>
+
+              {district.length > 0 && schemeArea === "Urban" ?
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Municipality
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onMunicipality}
+                  >
+                    <option selected hidden>Select Municipality</option>
+                    {municipalityListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div> : ""}
+
+              {district.length > 0 && schemeArea === "Rural" ?
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option selected hidden>Select Block</option>
+                    {blockListDropdown}
+
+                  </select>
+                </div> : ""}
+
+              {block.length > 0 && schemeArea === "Rural" ?
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Gram Panchayat
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onGramPanchayat}
+                  >
+                    <option selected hidden>Select Gram Panchayat</option>
+                    {GpListDropdown}
+
+                  </select>
+                </div> : ""}
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -106,12 +337,11 @@ const ActionPlan = () => {
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onSector}
                 >
-                  <option value="">Select Sector</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                  <option selected hidden>Select Sector</option>
+                  {sectorListDropdown}
 
-                  {/* Add more options as needed */}
                 </select>
               </div>
 
@@ -129,6 +359,7 @@ const ActionPlan = () => {
                   autoComplete="off"
                   placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onSchemeProposed}
                 />
               </div>
             </div>
@@ -141,18 +372,15 @@ const ActionPlan = () => {
                 >
                   Tentative Total Cost of Schemes
                 </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
+                <input
+                  id="scheme_cost"
+                  name="scheme_cost"
+                  type="text"
                   autoComplete="off"
+                  placeholder="Enter Total Cost of Schemes"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Sector Name</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
-
-                  {/* Add more options as needed */}
-                </select>
+                  onChange={onCostOfSCheme}
+                />
               </div>
 
               <div className="px-4">
@@ -169,6 +397,7 @@ const ActionPlan = () => {
                   autoComplete="off"
                   placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onTotalWages}
                 />
               </div>
               <div className="px-4">
@@ -185,6 +414,7 @@ const ActionPlan = () => {
                   autoComplete="off"
                   placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onTotalPersonDays}
                 />
               </div>
               <div className="px-4">
@@ -201,6 +431,7 @@ const ActionPlan = () => {
                   autoComplete="off"
                   placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onTotalJobCard}
                 />
               </div>
             </div>
@@ -219,6 +450,7 @@ const ActionPlan = () => {
                   autoComplete="off"
                   placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onTotalAverageDays}
                 />
               </div>
             </div>
@@ -226,6 +458,7 @@ const ActionPlan = () => {
               <button
                 type="button"
                 className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={onRegister}
               >
                 Register
               </button>
@@ -239,16 +472,4 @@ const ActionPlan = () => {
 
 export default ActionPlan;
 
-const SelectELem = ({ label, options, optionPlaceholder }) => {
-  return (
-    <>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <select className="mt-1 p-2 block w-full border border-gray-300 rounded-md">
-        {optionPlaceholder && <option value="">{optionPlaceholder}</option>}
-        {options.map(({ value, text }) => (
-          <option value={value}>{text}</option>
-        ))}
-      </select>
-    </>
-  );
-};
+
