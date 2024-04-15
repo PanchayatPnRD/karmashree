@@ -117,7 +117,7 @@ const Department = () => {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {index + 1}
                 </Table.Cell>
-                <Table.Cell className=" className">{d?.designationLevel}</Table.Cell>
+                <Table.Cell className=" className">{d?.deptshort}</Table.Cell>
                 <Table.Cell>{d?.departmentName}</Table.Cell>
 
                 <Table.Cell className="flex space-x-8">
