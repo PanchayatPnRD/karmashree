@@ -26,6 +26,8 @@ export const DashboardNavbar = () => {
   });
 
   const navigate = useNavigate();
+
+  console.log(userDetails,"userDetails")
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
@@ -51,7 +53,7 @@ export const DashboardNavbar = () => {
                 <span className="text-lg font-bold text-black">
                   {userDetails?.userId}
                 </span>
-                <span className="text-sm text-end">{category}</span>
+                <span className="text-sm text-end">{category}#{userDetails?.userIndex}</span>
               </div>
 
               <Icon

@@ -19,8 +19,8 @@ export const getAllMunicipalityList = async (districtCode) => {
     );
 }
 
-export const getAllGramPanchayatList = async (districtCode,BlockCode) => {
-    console.log(districtCode,BlockCode, "districtCode")
+export const getAllGramPanchayatList = async (districtCode, BlockCode) => {
+    console.log(districtCode, BlockCode, "districtCode")
     return await webApi.get(`/api/mastertable/getGpaction/${districtCode}/${BlockCode}`,
     );
 }
@@ -32,17 +32,39 @@ export const getAllSectorActionList = async () => {
 }
 
 
-export const addCreateAction = async (onSuccess, onFailure) => {
+export const addCreateAction = async (schemeArea, district, municipality, block, gp, sector,
+    schemeProposed, costOfSCheme, totalWages, totalPersonDays,
+    totalJobCard, totalAverageDays, financialYear, currentMonth,
+    currentYear, departmentNo, userIndex, onSuccess, onFailure) => {
 
 
-    
+    console.log(schemeArea, district, municipality, block, gp, sector,
+        schemeProposed, costOfSCheme, totalWages, totalPersonDays,
+        totalJobCard, totalAverageDays, financialYear, currentMonth,
+        currentYear, departmentNo, userIndex, "sibamdey")
     try {
         const res = await webApi.post(
-            `//api/actionplan/create-actionplan`, 
-                {
-                    
-                },
-            
+            `/api/actionplan/create-actionplan`,
+            {
+                schemeArea: schemeArea,
+                districtCode: district,
+                municipalityCode: municipality ? municipality : "",
+                blockCode: block ? block : "",
+                gpCode: gp ? gp : "",
+                schemeSector: sector,
+                schemeProposed:schemeProposed,
+                tentativeCostOfScheme: costOfSCheme,
+                totWagesPaid: totalWages,
+                totPersonDays: totalPersonDays,
+                totJobCard: totalJobCard,
+                averageDays: totalAverageDays,
+                finYear: financialYear,
+                acMonth: currentMonth,
+                acYear: currentYear,
+                departmentNo: departmentNo,
+                userIndex: userIndex
+            },
+
 
         );
         if (res?.data?.errorCode == 0) {

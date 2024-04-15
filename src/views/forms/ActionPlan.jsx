@@ -9,6 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const ActionPlan = () => {
+  const jsonString = localStorage.getItem("karmashree_User");
+  const data = JSON.parse(jsonString);
+  
   const [schemeArea, setSchemeArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [district, setDistrict] = useState("");
@@ -175,13 +178,13 @@ const ActionPlan = () => {
     } else if (district === "") {
       toast.error("Please Select District")
 
-    } else if (schemeArea === "Urban" && municipality==="") {
+    } else if (schemeArea === "U" && municipality==="") {
       toast.error("Please Select Municipality")
 
-    }else if (schemeArea === "Rural" && block==="") {
+    }else if (schemeArea === "R" && block==="") {
       toast.error("Please Select Block")
 
-    }else if (schemeArea === "Rural" && gp === "") {
+    }else if (schemeArea === "R" && gp === "") {
       toast.error("Please Select Gram Panchayat")
 
     }else if (sector === "") {
@@ -209,7 +212,10 @@ const ActionPlan = () => {
 
 
       addCreateAction(
-
+        schemeArea,district,municipality,block,gp,sector,
+        schemeProposed,costOfSCheme,totalWages,totalPersonDays,
+        totalJobCard,totalAverageDays,financialYear,currentMonth,
+        currentYear,data?.departmentNo,data?.userIndex,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -277,8 +283,8 @@ const ActionPlan = () => {
                   onChange={onSchemeArea}
                 >
                   <option selected hidden>Select Scheme area</option>
-                  <option value="Rural">Rural</option>
-                  <option value="Urban">Urban</option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
 
                 </select>
               </div>
@@ -303,7 +309,7 @@ const ActionPlan = () => {
                 </select>
               </div>
 
-              {district.length > 0 && schemeArea === "Urban" ?
+              {district.length > 0 && schemeArea === "U" ?
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -325,7 +331,7 @@ const ActionPlan = () => {
                   </select>
                 </div> : ""}
 
-              {district.length > 0 && schemeArea === "Rural" ?
+              {district.length > 0 && schemeArea === "R" ?
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -346,7 +352,7 @@ const ActionPlan = () => {
                   </select>
                 </div> : ""}
 
-              {block.length > 0 && schemeArea === "Rural" ?
+              {block.length > 0 && schemeArea === "R" ?
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -399,7 +405,7 @@ const ActionPlan = () => {
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Enter No of Schemes Proposed"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onSchemeProposed}
                 />
@@ -419,7 +425,7 @@ const ActionPlan = () => {
                   name="scheme_cost"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Total Cost of Schemes"
+                  placeholder="Enter Tentative Total Cost of Schemes"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onCostOfSCheme}
                 />
@@ -437,7 +443,7 @@ const ActionPlan = () => {
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Enter Tentative Total Wage to be paid in the Schemes"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onTotalWages}
                 />
@@ -454,7 +460,7 @@ const ActionPlan = () => {
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Enter Total Persondays to be Generated"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onTotalPersonDays}
                 />
@@ -471,7 +477,7 @@ const ActionPlan = () => {
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Enter Total no. of Job Card Holders to be engaged"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onTotalJobCard}
                 />
@@ -490,7 +496,7 @@ const ActionPlan = () => {
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Enter Average Days of Employment to be provided per family"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onTotalAverageDays}
                 />
