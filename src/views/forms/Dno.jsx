@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  addNewUser,
   getAllDesignationList,
   getAllDepartmentList,
   getAllDistrictList,
@@ -8,11 +7,15 @@ import {
   getAllSubDivisionList,
   getAllBlockList,
 } from "../../Service/NewUserService";
+import { addNewDNO } from "../../Service/DNO/dnoService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import SuccessModal from "../../components/SuccessModal";
 
 const Deno = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [district, setDistrict] = useState("");
@@ -214,10 +217,96 @@ const Deno = () => {
   };
 
   const onRegister = () => {
-    toast.success("DNO Created successfully")
+    // toast.success("DNO Created successfully")
+    if (!userData?.category === "HD" && district === "") {
+      toast.error("Please select a district");
+
+    }
+    else if (nodalOfficerName === "") {
+      toast.error("Please type DNO officer name");
+
+    } else if (designation === "") {
+      toast.error("Please select DNO officer designation");
+
+    } else if (contactNumber.length != 10) {
+      toast.error("Please type 10 digit DNO officer mobile number");
+
+    } else if (!email) {
+      toast.error("Please enter Nodal officer valid email id");
+
+    } else if (userAddress === "") {
+      toast.error("Please type office address");
+
+    } else {
+      setOpenModal(true);
+      addNewDNO(
+        userData?.category === "HQ"
+          ? department
+          : allDepartmentList[0]?.departmentNo,
+
+        userData?.category === "HQ"
+          ? district
+          : userData?.districtcode
+            ,
+
+        userData?.category === "DIST"
+          ? subDivision
+          : userData?.subDivision
+            ? userData?.subDivision
+            : subDivision,
+        userData?.category === "SUB" || userData?.category === "DIST"
+          ? block
+          : userData?.blockCode
+            ? userData?.blockCode
+            : block,
+        officeName,
+        nodalOfficerName,
+        contactNumber,
+        emailInput,
+        designation,
+        userAddress,
+        role,
+        userData?.category === "HQ"
+          ? "DIST" : "BLOCK"
+        ,
+        "",
+        "A",
+        1,
+        role,
+        role,
+        "",
+        userData?.userIndex,
+        userData?.userIndex,
+        technicalOfficerName ? technicalOfficerName : "",
+        technicalOfficerDesignation ? technicalOfficerDesignation : "",
+        technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
+        technicalOfficerEmail ? technicalOfficerEmail : "",
+        (r) => {
+          setErrorMessage(r)
+
+          console.log(r, "sibamdeyresponse");
+          if (r.errorCode == 0) {
+            // setErrorMessage(r.message)
+            // toast.success(r.message);
+            // navigate("/dashboard/dept-userlist");
+          } else {
+            // setErrorMessage(r.message)
+            // toast.error(r.message);
+          }
+        }
+      );
+    }
   };
   return (
     <div className="flex-grow ">
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        // isSuccess={!Boolean(errorMessage?.errorCode===0)}
+
+        errorMsg={errorMessage?.message}
+      />
       <ToastContainer />
       <div className="mx-auto mt-2">
         <div className="bg-white rounded-lg p-12">
@@ -303,7 +392,30 @@ const Deno = () => {
                 {districtListDropdown}
               </select>
             </div>
-
+            {
+              userData?.category === "HQ" ? "" :
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option value="" selected hidden>
+                      {userData?.category === "BLOCK" ? blockDropdown :
+                        "Select a block"}
+                    </option>
+                    {blockDropdown}
+                  </select>
+                </div>
+            }
             <div>
               <label
                 htmlFor="username"
@@ -379,7 +491,7 @@ const Deno = () => {
             </div>
 
 
-            {
+            {/* {
               userData?.category === "HQ" ? "" :
 
                 <div>
@@ -408,32 +520,9 @@ const Deno = () => {
                     {subDivisionDropdown}
                   </select>
                 </div>
-            }
-            {
-              userData?.category === "HQ" ? "" :
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Block
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    required
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onBlock}
-                  >
-                    <option value="" selected hidden>
-                      {userData?.category === "BLOCK" ? blockDropdown :
-                        "Select a block"}
-                    </option>
-                    {blockDropdown}
-                  </select>
-                </div>
-            }
-            {
+            } */}
+
+            {/* {
               userData?.category === "HQ" ? "" :
                 <div>
                   <label
@@ -456,7 +545,7 @@ const Deno = () => {
                     <option value="urban">Urban</option>
                   </select>
                 </div>
-            }
+            } */}
 
             <div>
               <label

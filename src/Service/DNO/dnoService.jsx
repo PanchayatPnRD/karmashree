@@ -1,44 +1,8 @@
-import webApi, { baseURL } from "../WebApi/WebApi";
-
-export const getAllDepartmentList = async (deptId) => {
-    console.log(deptId, "deptId")
-    return await webApi.get(`/api/mastertable/GetDeptbyId/${deptId}`,
-    );
-}
-
-export const getAllDistrictList = async (data) => {
-    return await webApi.get(`/api/mastertable/getAllDistricts/${data?data:0}`,
-    );
-}
-
-export const getAllRoleList = async () => {
-    return await webApi.get(`/api/mastertable/roles`,
-    );
-}
-
-export const getAllSubDivisionList = async (districtId,subDivision) => {
-    console.log(districtId,subDivision,"districtId,subDivision")
-    return await webApi.get(`/api/mastertable/getSubdivison/${districtId}/${subDivision?subDivision:0}`,
-    );
-}
-
-export const getAllBlockList = async (districtId,blockCode) => {
-    return await webApi.get(`/api/mastertable/getBlock/${districtId}/${blockCode?blockCode:0}`,
-    );
-}
-
-export const getAllDesignationList = async (category) => {
-    return await webApi.get(`/api/mastertable/Getdesignation/${"HQ"}`,
-    );
-}
-
-//ADD USER
+import webApi, { baseURL } from "../../WebApi/WebApi";
 
 
-// export const addNewUser = async (department, district, subdivision, block, userId, password,
-//     officeName, nodalOfficerName, contactNumber, emailInput, designation, userAddress, role, onSuccess, onFailure) => {
 
-export const addNewUser = async (departmentNo, districtcode, subDivision, blockCode,officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
+export const addNewDNO = async (departmentNo, districtcode, subDivision, blockCode,officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
     deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,technicalOfficerName,
     technicalOfficerDesignation,technicalOfficerContactNumber,technicalOfficerEmail,onSuccess, onFailure) => {
 
@@ -57,7 +21,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                     blockCode:blockCode,
                     gpCode:gpCode,
                     userType:userType,
-                    role_type:role_type,
+                    role_type:1,
                     // userId:userId,
                     pwd:pwd,
                     // encryptpassword:password,
@@ -75,7 +39,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                     tech_designation_id:technicalOfficerDesignation,
                     tech_mobile:technicalOfficerContactNumber,
                     tech_email:technicalOfficerEmail,
-                    dno_status:0
+                    dno_status:1
                 },
             
 
@@ -99,10 +63,3 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
         console.log("fdgdf")
     }
 };
-
-//user list
-
-export const getAllUserList = async (data) => {
-    return await webApi.get(`/api/user/getUserList?created_by=${data}`,
-    );
-}

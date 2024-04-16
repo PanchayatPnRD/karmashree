@@ -339,7 +339,7 @@ const NewUser = () => {
       );
     }
   };
-  console.log(errorMessage?.message,"message")
+  console.log(errorMessage?.message, "message")
   return (
     <div className="flex-grow ">
       <SuccessModal
