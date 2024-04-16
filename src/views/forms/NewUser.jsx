@@ -345,8 +345,8 @@ const NewUser = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        isSuccess={errorMessage?.errorCode === 0 ? true : false}
-        // isSuccess={!Boolean(errorMessage?.errorCode===0)}
+        // isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        isSuccess={!Boolean(errorMessage?.errorCode)}
 
         errorMsg={errorMessage?.message}
       />

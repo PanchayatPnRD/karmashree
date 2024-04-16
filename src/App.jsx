@@ -10,6 +10,7 @@ import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
 import OTPConfirm from "./views/OtpConfirm";
+import ViewProfile from "./views/forms/ViewProfile";
 import Dno from "./views/forms/Dno";
 import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
@@ -82,12 +83,22 @@ function App() {
           element={
             <Auth>
               <Dashboard>
+                <ViewProfile />
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path={"/dashboard/profile-edit"}
+          element={
+            <Auth>
+              <Dashboard>
                 <Profile />
               </Dashboard>
             </Auth>
           }
         />
-        
+
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
