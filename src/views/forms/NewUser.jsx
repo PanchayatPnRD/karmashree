@@ -15,7 +15,9 @@ import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 
 const NewUser = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log(errorMessage, "erroreeeororor")
+  const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [district, setDistrict] = useState("");
@@ -224,7 +226,6 @@ const NewUser = () => {
   };
 
   const onRegister = () => {
-    setOpenModal((prev) => !prev);
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a department");
     } else if (
@@ -264,6 +265,8 @@ const NewUser = () => {
     } else if (userAddress === "") {
       toast.error("Please type user address");
     } else {
+      setOpenModal(true);
+
       addNewUser(
         userData?.category === "HQ"
           ? department
@@ -272,19 +275,19 @@ const NewUser = () => {
         userData?.category === "HD"
           ? district
           : userData?.districtcode
-          ? userData?.districtcode
-          : district,
+            ? userData?.districtcode
+            : district,
 
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-          ? userData?.subDivision
-          : subDivision,
+            ? userData?.subDivision
+            : subDivision,
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-          ? userData?.blockCode
-          : block,
+            ? userData?.blockCode
+            : block,
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -295,19 +298,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DEPT"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision === "" && block === ""
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision && block === ""
-          ? "SUB"
-          : (userData?.category === "DIST" && subDivision && block) ||
-            (userData?.category === "DIST" && subDivision === "" && block)
-          ? "BLOCK"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DEPT"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST" && subDivision === "" && block === ""
+                ? "DIST"
+                : userData?.category === "DIST" && subDivision && block === ""
+                  ? "SUB"
+                  : (userData?.category === "DIST" && subDivision && block) ||
+                    (userData?.category === "DIST" && subDivision === "" && block)
+                    ? "BLOCK"
+                    : userData?.category === "SUB"
+                      ? "BLOCK"
+                      : "BLOCK",
         "",
         "A",
         1,
@@ -321,24 +324,31 @@ const NewUser = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
-          console.log(r, "response");
+          setErrorMessage(r)
+
+          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
-            toast.success(r.message);
+            // setErrorMessage(r.message)
+            // toast.success(r.message);
             // navigate("/dashboard/dept-userlist");
           } else {
-            toast.error(r.message);
+            // setErrorMessage(r.message)
+            // toast.error(r.message);
           }
         }
       );
     }
   };
+  console.log(errorMessage?.message,"message")
   return (
     <div className="flex-grow ">
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        isSuccess={false}
-        errorMsg={"error message here"}
+        isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        // isSuccess={!Boolean(errorMessage?.errorCode===0)}
+
+        errorMsg={errorMessage?.message}
       />
       <ToastContainer />
       <div className="mx-auto mt-2">
@@ -419,9 +429,9 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" ||
-                    userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
@@ -503,9 +513,9 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -524,7 +534,7 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -533,8 +543,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -561,11 +571,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -591,11 +601,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
