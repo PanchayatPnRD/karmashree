@@ -5,6 +5,7 @@ import { Dropdown, DropdownItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { devApi } from "../WebApi/WebApi";
 
 export const DashboardNavbar = () => {
   
@@ -18,7 +19,7 @@ export const DashboardNavbar = () => {
     queryKey: ["userDetails"],
     queryFn: async () => {
       const data = await axios.get(
-        "http://43.239.110.159:8094/api/user/viewuser/"+userIndex
+        devApi+"/api/user/viewuser/"+userIndex
       );
 
       return data.data.result;
@@ -27,7 +28,7 @@ export const DashboardNavbar = () => {
 
   const navigate = useNavigate();
 
-  console.log(userDetails,"userDetails")
+  // console.log(userDetails,"userDetails")
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
