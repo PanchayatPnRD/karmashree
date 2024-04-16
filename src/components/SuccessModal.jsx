@@ -2,7 +2,13 @@ import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { Modal } from "flowbite-react";
 
-const SuccessModal = ({ setOpenModal, openModal, isSuccess, errorMsg }) => {
+const SuccessModal = ({
+  setOpenModal,
+  openModal,
+  isSuccess,
+  errorMsg,
+  userId,
+}) => {
   const navigate = useNavigate();
   return (
     <>
@@ -36,7 +42,8 @@ const SuccessModal = ({ setOpenModal, openModal, isSuccess, errorMsg }) => {
             className="relative animate-pulse2 bg-blue-600 p-2 px-6 rounded-lg text-white font-semibold hover:shadow-md transition-all"
             onClick={() => {
               setOpenModal((prev) => !prev);
-              isSuccess && navigate("/dashboard/dept-userlist", { state: "dept-user" });
+              isSuccess &&
+                navigate("/dashboard/dept-userlist", { state: "dept-user" });
             }}
           >
             {/* <div className="absolute -top-2 -right-2 size-5 rounded-full bg-red-600 animate-ping"></div>
