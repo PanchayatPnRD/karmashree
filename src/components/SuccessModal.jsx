@@ -2,7 +2,13 @@ import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { Modal } from "flowbite-react";
 
-const SuccessModal = ({ setOpenModal, openModal, isSuccess, errorMsg }) => {
+const SuccessModal = ({
+  setOpenModal,
+  openModal,
+  isSuccess,
+  errorMsg,
+  userId,
+}) => {
   const navigate = useNavigate();
   return (
     <>
@@ -21,8 +27,8 @@ const SuccessModal = ({ setOpenModal, openModal, isSuccess, errorMsg }) => {
               <>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                   You have successfully been registered in Karmashree portal ,
-                  your user id is __ and details have been sent to your
-                  registered mobile number
+                  your user id is <span className="font-semibold">{userId}</span> and details have been
+                  sent to your registered mobile number
                 </p>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                   Please change your password in first login
@@ -40,7 +46,8 @@ const SuccessModal = ({ setOpenModal, openModal, isSuccess, errorMsg }) => {
             className="relative animate-pulse2 bg-blue-600 p-2 px-6 rounded-lg text-white font-semibold hover:shadow-md transition-all"
             onClick={() => {
               setOpenModal((prev) => !prev);
-              isSuccess && navigate("/dashboard/dept-userlist", { state: "dept-user" });
+              isSuccess &&
+                navigate("/dashboard/dept-userlist", { state: "dept-user" });
             }}
           >
             {/* <div className="absolute -top-2 -right-2 size-5 rounded-full bg-red-600 animate-ping"></div>

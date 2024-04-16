@@ -338,6 +338,7 @@ const NewUser = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         isSuccess={false}
+        userId={"__"}
         errorMsg={"error message here"}
       />
       <ToastContainer />
