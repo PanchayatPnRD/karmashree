@@ -278,38 +278,38 @@ const Deno = () => {
                 {departmentListDropdown}
               </select>
             </div> */}
-            
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onDistrict}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    {userData?.category === "DEPT" ||
-                      userData?.category === "DIST" || userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
-                      ? districtListDropdown : "Select a District"
-                    }
-                  </option>
-                  {districtListDropdown}
-                </select>
-              </div>
-          
+
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                District
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                onChange={onDistrict}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  {userData?.category === "DEPT" ||
+                    userData?.category === "DIST" || userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
+                    ? districtListDropdown : "Select a District"
+                  }
+                </option>
+                {districtListDropdown}
+              </select>
+            </div>
+
             <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Nodal Officer Name
+                Name of the DNO
               </label>
               <input
                 id="username"
@@ -317,43 +317,7 @@ const Deno = () => {
                 type="text"
                 autoComplete="username"
                 onChange={onNodalOfficerName}
-                placeholder="type your Nodal officer name"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer mobile number
-              </label>
-              <input
-                id="tel"
-                name="username"
-                maxLength={10}
-                type="number"
-                value={contactNumber}
-                autoComplete="username"
-                onChange={onContactNumber}
-                placeholder="type your Contact number"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer email address
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onEmail}
-                placeholder="type your email id"
+                placeholder="Name of the DNO..."
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
@@ -362,7 +326,7 @@ const Deno = () => {
                 htmlFor="country"
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
-                nodal officer Designation
+                DNO Designation
               </label>
               <select
                 id="country"
@@ -377,36 +341,76 @@ const Deno = () => {
               </select>
             </div>
 
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                DNO Mobile Number
+              </label>
+              <input
+                id="tel"
+                name="username"
+                maxLength={10}
+                type="number"
+                value={contactNumber}
+                autoComplete="username"
+                onChange={onContactNumber}
+                placeholder="DNO Mobile Number..."
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                DNO Email Address
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                onChange={onEmail}
+                placeholder="DNO Email Address..."
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              />
+            </div>
 
-           
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Sub-Division
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onSubDivision}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
+
+            {
+              userData?.category === "HQ" ? "" :
+
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Sub-Division
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    onChange={onSubDivision}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected hidden>
 
 
-                    {
-                      userData?.category === "SUB" ||
-                        userData?.category === "BLOCK"
-                        ? subDivisionDropdown : "Select a sub-division"
-                    }
-                  </option>
-                  {subDivisionDropdown}
-                </select>
-              </div>
-            
-           
+                      {
+                        userData?.category === "SUB" ||
+                          userData?.category === "BLOCK"
+                          ? subDivisionDropdown : "Select a sub-division"
+                      }
+                    </option>
+                    {subDivisionDropdown}
+                  </select>
+                </div>
+            }
+            {
+              userData?.category === "HQ" ? "" :
                 <div>
                   <label
                     htmlFor="country"
@@ -428,89 +432,31 @@ const Deno = () => {
                     {blockDropdown}
                   </select>
                 </div>
-           
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  GP
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  // onChange={handleChange}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    Select a gp
-                  </option>
-                  <option value="rural">Rural</option>
-                  <option value="urban">Urban</option>
-                </select>
-              </div>
-           
-           
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Area
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  // onChange={handleChange}
-                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    Select a area
-                  </option>
-                  <option value="rural">Rural</option>
-                  <option value="urban">Urban</option>
-                </select>
-              </div>
-            
-
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Office Name
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onOfficeName}
-                placeholder="type your office name"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Role
-              </label>
-              <select
-                name="role"
-                onChange={onRole}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a role
-                </option>
-                {roleListDropdown}
-              </select>
-            </div>
+            }
+            {
+              userData?.category === "HQ" ? "" :
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    GP
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    // onChange={handleChange}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected hidden>
+                      Select a gp
+                    </option>
+                    <option value="rural">Rural</option>
+                    <option value="urban">Urban</option>
+                  </select>
+                </div>
+            }
 
             <div>
               <label
@@ -525,141 +471,22 @@ const Deno = () => {
                 type="textArea"
                 autoComplete="username"
                 onChange={onUserAddress}
-                placeholder="type your office address"
+                placeholder="Office Address..."
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Id
-              </label>
-              <input
-                id="username"
-                name="username"
-                autoComplete="username"
-                onChange={onUserId}
-                placeholder="type your User Id"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                onChange={onPassword}
-                placeholder="type your Password"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
 
-            <div className="flex space-x-4 items-center">
-              <input
-                id="technicalOfficer"
-                type="checkbox"
-                checked={isChecked}
-                onChange={onAddTechnicalOfficer}
-              />
-              <label htmlFor="technicalOfficer" className="font-bold">
-                Add Technical Officer
-              </label>
-            </div>
 
-            {isChecked ? (
-              <>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Technical Officer Name
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerName}
-                    placeholder="type Technical officer name"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer Designation
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    onChange={onTechnicalOfficerDesignation}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected hidden>
-                      Select a Designation
-                    </option>
-                    {designationListDropdown}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer mobile number
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="number"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerContactNumber}
-                    placeholder="type your Contact number"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer email address
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerEmail}
-                    placeholder="type your email id"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-              </>
-            ) : (
-              ""
-            )}
+
             <div className="flex justify-center items-center">
               <button
                 type="button"
                 className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onRegister}
               >
-                Register
+                Submit
               </button>
             </div>
           </div>
