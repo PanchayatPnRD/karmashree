@@ -268,6 +268,26 @@ const ActionPlan = () => {
           
           <div className="bg-white shadow-md rounded-lg">
             <div className="flex flex-col w-full space-y-6 mb-6 px-16">
+
+            <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Financial Year
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Enter No of Schemes Proposed"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  // onChange={onSchemeProposed}
+                  value={financialYear}
+                />
+              </div>
+              
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -315,7 +335,7 @@ const ActionPlan = () => {
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Municipality
+                    Municipality/Development Authority
                   </label>
                   <select
                     id="scheme_name"
@@ -324,7 +344,7 @@ const ActionPlan = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onMunicipality}
                   >
-                    <option selected hidden>Select Municipality</option>
+                    <option selected hidden>Select Municipality/Development Authority</option>
                     {municipalityListDropdown}
 
                     {/* Add more options as needed */}

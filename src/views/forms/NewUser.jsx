@@ -225,17 +225,6 @@ const NewUser = () => {
       // (userData?.category === "BLOCK" && district === "")
     ) {
       toast.error("Please select a district");
-    } if (userData?.category === "HQ" && department === "") {
-      toast.error("Please select a department");
-    } else if (
-      !userData?.category === "HQ" ||
-      (userData?.category === "HD" && district === "")
-      // (userData?.category === "DEPT" && district === "") 
-      // (userData?.category === "DIST" && district === "") ||
-      // (userData?.category === "SUB" && district === "") ||
-      // (userData?.category === "BLOCK" && district === "")
-    ) {
-      toast.error("Please select a district");
     } else if (
       !userData?.category === "HQ"
       // (userData?.category === "DIST" && subDivision === "")
@@ -251,29 +240,20 @@ const NewUser = () => {
       toast.error("Please select a block");
     } else if (nodalOfficerName === "") {
       toast.error("Please type your nodal officer name");
+    } else if (designation === "") {
+      toast.error("Please select Nodal officer designation");
     } else if (contactNumber.length != 10) {
       toast.error("Please type 10 digit Nodal officer mobile number");
     } else if (!email) {
       toast.error("Please enter Nodal officer valid email id");
-    } else if (designation === "") {
-      toast.error("Please select Nodal officer designation");
-    } else if (officeName === "") {
+    } else if (!userData?.category === "HQ" && officeName === "") {
       toast.error("Please type your office name");
     } else if (role === "") {
       toast.error("Please select role");
     } else if (userAddress === "") {
       toast.error("Please type user address");
-    } else if (userId === "") {
-      toast.error("Please type your userId");
-    } else if (
-      !password.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#@$!%*?&]{8,12}$/
-      )
-    ) {
-      toast.error(
-        "Password must contain at min 8 characters and max 12 characters, including uppercase, lowercase,numerical and special characters."
-      );
-    } else {
+    }
+    else {
       addNewUser(
         userData?.category === "HQ"
           ? department
@@ -286,8 +266,6 @@ const NewUser = () => {
           userData?.subDivision ? userData?.subDivision : subDivision,
         userData?.category === "SUB" || userData?.category === "DIST" ? block :
           userData?.blockCode ? userData?.blockCode : block,
-        userId,
-        password,
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -445,6 +423,25 @@ const NewUser = () => {
             </div>
             <div>
               <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                nodal officer Designation
+              </label>
+              <select
+                id="country"
+                name="country"
+                onChange={onDesignation}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a Designation
+                </option>
+                {designationListDropdown}
+              </select>
+            </div>
+            <div>
+              <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
@@ -479,25 +476,7 @@ const NewUser = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer Designation
-              </label>
-              <select
-                id="country"
-                name="country"
-                onChange={onDesignation}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a Designation
-                </option>
-                {designationListDropdown}
-              </select>
-            </div>
+
 
 
             {userData?.category === "HQ" ||
@@ -622,24 +601,25 @@ const NewUser = () => {
               </div>
             )}
 
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Office Name
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onOfficeName}
-                placeholder="type your office name"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-
+            {userData?.category === "HQ" ? "" :
+              <div>
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Office Name
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onOfficeName}
+                  placeholder="type your office name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+            }
             <div>
               <label
                 htmlFor="username"
@@ -675,7 +655,7 @@ const NewUser = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-            <div>
+            {/* <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
@@ -707,7 +687,7 @@ const NewUser = () => {
                 placeholder="type your Password"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
-            </div>
+            </div> */}
             <div className="flex space-x-4 items-center">
               <input
                 id="technicalOfficer"
@@ -745,7 +725,16 @@ const NewUser = () => {
                   >
                     Technical officer Designation
                   </label>
-                  <select
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    onChange={onTechnicalOfficerDesignation}
+                    placeholder="Type Technical officer Designation"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  />
+                  {/* <select
                     id="country"
                     name="country"
                     onChange={onTechnicalOfficerDesignation}
@@ -755,7 +744,7 @@ const NewUser = () => {
                       Select a Designation
                     </option>
                     {designationListDropdown}
-                  </select>
+                  </select> */}
                 </div>
                 <div>
                   <label

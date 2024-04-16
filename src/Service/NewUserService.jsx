@@ -38,14 +38,12 @@ export const getAllDesignationList = async (category) => {
 // export const addNewUser = async (department, district, subdivision, block, userId, password,
 //     officeName, nodalOfficerName, contactNumber, emailInput, designation, userAddress, role, onSuccess, onFailure) => {
 
-export const addNewUser = async (departmentNo, districtcode, subDivision, blockCode, userId, password,
-    officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
+export const addNewUser = async (departmentNo, districtcode, subDivision, blockCode,officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
     deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,technicalOfficerName,
     technicalOfficerDesignation,technicalOfficerContactNumber,technicalOfficerEmail,onSuccess, onFailure) => {
 
 
-    console.log(departmentNo, districtcode, subDivision, blockCode, userId, password,
-        officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
+    console.log(departmentNo, districtcode, subDivision, blockCode,officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
         deptWing,area,gpCode,userType,role_type,pwd,entryBy,created_by,technicalOfficerName,
         technicalOfficerDesignation,technicalOfficerContactNumber,technicalOfficerEmail,"formData")
     try {
@@ -60,9 +58,9 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                     gpCode:gpCode,
                     userType:userType,
                     role_type:role_type,
-                    userId:userId,
+                    // userId:userId,
                     pwd:pwd,
-                    encryptpassword:password,
+                    // encryptpassword:password,
                     officeName:officeName,
                     userName:nodalOfficerName,
                     contactNo:contactNo,
