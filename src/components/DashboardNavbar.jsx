@@ -53,7 +53,7 @@ export const DashboardNavbar = () => {
                 <span className="text-lg font-bold text-black">
                   {userDetails?.userId}
                 </span>
-                <span className="text-sm text-end">{category}#{userDetails?.userIndex}</span>
+                <span className="text-sm text-end">{category}#{userIndex}</span>
               </div>
 
               <Icon
