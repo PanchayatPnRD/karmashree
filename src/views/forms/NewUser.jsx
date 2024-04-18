@@ -298,7 +298,7 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-            ? "DEPT"
+            ? "DIST"
             : userData?.category === "DEPT"
               ? "DIST"
               : userData?.category === "DIST" && subDivision === "" && block === ""
