@@ -374,6 +374,7 @@ const Deno = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 District
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 id="country"
@@ -384,44 +385,49 @@ const Deno = () => {
               >
                 <option value="" selected hidden>
                   {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" || userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
-                    ? districtListDropdown : "Select a District"
-                  }
+                  userData?.category === "DIST" ||
+                  userData?.category === "SUB" ||
+                  userData?.category === "BLOCK"
+                    ? districtListDropdown
+                    : "Select a District"}
                 </option>
                 {districtListDropdown}
               </select>
             </div>
-            {
-              userData?.category === "HQ" ? "" :
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Block
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    required
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onBlock}
-                  >
-                    <option value="" selected hidden>
-                      {userData?.category === "BLOCK" ? blockDropdown :
-                        "Select a block"}
-                    </option>
-                    {blockDropdown}
-                  </select>
-                </div>
-            }
+            {userData?.category === "HQ" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onBlock}
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "BLOCK"
+                      ? blockDropdown
+                      : "Select a block"}
+                  </option>
+                  {blockDropdown}
+                </select>
+              </div>
+            )}
             <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
                 Name of the DNO
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -439,6 +445,7 @@ const Deno = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 DNO Designation
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 id="country"
@@ -459,6 +466,7 @@ const Deno = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 DNO Mobile Number
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="tel"
@@ -478,6 +486,7 @@ const Deno = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 DNO Email Address
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -489,7 +498,6 @@ const Deno = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-
 
             {/* {
               userData?.category === "HQ" ? "" :
@@ -553,6 +561,7 @@ const Deno = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Office Address
+                <span className="text-red-500 "> * </span>
               </label>
               <textarea
                 id="username"
@@ -564,10 +573,6 @@ const Deno = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-
-
-
-
 
             <div className="flex justify-center items-center">
               <button

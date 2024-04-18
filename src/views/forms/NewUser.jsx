@@ -347,7 +347,6 @@ const NewUser = () => {
         setOpenModal={setOpenModal}
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         isSuccess={!Boolean(errorMessage?.errorCode)}
-
         errorMsg={errorMessage?.message}
       />
       <ToastContainer />
@@ -394,6 +393,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Department
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 id="country"
@@ -419,6 +419,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   District
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -429,9 +430,9 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                      userData?.category === "DIST" ||
-                      userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
@@ -445,6 +446,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Nodal Officer Name
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -462,6 +464,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 nodal officer Designation
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 id="country"
@@ -481,6 +484,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 nodal officer mobile number
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="tel"
@@ -500,6 +504,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 nodal officer email address
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -513,9 +518,9 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -524,6 +529,8 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Sub-Division
+                  <span className="text-red-500 "> * </span>
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -534,7 +541,7 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -543,8 +550,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -553,6 +560,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Block
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -571,11 +579,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -584,6 +592,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   GP
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -601,11 +610,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -614,6 +623,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Area
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -631,15 +641,14 @@ const NewUser = () => {
               </div>
             )}
 
-            {userData?.category === "HQ" ? (
-              ""
-            ) : (
+            {userData?.category !== "HQ" && (
               <div>
                 <label
                   htmlFor="username"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Office Name
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="username"
@@ -658,6 +667,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Role
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 name="role"
@@ -676,6 +686,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Office Address
+                <span className="text-red-500 "> * </span>
               </label>
               <textarea
                 id="username"

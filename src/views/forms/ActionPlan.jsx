@@ -265,11 +265,9 @@ const ActionPlan = () => {
             <br />
           </div>
 
-          
           <div className="bg-white shadow-md rounded-lg">
             <div className="flex flex-col w-full space-y-6 mb-6 px-16">
-
-            <div className="px-4">
+              <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -287,13 +285,14 @@ const ActionPlan = () => {
                   value={financialYear}
                 />
               </div>
-              
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Scheme Area
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="scheme_name"
@@ -302,10 +301,11 @@ const ActionPlan = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onSchemeArea}
                 >
-                  <option selected hidden>Select Scheme area</option>
+                  <option selected hidden>
+                    Select Scheme area
+                  </option>
                   <option value="R">Rural</option>
                   <option value="U">Urban</option>
-
                 </select>
               </div>
 
@@ -315,6 +315,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   District
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="scheme_name"
@@ -323,19 +324,21 @@ const ActionPlan = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onDistrict}
                 >
-                  <option selected hidden>Select District</option>
+                  <option selected hidden>
+                    Select District
+                  </option>
                   {districtListDropdown}
-
                 </select>
               </div>
 
-              {district.length > 0 && schemeArea === "U" ?
+              {district.length > 0 && schemeArea === "U" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Municipality/Development Authority
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
@@ -344,20 +347,26 @@ const ActionPlan = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onMunicipality}
                   >
-                    <option selected hidden>Select Municipality/Development Authority</option>
+                    <option selected hidden>
+                      Select Municipality/Development Authority
+                    </option>
                     {municipalityListDropdown}
 
                     {/* Add more options as needed */}
                   </select>
-                </div> : ""}
+                </div>
+              ) : (
+                ""
+              )}
 
-              {district.length > 0 && schemeArea === "R" ?
+              {district.length > 0 && schemeArea === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Block
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
@@ -366,19 +375,24 @@ const ActionPlan = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onBlock}
                   >
-                    <option selected hidden>Select Block</option>
+                    <option selected hidden>
+                      Select Block
+                    </option>
                     {blockListDropdown}
-
                   </select>
-                </div> : ""}
+                </div>
+              ) : (
+                ""
+              )}
 
-              {block.length > 0 && schemeArea === "R" ?
+              {block.length > 0 && schemeArea === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Gram Panchayat
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
@@ -387,11 +401,15 @@ const ActionPlan = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onGramPanchayat}
                   >
-                    <option selected hidden>Select Gram Panchayat</option>
+                    <option selected hidden>
+                      Select Gram Panchayat
+                    </option>
                     {GpListDropdown}
-
                   </select>
-                </div> : ""}
+                </div>
+              ) : (
+                ""
+              )}
 
               <div className="px-4">
                 <label
@@ -399,6 +417,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Type of Sector
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="scheme_name"
@@ -407,9 +426,10 @@ const ActionPlan = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onSector}
                 >
-                  <option selected hidden>Select Sector</option>
+                  <option selected hidden>
+                    Select Sector
+                  </option>
                   {sectorListDropdown}
-
                 </select>
               </div>
 
@@ -419,6 +439,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   No of Schemes Proposed
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_name"
@@ -439,6 +460,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Tentative Total Cost of Schemes
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_cost"
@@ -457,6 +479,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Tentative Total Wage to be paid in the Schemes
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_name"
@@ -474,6 +497,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Total Persondays to be Generated
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_name"
@@ -491,6 +515,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Total no. of Job Card Holders to be engaged
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_name"
@@ -510,6 +535,7 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Average Days of Employment to be provided per family
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <input
                   id="scheme_name"
