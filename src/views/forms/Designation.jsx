@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { TablePagination } from "../../components/DataTable";
 import { Table } from "flowbite-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-
+import { Loading } from "./Department";
 const Designation = () => {
   const [search, setSearch] = useState("");
   const HeadData = ["designation tier", "designation", "edit", "delete"];

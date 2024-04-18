@@ -20,7 +20,7 @@ export const SidebarElement = ({ to, children, className }) => {
           return (
             (isActive
               ? "text-white font-semibold"
-              : "text-white/40 font-normal") + " transition-all duration-300"
+              : "text-white/70 font-normal") + " transition-all duration-300"
           );
         }}
       >
@@ -34,13 +34,13 @@ export const SidebarExpand = ({ text, children }) => {
   const [isopen, setIsopen] = useState(false);
 
   const textColor = useMemo(() => {
-    return isopen ? "text-white font-semibold" : "text-white/40";
+    return isopen ? "text-white font-semibold" : "text-white/70";
   }, [isopen]);
 
   return (
     <div className={"flex flex-col transition-all " + textColor}>
       <button
-        className="flex py-2.5 pl-16 space-x-2 rounded-lg items-center hover:bg-blue-800/40 transition-all duration-100"
+        className="flex py-2.5 pl-16 pr-8 space-x-2 rounded-lg justify-between items-center hover:bg-blue-800/40 transition-all duration-100"
         onClick={() => setIsopen((prev) => !prev)}
       >
         <span>{text}</span>
