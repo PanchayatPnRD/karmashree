@@ -3,56 +3,24 @@ import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { TablePagination } from "../../components/DataTable";
-import axios from "axios";
+import {getAllDnoUserList,getAllDesignationList} from "../../Service/DNO/dnoService";
 
 const DnoList = () => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex)
+  console.log(userIndex,"userIndex")
   const [startIndex, endIndex] = useMemo(() => {
     const start = (currentPage - 1) * 5;
     const end = currentPage * 5;
 
     return [start, end];
   }, [currentPage]);
-  // Queries
-  const { data: userlist } = useQuery({
-    queryKey: ["userlist"],
-    queryFn: async () => {
-      const data = await axios.get(
-        "http://43.239.110.159:8094/api/user/getUserList?created_by=" +
-          userIndex
-      );
+const [dnoUserList,setDnoUserList]=useState([]);
+const [allDesignationList, setAllDesignationList] = useState([]);
 
-      return data.data.result.data;
-    },
-  });
-
-  const { data: departmentList } = useQuery({
-    queryKey: ["departmentList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        "http://43.239.110.159:8094/api/mastertable/getDepatmentlist"
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
-
-  const { data: designationList } = useQuery({
-    queryKey: ["designationList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        "http://43.239.110.159:8094/api/mastertable/DesignationList"
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
-
+console.log(allDesignationList,"allDesignationList")
   const HeadData = [
-    "department",
     "district",
     "sub division",
     "block",
@@ -60,6 +28,21 @@ const DnoList = () => {
     "phone",
     "status",
   ];
+
+  useEffect(()=>{
+    getAllDnoUserList(userIndex).then(function (result) {
+      const response = result?.data?.result?.data;
+      console.log(response,"res-->")
+      setDnoUserList(response);
+      
+    });
+
+    getAllDesignationList().then(function (result) {
+      const response = result?.data?.result;
+      console.log(response, "sibamdey");
+      setAllDesignationList(response);
+    });
+  },[])
 
   return (
     <>
@@ -108,71 +91,44 @@ const DnoList = () => {
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-            {userlist
-              ?.slice(
-                startIndex,
-                userlist.length > endIndex ? endIndex : userlist.length
-              )
-              .map(
-                (
-                  {
-                    userIndex,
-                    departmentNo,
-                    districtcode,
-                    subDivision,
-                    blockCode,
-                    designationID,
-                    contactNo,
-                    currentStatus,
-                  },
-                  index
-                ) => {
-                  return (
+           
+                 {dnoUserList.map((d,index)=>(
+
                     <Table.Row
                       key={userIndex}
                       className="bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {index + 1 + startIndex}
+                        {index+1}
                       </Table.Cell>
-                      <Table.Cell>
-                        {/* {departmentList?.[departmentNo]?.departmentName} */}
-                        {departmentList?.[
-                          departmentList?.findIndex(
-                            (obj) => obj.departmentNo == departmentNo
-                          )
-                        ]?.departmentName || "Karmashree Admin"}
-                      </Table.Cell>
+                    
 
                       <Table.Cell>
-                        {parseInt(districtcode) ? districtcode : "-"}
+                        {d?.districtName}
+                        {/* {parseInt(districtcode) ? districtcode : "-"} */}
                       </Table.Cell>
                       <Table.Cell>
-                        {parseInt(subDivision) ? subDivision : "-"}
+                        {d?.subDivision==0?"-":d?.subDivision}
+                        {/* {parseInt(subDivision) ? subDivision : "-"} */}
                       </Table.Cell>
                       <Table.Cell>
-                        {parseInt(blockCode) ? blockCode : "-"}
+                        {d?.blockCode==0?"-":d?.blockCode}
+                        {/* {parseInt(blockCode) ? blockCode : "-"} */}
                       </Table.Cell>
                       <Table.Cell>
-                        {
-                          designationList?.[
-                            designationList?.findIndex(
-                              (obj) => obj.designationId == designationID
-                            )
-                          ]?.designation
-                        }
+                       {/* {d?.designationID} */}
+                       {allDesignationList.find(c => c.designationId === d?.designationID)?.designation}
                       </Table.Cell>
-                      <Table.Cell>{contactNo}</Table.Cell>
-                      <Table.Cell>{currentStatus}</Table.Cell>
+                      <Table.Cell>{d?.contactNo}</Table.Cell>
+                      <Table.Cell>{d?.currentStatus}</Table.Cell>
                     </Table.Row>
-                  );
-                }
-              )}
+                 ))}
+                 
           </Table.Body>
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">
           <TablePagination
-            data={userlist}
+            data={dnoUserList}
             setCurrentPage={setCurrentPage}
             startIndex={startIndex}
             endIndex={endIndex}

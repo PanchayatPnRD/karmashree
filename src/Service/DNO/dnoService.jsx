@@ -63,3 +63,14 @@ export const addNewDNO = async (departmentNo, districtcode, subDivision, blockCo
         console.log("fdgdf")
     }
 };
+
+
+export const getAllDnoUserList = async (data) => {
+    return await webApi.get(`/api/user/getDnolist?created_by=${data}`,
+    );
+}
+
+export const getAllDesignationList = async () => {    
+    return await webApi.get(`/api/mastertable/DesignationList`,
+    );
+}
