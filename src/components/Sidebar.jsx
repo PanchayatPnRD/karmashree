@@ -90,7 +90,7 @@ export const Sidebar = () => {
     <div className=" flex flex-col p-3">
       <SidebarElement
         to="/dashboard"
-        className={"flex justify-center "}
+        customCss={"flex justify-center "}
       >
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
@@ -98,7 +98,7 @@ export const Sidebar = () => {
       <SidebarExpand text={"User Master"}>
         {sideBarList.slice(1, 5).map((e) => {
           return (
-            <SidebarElement key={e.route} to={e.route} customCss={"py-2 pl-16 text-red-500"}>
+            <SidebarElement key={e.route} to={e.route} customCss={"py-2 pl-8 text-sm"}>
               <div className=" items-center capitalize">{e.text}</div>
             </SidebarElement>
           );

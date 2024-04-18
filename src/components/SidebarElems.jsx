@@ -2,15 +2,18 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import classNames from "classnames";
 
-export const SidebarElement = ({ to, children, className }) => {
+export const SidebarElement = ({ to, children, customCss }) => {
   const navigate = useNavigate()
   return (
     <div
-      onClick={()=>navigate(to)}
+      onClick={() => navigate(to)}
       className={
-        (className || "py-2.5 pl-16 ") +
-        " hover:bg-blue-800/40 rounded-lg transition-all duration-100 cursor-pointer"
+        classNames(
+          customCss || "py-2.5 pl-16 ",
+          "hover:bg-blue-800/40 rounded-lg transition-all duration-100 cursor-pointer"
+        )
       }
     >
       <NavLink

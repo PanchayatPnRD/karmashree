@@ -57,7 +57,7 @@ const Department = () => {
 
   return (
     <>
-      {isPending && <Loading />}
+      {true && <Loading />}
       <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
@@ -213,8 +213,8 @@ export default Department;
 
 export const Loading = () => {
   return (
-    <div className="flex flex-grow backdrop-blur-sm bg-zinc-800/10 absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-blue-600">
-      <Icon icon={"svg-spinners:ring-resize"} />
+    <div className="flex flex-grow backdrop-blur-sm bg-transparent absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-red-600">
+      <Icon icon={"svg-spinners:wind-toy"} />
     </div>
   );
 };
