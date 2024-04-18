@@ -58,7 +58,7 @@ const Department = () => {
   return (
     <>
       {true && <Loading />}
-      <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
+      <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
@@ -213,7 +213,7 @@ export default Department;
 
 export const Loading = () => {
   return (
-    <div className="flex flex-grow backdrop-blur-sm bg-transparent absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-red-600">
+    <div className="flex overflow-hidden flex-grow backdrop-blur-sm bg-transparent absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-red-600">
       <Icon icon={"svg-spinners:wind-toy"} />
     </div>
   );
