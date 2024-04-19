@@ -31,7 +31,7 @@ const Department = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post("", newTodo);
+      return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
     },
     onSuccess: () => {
       queryClient.invalidateQueries("departmentList");
@@ -162,13 +162,7 @@ const Department = () => {
               <option value={e}>{e}</option>
             ))}
           </select>
-          {/* <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          type="text"
-          placeholder="search"
-          className="px-4 outline-none border-2 rounded-lg border-zinc-300"
-        /> */}
+          
         </div>
         <div className="px-12 flex flex-col space-y-6 pb-8">
           <Table>
