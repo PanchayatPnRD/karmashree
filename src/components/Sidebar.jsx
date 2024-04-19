@@ -1,4 +1,5 @@
 import ActionPlan from "../views/forms/ActionPlan";
+import ActionPlanList from "../views/forms/ActionPlanList";
 import Contractor from "../views/forms/Contractor";
 import Demand from "../views/forms/Demand";
 import Employment from "../views/forms/Employment";
@@ -55,6 +56,11 @@ export const sideBarList = [
     Component: ActionPlan,
     text: "Action Plan",
     route: "/dashboard/action-plan",
+  },
+  {
+    Component: ActionPlanList,
+    text: "Action Plan List",
+    route: "/dashboard/action-plan-list",
   },
   {
     Component: Scheme,

@@ -88,3 +88,10 @@ export const addCreateAction = async (schemeArea, district, municipality, block,
 };
 
 
+
+
+export const getAllActionPlanList = async (userId) => {
+    console.log(userId, "userId")
+    return await webApi.get(`/api/actionplan/getActionList/${userId}`,
+    );
+}

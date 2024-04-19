@@ -8,11 +8,16 @@ import {
   getAllSubDivisionList,
   getAllBlockList,
 } from "../../Service/NewUserService";
+import { Button, Modal } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, useNavigate } from "react-router-dom";
-
-const NewUser = () => {
+import { useNavigate } from "react-router-dom";
+import SuccessModal from "../../components/SuccessModal";
+import { getUserList } from "../../Service/ProfileEdit/ProfileEditService";
+const Profile = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log(errorMessage, "erroreeeororor")
+  const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [district, setDistrict] = useState("");
@@ -37,16 +42,24 @@ const NewUser = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [technicalOfficerName, setTechnicalOfficerName] = useState("");
-  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] =
-    useState("");
-  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
-    useState("");
+  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] = useState("");
+  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] = useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
+  const [allUserList, setAllUserList] = useState([]);
+
+  console.log(allUserList, "allUserList");
+
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
+
+    getUserList(data?.userIndex).then(function (result) {
+      const response = result?.data?.result;
+      setAllUserList(response);
+    });
+
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
@@ -61,9 +74,21 @@ const NewUser = () => {
       const response = result?.data?.result;
       setAllDistrictList(response);
     });
+    getAllSubDivisionList(data?.districtcode, data?.subDivision).then(function (
+      result
+    ) {
+      const response = result?.data?.result;
+      setAllSubDivisionList(response);
+    });
+    getAllBlockList(data?.districtcode, data?.blockCode).then(function (
+      result
+    ) {
+      const response = result?.data?.result;
+      setAllBlockList(response);
+    });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList,"allDistrictList")
+  console.log(allDistrictList, "allDistrictList");
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -82,7 +107,6 @@ const NewUser = () => {
   }
 
   //District list
-
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -113,12 +137,17 @@ const NewUser = () => {
   const onDistrict = (e) => {
     console.log(e.target.value, "district");
     setDistrict(e.target.value);
-    getAllSubDivisionList(e.target.value).then(function (result) {
+    getAllSubDivisionList(
+      userData?.districtcode ? userData?.districtcode : e.target.value,
+      userData?.subDivision
+    ).then(function (result) {
       const response = result?.data?.result;
       setAllSubDivisionList(response);
     });
 
-    getAllBlockList(e.target.value).then(function (result) {
+    getAllBlockList(e.target.value, userData?.blockCode).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
@@ -156,7 +185,6 @@ const NewUser = () => {
     if (e.target.value.length <= 10) {
       setContactNumber(e.target.value);
     }
-    
   };
 
   const onEmail = (e) => {
@@ -210,60 +238,64 @@ const NewUser = () => {
       toast.error("Please select a department");
     } else if (
       !userData?.category === "HQ" ||
-      (userData?.category === "HD" && district === "") ||
-      (userData?.category === "DEPT" && district === "") ||
-      (userData?.category === "DIST" && district === "") ||
-      (userData?.category === "SUB" && district === "") ||
-      (userData?.category === "BLOCK" && district === "")
+      (userData?.category === "HD" && district === "")
+      // (userData?.category === "DEPT" && district === "")
+      // (userData?.category === "DIST" && district === "") ||
+      // (userData?.category === "SUB" && district === "") ||
+      // (userData?.category === "BLOCK" && district === "")
     ) {
       toast.error("Please select a district");
     } else if (
-      !userData?.category === "HQ" ||
-      (userData?.category === "DIST" && subDivision === "") ||
-      (userData?.category === "SUB" && subDivision === "") ||
-      (userData?.category === "BLOCK" && subDivision === "")
+      !userData?.category === "HQ"
+      // (userData?.category === "DIST" && subDivision === "")
+      // (userData?.category === "SUB" && subDivision === "") ||
+      // (userData?.category === "BLOCK" && subDivision === "")
     ) {
       toast.error("Please select a sub division");
     } else if (
       (!userData?.category === "HQ" && block === "") ||
-      (userData?.category === "SUB" && block === "") ||
-      (userData?.category === "BLOCK" && block === "")
+      (userData?.category === "SUB" && block === "")
+      // (userData?.category === "BLOCK" && block === "")
     ) {
       toast.error("Please select a block");
     } else if (nodalOfficerName === "") {
       toast.error("Please type your nodal officer name");
+    } else if (designation === "") {
+      toast.error("Please select Nodal officer designation");
     } else if (contactNumber.length != 10) {
       toast.error("Please type 10 digit Nodal officer mobile number");
     } else if (!email) {
       toast.error("Please enter Nodal officer valid email id");
-    } else if (designation === "") {
-      toast.error("Please select Nodal officer designation");
-    } else if (officeName === "") {
+    } else if (!userData?.category === "HQ" && officeName === "") {
       toast.error("Please type your office name");
     } else if (role === "") {
-      toast.error("Please selct role");
-    } else if (userId === "") {
-      toast.error("Please type your userId");
-    } else if (
-      !password.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/
-      )
-    ) {
-      toast.error(
-        "Password must contain at min 6 characters and max 16 characters, including uppercase, lowercase,numerical and special characters."
-      );
+      toast.error("Please select role");
     } else if (userAddress === "") {
       toast.error("Please type user address");
     } else {
+      setOpenModal(true);
+
       addNewUser(
         userData?.category === "HQ"
           ? department
           : allDepartmentList[0]?.departmentNo,
-        district ? district : "",
-        subDivision ? subDivision : "",
-        block ? block : "",
-        userId,
-        password,
+
+        userData?.category === "HD"
+          ? district
+          : userData?.districtcode
+            ? userData?.districtcode
+            : district,
+
+        userData?.category === "DIST"
+          ? subDivision
+          : userData?.subDivision
+            ? userData?.subDivision
+            : subDivision,
+        userData?.category === "SUB" || userData?.category === "DIST"
+          ? block
+          : userData?.blockCode
+            ? userData?.blockCode
+            : block,
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -274,14 +306,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DEPT"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST"
-          ? "SUB"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DIST"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST" && subDivision === "" && block === ""
+                ? "DIST"
+                : userData?.category === "DIST" && subDivision && block === ""
+                  ? "SUB"
+                  : (userData?.category === "DIST" && subDivision && block) ||
+                    (userData?.category === "DIST" && subDivision === "" && block)
+                    ? "BLOCK"
+                    : userData?.category === "SUB"
+                      ? "BLOCK"
+                      : "BLOCK",
         "",
         "A",
         1,
@@ -295,19 +332,31 @@ const NewUser = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
-          console.log(r, "response");
+          setErrorMessage(r)
+
+          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/user-list");
+            // setErrorMessage(r.message)
+            // toast.success(r.message);
+            // navigate("/dashboard/dept-userlist");
           } else {
-            toast.error(r.message);
+            // setErrorMessage(r.message)
+            // toast.error(r.message);
           }
         }
       );
     }
   };
+  console.log(errorMessage?.message, "message")
   return (
     <div className="flex-grow ">
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        // isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        isSuccess={!Boolean(errorMessage?.errorCode)}
+        errorMsg={errorMessage?.message}
+      />
       <ToastContainer />
       <div className="mx-auto mt-2">
         <div className="bg-white rounded-lg p-12">
@@ -352,6 +401,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Department
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 id="country"
@@ -359,6 +409,7 @@ const NewUser = () => {
                 required
                 onChange={onDepartment}
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+
               >
                 <option value="" selected hidden>
                   {userData?.category === "HQ"
@@ -368,12 +419,43 @@ const NewUser = () => {
                 {departmentListDropdown}
               </select>
             </div>
+            {userData?.category === "HQ" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onDistrict}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "DEPT" ||
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
+                      ? districtListDropdown
+                      : "Select a District"}
+                  </option>
+                  {districtListDropdown}
+                </select>
+              </div>
+            )}
             <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nodal Officer Name
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -383,7 +465,29 @@ const NewUser = () => {
                 onChange={onNodalOfficerName}
                 placeholder="type your Nodal officer name"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                defaultValue={allUserList?.userName}
+
               />
+            </div>
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700 capitalize"
+              >
+                nodal officer Designation
+                <span className="text-red-500 "> * </span>
+              </label>
+              <select
+                id="country"
+                name="country"
+                onChange={onDesignation}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>
+                  Select a Designation
+                </option>
+                {designationListDropdown}
+              </select>
             </div>
             <div>
               <label
@@ -391,6 +495,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 nodal officer mobile number
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="tel"
@@ -410,6 +515,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
                 nodal officer email address
+                <span className="text-red-500 "> * </span>
               </label>
               <input
                 id="username"
@@ -421,53 +527,11 @@ const NewUser = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer Designation
-              </label>
-              <select
-                id="country"
-                name="country"
-                onChange={onDesignation}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a Designation
-                </option>
-                {designationListDropdown}
-              </select>
-            </div>
 
-            {userData?.category === "HQ" ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onDistrict}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    Select a district
-                  </option>
-                  {districtListDropdown}
-                </select>
-              </div>
-            )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -476,6 +540,8 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Sub-Division
+                  <span className="text-red-500 "> * </span>
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -485,16 +551,18 @@ const NewUser = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
                   <option value="" selected hidden>
-                    Select a sub-division
+                    {userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
+                      ? subDivisionDropdown
+                      : "Select a sub-division"}
                   </option>
                   {subDivisionDropdown}
                 </select>
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -503,6 +571,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Block
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -512,18 +581,20 @@ const NewUser = () => {
                   onChange={onBlock}
                 >
                   <option value="" selected hidden>
-                    Select a block
+                    {userData?.category === "BLOCK"
+                      ? blockDropdown
+                      : "Select a block"}
                   </option>
                   {blockDropdown}
                 </select>
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -532,6 +603,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   GP
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -549,11 +621,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -562,6 +634,7 @@ const NewUser = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Area
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
@@ -579,30 +652,33 @@ const NewUser = () => {
               </div>
             )}
 
+            {userData?.category !== "HQ" && (
+              <div>
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Office Name
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onOfficeName}
+                  placeholder="type your office name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+            )}
             <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Office Name
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onOfficeName}
-                placeholder="type your office name"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-
-            <div>
-            <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
                 Role
+                <span className="text-red-500 "> * </span>
               </label>
               <select
                 name="role"
@@ -621,6 +697,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Office Address
+                <span className="text-red-500 "> * </span>
               </label>
               <textarea
                 id="username"
@@ -632,7 +709,7 @@ const NewUser = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
-            <div>
+            {/* <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
@@ -664,7 +741,7 @@ const NewUser = () => {
                 placeholder="type your Password"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
-            </div>
+            </div> */}
             <div className="flex space-x-4 items-center">
               <input
                 id="technicalOfficer"
@@ -702,17 +779,15 @@ const NewUser = () => {
                   >
                     Technical officer Designation
                   </label>
-                  <select
-                    id="country"
-                    name="country"
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="username"
                     onChange={onTechnicalOfficerDesignation}
+                    placeholder="Type Technical officer Designation"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected hidden>
-                      Select a Designation
-                    </option>
-                    {designationListDropdown}
-                  </select>
+                  />
                 </div>
                 <div>
                   <label
@@ -768,4 +843,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default Profile;
