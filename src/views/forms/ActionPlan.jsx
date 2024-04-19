@@ -6,6 +6,7 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 
 const ActionPlan = () => {
@@ -23,6 +24,7 @@ const ActionPlan = () => {
   const [gp, setGp] = useState("")
   const [allSectorList, setAllSectorList] = useState([]);
   const [sector, setSector] = useState("")
+  const navigate = useNavigate();
 
   const [schemeProposed, setSchemeProposed] = useState("");
   const [costOfSCheme, setCostOfSCheme] = useState("");
@@ -220,7 +222,7 @@ const ActionPlan = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             toast.success(r.message);
-            navigate("/dashboard/dept-userlist");
+            navigate("/dashboard/action-plan-list");
           } else {
             toast.error(r.message);
           }
