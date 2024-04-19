@@ -267,8 +267,8 @@ const ActionPlan = () => {
             <br />
           </div>
 
-          <div className="bg-white shadow-md rounded-lg">
-            <div className="flex flex-col w-full space-y-6 mb-6 px-16">
+          <div className="bg-white shadow-md rounded-lg p-16">
+            <div className="flex flex-col w-full space-y-6 mb-6">
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -553,7 +553,7 @@ const ActionPlan = () => {
             <div className="flex justify-center items-center">
               <button
                 type="button"
-                className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-1/3 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onRegister}
               >
                 Register

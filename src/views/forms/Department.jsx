@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useRef } from "react";
-import { Table, Pagination } from "flowbite-react";
+import React, { useEffect,useState, useMemo, useRef } from "react";
+import { Table } from "flowbite-react";
 import { TablePagination } from "../../components/DataTable";
 import { devApi } from "../../WebApi/WebApi";
 import { Icon } from "@iconify/react";
@@ -38,6 +38,8 @@ const Department = () => {
     }
   });
 
+  
+
   function addDepartment() {
     mutate({
       departmentName: deptNameRef.current.value,
@@ -55,9 +57,29 @@ const Department = () => {
     "delete",
   ];
 
+  useEffect(() => {
+    const preventScroll = () => {
+      document.body.style.overflow = "hidden";
+    };
+
+    const allowScroll = () => {
+      document.body.style.overflow = "auto";
+    };
+
+    if (isPending) {
+      preventScroll();
+    } else {
+      allowScroll();
+    }
+
+    return () => {
+      allowScroll();
+    };
+  }, [isPending]);
+
   return (
     <>
-      {true && <Loading />}
+      {isPending && <Loading />}
       <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
@@ -148,11 +170,11 @@ const Department = () => {
           className="px-4 outline-none border-2 rounded-lg border-zinc-300"
         /> */}
         </div>
-        <div className="px-12 flex flex-col space-y-6 py-8">
+        <div className="px-12 flex flex-col space-y-6 pb-8">
           <Table>
             <Table.Head>
               {HeadData.map((e) => (
-                <Table.HeadCell className="capitalize">{e}</Table.HeadCell>
+                <Table.HeadCell className="capitalize bg-zinc-200">{e}</Table.HeadCell>
               ))}
             </Table.Head>
             <Table.Body className="divide-y">
@@ -213,8 +235,8 @@ export default Department;
 
 export const Loading = () => {
   return (
-    <div className="flex overflow-hidden flex-grow backdrop-blur-sm bg-transparent absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-red-600">
-      <Icon icon={"svg-spinners:wind-toy"} />
+    <div className="flex overflow-hidden flex-grow backdrop-blur-sm bg-transparent absolute w-4/5 h-remaining z-20 justify-center items-center text-6xl text-blue-600">
+      <Icon icon={"svg-spinners:ring-resize"} />
     </div>
   );
 };
