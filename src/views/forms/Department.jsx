@@ -31,7 +31,7 @@ const Department = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post("", newTodo);
+      return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
     },
     onSuccess: () => {
       queryClient.invalidateQueries("departmentList");

@@ -3,38 +3,38 @@ import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { TablePagination } from "../../components/DataTable";
-import {getAllDesignationList} from "../../Service/DNO/dnoService";
-import {getAllActionPlanList} from "../../Service/ActionPlan/ActionPlanService";
+import { getAllDesignationList } from "../../Service/DNO/dnoService";
+import { getAllActionPlanList } from "../../Service/ActionPlan/ActionPlanService";
 
 const ActionPlanList = () => {
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex,"userIndex")
+  console.log(userIndex, "userIndex")
   const [startIndex, endIndex] = useMemo(() => {
     const start = (currentPage - 1) * 5;
     const end = currentPage * 5;
 
     return [start, end];
   }, [currentPage]);
-const [actionPlanList,setActionPlanList]=useState([]);
-const [allDesignationList, setAllDesignationList] = useState([]);
+  const [actionPlanList, setActionPlanList] = useState([]);
+  const [allDesignationList, setAllDesignationList] = useState([]);
 
-console.log(allDesignationList,"allDesignationList")
+  console.log(allDesignationList, "allDesignationList")
   const HeadData = [
     "Scheme Area",
     "District",
     "Sector",
     "Financial Year",
-   
+
   ];
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllActionPlanList(userIndex).then(function (result) {
       const response = result?.data?.result;
-      console.log(response,"res-->")
+      console.log(response, "res-->")
       setActionPlanList(response);
-      
+
     });
 
     getAllDesignationList().then(function (result) {
@@ -42,7 +42,7 @@ console.log(allDesignationList,"allDesignationList")
       console.log(response, "sibamdey");
       setAllDesignationList(response);
     });
-  },[])
+  }, [])
 
   return (
     <>
@@ -91,34 +91,33 @@ console.log(allDesignationList,"allDesignationList")
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-           
-                 {actionPlanList.map((d,index)=>(
 
-                    <Table.Row
-                      key={userIndex}
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {index+1}
-                      </Table.Cell>
-                    
+            {actionPlanList.map((d, index) => (
 
-                      <Table.Cell>
-                        {d?.schemeArea==="R"?"Rural":"Urban"}                       
-                      </Table.Cell>
-                      <Table.Cell>
-                      {d?.districtCode}              
-                      </Table.Cell>
-                      <Table.Cell>
-                        {d?.schemeSector}                       
-                      </Table.Cell>
-                      <Table.Cell>                     
-                       {d?.finYear}
-                      </Table.Cell>
-                    
-                    </Table.Row>
-                 ))}
-                 
+              <Table.Row
+                key={userIndex}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {index + 1}
+                </Table.Cell>
+
+
+                <Table.Cell>
+                  {d?.schemeArea === "R" ? "Rural" : "Urban"}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.districtCode}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.schemeSector}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.finYear}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+
           </Table.Body>
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">
