@@ -12,6 +12,7 @@ import WorkAlloc from "../views/forms/WorkAlloc";
 import DashboardHome from "../views/forms/DashboardHome";
 import DnoList from "../views/forms/DnoList";
 import Dno from "../views/forms/Dno";
+import WorkRequirement from "../views/forms/WorkRequirement";
 import classNames from 'classnames';
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
@@ -71,6 +72,11 @@ export const sideBarList = [
     Component: Demand,
     text: "demand",
     route: "/dashboard/demand",
+  },
+  {
+    Component: WorkRequirement,
+    text: "work requirement",
+    route: "/dashboard/work-requirement",
   },
   {
     Component: WorkAlloc,
