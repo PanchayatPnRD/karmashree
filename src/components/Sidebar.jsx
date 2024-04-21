@@ -13,7 +13,6 @@ import DashboardHome from "../views/forms/DashboardHome";
 import DnoList from "../views/forms/DnoList";
 import Dno from "../views/forms/Dno";
 import WorkRequirement from "../views/forms/WorkRequirement";
-import classNames from 'classnames';
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
 // import Register from "../views/Register/Register";
@@ -22,6 +21,7 @@ export const sideBarList = [
     Component: DashboardHome,
     text: "Home",
     route: "/dashboard",
+    // permissions:[]
   },
   {
     Component: NewUser,

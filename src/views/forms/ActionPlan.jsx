@@ -235,7 +235,7 @@ const ActionPlan = () => {
       <ToastContainer />
       <div className="mx-auto mt-2">
         <div className="bg-white rounded-lg p-12">
-          <div className="shadow-md">
+          <div className="shadow-md mb-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
                 <nav aria-label="Breadcrumb">
@@ -267,7 +267,7 @@ const ActionPlan = () => {
             <br />
           </div>
 
-          <div className="bg-white shadow-md rounded-lg p-16">
+          <div className="bg-white shadow-md rounded-lg px-16 pb-16">
             <div className="flex flex-col w-full space-y-6 mb-6">
               <div className="px-4">
                 <label
@@ -455,7 +455,7 @@ const ActionPlan = () => {
               </div>
             </div>
 
-            <div className="flex flex-col space-y-6 w-full px-16 mb-6">
+            <div className="flex flex-col space-y-6 w-full mb-6">
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -530,7 +530,7 @@ const ActionPlan = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col w-full mb-4 px-16">
+            <div className="flex flex-col w-full mb-4">
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
