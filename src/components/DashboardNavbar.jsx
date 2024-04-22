@@ -85,11 +85,11 @@ export const DashboardNavbar = () => {
                         (obj) => obj.departmentNo == userDetails?.departmentNo
                       )
                     ]?.departmentName
-                  }
-                  {" "}
-                  {userDetails?.districtcode == 0
-                    ? "Karmashree Admin"
-                    : getDistrict?.districtName}{" "}
+                  }{" "}
+                  {userDetails?.districtcode == 0 &&
+                    userDetails?.category == "HQ" &&
+                    "Karmashree Admin"}{" "}
+                  {userDetails?.districtcode !== 0 && getDistrict?.district}
                   #{userIndex}
                 </span>
               </div>
