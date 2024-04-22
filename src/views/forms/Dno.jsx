@@ -45,7 +45,7 @@ const Deno = () => {
   const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
     useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
-
+  const [gp, setGp] = useState("");
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -247,7 +247,7 @@ const Deno = () => {
         userData?.category === "HQ"
           ? district
           : userData?.districtcode
-            ,
+        ,
 
         userData?.category === "DIST"
           ? subDivision
@@ -297,6 +297,10 @@ const Deno = () => {
       );
     }
   };
+
+  const onGp = (e) => {
+    setGp(e.target.value)
+  }
   return (
     <div className="flex-grow ">
       <SuccessModal
@@ -385,9 +389,9 @@ const Deno = () => {
               >
                 <option value="" selected hidden>
                   {userData?.category === "DEPT" ||
-                  userData?.category === "DIST" ||
-                  userData?.category === "SUB" ||
-                  userData?.category === "BLOCK"
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
                     ? districtListDropdown
                     : "Select a District"}
                 </option>
@@ -420,6 +424,31 @@ const Deno = () => {
                   {blockDropdown}
                 </select>
               </div>
+            )}
+            {userData?.category === "BLOCK" ? (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Gram Panchayat
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onGp}
+                >
+                  <option value="" selected hidden>
+                    Select a Gram Panchayat
+                  </option>
+                  {gp}
+                </select>
+              </div>
+            ) : (
+              ""
             )}
             <div>
               <label
