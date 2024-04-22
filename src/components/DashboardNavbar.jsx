@@ -87,7 +87,7 @@ export const DashboardNavbar = () => {
                     ]?.departmentName
                   }
                   {" "}
-                  {userDetails?.districtcode == 0
+                  {userDetails?.districtcode == 0 && userDetails?.category == "HQ"
                     ? "Karmashree Admin"
                     : getDistrict?.districtName}{" "}
                   #{userIndex}
