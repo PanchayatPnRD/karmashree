@@ -64,53 +64,283 @@ const Contractor = () => {
           </ol>
         </nav>
       </div>
-      <div className="bg-white p-6 px-12 shadow-md rounded border-t flex flex-col space-y-8">
-        <div className="px-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Area
-            <span className="text-red-500 "> * </span>
-          </label>
-          <select
-            onChange={(e) => setArea(e.target.value)}
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            // onChange={onSchemeArea}
-          >
-            <option selected hidden>
-              Select Scheme area
-            </option>
-            <option value="R">Rural</option>
-            <option value="U">Urban</option>
-          </select>
-        </div>
-        {area && (
-          <div className="px-4">
-            <label className="block text-sm font-medium text-gray-700">
-              District
-              <span className="text-red-500 "> * </span>
-            </label>
-            <select
-              defaultValue={"Select District"}
-              onChange={(e) => setDistrict(e.target.value)}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              // onChange={onSchemeArea}
-            >
-              <option selected hidden>
-                Select District
-              </option>
-              {districtList?.map(({ districtName, districtCode }) => {
-                return (
-                  <option key={districtCode} value={districtCode}>
-                    {districtName}
-                  </option>
-                );
-              })}
-            </select>
+      <div className="bg-white shadow-md rounded-lg p-12">
+            <div className="flex w-full space-x-4 mb-6">
+              
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Area Type *
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
+                >
+                  <option value="">Select Scheme Name</option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
+                  
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District *
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select District List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Municipality
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block Hide  NULL Value
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  GP Hide NULL Value
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex flex-col w-full mb-4">
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor Name * Only Alphabel and White Space allow
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Sector Name</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor GSTIN * (placeholder="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]{1}$")
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]{1}$"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor PAN * ( /[A-Z]{5}[0-9]{4}[A-Z]{1}$/; )
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" /[A-Z]{5}[0-9]{4}[A-Z]{1}$/; "
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor Mobile * (/[6-9]{1}[0-9]{9}$/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" /[6-9]{1}[0-9]{9}$/; "
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                />
+              </div>
+            </div>
+            <div className="flex flex-col w-full mb-4">
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor Address * Validation Alpha Numuric, White Space  and Special Character (,/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Enter Scheme Name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Village Name/Word no  * Validation Alpha Numuric, White Space  and Special Character (,/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Enter Scheme Name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Police Station  * Validation Alpha Numuric, White Space  and Special Character (/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Enter Scheme Name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Post Office  * Validation Alpha Numuric, White Space  and Special Character (,/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Enter Scheme Name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+            <div className="flex w-full space-x-4 flex-col mb-4 ">
+              
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Pin  * Validation  Numuric (/[7]{1}[0-9]{5}$/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" /[7]{1}[0-9]{5}$/; "
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              
+              
+            </div>
+            
+            <div className="flex justify-center items-center">
+              <button
+                type="button"
+                className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                //onClick={onRegister}
+              >
+                Save
+              </button>
+            </div>
           </div>
-        )}
-        {district && area == "U" && {
-          
-        }}
-      </div>
     </div>
   );
 };
