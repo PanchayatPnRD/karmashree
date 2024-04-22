@@ -77,43 +77,42 @@ export const sideBarList = [
     text: "Action Plan List",
     route: "/dashboard/action-plan-list",
     permissions: [1, 7],
-    // 1	7	13	12	15	17	19	21	23	25	24	27	29
   },
   {
     Component: Scheme,
     text: "scheme",
     route: "/dashboard/scheme",
-    permissions: [13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Demand,
     text: "demand",
     route: "/dashboard/demand",
-    permissions: [13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: WorkRequirement,
     text: "work requirement",
     route: "/dashboard/work-requirement",
-    permissions: [13, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1,13, 12, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: WorkAlloc,
     text: "work allocation",
     route: "/dashboard/work-allocation",
-    permissions: [13, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1,13, 12, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-    permissions: [13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Employment,
     text: "employment",
     route: "/dashboard/employment",
-    permissions: [13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 ];
 

@@ -22,24 +22,37 @@ export const DashboardNavbar = () => {
     },
   });
 
+  const districtCode = userDetails?.districtcode;
+
   const { data: getDistrict } = useQuery({
     queryKey: ["getDistrict"],
     queryFn: async () => {
       const data = await axios.get(
         devApi +
-          "/api/mastertable/GetAllDistricts/0" +
-          userDetails?.districtcode
+          "/api/mastertable/GetAllDistricts/" +
+          (userDetails?.districtcode?.length == 1
+            ? `0${userDetails?.districtcode}`
+            : userDetails?.districtcode)
+      );
+
+      return data.data.result[0];
+    },
+    enabled: Boolean(districtCode),
+  });
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi + "/api/mastertable/getDepatmentlist"
       );
 
       return data.data.result;
     },
+    enabled: Boolean(districtCode),
   });
 
   const navigate = useNavigate();
-  
-  
 
-  // console.log(userDetails,"userDetails")
   return (
     <>
       <div className="p-1 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
@@ -66,6 +79,14 @@ export const DashboardNavbar = () => {
                   {userDetails?.userId}
                 </span>
                 <span className="text-sm text-end">
+                  {
+                    departmentList?.[
+                      departmentList?.findIndex(
+                        (obj) => obj.departmentNo == userDetails?.departmentNo
+                      )
+                    ]?.departmentName
+                  }
+                  {" "}
                   {userDetails?.districtcode == 0
                     ? "Karmashree Admin"
                     : getDistrict?.districtName}{" "}
