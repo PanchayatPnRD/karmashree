@@ -64,17 +64,21 @@ const Deno = () => {
       const response = result?.data?.result;
       setAllDistrictList(response);
     });
-    getAllSubDivisionList(data?.districtcode, data?.subDivision).then(function (result) {
+    getAllSubDivisionList(data?.districtcode, data?.subDivision).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllSubDivisionList(response);
     });
-    getAllBlockList(data?.districtcode, data?.blockCode).then(function (result) {
+    getAllBlockList(data?.districtcode, data?.blockCode).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList")
+  console.log(allDistrictList, "allDistrictList");
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -93,7 +97,6 @@ const Deno = () => {
   }
 
   //District list
-
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -124,12 +127,17 @@ const Deno = () => {
   const onDistrict = (e) => {
     console.log(e.target.value, "district");
     setDistrict(e.target.value);
-    getAllSubDivisionList(userData?.districtcode ? userData?.districtcode : e.target.value, userData?.subDivision).then(function (result) {
+    getAllSubDivisionList(
+      userData?.districtcode ? userData?.districtcode : e.target.value,
+      userData?.subDivision
+    ).then(function (result) {
       const response = result?.data?.result;
       setAllSubDivisionList(response);
     });
 
-    getAllBlockList(e.target.value, userData?.blockCode).then(function (result) {
+    getAllBlockList(e.target.value, userData?.blockCode).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
@@ -167,7 +175,6 @@ const Deno = () => {
     if (e.target.value.length <= 10) {
       setContactNumber(e.target.value);
     }
-
   };
 
   const onEmail = (e) => {
@@ -220,23 +227,16 @@ const Deno = () => {
     // toast.success("DNO Created successfully")
     if (!userData?.category === "HD" && district === "") {
       toast.error("Please select a district");
-
-    }
-    else if (nodalOfficerName === "") {
+    } else if (nodalOfficerName === "") {
       toast.error("Please type DNO officer name");
-
     } else if (designation === "") {
       toast.error("Please select DNO officer designation");
-
     } else if (contactNumber.length != 10) {
       toast.error("Please type 10 digit DNO officer mobile number");
-
     } else if (!email) {
       toast.error("Please enter Nodal officer valid email id");
-
     } else if (userAddress === "") {
       toast.error("Please type office address");
-
     } else {
       setOpenModal(true);
       addNewDNO(
@@ -244,21 +244,18 @@ const Deno = () => {
           ? department
           : allDepartmentList[0]?.departmentNo,
 
-        userData?.category === "HQ"
-          ? district
-          : userData?.districtcode
-        ,
-
+        userData?.category === "HQ" ? district : userData?.districtcode,
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-            ? userData?.subDivision
-            : subDivision,
+          ? userData?.subDivision
+          : subDivision,
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-            ? userData?.blockCode
-            : block,
+          ? userData?.blockCode
+          : block,
+
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -266,12 +263,13 @@ const Deno = () => {
         designation,
         userAddress,
         role,
-        userData?.category === "HQ"
-          ? "DIST" : "BLOCK"
-        ,
+        userData?.category === "HQ" ? "DIST" : userData?.category === "DIST"?"BLOCK":
+        userData?.category === "BLOCK"?"GP":"",
         "",
         "A",
-        1,
+        userData?.category === "HQ" || userData?.category === "DIST"
+          ? 0
+          : 101211,
         role,
         role,
         "",
@@ -282,7 +280,7 @@ const Deno = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
-          setErrorMessage(r)
+          setErrorMessage(r);
 
           console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {

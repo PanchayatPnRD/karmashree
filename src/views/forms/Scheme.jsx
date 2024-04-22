@@ -44,39 +44,25 @@ const Scheme = () => {
           <br></br>
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_code"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Code
-                </label>
-                <input
-                  id="scheme_code"
-                  name="scheme_code"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Code"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
+              
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Area
+                  Area Type *
                 </label>
                 <select
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
                 >
                   <option value="">Select Scheme Name</option>
-                  <option value="scheme1">Scheme 1</option>
-                  <option value="scheme2">Scheme 2</option>
-                  <option value="scheme3">Scheme 3</option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
+                  
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -86,7 +72,7 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Department Name
+                  District *
                 </label>
                 <select
                   id="scheme_name"
@@ -94,7 +80,7 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
-                  <option value="">Select Department Namee</option>
+                  <option value="">Select District List</option>
                   <option value="scheme1">PWD</option>
                   <option value="scheme2">PNRD</option>
 
@@ -107,26 +93,7 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Sector Name
+                  Municipality
                 </label>
                 <select
                   id="scheme_name"
@@ -134,7 +101,169 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
-                  <option value="">Select Sector Name</option>
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block 
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  GP 
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex flex-col w-full mb-4">
+            <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Scheme Sector * Drop Down List
+                </label>
+                <select
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="">Select Sector Name</option>
+                <option value="scheme1">PWD</option>
+                <option value="scheme2">PNRD</option>
+
+                {/* Add more options as needed */}
+              </select>
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Scheme Name * Only Alphabel and White Space allow
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Scheme Name... * Only Alphabel and White Space allow"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                />
+              </div>
+              
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Worksite Location (Full Address) *
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Worksite Location (Full Address) ..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Funding Department *  Drop Down List
+                </label>
+                <select
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="">Select Sector Name</option>
+                <option value="scheme1">PWD</option>
+                <option value="scheme2">PNRD</option>
+
+                {/* Add more options as needed */}
+              </select>
+              </div>
+              
+            </div>
+            <div className="flex w-full space-x-4 mb-6">
+              
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Status of Work *
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
+                >
+                  <option value="">Select Status of Work</option>
+                  <option value="P">Proposed</option>
+                  <option value="S">Started</option>
+                  <option value="O">Ongoing</option>
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Tentative Work Start Date * (if = Proposed Then)
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="">Select District List</option>
                   <option value="scheme1">PWD</option>
                   <option value="scheme2">PNRD</option>
 
@@ -147,322 +276,50 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Actual Work Start Date (if = Proposed Then)
                 </label>
-                <input
+                <select
                   id="scheme_name"
                   name="scheme_name"
-                  type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
 
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
+                  {/* Add more options as needed */}
+                </select>
               </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Expected Work Completion Date  (if = Proposed Then)
                 </label>
-                <input
+                <select
                   id="scheme_name"
                   name="scheme_name"
-                  type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
+                  <option value="">Select Municipality List</option>
+                  <option value="scheme1">PWD</option>
+                  <option value="scheme2">PNRD</option>
+
+                  {/* Add more options as needed */}
+                </select>
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
+              
             </div>
-            <div className="flex w-full space-x-4 mb-6">
+            <div className="flex w-full mb-4">
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Project Cost (in Rs.) * Validation  Numuric with 2 decemel
                 </label>
                 <input
                   id="scheme_name"
@@ -478,7 +335,7 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Total Wage Cost involved in the Work  * Validation  Numuric with 2 decemel
                 </label>
                 <input
                   id="scheme_name"
@@ -494,7 +351,7 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Persondays to be generated from the Work  * Validation  Numuric
                 </label>
                 <input
                   id="scheme_name"
@@ -505,30 +362,15 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Name
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Scheme Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
+              
             </div>
-            <div className="flex w-full space-x-4 mb-6">
-              <div className="px-4">
+            <div className="flex w-full space-x-4 mb-4 ">
+            <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  No of Unskilled Workers to be  engaged  * Validation Numuric
                 </label>
                 <input
                   id="scheme_name"
@@ -544,14 +386,14 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  No of Semi-Skilled Workers to be  engaged  * Validation  Numuric 
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder=" /[0-9]$/; "
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
@@ -560,14 +402,33 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  No of Skilled Workers to be  engaged  * Validation  Numuric 
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder=" /[0-9]$/; "
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              
+            </div>
+            <div className="flex w-full space-x-4 mb-4 ">
+            <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Work Order Number 
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Work Order Number...."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
@@ -576,17 +437,61 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name
+                  Work Order Date  Calander Date
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Date.... "
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor List From Contractor Master
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" /[7]{1}[0-9]{5}$/; "
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              
+            </div>
+            <div className="flex flex-col w-full mb-4">
+            <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Remarks Validation Alph anumuric special (,/)
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" Remarks........"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              </div>
+            <div className="flex justify-center items-center">
+              <button
+                type="button"
+                className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                //onClick={onRegister}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
