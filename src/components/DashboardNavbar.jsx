@@ -36,13 +36,8 @@ export const DashboardNavbar = () => {
   });
 
   const navigate = useNavigate();
-  console.log(
-    Calc_permission(
-      userDetails?.category,
-      userDetails?.role_type,
-      Boolean(parseInt(userDetails?.dno_status))
-    )?.uniqueId
-  );
+  
+  
 
   // console.log(userDetails,"userDetails")
   return (
