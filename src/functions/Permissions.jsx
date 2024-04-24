@@ -1,5 +1,5 @@
 export const Calc_permission = (category, role_type, dno_status) => {
-  const role = dno_status ? 0 : role_type;
+  const role = (dno_status && category != "GP") ? 0 : role_type;
 
   const permissionList = [
     { category: "HQ", roleType: 1, dnoStatus: true, uniqueId: 0 },
