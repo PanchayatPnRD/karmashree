@@ -81,12 +81,8 @@ export const DashboardNavbar = () => {
     queryFn: async () => {
       const data = await axios.get(
         devApi +
-          "/api/mastertable/getGp/" +
-          (userDetails?.districtcode?.length == 1
-            ? `0${userDetails?.districtcode}`
-            : userDetails?.districtcode) +
-          "/" +
-          userDetails?.blockCode+ "/" + userDetails?.gpCode
+          "/api/mastertable/getonlyGp/" +
+          userDetails?.gpCode
       );
 
       return data.data.result[0];
@@ -132,9 +128,9 @@ export const DashboardNavbar = () => {
           Button={
             <div className="flex justify-center items-center">
               <div className="flex flex-col px-2">
-                <span className="text-lg font-bold text-black">
-                  {userDetails?.userId}
-                </span>
+                <div className="text-lg font-bold text-end text-black">
+                  {userDetails?.userName}
+                </div>
                 <span className="text-sm text-end">
                   {userDetails?.category != "BLOCK" &&
                     userDetails?.category != "GP" &&
@@ -146,7 +142,7 @@ export const DashboardNavbar = () => {
                   {userDetails?.districtcode == 0 &&
                     userDetails?.category == "HQ" &&
                     "Karmashree Admin"}{" "}
-                  {userDetails?.category != "HD" && 
+                  {userDetails?.category != "HD" &&
                     userDetails?.category != "HQ" &&
                     userDetails?.districtcode !== 0 &&
                     getDistrict?.districtName}{" "}
@@ -155,10 +151,11 @@ export const DashboardNavbar = () => {
                   {userDetails?.category == "BLOCK" &&
                     userDetails?.dno_status &&
                     (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}{" "}
+                  {userDetails?.dno_status &&
+                    (userDetails?.category == "DIST" ? "DNO" : "")}
                   {Boolean(parseInt(userDetails?.gpCode)) && getGp?.gpName}
                   {" #"}
                   {userIndex}
-
                 </span>
               </div>
 
@@ -170,7 +167,7 @@ export const DashboardNavbar = () => {
           }
         >
           <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
-            <label htmlFor="">Hello {userDetails?.userId}</label>
+            <label>{userDetails?.userId}</label>
           </div>
           <DropdownItem
             className="space-x-2"

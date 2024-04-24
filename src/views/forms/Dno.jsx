@@ -263,8 +263,13 @@ const Deno = () => {
         designation,
         userAddress,
         role,
-        userData?.category === "HQ" ? "DIST" : userData?.category === "DIST"?"BLOCK":
-        userData?.category === "BLOCK"?"GP":"",
+        userData?.category === "HQ"
+          ? "DIST"
+          : userData?.category === "DIST"
+          ? "BLOCK"
+          : userData?.category === "BLOCK"
+          ? "GP"
+          : "",
         "",
         "A",
         userData?.category === "HQ" || userData?.category === "DIST"
@@ -297,8 +302,8 @@ const Deno = () => {
   };
 
   const onGp = (e) => {
-    setGp(e.target.value)
-  }
+    setGp(e.target.value);
+  };
   return (
     <div className="flex-grow ">
       <SuccessModal
@@ -387,9 +392,9 @@ const Deno = () => {
               >
                 <option value="" selected hidden>
                   {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" ||
-                    userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                  userData?.category === "DIST" ||
+                  userData?.category === "SUB" ||
+                  userData?.category === "BLOCK"
                     ? districtListDropdown
                     : "Select a District"}
                 </option>
@@ -453,7 +458,9 @@ const Deno = () => {
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Name of the DNO
+                Name of the {userData?.category == "HQ" && "DNO"}
+                {userData?.category == "DIST" && "BDO"}
+                {userData?.category == "BLOCK" && "Officer"}
                 <span className="text-red-500 "> * </span>
               </label>
               <input
@@ -462,7 +469,7 @@ const Deno = () => {
                 type="text"
                 autoComplete="username"
                 onChange={onNodalOfficerName}
-                placeholder="Name of the DNO..."
+                placeholder="Enter Name ..."
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
@@ -471,7 +478,9 @@ const Deno = () => {
                 htmlFor="country"
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
-                DNO Designation
+                {userData?.category == "HQ" && "DNO"}
+                {userData?.category == "DIST" && "BDO"}
+                {userData?.category == "BLOCK" && "Officer"} Designation
                 <span className="text-red-500 "> * </span>
               </label>
               <select
@@ -492,7 +501,9 @@ const Deno = () => {
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
-                DNO Mobile Number
+                {userData?.category == "HQ" && "DNO"}
+                {userData?.category == "DIST" && "BDO"}
+                {userData?.category == "BLOCK" && "Officer"} Mobile Number
                 <span className="text-red-500 "> * </span>
               </label>
               <input
@@ -503,7 +514,7 @@ const Deno = () => {
                 value={contactNumber}
                 autoComplete="username"
                 onChange={onContactNumber}
-                placeholder="DNO Mobile Number..."
+                placeholder="Mobile Number..."
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
@@ -512,7 +523,9 @@ const Deno = () => {
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700 capitalize"
               >
-                DNO Email Address
+                {userData?.category == "HQ" && "DNO"}
+                {userData?.category == "DIST" && "BDO"}
+                {userData?.category == "BLOCK" && "Officer"} Email Address
                 <span className="text-red-500 "> * </span>
               </label>
               <input
@@ -521,7 +534,7 @@ const Deno = () => {
                 type="text"
                 autoComplete="username"
                 onChange={onEmail}
-                placeholder="DNO Email Address..."
+                placeholder="Email Address..."
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
             </div>
