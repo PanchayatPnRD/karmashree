@@ -229,7 +229,60 @@ const Contractor = () => {
   };
 
   const onSubmit = () => {
+    // if (schemeArea === "") {
+    //   toast.error("Please Select Scheme Area")
+    // } else if (district === "") {
+    //   toast.error("Please Select District")
 
+    // } else if (schemeArea === "U" && municipality==="") {
+    //   toast.error("Please Select Municipality")
+
+    // }else if (schemeArea === "R" && block==="") {
+    //   toast.error("Please Select Block")
+
+    // }else if (schemeArea === "R" && gp === "") {
+    //   toast.error("Please Select Gram Panchayat")
+
+    // }else if (sector === "") {
+    //   toast.error("Please Select Sector")
+
+    // }else if (schemeProposed === "") {
+    //   toast.error("Please Type No of Schemes Proposed")
+
+    // }else if (costOfSCheme === "") {
+    //   toast.error("Please Type Tentative Total Cost of Schemes")
+
+    // }else if (totalWages === "") {
+    //   toast.error("Please Type Tentative Total Wage to be paid in the Schemes")
+
+    // }else if (totalPersonDays === "") {
+    //   toast.error("Please Type Total Persondays to be Generated")
+
+    // }else if (totalJobCard === "") {
+    //   toast.error("Please Type Total no. of Job Card Holders to be engaged")
+
+    // }else if (totalAverageDays === "") {
+    //   toast.error("Please Type Average Days of Employment to be provided per family")
+
+    // }else {
+
+
+      addCreateAction(
+        schemeArea,district,municipality,block,gp,sector,
+        schemeProposed,costOfSCheme,totalWages,totalPersonDays,
+        totalJobCard,totalAverageDays,financialYear,currentMonth,
+        currentYear,data?.departmentNo,data?.userIndex,
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            navigate("/dashboard/action-plan-list");
+          } else {
+            toast.error(r.message);
+          }
+        }
+      );
+    // }
   }
   return (
     <div className="flex flex-grow flex-col space-y-16 p-6 px-12">

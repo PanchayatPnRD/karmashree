@@ -35,8 +35,8 @@ export const getAllBlockList = async (districtId,blockCode) => {
     );
 }
 
-export const getAllDesignationList = async (category) => {
-    return await webApi.get(`/api/mastertable/Getdesignation/${"HQ"}`,
+export const getAllDesignationList = async (ID) => {
+    return await webApi.get(`/api/mastertable/getdesignationfordnogp/${ID}`,
     );
 }
 

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { TablePagination } from "../../components/DataTable";
 import { getAllDesignationList } from "../../Service/DNO/dnoService";
-import { getAllActionPlanList } from "../../Service/ActionPlan/ActionPlanService";
+import { getAllContractorList } from "../../Service/Contractor/ContractorService";
 
 const ContractorList = () => {
 
@@ -40,7 +40,7 @@ const ContractorList = () => {
   ];
 
   useEffect(() => {
-    getAllActionPlanList(userIndex).then(function (result) {
+    getAllContractorList(userIndex).then(function (result) {
       const response = result?.data?.result;
       console.log(response, "res-->")
       setActionPlanList(response);

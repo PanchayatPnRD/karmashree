@@ -57,10 +57,10 @@ const Deno = () => {
       setAllDepartmentList(response);
     });
 
-    getAllDesignationList(data?.category).then(function (result) {
+    getAllDesignationList(data?.category==="HQ"?427:data?.category==="DIST"?419:0).then(function (result) {
       const response = result?.data?.result;
       console.log(response, "sibamdey");
-      setAllDesignationList(response?.result);
+      setAllDesignationList(response);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
       const response = result?.data?.result;
