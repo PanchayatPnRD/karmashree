@@ -1,12 +1,8 @@
 import axios from "axios";
 
 
-// const devApi = "http://127.0.0.1:8000/api/"
-
-//latest
+export const devApi = "http://43.239.110.159:8094";
 // export const devApi = "http://103.87.172.95:8094"
-
-export const devApi = "http://43.239.110.159:8094"
 
 export let baseURL;
 const subdomain=window.location.host.split(".")[0];
