@@ -76,6 +76,24 @@ export const DashboardNavbar = () => {
     enabled: Boolean(userDetails?.blockCode),
   });
 
+  const { data: getGp } = useQuery({
+    queryKey: ["getGp"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/mastertable/getGp/" +
+          (userDetails?.districtcode?.length == 1
+            ? `0${userDetails?.districtcode}`
+            : userDetails?.districtcode) +
+          "/" +
+          userDetails?.blockCode+ "/" + userDetails?.gpCode
+      );
+
+      return data.data.result[0];
+    },
+    enabled: Boolean(userDetails?.gpCode),
+  });
+
 
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
@@ -87,23 +105,9 @@ export const DashboardNavbar = () => {
       return data.data.result;
     },
     enabled: Boolean(districtCode),
-  });
+  });  
 
   
-  var userRoleIndex 
-  if (isSuccess) {
-    
-    userRoleIndex = Calc_permission(
-      console.log(
-        userDetails?.category,
-        userDetails?.role_type,
-        Boolean(parseInt(userDetails?.dno_status))
-      )
-    )?.uniqueId;
-    console.log(userRoleIndex)
-  }
-  
-
   const navigate = useNavigate();
 
   return (
@@ -150,9 +154,11 @@ export const DashboardNavbar = () => {
                   {userDetails?.blockCode != 0 && getBlock?.blockName}{" "}
                   {userDetails?.category == "BLOCK" &&
                     userDetails?.dno_status &&
-                    (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}
+                    (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}{" "}
+                  {Boolean(parseInt(userDetails?.gpCode)) && getGp?.gpName}
                   {" #"}
                   {userIndex}
+
                 </span>
               </div>
 
