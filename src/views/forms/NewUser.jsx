@@ -157,13 +157,7 @@ const NewUser = () => {
       <option value={blockRow.blockCode}>{blockRow.blockName}</option>
     ));
   }
-  const onUserId = (e) => {
-    setUserId(e.target.value);
-  };
 
-  const onPassword = (e) => {
-    setPassword(e.target.value);
-  };
 
   const onOfficeName = (e) => {
     setOfficeName(e.target.value);

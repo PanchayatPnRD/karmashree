@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-
+import { devApi } from "../../WebApi/WebApi";
 import { TablePagination } from "../../components/DataTable";
 import axios from "axios";
 
@@ -21,7 +21,7 @@ const UserList = () => {
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await axios.get(
-        "http://43.239.110.159:8094/api/user/getUserList?created_by=" +
+        devApi+"/api/user/getUserList?created_by=" +
           userIndex
       );
 
@@ -33,7 +33,7 @@ const UserList = () => {
     queryKey: ["departmentList"],
     queryFn: async () => {
       const data = await axios.get(
-        "http://43.239.110.159:8094/api/mastertable/getDepatmentlist"
+        devApi+"/api/mastertable/getDepatmentlist"
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
@@ -44,7 +44,7 @@ const UserList = () => {
     queryKey: ["designationList"],
     queryFn: async () => {
       const data = await axios.get(
-        "http://43.239.110.159:8094/api/mastertable/DesignationList"
+        devApi+"/api/mastertable/DesignationList"
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
