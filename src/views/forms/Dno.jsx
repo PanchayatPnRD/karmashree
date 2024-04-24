@@ -6,6 +6,7 @@ import {
   getAllRoleList,
   getAllSubDivisionList,
   getAllBlockList,
+  getAllGPList
 } from "../../Service/NewUserService";
 import { addNewDNO } from "../../Service/DNO/dnoService";
 import { ToastContainer, toast } from "react-toastify";
@@ -29,6 +30,7 @@ const Deno = () => {
   const [userAddress, setUserAddress] = useState("");
   const [allRoleList, setAllRoleList] = useState([]);
   const [allSubDivisionList, setAllSubDivisionList] = useState([]);
+  const [allGpList, setAllGpList] = useState([]);  
   const [allBlockList, setAllBlockList] = useState([]);
   const [userData, setUserData] = useState(null);
   const [subDivision, setSubDivision] = useState("");
@@ -69,6 +71,13 @@ const Deno = () => {
     ) {
       const response = result?.data?.result;
       setAllSubDivisionList(response);
+    });
+
+    getAllGPList(data?.districtcode, data?.blockCode,0).then(function (
+      result
+    ) {
+      const response = result?.data?.result;
+      setAllGpList(response);
     });
     getAllBlockList(data?.districtcode, data?.blockCode).then(function (
       result
@@ -149,6 +158,13 @@ const Deno = () => {
       <option value={subdivRow.subdivCode}>{subdivRow.subdivName}</option>
     ));
   }
+
+  let GpDropdown = <option>Loading...</option>;
+  if (allGpList && allGpList.length > 0) {
+    GpDropdown = allGpList.map((gpdivRow, index) => (
+      <option value={gpdivRow.gpCode}>{gpdivRow.gpName}</option>
+    ));
+  }
   let blockDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
     blockDropdown = allBlockList.map((blockRow, index) => (
@@ -200,6 +216,7 @@ const Deno = () => {
   };
 
   const onDesignation = (e) => {
+    console.log(e.target.value,"hasahsa")
     setDesignation(e.target.value);
   };
 
@@ -442,7 +459,7 @@ const Deno = () => {
                   <option value="" selected hidden>
                     Select a Gram Panchayat
                   </option>
-                  {gp}
+                  {GpDropdown}
                 </select>
               </div>
             ) : (

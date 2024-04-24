@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { devApi } from "../../WebApi/WebApi";
+
 import {
   getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
   getAllGramPanchayatList, getAllSectorActionList, addCreateAction
@@ -40,8 +38,8 @@ const Contractor = () => {
   const [pinCode, setPinCode] = useState("");
   const [isValidPinCode, setIsValidPinCode] = useState(true);
 
-  
-  
+
+
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -229,6 +227,10 @@ const Contractor = () => {
       setIsValidPinCode(false);
     }
   };
+
+  const onSubmit = () => {
+
+  }
   return (
     <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
       <ToastContainer />
@@ -549,7 +551,7 @@ const Contractor = () => {
               placeholder="Enter Scheme Name"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               onChange={onPostOffice}
-           />
+            />
             {!isValidPostOffice && (
               <div style={{ color: 'red' }}>Please enter a valid Post Office Name</div>
             )}
@@ -585,9 +587,9 @@ const Contractor = () => {
           <button
             type="button"
             className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          //onClick={onRegister}
+            onClick={onSubmit}
           >
-            Save
+            Submit
           </button>
         </div>
       </div>

@@ -8,6 +8,8 @@ import Department from "../views/forms/Department";
 import Designation from "../views/forms/Designation";
 import Scheme from "../views/forms/Scheme";
 import UserList from "../views/forms/UserList";
+import ContractorList from "../views/forms/ContractorList";
+
 import WorkAlloc from "../views/forms/WorkAlloc";
 import DashboardHome from "../views/forms/DashboardHome";
 import DnoList from "../views/forms/DnoList";
@@ -106,6 +108,12 @@ export const sideBarList = [
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
+    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: ContractorList,
+    text: "contractor List",
+    route: "/dashboard/contractor-list",
     permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
