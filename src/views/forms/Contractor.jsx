@@ -7,6 +7,11 @@ import {
   getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
   getAllGramPanchayatList, getAllSectorActionList, addCreateAction
 } from "../../Service/ActionPlan/ActionPlanService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+
 const Contractor = () => {
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
@@ -16,8 +21,27 @@ const Contractor = () => {
   const [block, setBlock] = useState("");
   const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
+  const [contractorName, setContractorName] = useState('');
+  const [gstin, setGSTIN] = useState('');
+  const [isValid, setIsValid] = useState(true);
+  const [isValidContractorName, setIsValidContractorName] = useState(true);
+  const [panNumber, setPanNumber] = useState('');
+  const [isValidPan, setIsValidPan] = useState(true);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [isValidMobile, setIsValidMobile] = useState(true);
+  const [address, setAddress] = useState("");
+  const [isValidAddress, setIsValidAddress] = useState(true);
+  const [village, setVillage] = useState("");
+  const [isValidVillage, setIsValidVillage] = useState(true);
+  const [policeStation, setPoliceStation] = useState("");
+  const [isValidPoliceStation, setIsValidPoliceStation] = useState(true);
+  const [postOffice, setPostOffice] = useState("");
+  const [isValidPostOffice, setIsValidPostOffice] = useState(true);
+  const [pinCode, setPinCode] = useState("");
+  const [isValidPinCode, setIsValidPinCode] = useState(true);
 
-
+  
+  
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -87,8 +111,127 @@ const Contractor = () => {
     ));
   }
 
+  const onContractorName = (e) => {
+    const value = e.target.value;
+    // Regular expression to allow only alphabets and white spaces
+    const regex = /^[A-Za-z\s]+$/;
+    if (regex.test(value)) {
+      setContractorName(value);
+      setIsValidContractorName(true)
+    } else {
+      setIsValidContractorName(false)
+      // toast.error("Please use only Alphabet characters")
+
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    // Allow only alphabets and white spaces
+    if (
+      !(
+        (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
+        (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
+        event.keyCode === 32 || event.key === "Backspace"
+      )
+    ) {
+      event.preventDefault();
+    }
+  }
+
+
+  const onGstIn = (event) => {
+    const value = event.target.value;
+    // Regular expression to match GSTIN format
+    const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+    if (regex.test(value) || value === '') {
+      setGSTIN(value);
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  };
+
+
+  const onPanCard = (event) => {
+    const value = event.target.value.toUpperCase(); // Convert to uppercase for consistency
+    // Regular expression to match PAN format
+    const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    if (regex.test(value) || value === '') {
+      setPanNumber(value);
+      setIsValidPan(true);
+    } else {
+      setIsValidPan(false);
+    }
+  };
+
+  const onMobile = (event) => {
+    const value = event.target.value;
+    const regex = /^[6-9]{1}[0-9]{9}$/;
+    if (regex.test(value) || value === '') {
+      setMobileNumber(value);
+      setIsValidMobile(true);
+    } else {
+      setIsValidMobile(false);
+    }
+  };
+
+  const onAddress = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s,\/]*$/;
+    if (regex.test(value) || value === '') {
+      setAddress(value);
+      setIsValidAddress(true);
+    } else {
+      setIsValidAddress(false);
+    }
+  };
+
+  const onVillage = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s,\/]*$/;
+    if (regex.test(value) || value === '') {
+      setVillage(value);
+      setIsValidVillage(true);
+    } else {
+      setIsValidVillage(false);
+    }
+  };
+
+  const onPoliceStation = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s\/]*$/;
+    if (regex.test(value) || value === '') {
+      setPoliceStation(value);
+      setIsValidPoliceStation(true);
+    } else {
+      setIsValidPoliceStation(false);
+    }
+  };
+
+  const onPostOffice = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s,\/]*$/;
+    if (regex.test(value) || value === '') {
+      setPostOffice(value);
+      setIsValidPostOffice(true);
+    } else {
+      setIsValidPostOffice(false);
+    }
+  };
+
+  const onPinCode = (event) => {
+    const value = event.target.value;
+    const regex = /^[7]{1}[0-9]{5}$/;
+    if (regex.test(value) || value === '') {
+      setPinCode(value);
+      setIsValidPinCode(true);
+    } else {
+      setIsValidPinCode(false);
+    }
+  };
   return (
     <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
+      <ToastContainer />
       <div className="p-4 px-8 shadow-md rounded">
         <nav aria-label="Breadcrumb">
           <ol className="flex items-center space-x-4 px-4 py-2">
@@ -146,8 +289,8 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              District   
-               <span className="text-red-500 "> * </span>
+              District
+              <span className="text-red-500 "> * </span>
 
             </label>
             <select
@@ -165,66 +308,82 @@ const Contractor = () => {
               {/* Add more options as needed */}
             </select>
           </div>
+          {district.length > 0 && area === "U" ? (
 
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Municipality
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>Select Municipality List</option>
-              {municipalityListDropdown}
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Municipality
+              </label>
+              <select
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>Select Municipality List</option>
+                {municipalityListDropdown}
 
-              {/* Add more options as needed */}
-            </select>
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Block
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onBlock}
+                {/* Add more options as needed */}
+              </select>
+            </div>
+          ) : (
+            ""
+          )}
 
-            >
-              <option value="" selected hidden>Select Block List</option>
-              {blockListDropdown}
+          {district.length > 0 && area === "R" ? (
 
-              {/* Add more options as needed */}
-            </select>
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              GP
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="" selected hidden>Select GP List</option>
-              {GpListDropdown}
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Block
+              </label>
+              <select
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onBlock}
 
-              {/* Add more options as needed */}
-            </select>
-          </div>
+              >
+                <option value="" selected hidden>Select Block List</option>
+                {blockListDropdown}
+
+                {/* Add more options as needed */}
+              </select>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {block.length > 0 && area === "R" ? (
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                GP
+              </label>
+              <select
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              >
+                <option value="" selected hidden>Select GP List</option>
+                {GpListDropdown}
+
+                {/* Add more options as needed */}
+              </select>
+            </div>
+          ) : (
+            ""
+          )}
+
         </div>
 
         <div className="flex flex-col w-full mb-4">
@@ -233,20 +392,22 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Name * Only Alphabel and White Space allow
+              Contractor Name *
+              (Please use only Alphabet Characters)
             </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
+            <input
+              id="contractor_name"
+              name="contractor_name"
+              type="text"
               autoComplete="off"
+              placeholder="Please Enter Contractor Name"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            >
-              <option value="">Select Sector Name</option>
-              <option value="scheme1">PWD</option>
-              <option value="scheme2">PNRD</option>
-
-              {/* Add more options as needed */}
-            </select>
+              onChange={onContractorName}
+              onKeyDown={handleKeyDown}
+            />
+            {!isValidContractorName && (
+              <div style={{ color: 'red' }}>Please enter a valid Contractor Name</div>
+            )}
           </div>
 
           <div className="px-4">
@@ -254,48 +415,62 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor GSTIN * (placeholder="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]{1}$")
+              Contractor GSTIN *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]{1}$"
+              placeholder="Please enter Contractor GSTIN Number"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onGstIn}
+
             />
+            {!isValid && (
+              <div style={{ color: 'red' }}>Please enter a valid GSTIN</div>
+            )}
           </div>
           <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor PAN * ( /[A-Z]{5}[0-9]{4}[A-Z]{1}$/; )
+              Contractor PAN *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder=" /[A-Z]{5}[0-9]{4}[A-Z]{1}$/; "
+              placeholder="Please Enter Contractor Pan Number"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+              onChange={onPanCard}
             />
+            {!isValidPan && (
+              <div style={{ color: 'red' }}>Please enter a valid PAN Number</div>
+            )}
           </div>
           <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Mobile * (/[6-9]{1}[0-9]{9}$/)
+              Contractor Mobile *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder=" /[6-9]{1}[0-9]{9}$/; "
+              placeholder="Please Enter Contractor Mobile Number"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+              onChange={onMobile}
+            // value={mobileNumber}
             />
+            {!isValidMobile && (
+              <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+            )}
           </div>
         </div>
         <div className="flex flex-col w-full mb-4">
@@ -304,55 +479,67 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Address * Validation Alpha Numuric, White Space  and Special Character (,/)
+              Contractor Address *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder="Enter Scheme Name"
+              placeholder="Please Enter Contractor Address"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onAddress}
             />
+            {!isValidAddress && (
+              <div style={{ color: 'red' }}>Please enter a valid Address</div>
+            )}
           </div>
           <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Village Name/Word no  * Validation Alpha Numuric, White Space  and Special Character (,/)
+              Village Name/Word no  *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder="Enter Scheme Name"
+              placeholder="Please Enter Village Name/Word no"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onVillage}
             />
+            {!isValidVillage && (
+              <div style={{ color: 'red' }}>Please enter a valid Village Name/Word no</div>
+            )}
           </div>
           <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Police Station  * Validation Alpha Numuric, White Space  and Special Character (/)
+              Police Station  *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder="Enter Scheme Name"
+              placeholder="Please Enter Police Station Name"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onPoliceStation}
             />
+            {!isValidPoliceStation && (
+              <div style={{ color: 'red' }}>Please enter a valid Police station Name</div>
+            )}
           </div>
           <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Post Office  * Validation Alpha Numuric, White Space  and Special Character (,/)
+              Post Office  *
             </label>
             <input
               id="scheme_name"
@@ -361,7 +548,11 @@ const Contractor = () => {
               autoComplete="off"
               placeholder="Enter Scheme Name"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-            />
+              onChange={onPostOffice}
+           />
+            {!isValidPostOffice && (
+              <div style={{ color: 'red' }}>Please enter a valid Post Office Name</div>
+            )}
           </div>
         </div>
         <div className="flex w-full space-x-4 flex-col mb-4 ">
@@ -371,16 +562,20 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Pin  * Validation  Numuric (/[7]{1}[0-9]{5}$/)
+              Pin  *
             </label>
             <input
               id="scheme_name"
               name="scheme_name"
               type="text"
               autoComplete="off"
-              placeholder=" /[7]{1}[0-9]{5}$/; "
+              placeholder="Please Enter a Pin Code"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onPinCode}
             />
+            {!isValidPinCode && (
+              <div style={{ color: 'red' }}>Please enter a valid Pin Code</div>
+            )}
           </div>
 
 
