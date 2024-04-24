@@ -23,9 +23,19 @@ const ActionPlanList = () => {
   console.log(allDesignationList, "allDesignationList")
   const HeadData = [
     "Scheme Area",
-    "District",
-    "Sector",
+    "Department Name",
     "Financial Year",
+    "District",
+    "Block",
+    "GP",
+    "Type of Schemes",
+    "No of Schemes Proposed",
+    "Tentative Total Cost of Schemes",
+    "Tentative Total Wage to be paid in the Schemes",
+    "Total Person days to be Generated",
+    "Total no. of Job Card Holder to be Engaged",
+    "Average Days of Employmengt to be Provided per Family",
+
 
   ];
 
@@ -102,18 +112,51 @@ const ActionPlanList = () => {
                   {index + 1}
                 </Table.Cell>
 
-
                 <Table.Cell>
                   {d?.schemeArea === "R" ? "Rural" : "Urban"}
+                  
+                </Table.Cell>
+                <Table.Cell>
+                 
+                  {d?.departmentNo}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.finYear}
                 </Table.Cell>
                 <Table.Cell>
                   {d?.districtCode}
                 </Table.Cell>
                 <Table.Cell>
-                  {d?.schemeSector}
+                  {d?.blockCode}
+
                 </Table.Cell>
+
+
+
                 <Table.Cell>
-                  {d?.finYear}
+                  {d?.gpCode}
+
+                </Table.Cell><Table.Cell>
+                  {d?.schemeSector}
+
+                </Table.Cell><Table.Cell>
+                  {d?.schemeProposed}
+
+                </Table.Cell><Table.Cell>
+                  {d?.tentativeCostOfScheme}
+
+                </Table.Cell><Table.Cell>
+                  {d?.totWagesPaid}
+
+                </Table.Cell><Table.Cell>
+                  {d?.totPersonDays}
+
+                </Table.Cell><Table.Cell>
+                  {d?.totJobCard}
+
+                </Table.Cell><Table.Cell>
+                  {d?.averageDays}
+
                 </Table.Cell>
               </Table.Row>
             ))}
