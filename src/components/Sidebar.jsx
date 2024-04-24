@@ -23,8 +23,6 @@ import { devApi } from "../WebApi/WebApi";
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
 // import Register from "../views/Register/Register";
 
-
-
 export const sideBarList = [
   {
     Component: DashboardHome,
@@ -36,13 +34,13 @@ export const sideBarList = [
     Component: NewUser,
     text: "department user",
     route: "/dashboard/dept-user",
-    permissions: [1, 7, 13, 15, 19, 21, 24, 25, 27],
+    permissions: [1, 7, 13, 15, 19, 21, 25, 27],
   },
   {
     Component: UserList,
     text: "department user list",
     route: "/dashboard/dept-userlist",
-    permissions: [1, 7, 13, 15, 19, 21, 24, 25, 27],
+    permissions: [1, 7, 13, 15, 19, 21, 25, 27],
   },
   {
     Component: Dno,
@@ -84,31 +82,33 @@ export const sideBarList = [
     Component: Scheme,
     text: "scheme",
     route: "/dashboard/scheme",
-    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Demand,
     text: "demand",
     route: "/dashboard/demand",
-    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [
+      1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29,30, 31, 32, 33, 34, 35,
+    ],
   },
   {
     Component: WorkRequirement,
     text: "work requirement",
     route: "/dashboard/work-requirement",
-    permissions: [1,13, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: WorkAlloc,
     text: "work allocation",
     route: "/dashboard/work-allocation",
-    permissions: [1,13, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: ContractorList,
@@ -120,12 +120,12 @@ export const sideBarList = [
     Component: Employment,
     text: "employment",
     route: "/dashboard/employment",
-    permissions: [1,13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 ];
 
 export const Sidebar = () => {
-  const userMasterHidden = [17,23,29]
+  const userMasterHidden = [17, 23, 29,30, 31, 32, 33, 34, 35];
 
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
@@ -144,8 +144,8 @@ export const Sidebar = () => {
     userDetails?.category,
     userDetails?.role_type,
     Boolean(parseInt(userDetails?.dno_status))
-  )?.uniqueId;
-
+  )?.uniqueId
+  console.log(userRoleIndex, "permission");
 
   return (
     <div className=" flex flex-col p-3">
@@ -153,37 +153,40 @@ export const Sidebar = () => {
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
       <div className="h-2"></div>
-      {isSuccess && !userMasterHidden.includes(userRoleIndex) && <SidebarExpand text={"User Master"}>
-        {sideBarList
-          .slice(1, 5)
+      {isSuccess && !userMasterHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"User Master"}>
+          {sideBarList
+            .slice(1, 5)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+
+      {isSuccess &&
+        sideBarList
+          .slice(5, sideBarList.length)
           .filter((e) => e.permissions.includes(userRoleIndex))
           .map((e) => {
             return (
               <SidebarElement
                 key={e.route}
                 to={e.route}
-                customCss={"py-2 pl-8 text-sm"}
+                customCss={"py-2.5 pl-16"}
               >
                 <div className=" items-center capitalize">{e.text}</div>
               </SidebarElement>
             );
           })}
-      </SidebarExpand>}
-
-      {isSuccess && sideBarList
-        .slice(5, sideBarList.length)
-        .filter((e) => e.permissions.includes(userRoleIndex))
-        .map((e) => {
-          return (
-            <SidebarElement
-              key={e.route}
-              to={e.route}
-              customCss={"py-2.5 pl-16"}
-            >
-              <div className=" items-center capitalize">{e.text}</div>
-            </SidebarElement>
-          );
-        })}
     </div>
   );
 };

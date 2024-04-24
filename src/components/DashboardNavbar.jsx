@@ -13,7 +13,7 @@ export const DashboardNavbar = () => {
     localStorage.getItem("karmashree_User")
   );
 
-  const { data: userDetails } = useQuery({
+  const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
       const data = await axios.get(devApi + "/api/user/viewuser/" + userIndex);
@@ -39,6 +39,62 @@ export const DashboardNavbar = () => {
     },
     enabled: Boolean(districtCode),
   });
+
+  const { data: getSubDivision } = useQuery({
+    queryKey: ["getSubDivision"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/mastertable/getSubdivison/" +
+          (userDetails?.districtcode?.length == 1
+            ? `0${userDetails?.districtcode}`
+            : userDetails?.districtcode) +
+          "/" +
+          userDetails?.subDivision
+      );
+
+      return data.data.result[0];
+    },
+    enabled: Boolean(userDetails?.subDivision),
+  });
+
+  const { data: getBlock } = useQuery({
+    queryKey: ["getBlock"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/mastertable/getBlock/" +
+          (userDetails?.districtcode?.length == 1
+            ? `0${userDetails?.districtcode}`
+            : userDetails?.districtcode) +
+          "/" +
+          userDetails?.blockCode
+      );
+
+      return data.data.result[0];
+    },
+    enabled: Boolean(userDetails?.blockCode),
+  });
+
+  const { data: getGp } = useQuery({
+    queryKey: ["getGp"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/mastertable/getGp/" +
+          (userDetails?.districtcode?.length == 1
+            ? `0${userDetails?.districtcode}`
+            : userDetails?.districtcode) +
+          "/" +
+          userDetails?.blockCode+ "/" + userDetails?.gpCode
+      );
+
+      return data.data.result[0];
+    },
+    enabled: Boolean(userDetails?.gpCode),
+  });
+
+
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
@@ -49,8 +105,9 @@ export const DashboardNavbar = () => {
       return data.data.result;
     },
     enabled: Boolean(districtCode),
-  });
+  });  
 
+  
   const navigate = useNavigate();
 
   return (
@@ -79,18 +136,29 @@ export const DashboardNavbar = () => {
                   {userDetails?.userId}
                 </span>
                 <span className="text-sm text-end">
-                  {
+                  {userDetails?.category != "BLOCK" &&
+                    userDetails?.category != "GP" &&
                     departmentList?.[
                       departmentList?.findIndex(
                         (obj) => obj.departmentNo == userDetails?.departmentNo
                       )
-                    ]?.departmentName
-                  }{" "}
+                    ]?.departmentName}{" "}
                   {userDetails?.districtcode == 0 &&
                     userDetails?.category == "HQ" &&
                     "Karmashree Admin"}{" "}
-                  {userDetails?.districtcode !== 0 && getDistrict?.district}
-                  #{userIndex}
+                  {userDetails?.category != "HD" && 
+                    userDetails?.category != "HQ" &&
+                    userDetails?.districtcode !== 0 &&
+                    getDistrict?.districtName}{" "}
+                  {userDetails?.subDivision != 0 && getSubDivision?.subdivName}{" "}
+                  {userDetails?.blockCode != 0 && getBlock?.blockName}{" "}
+                  {userDetails?.category == "BLOCK" &&
+                    userDetails?.dno_status &&
+                    (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}{" "}
+                  {Boolean(parseInt(userDetails?.gpCode)) && getGp?.gpName}
+                  {" #"}
+                  {userIndex}
+
                 </span>
               </div>
 
