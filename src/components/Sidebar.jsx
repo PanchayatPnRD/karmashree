@@ -32,13 +32,13 @@ export const sideBarList = [
     Component: NewUser,
     text: "department user",
     route: "/dashboard/dept-user",
-    permissions: [1, 7, 13, 15, 19, 21, 24, 25, 27],
+    permissions: [1, 7, 13, 15, 19, 21, 25, 27],
   },
   {
     Component: UserList,
     text: "department user list",
     route: "/dashboard/dept-userlist",
-    permissions: [1, 7, 13, 15, 19, 21, 24, 25, 27],
+    permissions: [1, 7, 13, 15, 19, 21, 25, 27],
   },
   {
     Component: Dno,
