@@ -52,7 +52,7 @@ const ActionPlanList = () => {
 
   return (
     <>
-      <div className="bg-white rounded-lg p-12 max-w-[75%]">
+      <div className="bg- rounded-lg p-12 overflow-x-hidden">
         <div id="breadcrumb-starts-here" className="shadow-md -mb-4 ">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
@@ -86,45 +86,47 @@ const ActionPlanList = () => {
           <br />
         </div>
       </div>
-      <div className="flex flex-col flex-grow p-8 px-12 border overflow-x-auto">
-        <Table className="w-full">
-          <Table.Head>
-            <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-            {HeadData.map((e) => (
-              <Table.HeadCell key={e} className="capitalize">
-                {e}
-              </Table.HeadCell>
-            ))}
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {actionPlanList.map((d, index) => (
-              <Table.Row
-                key={userIndex}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
-                </Table.Cell>
+      <div className="bg-transparent flex flex-col flex-grow p-8 px-12 border ">
+        <div className="overflow-x-autoe">
+          <Table className="min-w-[calc(100vw * 0.7)]">
+            <Table.Head>
+              <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
+              {HeadData.map((e) => (
+                <Table.HeadCell key={e} className="capitalize">
+                  {e}
+                </Table.HeadCell>
+              ))}
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {actionPlanList.map((d, index) => (
+                <Table.Row
+                  key={userIndex}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {index + 1}
+                  </Table.Cell>
 
-                <Table.Cell>
-                  {d?.schemeArea === "R" ? "Rural" : "Urban"}
-                </Table.Cell>
-                <Table.Cell>{d?.departmentNo}</Table.Cell>
-                <Table.Cell>{d?.finYear}</Table.Cell>
-                <Table.Cell>{d?.districtCode}</Table.Cell>
-                <Table.Cell>{d?.blockCode}</Table.Cell>
-                <Table.Cell>{d?.gpCode}</Table.Cell>
-                <Table.Cell>{d?.schemeSector}</Table.Cell>
-                <Table.Cell>{d?.schemeProposed}</Table.Cell>
-                <Table.Cell>{d?.tentativeCostOfScheme}</Table.Cell>
-                <Table.Cell>{d?.totWagesPaid}</Table.Cell>
-                <Table.Cell>{d?.totPersonDays}</Table.Cell>
-                <Table.Cell>{d?.totJobCard}</Table.Cell>
-                <Table.Cell>{d?.averageDays}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                  <Table.Cell>
+                    {d?.schemeArea === "R" ? "Rural" : "Urban"}
+                  </Table.Cell>
+                  <Table.Cell>{d?.departmentNo}</Table.Cell>
+                  <Table.Cell>{d?.finYear}</Table.Cell>
+                  <Table.Cell>{d?.districtCode}</Table.Cell>
+                  <Table.Cell>{d?.blockCode}</Table.Cell>
+                  <Table.Cell>{d?.gpCode}</Table.Cell>
+                  <Table.Cell>{d?.schemeSector}</Table.Cell>
+                  <Table.Cell>{d?.schemeProposed}</Table.Cell>
+                  <Table.Cell>{d?.tentativeCostOfScheme}</Table.Cell>
+                  <Table.Cell>{d?.totWagesPaid}</Table.Cell>
+                  <Table.Cell>{d?.totPersonDays}</Table.Cell>
+                  <Table.Cell>{d?.totJobCard}</Table.Cell>
+                  <Table.Cell>{d?.averageDays}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
         <div className="flex overflow-x-auto sm:justify-center">
           <TablePagination
             data={actionPlanList}

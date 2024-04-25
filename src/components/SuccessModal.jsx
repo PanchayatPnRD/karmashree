@@ -7,7 +7,7 @@ const SuccessModal = ({
   openModal,
   isSuccess,
   errorMsg,
-  userId,
+  message,
 }) => {
   const navigate = useNavigate();
   return (
@@ -26,9 +26,11 @@ const SuccessModal = ({
             {isSuccess ? (
               <>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-               {errorMsg}
+                  You have successfully been registered in Karmashree portal,
+                  your user id is <b>{message}</b> and details have been sent to your
+                  registered mobile number. Please change your password in first
+                  login
                 </p>
-               
               </>
             ) : (
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">

@@ -22,8 +22,8 @@ const NewUser = () => {
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [district, setDistrict] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [password, setPassword] = useState("");
   const [officeName, setOfficeName] = useState("");
   const [nodalOfficerName, setNodalOfficerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -339,6 +339,7 @@ const NewUser = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
+        message={errorMessage?.message}
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         isSuccess={!Boolean(errorMessage?.errorCode)}
         errorMsg={errorMessage?.message}

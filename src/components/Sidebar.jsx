@@ -142,7 +142,7 @@ export const Sidebar = () => {
   console.log(userRoleIndex, "permission");
 
   return (
-    <div className=" flex flex-col p-3">
+    <div className="z-20 flex flex-col p-3">
       <SidebarElement to="/dashboard" customCss={"flex justify-center "}>
         <div className=" items-center py-2 capitalize">Home</div>
       </SidebarElement>
@@ -158,6 +158,7 @@ export const Sidebar = () => {
                   key={e.route}
                   to={e.route}
                   customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
                 >
                   <div className=" items-center capitalize">{e.text}</div>
                 </SidebarElement>
@@ -175,7 +176,7 @@ export const Sidebar = () => {
               <SidebarElement
                 key={e.route}
                 to={e.route}
-                customCss={"py-2.5 pl-16"}
+                customCss={"py-2.5 pl-10"}
               >
                 <div className=" items-center capitalize">{e.text}</div>
               </SidebarElement>
