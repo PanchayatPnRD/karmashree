@@ -149,9 +149,9 @@ export const DashboardNavbar = () => {
                   {userDetails?.subDivision != 0 && getSubDivision?.subdivName}{" "}
                   {userDetails?.blockCode != 0 && getBlock?.blockName}{" "}
                   {userDetails?.category == "BLOCK" &&
-                    userDetails?.dno_status &&
+                    Boolean(parseInt(userDetails?.dno_status)) &&
                     (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}{" "}
-                  {userDetails?.dno_status &&
+                  {Boolean(parseInt(userDetails?.dno_status)) &&
                     (userDetails?.category == "DIST" ? "DNO" : "")}
                   {Boolean(parseInt(userDetails?.gpCode)) && getGp?.gpName}
                   {" #"}
