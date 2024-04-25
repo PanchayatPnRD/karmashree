@@ -27,7 +27,7 @@ const SuccessModal = ({
               <>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                   You have successfully been registered in Karmashree portal,
-                  your user id is <b>{message}</b> and details have been sent to your
+                  your user id is <b className="text-zinc-700">{message}</b> and details have been sent to your
                   registered mobile number. Please change your password in first
                   login
                 </p>
