@@ -49,6 +49,12 @@ const Profile = () => {
 
   console.log(allUserList, "allUserList");
 
+  const[allData,setAllData]=useState(
+    {
+
+    }
+  );
+
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -233,7 +239,7 @@ const Profile = () => {
     setTechnicalOfficerEmail(e.target.value);
   };
 
-console.log(allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation,"desdesdes")
+  console.log(allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation, "desdesdes")
 
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
@@ -397,6 +403,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
 
         <form className="flex">
           <div className="w-full px-36 space-y-6 pb-10">
+          {userData?.category === "HQ" ?"":
             <div>
               <label
                 htmlFor="country"
@@ -406,6 +413,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 <span className="text-red-500 "> * </span>
               </label>
               <select
+              disabled
                 id="country"
                 name="country"
                 required
@@ -421,6 +429,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 {departmentListDropdown}
               </select>
             </div>
+}
             {userData?.category === "HQ" ? (
               ""
             ) : (
@@ -486,8 +495,8 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
-                {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
-                  {allUserList?.designationID?allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation:"Select a Designation"}
+                  {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
+                  {allUserList?.designationID ? allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation : "Select a Designation"}
                 </option>
                 {designationListDropdown}
               </select>
@@ -504,7 +513,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 id="tel"
                 name="username"
                 maxLength={10}
-                type="number"                
+                type="number"
                 autoComplete="username"
                 onChange={onContactNumber}
                 placeholder="type your Contact number"
@@ -691,7 +700,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
-                  Select a role
+                { allUserList?.role_type ? allRoleList.find(c => c.id === allUserList?.role_type)?.role_type : "Select a role"}
                 </option>
                 {roleListDropdown}
               </select>
@@ -712,6 +721,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                 onChange={onUserAddress}
                 placeholder="type your office address"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                value={allUserList?.UserAddress}
               />
             </div>
             {/* <div>
@@ -775,6 +785,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                     onChange={onTechnicalOfficerName}
                     placeholder="type Technical officer name"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={allUserList?.technical_officer}
                   />
                 </div>
                 <div>
@@ -792,6 +803,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                     onChange={onTechnicalOfficerDesignation}
                     placeholder="Type Technical officer Designation"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={allUserList?.tech_designation_id}
                   />
                 </div>
                 <div>
@@ -809,6 +821,7 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                     onChange={onTechnicalOfficerContactNumber}
                     placeholder="type your Contact number"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={allUserList?.tech_mobile}
                   />
                 </div>
                 <div>
@@ -826,6 +839,8 @@ console.log(allDesignationList.find(c => c.designationId === allUserList?.design
                     onChange={onTechnicalOfficerEmail}
                     placeholder="type your email id"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={allUserList?.tech_email}
+
                   />
                 </div>
               </>
