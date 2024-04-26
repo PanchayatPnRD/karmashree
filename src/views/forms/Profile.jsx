@@ -233,6 +233,8 @@ const Profile = () => {
     setTechnicalOfficerEmail(e.target.value);
   };
 
+console.log(allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation,"desdesdes")
+
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a department");
@@ -465,7 +467,7 @@ const Profile = () => {
                 onChange={onNodalOfficerName}
                 placeholder="type your Nodal officer name"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                defaultValue={allUserList?.userName}
+                value={allUserList?.userName}
 
               />
             </div>
@@ -484,7 +486,8 @@ const Profile = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
-                  Select a Designation
+                {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
+                  {allUserList?.designationID?allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation:"Select a Designation"}
                 </option>
                 {designationListDropdown}
               </select>
@@ -501,12 +504,12 @@ const Profile = () => {
                 id="tel"
                 name="username"
                 maxLength={10}
-                type="number"
-                value={contactNumber}
+                type="number"                
                 autoComplete="username"
                 onChange={onContactNumber}
                 placeholder="type your Contact number"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                value={allUserList?.contactNo}
               />
             </div>
             <div>
@@ -525,6 +528,8 @@ const Profile = () => {
                 onChange={onEmail}
                 placeholder="type your email id"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                value={allUserList?.email}
+
               />
             </div>
 
@@ -541,7 +546,7 @@ const Profile = () => {
                 >
                   Sub-Division
                   <span className="text-red-500 "> * </span>
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <select
                   id="country"
