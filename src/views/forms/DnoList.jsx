@@ -26,7 +26,7 @@ console.log(allDesignationList,"allDesignationList")
     "block",
     "officer designation",
     "phone",
-    "status",
+    "action",
   ];
 
   useEffect(()=>{
@@ -34,7 +34,6 @@ console.log(allDesignationList,"allDesignationList")
       const response = result?.data?.result?.data;
       console.log(response,"res-->")
       setDnoUserList(response);
-      
     });
 
     getAllDesignationList().then(function (result) {

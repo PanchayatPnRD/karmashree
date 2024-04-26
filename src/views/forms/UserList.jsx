@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
 import { devApi } from "../../WebApi/WebApi";
 import { TablePagination } from "../../components/DataTable";
@@ -58,7 +59,7 @@ const UserList = () => {
     "block",
     "officer designation",
     "phone",
-    "status",
+    "action",
   ];
 
   return (
@@ -163,7 +164,14 @@ const UserList = () => {
                         }
                       </Table.Cell>
                       <Table.Cell>{contactNo}</Table.Cell>
-                      <Table.Cell>{currentStatus}</Table.Cell>
+                      <Table.Cell className="flex items-center justify-center space-x-8">
+                        <a
+                          href="#"
+                          className="font-medium text-cyan-600 hover:underline text-2xl"
+                        >
+                          <Icon icon={"mingcute:edit-line"} />
+                        </a>
+                      </Table.Cell>
                     </Table.Row>
                   );
                 }
