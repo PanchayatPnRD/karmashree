@@ -28,11 +28,7 @@ const Designation = () => {
     },
   });
 
-  const filteredData = designationList?.filter((item) =>
-    Object.values(item).some((value) =>
-      value.toString().toLowerCase().includes(search.toLowerCase())
-    )
-  );
+
 
   const designationTier = useRef(null);
   const designation = useRef(null);

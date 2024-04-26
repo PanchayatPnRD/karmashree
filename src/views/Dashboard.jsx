@@ -9,7 +9,7 @@ const Dashboard = ({ children }) => {
     <>
       <DashboardNavbar />
 
-      <div className="flex bg-cyan-50">
+      <div className="flex">
         <div className="w-1/4 xl:w-1/5 inset-y-0 top-[98px] min-h-remaining bg-blue-950 fixed overflow-y-auto">
           <Sidebar />
         </div>
