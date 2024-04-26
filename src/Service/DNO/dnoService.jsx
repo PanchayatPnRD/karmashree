@@ -29,7 +29,7 @@ export const addNewDNO = async (
   onFailure
 ) => {
   console.log(
-    departmentNo,
+    departmentNo,"depart",
     districtcode,
     subDivision,
     blockCode,
@@ -44,7 +44,7 @@ export const addNewDNO = async (
     deptWing,
     area,
     gpCode,
-    userType,
+    userType,"usertype",
     role_type,
     pwd,
     entryBy,
@@ -58,12 +58,12 @@ export const addNewDNO = async (
   try {
     const res = await webApi.post(`/api/user/create_user`, {
       category: category,
-      departmentNo: departmentNo,
+      departmentNo: 0,
       districtcode: districtcode,
       subDivision: subDivision,
       blockCode: blockCode,
       gpCode: gpCode,
-      userType: userType,
+      userType: 1,
       role_type: 1,
       // userId:userId,
       pwd: pwd,

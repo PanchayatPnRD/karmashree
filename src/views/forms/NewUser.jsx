@@ -47,6 +47,7 @@ const NewUser = () => {
   const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
     useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
+  const [technicalOfficerEmailInput, setTechnicalOfficerEmailInput] = useState("");
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -218,11 +219,16 @@ const NewUser = () => {
   };
 
   const onTechnicalOfficerContactNumber = (e) => {
-    setTechnicalOfficerContactNumber(e.target.value);
+    if (e.target.value.length <= 10) {
+      setTechnicalOfficerContactNumber(e.target.value);
+    }
   };
 
   const onTechnicalOfficerEmail = (e) => {
-    setTechnicalOfficerEmail(e.target.value);
+    setTechnicalOfficerEmailInput(e.target.value)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setTechnicalOfficerEmail(emailRegex.test(e.target.value));
+    
   };
 
   const onRegister = () => {
@@ -264,7 +270,14 @@ const NewUser = () => {
       toast.error("Please select role");
     } else if (userAddress === "") {
       toast.error("Please type user address");
-    } else {
+    } else if (technicalOfficerContactNumber != "" && technicalOfficerContactNumber.length != 10) {
+      toast.error("Please type 10 digit Technical officer mobile number");
+
+    } else if (technicalOfficerEmailInput != "" && !technicalOfficerEmail) {
+      toast.error("Please enter Technical officer valid email id");
+
+    }
+    else {
       setOpenModal(true);
 
       addNewUser(
@@ -322,7 +335,7 @@ const NewUser = () => {
         technicalOfficerName ? technicalOfficerName : "",
         technicalOfficerDesignation ? technicalOfficerDesignation : "",
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
-        technicalOfficerEmail ? technicalOfficerEmail : "",
+        technicalOfficerEmailInput ? technicalOfficerEmailInput : "",
         (r) => {
           setErrorMessage(r)
 
@@ -786,9 +799,11 @@ const NewUser = () => {
                     Technical officer mobile number
                   </label>
                   <input
-                    id="username"
+                    id="tel"
                     name="username"
                     type="number"
+                    maxLength={10}
+                    value={technicalOfficerContactNumber}
                     autoComplete="username"
                     onChange={onTechnicalOfficerContactNumber}
                     placeholder="type your Contact number"
