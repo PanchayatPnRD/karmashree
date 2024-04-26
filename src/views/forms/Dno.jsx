@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 
-const Deno = () => {
+const Dno = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
@@ -630,4 +630,4 @@ const Deno = () => {
   );
 };
 
-export default Deno;
+export default Dno;
