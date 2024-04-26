@@ -17,6 +17,8 @@ const ViewProfile = () => {
     },
   });
 
+  console.log(userDetails,"userDetails")
+
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
     queryFn: async () => {
