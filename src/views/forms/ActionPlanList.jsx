@@ -42,7 +42,7 @@ const ActionPlanList = () => {
 
   return (
     <>
-      <div className="bg- rounded-lg p-12 overflow-x-hidden">
+      <div className="rounded-lg p-12">
         <div id="breadcrumb-starts-here" className="shadow-md -mb-4 ">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">

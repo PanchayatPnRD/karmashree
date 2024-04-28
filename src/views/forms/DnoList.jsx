@@ -1,25 +1,26 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
+import { fetch } from "../../functions/Fetchfunctions";
 import { useQuery } from "@tanstack/react-query";
 
 import { TablePagination } from "../../components/DataTable";
-import {getAllDnoUserList,getAllDesignationList} from "../../Service/DNO/dnoService";
+import {
+  getAllDnoUserList,
+  getAllDesignationList,
+} from "../../Service/DNO/dnoService";
 
 const DnoList = () => {
-  
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex,"userIndex")
+  console.log(userIndex, "userIndex");
   const [startIndex, endIndex] = useMemo(() => {
     const start = (currentPage - 1) * 5;
     const end = currentPage * 5;
 
     return [start, end];
   }, [currentPage]);
-const [dnoUserList,setDnoUserList]=useState([]);
-const [allDesignationList, setAllDesignationList] = useState([]);
 
-console.log(allDesignationList,"allDesignationList")
+  
   const HeadData = [
     "district",
     "sub division",
@@ -29,19 +30,26 @@ console.log(allDesignationList,"allDesignationList")
     "action",
   ];
 
-  useEffect(()=>{
-    getAllDnoUserList(userIndex).then(function (result) {
-      const response = result?.data?.result?.data;
-      console.log(response,"res-->")
-      setDnoUserList(response);
-    });
+  const { data: dnoUserList } = useQuery({
+    queryKey: ["dnoUserList"],
+    queryFn: async () => {
+      const { data } = await fetch.get(
+        "/api/user/getDnolist?created_by=",
+        userIndex
+      );
 
-    getAllDesignationList().then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "sibamdey");
-      setAllDesignationList(response);
-    });
-  },[])
+      return data.result.data;
+    },
+  });
+
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
+    queryFn: async () => {
+      const data = await fetch.get(devApi + "/api/mastertable/DesignationList");
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
 
   return (
     <>
@@ -90,39 +98,33 @@ console.log(allDesignationList,"allDesignationList")
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-           
-                 {dnoUserList.map((d,index)=>(
+            {dnoUserList?.map((d, index) => (
+              <Table.Row
+                key={userIndex}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {index + 1}
+                </Table.Cell>
 
-                    <Table.Row
-                      key={userIndex}
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {index+1}
-                      </Table.Cell>
-                    
-
-                      <Table.Cell>
-                        {d?.districtName}
-                        {/* {parseInt(districtcode) ? districtcode : "-"} */}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {d?.subDivision==0?"-":d?.subDivision}
-                        {/* {parseInt(subDivision) ? subDivision : "-"} */}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {d?.blockCode==0?"-":d?.blockCode}
-                        {/* {parseInt(blockCode) ? blockCode : "-"} */}
-                      </Table.Cell>
-                      <Table.Cell>
-                       {/* {d?.designationID} */}
-                       {allDesignationList.find(c => c.designationId === d?.designationID)?.designation}
-                      </Table.Cell>
-                      <Table.Cell>{d?.contactNo}</Table.Cell>
-                      <Table.Cell>{d?.currentStatus}</Table.Cell>
-                    </Table.Row>
-                 ))}
-                 
+                <Table.Cell>{d?.districtName}</Table.Cell>
+                <Table.Cell>
+                  {d?.subDivision == 0 ? "-" : d?.subDivision}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.blockCode == 0 ? "-" : d?.blockCode}
+                </Table.Cell>
+                <Table.Cell>
+                  {
+                    designationList.find(
+                      (c) => c.designationId === d?.designationID
+                    )?.designation
+                  }
+                </Table.Cell>
+                <Table.Cell>{d?.contactNo}</Table.Cell>
+                <Table.Cell>{d?.currentStatus}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">

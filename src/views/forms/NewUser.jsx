@@ -16,7 +16,7 @@ import SuccessModal from "../../components/SuccessModal";
 
 const NewUser = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(errorMessage, "erroreeeororor")
+  console.log(errorMessage, "erroreeeororor");
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
@@ -47,7 +47,8 @@ const NewUser = () => {
   const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
     useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
-  const [technicalOfficerEmailInput, setTechnicalOfficerEmailInput] = useState("");
+  const [technicalOfficerEmailInput, setTechnicalOfficerEmailInput] =
+    useState("");
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -159,7 +160,6 @@ const NewUser = () => {
     ));
   }
 
-
   const onOfficeName = (e) => {
     setOfficeName(e.target.value);
   };
@@ -219,10 +219,9 @@ const NewUser = () => {
   };
 
   const onTechnicalOfficerEmail = (e) => {
-    setTechnicalOfficerEmailInput(e.target.value)
+    setTechnicalOfficerEmailInput(e.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setTechnicalOfficerEmail(emailRegex.test(e.target.value));
-    
   };
 
   const onRegister = () => {
@@ -264,16 +263,14 @@ const NewUser = () => {
       toast.error("Please select role");
     } else if (userAddress === "") {
       toast.error("Please type user address");
-    } else if (technicalOfficerContactNumber != "" && technicalOfficerContactNumber.length != 10) {
+    } else if (
+      technicalOfficerContactNumber != "" &&
+      technicalOfficerContactNumber.length != 10
+    ) {
       toast.error("Please type 10 digit Technical officer mobile number");
-
     } else if (technicalOfficerEmailInput != "" && !technicalOfficerEmail) {
       toast.error("Please enter Technical officer valid email id");
-
-    }
-    else {
-      setOpenModal(true);
-
+    } else {
       addNewUser(
         userData?.category === "HQ"
           ? department
@@ -282,19 +279,19 @@ const NewUser = () => {
         userData?.category === "HD"
           ? district
           : userData?.districtcode
-            ? userData?.districtcode
-            : district,
+          ? userData?.districtcode
+          : district,
 
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-            ? userData?.subDivision
-            : subDivision,
+          ? userData?.subDivision
+          : subDivision,
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-            ? userData?.blockCode
-            : block,
+          ? userData?.blockCode
+          : block,
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -305,19 +302,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-            ? "DIST"
-            : userData?.category === "DEPT"
-              ? "DIST"
-              : userData?.category === "DIST" && subDivision === "" && block === ""
-                ? "DIST"
-                : userData?.category === "DIST" && subDivision && block === ""
-                  ? "SUB"
-                  : (userData?.category === "DIST" && subDivision && block) ||
-                    (userData?.category === "DIST" && subDivision === "" && block)
-                    ? "BLOCK"
-                    : userData?.category === "SUB"
-                      ? "BLOCK"
-                      : "BLOCK",
+          ? "DIST"
+          : userData?.category === "DEPT"
+          ? "DIST"
+          : userData?.category === "DIST" && subDivision === "" && block === ""
+          ? "DIST"
+          : userData?.category === "DIST" && subDivision && block === ""
+          ? "SUB"
+          : (userData?.category === "DIST" && subDivision && block) ||
+            (userData?.category === "DIST" && subDivision === "" && block)
+          ? "BLOCK"
+          : userData?.category === "SUB"
+          ? "BLOCK"
+          : "BLOCK",
         "",
         "A",
         1,
@@ -331,8 +328,8 @@ const NewUser = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmailInput ? technicalOfficerEmailInput : "",
         (r) => {
-          setErrorMessage(r)
-
+          setErrorMessage(r);
+          setOpenModal(true);
           console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
@@ -346,7 +343,7 @@ const NewUser = () => {
       );
     }
   };
-  console.log(errorMessage?.message, "message")
+  console.log(errorMessage?.message, "message");
   return (
     <div className="flex-grow ">
       <SuccessModal
@@ -438,9 +435,9 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                      userData?.category === "DIST" ||
-                      userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
@@ -526,9 +523,9 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -549,7 +546,7 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -558,8 +555,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -587,11 +584,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -618,11 +615,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>

@@ -238,7 +238,7 @@ const Dno = () => {
     } else if (userAddress === "") {
       toast.error("Please type office address");
     } else {
-      setOpenModal(true);
+      
       addNewDNO(
         userData?.category === "HQ"
           ? department
@@ -286,7 +286,7 @@ const Dno = () => {
         technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
           setErrorMessage(r);
-
+          setOpenModal(true);
           console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
