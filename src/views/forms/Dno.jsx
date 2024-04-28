@@ -309,9 +309,9 @@ const Dno = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        isSuccess={errorMessage?.errorCode === 0 ? true : false}
-        // isSuccess={!Boolean(errorMessage?.errorCode===0)}
-
+        message={errorMessage?.result}
+        // isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        isSuccess={!Boolean(errorMessage?.errorCode)}
         errorMsg={errorMessage?.message}
       />
       <ToastContainer />
@@ -352,29 +352,6 @@ const Dno = () => {
 
         <form className="flex">
           <div className="w-full px-36 space-y-6 pb-10">
-            {/* <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Department
-              </label>
-              <select
-                id="country"
-                name="country"
-                required
-                onChange={onDepartment}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  {userData?.category === "HQ"
-                    ? "Select a Department"
-                    : departmentListDropdown}
-                </option>
-                {departmentListDropdown}
-              </select>
-            </div> */}
-
             <div>
               <label
                 htmlFor="country"

@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
+import { fetch } from "../functions/Fetchfunctions";
 
 export const DashboardNavbar = () => {
   const { userIndex, category } = JSON.parse(
@@ -16,9 +17,9 @@ export const DashboardNavbar = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/user/viewuser/" + userIndex);
+      const data = await fetch.get("/api/user/viewuser/",userIndex);
 
-      return data.data.result;
+      return data.data.result
     },
   });
 
@@ -27,9 +28,9 @@ export const DashboardNavbar = () => {
   const { data: getDistrict } = useQuery({
     queryKey: ["getDistrict"],
     queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/mastertable/GetAllDistricts/" +
+      const data = await fetch.get(
+  
+          "/api/mastertable/GetAllDistricts/",
           (userDetails?.districtcode?.length == 1
             ? `0${userDetails?.districtcode}`
             : userDetails?.districtcode)

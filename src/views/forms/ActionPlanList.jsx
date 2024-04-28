@@ -1,10 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-
+import { fetch } from "../../functions/Fetchfunctions";
 import { TablePagination } from "../../components/DataTable";
-import { getAllDesignationList } from "../../Service/DNO/dnoService";
-import { getAllActionPlanList } from "../../Service/ActionPlan/ActionPlanService";
 
 const ActionPlanList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,10 +14,7 @@ const ActionPlanList = () => {
 
     return [start, end];
   }, [currentPage]);
-  const [actionPlanList, setActionPlanList] = useState([]);
-  const [allDesignationList, setAllDesignationList] = useState([]);
 
-  console.log(allDesignationList, "allDesignationList");
   const HeadData = [
     "Scheme Area",
     "Department Name",
@@ -36,19 +31,14 @@ const ActionPlanList = () => {
     "Average Days of Employmengt to be Provided per Family",
   ];
 
-  useEffect(() => {
-    getAllActionPlanList(userIndex).then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "res-->");
-      setActionPlanList(response);
-    });
+  const { data: actionPlanList } = useQuery({
+    queryKey: ["actionPlanList"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/actionplan/getActionList/", userIndex);
 
-    getAllDesignationList().then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "sibamdey");
-      setAllDesignationList(response);
-    });
-  }, []);
+      return data.data.result;
+    },
+  });
 
   return (
     <>
@@ -86,9 +76,9 @@ const ActionPlanList = () => {
           <br />
         </div>
       </div>
-      <div className="bg-transparent flex flex-col flex-grow p-8 px-12 border ">
-        <div className="overflow-x-autoe">
-          <Table className="min-w-[calc(100vw * 0.7)]">
+      <div className="bg-transparent flex flex-col items-center flex-grow p-8 px-12">
+        <div className="   overflow-x-auto overflow-y-hidden h-fit w-3/5">
+          <Table className="">
             <Table.Head>
               <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
               {HeadData.map((e) => (
@@ -98,7 +88,7 @@ const ActionPlanList = () => {
               ))}
             </Table.Head>
             <Table.Body className="divide-y">
-              {actionPlanList.map((d, index) => (
+              {actionPlanList?.map((d, index) => (
                 <Table.Row
                   key={userIndex}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
