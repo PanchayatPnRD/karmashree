@@ -535,7 +535,7 @@ const NewUser = () => {
                 >
                   Sub-Division
                   <span className="text-red-500 "> * </span>
-                  <span className="text-red-500 "> * </span>
+                  
                 </label>
                 <select
                   id="country"

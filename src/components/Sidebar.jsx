@@ -89,12 +89,6 @@ export const sideBarList = [
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
-    Component: WorkRequirement,
-    text: "work requirement",
-    route: "/dashboard/work-requirement",
-    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
-  },
-  {
     Component: Demand,
     text: "demand",
     route: "/dashboard/demand",
@@ -102,7 +96,13 @@ export const sideBarList = [
       1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
     ],
   },
-  
+  {
+    Component: WorkRequirement,
+    text: "work requirement",
+    route: "/dashboard/work-requirement",
+    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
+  },
+
   {
     Component: WorkAlloc,
     text: "work allocation",
@@ -121,7 +121,7 @@ export const sideBarList = [
 export const Sidebar = () => {
   const userMasterHidden = [17, 23, 29,30, 31, 32, 33, 34, 35];
 
-  const { userIndex, category } = JSON.parse(
+  const { userIndex } = JSON.parse(
     localStorage.getItem("karmashree_User")
   );
 

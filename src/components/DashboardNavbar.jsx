@@ -117,7 +117,7 @@ export const DashboardNavbar = () => {
           </div>
           <div className="flex flex-col -space-y-1">
             <h1 className="capitalize font-semibold text-2xl tracking-tight">
-              department of panchayat & rural development
+              department of panchayats & rural development
             </h1>
             <h3 className="capitalize text-zinc-500">
               government of west bengal
