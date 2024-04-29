@@ -76,8 +76,8 @@ const ActionPlanList = () => {
           <br />
         </div>
       </div>
-      <div className="bg-transparent flex flex-col items-center flex-grow p-8 px-12">
-        <div className="   overflow-x-auto overflow-y-hidden h-fit w-3/5">
+      <div className="bg-transparent flex flex-col items-center p-8 px-12">
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table className="">
             <Table.Head>
               <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
