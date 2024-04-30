@@ -2,37 +2,35 @@ import webApi, { baseURL } from "../../WebApi/WebApi";
 
 
 
-export const addCreateContractor = async (schemeArea, district, municipality, block, gp, sector,
-    schemeProposed, costOfSCheme, totalWages, totalPersonDays,
-    totalJobCard, totalAverageDays, financialYear, currentMonth,
-    currentYear, departmentNo, userIndex, onSuccess, onFailure) => {
+export const addCreateContractor = async (contractorName, contractorGSTIN, contractorPAN,
+    contractorMobile, contractorAddress, contractorStatus, userIndex, c_month, c_Year,
+    finYear, DepartmentNo, districtcode, Municipality, blockcode, gpCode, area, onSuccess, onFailure) => {
 
 
-    console.log(schemeArea, district, municipality, block, gp, sector,
-        schemeProposed, costOfSCheme, totalWages, totalPersonDays,
-        totalJobCard, totalAverageDays, financialYear, currentMonth,
-        currentYear, departmentNo, userIndex, "sibamdey")
+    console.log(contractorName, contractorGSTIN, contractorPAN,
+        contractorMobile, contractorAddress, contractorStatus, userIndex, c_month, c_Year,
+        finYear, DepartmentNo, districtcode, Municipality, blockcode, gpCode, area, "contractor")
     try {
         const res = await webApi.post(
             `/api/contractor/createcontractor`,
             {
-                schemeArea: schemeArea,
-                districtCode: district,
-                municipalityCode: municipality ? municipality : "",
-                blockCode: block ? block : "",
-                gpCode: gp ? gp : "",
-                schemeSector: sector,
-                schemeProposed:schemeProposed,
-                tentativeCostOfScheme: costOfSCheme,
-                totWagesPaid: totalWages,
-                totPersonDays: totalPersonDays,
-                totJobCard: totalJobCard,
-                averageDays: totalAverageDays,
-                finYear: financialYear,
-                acMonth: currentMonth,
-                acYear: currentYear,
-                departmentNo: departmentNo,
-                userIndex: userIndex
+                contractorName: contractorName,
+                contractorGSTIN: contractorGSTIN,
+                contractorPAN: contractorPAN,
+                contractorMobile: contractorMobile,
+                contractorAddress: contractorAddress,
+                contractorStatus: contractorStatus,
+                userIndex: userIndex,
+                c_month: c_month,
+                c_Year: c_Year,
+                finYear: finYear,
+                DepartmentNo: DepartmentNo,
+                districtcode: districtcode,
+                Municipality: Municipality,
+                blockcode: blockcode,
+                gpCode: gpCode,
+                area: area
+
             },
 
 

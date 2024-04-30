@@ -7,15 +7,21 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {addCreateContractor} from "../../Service/Contractor/ContractorService";
+import { useNavigate } from "react-router-dom";
 
 
 const Contractor = () => {
-  const [area, setArea] = useState();
+  const jsonString = localStorage.getItem("karmashree_User");
+  const data = JSON.parse(jsonString);
+  const navigate = useNavigate();
+
+  const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
   const [municipality, setMunicipality] = useState("");
   const [allBlockList, setAllBlockList] = useState([]);
+  const [gp, setGP] = useState("");
   const [block, setBlock] = useState("");
   const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
@@ -38,8 +44,8 @@ const Contractor = () => {
   const [pinCode, setPinCode] = useState("");
   const [isValidPinCode, setIsValidPinCode] = useState(true);
 
-  
-  
+
+
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -165,7 +171,7 @@ const Contractor = () => {
   const onMobile = (event) => {
     const value = event.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value)  || value === '') {
       setMobileNumber(value);
       setIsValidMobile(true);
     } else {
@@ -227,6 +233,81 @@ const Contractor = () => {
       setIsValidPinCode(false);
     }
   };
+
+  const onMunicipality = (e) => {
+    console.log(e.target.value,"municipality")
+    setMunicipality(e.target.value)
+  }
+
+  const onGP = (e) => {
+    setGP(e.target.value)
+  }
+
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
+
+  const getCurrentFinancialYear = () => {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    let financialYear = '';
+    console.log(currentMonth)
+    console.log(currentYear)
+
+    // Financial year starts from April
+    if (currentMonth >= 4) {
+      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+    } else {
+      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+    }
+
+    return financialYear;
+  };
+
+  const financialYear = getCurrentFinancialYear();
+  console.log(financialYear, "financialYear")
+  console.log(currentMonth, "currentMonth")
+  console.log(currentYear, "currentYear")
+
+  const onSubmit = () => {
+    if (area === "") {
+      toast.error("Please Select Area Type")
+    } else if (district === "") {
+      toast.error("Please Select District")
+    } else if (area === "U" && municipality === "") {
+      toast.error("Please Select Municipality")
+    } else if (area === "R" && block === "") {
+      toast.error("Please Select Block")
+    } else if (area === "R" && gp === "") {
+      toast.error("Please Select Gram Panchayat")
+    } else if (contractorName === "") {
+      toast.error("Please Type Contractor Name")
+    } else if (gstin === "") {
+      toast.error("Please Type Contractor GSTIN")
+    } else if (panNumber === "") {
+      toast.error("Please Type Contractor PAN")
+    } else if (mobileNumber === "") {
+      toast.error("Please Type Contractor Mobile Number")
+    } else if (address===""){
+      toast.error("Please Type Contractor Address")
+    } else {
+      addCreateContractor(
+        contractorName,gstin,panNumber,mobileNumber,address,"A",data?.userIndex,
+        currentMonth,currentYear,financialYear,data?.departmentNo,district,municipality,
+        block,gp,area,
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            navigate("/dashboard/contractor-list");
+          } else {
+            toast.error(r.message);
+          }
+        }
+      );
+    }
+  }
   return (
     <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
       <ToastContainer />
@@ -320,6 +401,7 @@ const Contractor = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onClick={onMunicipality}
               >
                 <option value="" selected hidden>Select Municipality List</option>
                 {municipalityListDropdown}
@@ -364,13 +446,14 @@ const Contractor = () => {
                 htmlFor="scheme_name"
                 className="block text-sm font-medium text-gray-700"
               >
-                GP
+                Gram Panchayat
               </label>
               <select
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onClick={onGP}
               >
                 <option value="" selected hidden>Select GP List</option>
                 {GpListDropdown}
@@ -464,7 +547,9 @@ const Contractor = () => {
               placeholder="Please Enter Contractor Mobile Number"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
               onChange={onMobile}
-            // value={mobileNumber}
+              maxLength={10}
+
+              // value={mobileNumber}
             />
             {!isValidMobile && (
               <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
@@ -492,7 +577,7 @@ const Contractor = () => {
               <div style={{ color: 'red' }}>Please enter a valid Address</div>
             )}
           </div>
-          <div className="px-4">
+          {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -511,8 +596,8 @@ const Contractor = () => {
             {!isValidVillage && (
               <div style={{ color: 'red' }}>Please enter a valid Village Name/Word no</div>
             )}
-          </div>
-          <div className="px-4">
+          </div> */}
+          {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -531,8 +616,8 @@ const Contractor = () => {
             {!isValidPoliceStation && (
               <div style={{ color: 'red' }}>Please enter a valid Police station Name</div>
             )}
-          </div>
-          <div className="px-4">
+          </div> */}
+          {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -547,13 +632,13 @@ const Contractor = () => {
               placeholder="Enter Scheme Name"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               onChange={onPostOffice}
-           />
+            />
             {!isValidPostOffice && (
               <div style={{ color: 'red' }}>Please enter a valid Post Office Name</div>
             )}
-          </div>
+          </div> */}
         </div>
-        <div className="flex w-full space-x-4 flex-col mb-4 ">
+        {/* <div className="flex w-full space-x-4 flex-col mb-4 ">
 
           <div className="px-4">
             <label
@@ -577,15 +662,15 @@ const Contractor = () => {
           </div>
 
 
-        </div>
+        </div> */}
 
         <div className="flex justify-center items-center">
           <button
             type="button"
             className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          //onClick={onRegister}
+            onClick={onSubmit}
           >
-            Save
+            Submit
           </button>
         </div>
       </div>

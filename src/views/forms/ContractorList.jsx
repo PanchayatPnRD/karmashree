@@ -17,33 +17,28 @@ const ContractorList = () => {
 
     return [start, end];
   }, [currentPage]);
-  const [actionPlanList, setActionPlanList] = useState([]);
+  const [contractorList, setContractorList] = useState([]);
   const [allDesignationList, setAllDesignationList] = useState([]);
 
   console.log(allDesignationList, "allDesignationList")
   const HeadData = [
-    "Scheme Area",
-    "Department Name",
     "Financial Year",
+    "Area",
     "District",
+    "Municipality",
     "Block",
     "GP",
-    "Type of Schemes",
-    "No of Schemes Proposed",
-    "Tentative Total Cost of Schemes",
-    "Tentative Total Wage to be paid in the Schemes",
-    "Total Person days to be Generated",
-    "Total no. of Job Card Holder to be Engaged",
-    "Average Days of Employmengt to be Provided per Family",
-
-
+    "Contractor Name",
+    "Contractor GSTIN",
+    "Contractor PAN",
+    "Contractor Mobile",
   ];
 
   useEffect(() => {
     getAllContractorList(userIndex).then(function (result) {
       const response = result?.data?.result;
       console.log(response, "res-->")
-      setActionPlanList(response);
+      setContractorList(response);
 
     });
 
@@ -102,7 +97,7 @@ const ContractorList = () => {
           </Table.Head>
           <Table.Body className="divide-y">
 
-            {actionPlanList.map((d, index) => (
+            {contractorList.map((d, index) => (
 
               <Table.Row
                 key={userIndex}
@@ -113,49 +108,40 @@ const ContractorList = () => {
                 </Table.Cell>
 
                 <Table.Cell>
-                  {d?.schemeArea === "R" ? "Rural" : "Urban"}
-                  
-                </Table.Cell>
-                <Table.Cell>
-                 
-                  {d?.departmentNo}
-                </Table.Cell>
-                <Table.Cell>
                   {d?.finYear}
                 </Table.Cell>
                 <Table.Cell>
-                  {d?.districtCode}
-                </Table.Cell>
-                <Table.Cell>
-                  {d?.blockCode}
+                 
+                {d?.area === "R" ? "Rural" : "Urban"}
 
                 </Table.Cell>
+                <Table.Cell>
+                  {d?.districtcode}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.Municipality?d?.Municipality:"-"}
+                </Table.Cell>
+                <Table.Cell>
+                  {d?.blockcode?d?.blockcode:"-"}
+
+                </Table.Cell>
 
 
 
                 <Table.Cell>
-                  {d?.gpCode}
+                  {d?.gpCode?d?.gpCode:"-"}
 
                 </Table.Cell><Table.Cell>
-                  {d?.schemeSector}
+                  {d?.contractorName}
 
                 </Table.Cell><Table.Cell>
-                  {d?.schemeProposed}
+                  {d?.contractorGSTIN}
 
                 </Table.Cell><Table.Cell>
-                  {d?.tentativeCostOfScheme}
+                  {d?.contractorPAN}
 
                 </Table.Cell><Table.Cell>
-                  {d?.totWagesPaid}
-
-                </Table.Cell><Table.Cell>
-                  {d?.totPersonDays}
-
-                </Table.Cell><Table.Cell>
-                  {d?.totJobCard}
-
-                </Table.Cell><Table.Cell>
-                  {d?.averageDays}
+                  {d?.contractorMobile}
 
                 </Table.Cell>
               </Table.Row>
@@ -165,7 +151,7 @@ const ContractorList = () => {
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">
           <TablePagination
-            data={actionPlanList}
+            data={contractorList}
             setCurrentPage={setCurrentPage}
             startIndex={startIndex}
             endIndex={endIndex}
