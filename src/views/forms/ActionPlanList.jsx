@@ -2,43 +2,141 @@ import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
-import { TablePagination } from "../../components/DataTable";
+
+import { SortIcon } from "../../components/SortIcon";
+import classNames from "classnames";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 const ActionPlanList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex, "userIndex");
-  const [startIndex, endIndex] = useMemo(() => {
-    const start = (currentPage - 1) * 5;
-    const end = currentPage * 5;
-
-    return [start, end];
-  }, [currentPage]);
-
-  const HeadData = [
-    "Scheme Area",
-    "Department Name",
-    "Financial Year",
-    "District",
-    "Block",
-    "GP",
-    "Type of Schemes",
-    "No of Schemes Proposed",
-    "Tentative Total Cost of Schemes",
-    "Tentative Total Wage to be paid in the Schemes",
-    "Total Person days to be Generated",
-    "Total no. of Job Card Holder to be Engaged",
-    "Average Days of Employmengt to be Provided per Family",
-  ];
-
   const { data: actionPlanList } = useQuery({
     queryKey: ["actionPlanList"],
     queryFn: async () => {
-      const data = await fetch.get("/api/actionplan/getActionList/", userIndex);
+      const data = await fetch.get("/api/actionplan/getActionList/", 1);
 
       return data.data.result;
     },
   });
+
+  const ListOptions = [5, 10, 15, "all"];
+  const [items, setItems] = useState(ListOptions[0]);
+
+  const data = useMemo(() => actionPlanList ?? [], [actionPlanList]);
+
+  const list = [
+    {
+      header: "Sl no",
+      accessorKey: "actionSL",
+      className: "font-bold text-black text-center cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "Scheme Area",
+      accessorKey: "schemeArea",
+      headClass: "cursor-pointer",
+      // cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
+    },
+    {
+      header: "Department",
+      accessorKey: "deptName",
+      headClass: "cursor-pointer",
+      cell: ({
+        row: {
+          original: { deptName },
+        },
+      }) => (deptName == "Unknown" ? "Karmashree Admin" : deptName),
+    },
+    {
+      header: "Financial Year",
+      accessorKey: "finYear",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "District",
+      accessorKey: "districtName",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Block",
+      accessorKey: "blockname",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "GP",
+      accessorKey: "gpName",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Type of Schemes",
+      accessorKey: "sectorName",
+      headClass: "cursor-pointer w-[120px]",
+    },
+    {
+      header: "No of Schemes Proposed",
+      accessorKey: "schemeProposed",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Tentative Total Cost of Schemes",
+      accessorKey: "tentativeCostOfScheme",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Tentative Total Wage to be paid in the Schemes",
+      accessorKey: "totWagesPaid",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Total Person days to be Generated",
+      accessorKey: "totPersonDays",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Total no. of Job Card Holder to be Engaged",
+      accessorKey: "totJobCard",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "Average Days of Employmengt to be Provided per Family",
+      accessorKey: "averageDays",
+      headClass: "cursor-pointer text-[8px]",
+    },
+  ];
+
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
+
+  const table = useReactTable({
+    data,
+    columns: list,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering,
+    },
+    initialState: {
+      pagination: {
+        pageSize: parseInt(items),
+      },
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
+
+  useEffect(() => {
+    if (items == "all") table.setPageSize(9999);
+    else table.setPageSize(parseInt(items));
+  }, [items]);
 
   return (
     <>
@@ -78,53 +176,60 @@ const ActionPlanList = () => {
       </div>
       <div className="bg-transparent flex flex-col items-center p-8 px-12">
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          <Table className="">
-            <Table.Head>
-              <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-              {HeadData.map((e) => (
-                <Table.HeadCell key={e} className="capitalize">
-                  {e}
-                </Table.HeadCell>
-              ))}
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {actionPlanList?.map((d, index) => (
-                <Table.Row
-                  key={userIndex}
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {index + 1}
-                  </Table.Cell>
+          <input
+            type="text"
+            value={filtering}
+            className="border h-12"
+            onChange={(e) => setFiltering(e.target.value)}
+          />
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headClass,
+                      "hover:bg-zinc-200/70 transition-all"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2">
+                        <span className="">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
+                ))}
+              </Table.Head>
+            ))}
 
-                  <Table.Cell>
-                    {d?.schemeArea === "R" ? "Rural" : "Urban"}
-                  </Table.Cell>
-                  <Table.Cell>{d?.departmentNo}</Table.Cell>
-                  <Table.Cell>{d?.finYear}</Table.Cell>
-                  <Table.Cell>{d?.districtCode}</Table.Cell>
-                  <Table.Cell>{d?.blockCode}</Table.Cell>
-                  <Table.Cell>{d?.gpCode}</Table.Cell>
-                  <Table.Cell>{d?.schemeSector}</Table.Cell>
-                  <Table.Cell>{d?.schemeProposed}</Table.Cell>
-                  <Table.Cell>{d?.tentativeCostOfScheme}</Table.Cell>
-                  <Table.Cell>{d?.totWagesPaid}</Table.Cell>
-                  <Table.Cell>{d?.totPersonDays}</Table.Cell>
-                  <Table.Cell>{d?.totJobCard}</Table.Cell>
-                  <Table.Cell>{d?.averageDays}</Table.Cell>
+            <Table.Body className="divide-y" >
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className={cell.column.columnDef.className}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
         </div>
-        <div className="flex overflow-x-auto sm:justify-center">
-          <TablePagination
-            data={actionPlanList}
-            setCurrentPage={setCurrentPage}
-            startIndex={startIndex}
-            endIndex={endIndex}
-          />
-        </div>
+        <div className="flex overflow-x-auto sm:justify-center"></div>
       </div>
     </>
   );

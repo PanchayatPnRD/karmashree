@@ -1,18 +1,20 @@
-
 import React, { useState, useEffect } from "react";
 import {
-  getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
-  getAllGramPanchayatList, getAllSectorActionList, addCreateAction
+  getAllDistrictActionList,
+  getAllBlockList,
+  getAllMunicipalityList,
+  getAllGramPanchayatList,
+  getAllSectorActionList,
+  addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-
 const ActionPlan = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
-  
+
   const [schemeArea, setSchemeArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [district, setDistrict] = useState("");
@@ -21,9 +23,9 @@ const ActionPlan = () => {
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
   const [municipality, setMunicipality] = useState("");
   const [allGpList, setAllGpList] = useState([]);
-  const [gp, setGp] = useState("")
+  const [gp, setGp] = useState("");
   const [allSectorList, setAllSectorList] = useState([]);
-  const [sector, setSector] = useState("")
+  const [sector, setSector] = useState("");
   const navigate = useNavigate();
 
   const [schemeProposed, setSchemeProposed] = useState("");
@@ -32,8 +34,6 @@ const ActionPlan = () => {
   const [totalPersonDays, setTotalPersonDays] = useState("");
   const [totalJobCard, setTotalJobCard] = useState("");
   const [totalAverageDays, setTotalAverageDays] = useState("");
-
-
 
   useEffect(() => {
     getAllDistrictActionList().then(function (result) {
@@ -64,11 +64,11 @@ const ActionPlan = () => {
   }
 
   const onSchemeArea = (e) => {
-    setSchemeArea(e.target.value)
-  }
+    setSchemeArea(e.target.value);
+  };
 
   const onDistrict = (e) => {
-    setDistrict(e.target.value)
+    setDistrict(e.target.value);
     getAllBlockList(e.target.value).then(function (result) {
       const response = result?.data?.result;
       setAllBlockList(response);
@@ -78,7 +78,7 @@ const ActionPlan = () => {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
-  }
+  };
 
   let blockListDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
@@ -95,13 +95,12 @@ const ActionPlan = () => {
   }
 
   const onBlock = (e) => {
-    setBlock(e.target.value)
+    setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
       setAllGpList(response);
     });
-  }
-
+  };
 
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
@@ -110,42 +109,41 @@ const ActionPlan = () => {
     ));
   }
 
-
   const onMunicipality = (e) => {
-    setMunicipality(e.target.value)
-  }
+    setMunicipality(e.target.value);
+  };
 
   const onGramPanchayat = (e) => {
-    setGp(e.target.value)
-  }
+    setGp(e.target.value);
+  };
 
   const onSector = (e) => {
-    setSector(e.target.value)
-  }
+    setSector(e.target.value);
+  };
 
   const onSchemeProposed = (e) => {
-    setSchemeProposed(e.target.value)
-  }
+    setSchemeProposed(e.target.value);
+  };
 
   const onCostOfSCheme = (e) => {
-    setCostOfSCheme(e.target.value)
-  }
+    setCostOfSCheme(e.target.value);
+  };
 
   const onTotalWages = (e) => {
-    setTotalWages(e.target.value)
-  }
+    setTotalWages(e.target.value);
+  };
 
   const onTotalPersonDays = (e) => {
-    setTotalPersonDays(e.target.value)
-  }
+    setTotalPersonDays(e.target.value);
+  };
 
   const onTotalJobCard = (e) => {
-    setTotalJobCard(e.target.value)
-  }
+    setTotalJobCard(e.target.value);
+  };
 
   const onTotalAverageDays = (e) => {
-    setTotalAverageDays(e.target.value)
-  }
+    setTotalAverageDays(e.target.value);
+  };
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
@@ -154,70 +152,73 @@ const ActionPlan = () => {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
-    let financialYear = '';
-    console.log(currentMonth)
-    console.log(currentYear)
+    let financialYear = "";
+    console.log(currentMonth);
+    console.log(currentYear);
 
     // Financial year starts from April
     if (currentMonth >= 4) {
-      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+      financialYear =
+        currentYear.toString() + "-" + (currentYear + 1).toString();
     } else {
-      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+      financialYear =
+        (currentYear - 1).toString() + "-" + currentYear.toString();
     }
 
     return financialYear;
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear")
-  console.log(currentMonth, "currentMonth")
-  console.log(currentYear, "currentYear")
-
+  console.log(financialYear, "financialYear");
+  console.log(currentMonth, "currentMonth");
+  console.log(currentYear, "currentYear");
 
   const onRegister = () => {
     if (schemeArea === "") {
-      toast.error("Please Select Scheme Area")
+      toast.error("Please Select Scheme Area");
     } else if (district === "") {
-      toast.error("Please Select District")
-
-    } else if (schemeArea === "U" && municipality==="") {
-      toast.error("Please Select Municipality")
-
-    }else if (schemeArea === "R" && block==="") {
-      toast.error("Please Select Block")
-
-    }else if (schemeArea === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat")
-
-    }else if (sector === "") {
-      toast.error("Please Select Sector")
-
-    }else if (schemeProposed === "") {
-      toast.error("Please Type No of Schemes Proposed")
-
-    }else if (costOfSCheme === "") {
-      toast.error("Please Type Tentative Total Cost of Schemes")
-
-    }else if (totalWages === "") {
-      toast.error("Please Type Tentative Total Wage to be paid in the Schemes")
-
-    }else if (totalPersonDays === "") {
-      toast.error("Please Type Total Persondays to be Generated")
-
-    }else if (totalJobCard === "") {
-      toast.error("Please Type Total no. of Job Card Holders to be engaged")
-
-    }else if (totalAverageDays === "") {
-      toast.error("Please Type Average Days of Employment to be provided per family")
-
-    }else {
-
-
+      toast.error("Please Select District");
+    } else if (schemeArea === "U" && municipality === "") {
+      toast.error("Please Select Municipality");
+    } else if (schemeArea === "R" && block === "") {
+      toast.error("Please Select Block");
+    } else if (schemeArea === "R" && gp === "") {
+      toast.error("Please Select Gram Panchayat");
+    } else if (sector === "") {
+      toast.error("Please Select Sector");
+    } else if (schemeProposed === "") {
+      toast.error("Please Type No of Schemes Proposed");
+    } else if (costOfSCheme === "") {
+      toast.error("Please Type Tentative Total Cost of Schemes");
+    } else if (totalWages === "") {
+      toast.error("Please Type Tentative Total Wage to be paid in the Schemes");
+    } else if (totalPersonDays === "") {
+      toast.error("Please Type Total Persondays to be Generated");
+    } else if (totalJobCard === "") {
+      toast.error("Please Type Total no. of Job Card Holders to be engaged");
+    } else if (totalAverageDays === "") {
+      toast.error(
+        "Please Type Average Days of Employment to be provided per family"
+      );
+    } else {
       addCreateAction(
-        schemeArea,district,municipality,block,gp,sector,
-        schemeProposed,costOfSCheme,totalWages,totalPersonDays,
-        totalJobCard,totalAverageDays,financialYear,currentMonth,
-        currentYear,data?.departmentNo,data?.userIndex,
+        schemeArea,
+        district,
+        municipality,
+        block,
+        gp,
+        sector,
+        schemeProposed,
+        costOfSCheme,
+        totalWages,
+        totalPersonDays,
+        totalJobCard,
+        totalAverageDays,
+        financialYear,
+        currentMonth,
+        currentYear,
+        data?.departmentNo,
+        data?.userIndex,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -229,12 +230,12 @@ const ActionPlan = () => {
         }
       );
     }
-  }
+  };
   return (
     <div className="flex-grow">
       <ToastContainer />
       <div className="mx-auto mt-2">
-        <div className="bg-white rounded-lg p-12">
+        <div className="bg-white rounded-lg p-1 text-sm px-2">
           <div className="shadow-md mb-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
@@ -267,8 +268,8 @@ const ActionPlan = () => {
             <br />
           </div>
 
-          <div className="bg-white shadow-md rounded-lg px-16 pb-16">
-            <div className="flex flex-col w-full space-y-6 mb-6">
+          <div className="bg-white shadow-md rounded-lg px-16 pb-8 mb-8">
+            <div className="flex flex-col w-full space-y-3 mb-6">
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -282,7 +283,7 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter No of Schemes Proposed"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   // onChange={onSchemeProposed}
                   value={financialYear}
                 />
@@ -300,7 +301,7 @@ const ActionPlan = () => {
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onSchemeArea}
                 >
                   <option selected hidden>
@@ -323,7 +324,7 @@ const ActionPlan = () => {
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onDistrict}
                 >
                   <option selected hidden>
@@ -346,7 +347,7 @@ const ActionPlan = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onMunicipality}
                   >
                     <option selected hidden>
@@ -374,7 +375,7 @@ const ActionPlan = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onBlock}
                   >
                     <option selected hidden>
@@ -400,7 +401,7 @@ const ActionPlan = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onGramPanchayat}
                   >
                     <option selected hidden>
@@ -425,7 +426,7 @@ const ActionPlan = () => {
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onSector}
                 >
                   <option selected hidden>
@@ -449,13 +450,11 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter No of Schemes Proposed"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onSchemeProposed}
                 />
               </div>
-            </div>
-
-            <div className="flex flex-col space-y-6 w-full mb-6">
+            
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -470,7 +469,7 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter Tentative Total Cost of Schemes"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onCostOfSCheme}
                 />
               </div>
@@ -489,7 +488,7 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter Tentative Total Wage to be paid in the Schemes"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onTotalWages}
                 />
               </div>
@@ -507,7 +506,7 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter Total Persondays to be Generated"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onTotalPersonDays}
                 />
               </div>
@@ -525,12 +524,11 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter Total no. of Job Card Holders to be engaged"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onTotalJobCard}
                 />
               </div>
-            </div>
-            <div className="flex flex-col w-full mb-4">
+            
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -545,7 +543,7 @@ const ActionPlan = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Enter Average Days of Employment to be provided per family"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onTotalAverageDays}
                 />
               </div>
@@ -553,7 +551,7 @@ const ActionPlan = () => {
             <div className="flex justify-center items-center">
               <button
                 type="button"
-                className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-1/5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onRegister}
               >
                 Save
@@ -567,5 +565,3 @@ const ActionPlan = () => {
 };
 
 export default ActionPlan;
-
-

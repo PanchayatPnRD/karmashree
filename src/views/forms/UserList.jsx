@@ -1,66 +1,108 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
-import { devApi } from "../../WebApi/WebApi";
-import { TablePagination } from "../../components/DataTable";
-import axios from "axios";
+import { fetch } from "../../functions/Fetchfunctions";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { SortIcon } from "../../components/SortIcon";
+import classNames from "classnames";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Pagination } from "../../components/Pagination";
 
 const UserList = () => {
-  
-  const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex)
-  const [startIndex, endIndex] = useMemo(() => {
-    const start = (currentPage - 1) * 5;
-    const end = currentPage * 5;
 
-    return [start, end];
-  }, [currentPage]);
   // Queries
   const { data: userlist } = useQuery({
     queryKey: ["userlist"],
     queryFn: async () => {
-      const data = await axios.get(
-        devApi+"/api/user/getUserList?created_by=" +
-          userIndex
+      const data = await fetch.get(
+        "/api/user/getUserList?created_by=",userIndex
       );
 
       return data.data.result.data;
     },
   });
 
-  const { data: departmentList } = useQuery({
-    queryKey: ["departmentList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi+"/api/mastertable/getDepatmentlist"
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
+  const ListOptions = [5, 10, 15, "all"];
+  const [items, setItems] = useState(ListOptions[0]);
 
-  const { data: designationList } = useQuery({
-    queryKey: ["designationList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi+"/api/mastertable/DesignationList"
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
+  const data = useMemo(() => userlist ?? [], [userlist]);
 
-  const HeadData = [
-    "department",
-    "district",
-    "sub division",
-    "block",
-    "officer designation",
-    "phone",
-    "action",
+  const list = [
+    {
+      header: "Sl no",
+      accessorKey: "userIndex",
+      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "Department",
+      accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "District",
+      accessorKey: "districtName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Sub Division",
+      accessorKey: "subDivisionName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Block",
+      accessorKey: "blockname",
+      headclass: "cursor-pointer",
+    },
+
+    {
+      header: "Designation",
+      accessorKey: "designationName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Phone",
+      accessorKey: "tech_mobile",
+      headclass: "cursor-pointer",
+    },
   ];
+
+const [sorting, setSorting] = useState([]);
+const [filtering, setFiltering] = useState("");
+
+const table = useReactTable({
+  data,
+  columns: list,
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  state: {
+    sorting: sorting,
+    globalFilter: filtering,
+  },
+  initialState: {
+    pagination: {
+      pageSize: parseInt(items),
+    },
+  },
+  onSortingChange: setSorting,
+  onGlobalFilterChange: setFiltering,
+});
+
+useEffect(() => {
+  if (items == "all") table.setPageSize(9999);
+  else table.setPageSize(parseInt(items));
+}, [items]);
 
   return (
     <>
@@ -98,95 +140,80 @@ const UserList = () => {
           <br />
         </div>
       </div>
-      <div className="flex flex-col flex-grow p-8 px-12">
-        <Table className="">
-          <Table.Head>
-            <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-            {HeadData.map((e) => (
-              <Table.HeadCell key={e} className="capitalize">
-                {e}
-              </Table.HeadCell>
-            ))}
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {userlist
-              ?.slice(
-                startIndex,
-                userlist.length > endIndex ? endIndex : userlist.length
-              )
-              .map(
-                (
-                  {
-                    userIndex,
-                    departmentNo,
-                    districtcode,
-                    subDivision,
-                    blockCode,
-                    designationID,
-                    contactNo,
-                    currentStatus,
-                  },
-                  index
-                ) => {
-                  return (
-                    <Table.Row
-                      key={userIndex}
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {index + 1 + startIndex}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {/* {departmentList?.[departmentNo]?.departmentName} */}
-                        {departmentList?.[
-                          departmentList?.findIndex(
-                            (obj) => obj.departmentNo == departmentNo
-                          )
-                        ]?.departmentName || "Karmashree Admin"}
-                      </Table.Cell>
 
-                      <Table.Cell>
-                        {parseInt(districtcode) ? districtcode : "-"}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {parseInt(subDivision) ? subDivision : "-"}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {parseInt(blockCode) ? blockCode : "-"}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {
-                          designationList?.[
-                            designationList?.findIndex(
-                              (obj) => obj.designationId == designationID
-                            )
-                          ]?.designation
-                        }
-                      </Table.Cell>
-                      <Table.Cell>{contactNo}</Table.Cell>
-                      <Table.Cell className="flex items-center justify-center space-x-8">
-                        <a
-                          href="#"
-                          className="font-medium text-cyan-600 hover:underline text-2xl"
-                        >
-                          <Icon icon={"mingcute:edit-line"} />
-                        </a>
-                      </Table.Cell>
-                    </Table.Row>
-                  );
-                }
-              )}
+      <div className="flex flex-col flex-grow p-8 px-12">
+        <input
+          type="text"
+          value={filtering}
+          className="border h-12"
+          onChange={(e) => setFiltering(e.target.value)}
+        />
+        <select
+          name=""
+          id=""
+          value={items}
+          onChange={(e) => setItems(e.target.value)}
+        >
+          {ListOptions.map((e) => (
+            <option key={e} value={e}>
+              {e}
+            </option>
+          ))}
+        </select> 
+        <Table>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <Table.Head key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <Table.HeadCell
+                  key={header.id}
+                  className={classNames(
+                    header.column.columnDef.headclass,
+                    "hover:bg-zinc-200/70 transition-all"
+                  )}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {header.isPlaceholder ? null : (
+                    <div className="flex items-center space-x-2">
+                      <span className="normal-case">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </span>
+                      <SortIcon sort={header.column.getIsSorted()} />
+                    </div>
+                  )}
+                </Table.HeadCell>
+              ))}
+              <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+            </Table.Head>
+          ))}
+
+          <Table.Body className="divide-y">
+            {table.getRowModel().rows.map((row) => (
+              <Table.Row key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Table.Cell
+                    key={cell.id}
+                    className={cell.column.columnDef.className}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Table.Cell>
+                ))}
+                <Table.Cell className="flex items-center justify-center space-x-8">
+                  <a
+                    href="#"
+                    className="font-medium text-cyan-600 hover:underline text-2xl"
+                  >
+                    <Icon icon={"mingcute:edit-line"} />
+                  </a>
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
-        <div className="flex overflow-x-auto sm:justify-center">
-          <TablePagination
-            data={userlist}
-            setCurrentPage={setCurrentPage}
-            startIndex={startIndex}
-            endIndex={endIndex}
-          />
-        </div>
       </div>
+      <Pagination data={data} table={table} />
     </>
   );
 };
