@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
-
+import { Pagination } from "../../components/Pagination";
 import { SortIcon } from "../../components/SortIcon";
 import classNames from "classnames";
 import {
@@ -176,12 +176,46 @@ const ActionPlanList = () => {
       </div>
       <div className="bg-transparent flex flex-col items-center p-8 px-12">
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          <input
-            type="text"
-            value={filtering}
-            className="border h-12"
-            onChange={(e) => setFiltering(e.target.value)}
-          />
+          <div className="flex justify-between items-center px-4">
+            <select
+              className="rounded-lg"
+              name=""
+              id=""
+              value={items}
+              onChange={(e) => setItems(e.target.value)}
+            >
+              {ListOptions.map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
+            </select>
+
+            <div className="h-full py-1">
+              <input
+                type="text"
+                value={filtering}
+                placeholder="search..."
+                className="border-2 rounded-lg border-zinc-400"
+                onChange={(e) => setFiltering(e.target.value)}
+              />
+              <button
+                className="border px-4 h-full bg-green-600/90 text-white rounded"
+                onClick={() => exportToExcel(rowToArray(), table, "user_list")}
+                // onClick={rowToArray}
+              >
+                XLSX
+              </button>
+              <button
+                className="border px-4 h-full text-black rounded border-black"
+                onClick={() => exportToCSV(table, "user_list")}
+                // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+              >
+                CSV
+              </button>
+            </div>
+          </div>
+
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id}>
@@ -210,7 +244,7 @@ const ActionPlanList = () => {
               </Table.Head>
             ))}
 
-            <Table.Body className="divide-y" >
+            <Table.Body className="divide-y">
               {table.getRowModel().rows.map((row) => (
                 <Table.Row key={row.id}>
                   {row.getVisibleCells().map((cell) => (
@@ -229,7 +263,7 @@ const ActionPlanList = () => {
             </Table.Body>
           </Table>
         </div>
-        <div className="flex overflow-x-auto sm:justify-center"></div>
+        <Pagination data={data} table={table} />
       </div>
     </>
   );

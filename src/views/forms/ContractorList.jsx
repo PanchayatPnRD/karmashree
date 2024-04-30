@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 
-import { TablePagination } from "../../components/DataTable";
+
 import { getAllDesignationList } from "../../Service/DNO/dnoService";
 import { getAllContractorList } from "../../Service/Contractor/ContractorService";
 
@@ -149,14 +149,7 @@ const ContractorList = () => {
 
           </Table.Body>
         </Table>
-        <div className="flex overflow-x-auto sm:justify-center">
-          <TablePagination
-            data={contractorList}
-            setCurrentPage={setCurrentPage}
-            startIndex={startIndex}
-            endIndex={endIndex}
-          />
-        </div>
+        
       </div>
     </>
   );

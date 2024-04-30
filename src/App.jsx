@@ -11,6 +11,7 @@ import Dashboard from "./views/Dashboard";
 import Profile from "./views/forms/Profile";
 import OTPConfirm from "./views/OtpConfirm";
 import ViewProfile from "./views/forms/ViewProfile";
+import Edit from "./components/Edit";
 import Dno from "./views/forms/Dno";
 import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
@@ -94,6 +95,16 @@ function App() {
             <Auth>
               <Dashboard>
                 <Profile />
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path={"/dashboard/edit/:userId"}
+          element={
+            <Auth>
+              <Dashboard>
+                <Edit />
               </Dashboard>
             </Auth>
           }

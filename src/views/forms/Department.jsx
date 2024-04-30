@@ -1,6 +1,6 @@
 import React, { useEffect,useState, useMemo, useRef } from "react";
 import { Table } from "flowbite-react";
-import { TablePagination } from "../../components/DataTable";
+
 import { devApi } from "../../WebApi/WebApi";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -211,14 +211,7 @@ const Department = () => {
                 })}
             </Table.Body>
           </Table>
-          <div className="flex overflow-x-auto sm:justify-center">
-            <TablePagination
-              data={departmentList}
-              setCurrentPage={setCurrentPage}
-              startIndex={startIndex}
-              endIndex={endIndex}
-            />
-          </div>
+          
         </div>
       </div>
     </>

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SortIcon } from "../../components/SortIcon";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import classNames from "classnames";
 import {
   flexRender,
@@ -103,6 +104,18 @@ useEffect(() => {
   if (items == "all") table.setPageSize(9999);
   else table.setPageSize(parseInt(items));
 }, [items]);
+  
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
+
+    return array;
+  }
+
 
   return (
     <>
@@ -142,24 +155,46 @@ useEffect(() => {
       </div>
 
       <div className="flex flex-col flex-grow p-8 px-12">
-        <input
-          type="text"
-          value={filtering}
-          className="border h-12"
-          onChange={(e) => setFiltering(e.target.value)}
-        />
-        <select
-          name=""
-          id=""
-          value={items}
-          onChange={(e) => setItems(e.target.value)}
-        >
-          {ListOptions.map((e) => (
-            <option key={e} value={e}>
-              {e}
-            </option>
-          ))}
-        </select> 
+        <div className="flex justify-between items-center px-4">
+          <select
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+          >
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-full bg-green-600/90 text-white rounded"
+              onClick={() => exportToExcel(rowToArray(), table, "user_list")}
+              // onClick={rowToArray}
+            >
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-full text-black rounded border-black"
+              onClick={() => exportToCSV(table, "user_list")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
+          </div>
+        </div>
+
         <Table>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Head key={headerGroup.id}>

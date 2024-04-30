@@ -1,7 +1,7 @@
 import * as xlsx from "xlsx";
 import * as ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-export const exportToExcel = (rows, table) => {
+export const exportToExcel = (rows, table,name) => {
   const columnHeaders = table
     .getAllFlatColumns()
     .map((e) => e.columnDef.header);
@@ -23,10 +23,11 @@ export const exportToExcel = (rows, table) => {
   const data = new Blob([excelBuffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
   });
+  saveAs(data, name+".xlsx");
   
 };
 
-export const exportToCSV = (table) => {
+export const exportToCSV = (table,name) => {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Sheet1");
 
@@ -51,6 +52,6 @@ export const exportToCSV = (table) => {
   // Generate CSV
   workbook.csv.writeBuffer().then((buffer) => {
     const blob = new Blob([buffer], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, "data.csv");
+    saveAs(blob, name+".csv");
   });
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { TablePagination } from "../../components/DataTable";
+
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -221,14 +221,7 @@ const Designation = () => {
                 )}
             </Table.Body>
           </Table>
-          <div className="flex overflow-x-auto sm:justify-center">
-            <TablePagination
-              data={designationList}
-              setCurrentPage={setCurrentPage}
-              startIndex={startIndex}
-              endIndex={endIndex}
-            />
-          </div>
+          
         </div>
       </div>
     </>
