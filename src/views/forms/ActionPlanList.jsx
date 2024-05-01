@@ -5,6 +5,7 @@ import { fetch } from "../../functions/Fetchfunctions";
 import { Pagination } from "../../components/Pagination";
 import { SortIcon } from "../../components/SortIcon";
 import classNames from "classnames";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import {
   flexRender,
   getCoreRowModel,
@@ -138,6 +139,17 @@ const ActionPlanList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
+
+    return array;
+  }
+
   return (
     <>
       <div className="rounded-lg p-12">
@@ -200,15 +212,15 @@ const ActionPlanList = () => {
                 onChange={(e) => setFiltering(e.target.value)}
               />
               <button
-                className="border px-4 h-full bg-green-600/90 text-white rounded"
-                onClick={() => exportToExcel(rowToArray(), table, "user_list")}
+                className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+                onClick={() => exportToExcel(rowToArray(), table, "actionPlan")}
                 // onClick={rowToArray}
               >
                 XLSX
               </button>
               <button
-                className="border px-4 h-full text-black rounded border-black"
-                onClick={() => exportToCSV(table, "user_list")}
+                className="border px-4 h-[42px] text-black rounded border-black"
+                onClick={() => exportToCSV(table, "actionPlan")}
                 // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
               >
                 CSV
