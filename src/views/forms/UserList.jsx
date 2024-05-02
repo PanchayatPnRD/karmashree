@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { SortIcon } from "../../components/SortIcon";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 import {
   flexRender,
   getCoreRowModel,
@@ -42,6 +43,7 @@ const UserList = () => {
       accessorKey: "userIndex",
       className: "font-bold text-zinc-600 text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
+      headclass: "cursor-pointer",
       // sortingFn: "id",
     },
     {
@@ -208,7 +210,7 @@ useEffect(() => {
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   {header.isPlaceholder ? null : (
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 justify-between">
                       <span className="normal-case">
                         {flexRender(
                           header.column.columnDef.header,
@@ -235,13 +237,15 @@ useEffect(() => {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Table.Cell>
                 ))}
+                
                 <Table.Cell className="flex items-center justify-center space-x-8">
-                  <a
-                    href="#"
+                  <Link
+                    to={"/dashboard/edit/" + row.original.userIndex}
+                    state={"dept-userlist"}
                     className="font-medium text-cyan-600 hover:underline text-2xl"
                   >
                     <Icon icon={"mingcute:edit-line"} />
-                  </a>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             ))}

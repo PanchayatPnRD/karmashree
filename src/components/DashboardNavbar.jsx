@@ -109,7 +109,7 @@ export const DashboardNavbar = () => {
 
   return (
     <>
-      <div className="p-1 px-16 flex w-screen justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
+      <div className="p-1 px-16 flex w-screen justify-between border items-center fixed top-0 left-0 z-50 bg-white shadow-lg">
         <Link to={"/dashboard"} className="flex items-center space-x-2 w-fit">
           <div className="flex">
             <Karmashree_logo className="fill-blue-600 h-14 w-fit" />

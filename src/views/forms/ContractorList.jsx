@@ -76,7 +76,7 @@ const ContractorList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                   Contractor List
+                    Contractor List
                   </li>
                 </ol>
               </nav>
@@ -86,70 +86,44 @@ const ContractorList = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow p-8 px-12">
-        <Table className="">
-          <Table.Head>
-            <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-            {HeadData.map((e) => (
-              <Table.HeadCell key={e} className="capitalize">
-                {e}
-              </Table.HeadCell>
-            ))}
-          </Table.Head>
-          <Table.Body className="divide-y">
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table className="">
+            <Table.Head>
+              <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
+              {HeadData.map((e) => (
+                <Table.HeadCell key={e} className="capitalize">
+                  {e}
+                </Table.HeadCell>
+              ))}
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {contractorList.map((d, index) => (
+                <Table.Row
+                  key={userIndex}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {index + 1}
+                  </Table.Cell>
 
-            {contractorList.map((d, index) => (
+                  <Table.Cell>{d?.finYear}</Table.Cell>
+                  <Table.Cell>{d?.area === "R" ? "Rural" : "Urban"}</Table.Cell>
+                  <Table.Cell>{d?.districtcode}</Table.Cell>
+                  <Table.Cell>
+                    {d?.Municipality ? d?.Municipality : "-"}
+                  </Table.Cell>
+                  <Table.Cell>{d?.blockcode ? d?.blockcode : "-"}</Table.Cell>
 
-              <Table.Row
-                key={userIndex}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
-                </Table.Cell>
-
-                <Table.Cell>
-                  {d?.finYear}
-                </Table.Cell>
-                <Table.Cell>
-                 
-                {d?.area === "R" ? "Rural" : "Urban"}
-
-                </Table.Cell>
-                <Table.Cell>
-                  {d?.districtcode}
-                </Table.Cell>
-                <Table.Cell>
-                  {d?.Municipality?d?.Municipality:"-"}
-                </Table.Cell>
-                <Table.Cell>
-                  {d?.blockcode?d?.blockcode:"-"}
-
-                </Table.Cell>
-
-
-
-                <Table.Cell>
-                  {d?.gpCode?d?.gpCode:"-"}
-
-                </Table.Cell><Table.Cell>
-                  {d?.contractorName}
-
-                </Table.Cell><Table.Cell>
-                  {d?.contractorGSTIN}
-
-                </Table.Cell><Table.Cell>
-                  {d?.contractorPAN}
-
-                </Table.Cell><Table.Cell>
-                  {d?.contractorMobile}
-
-                </Table.Cell>
-              </Table.Row>
-            ))}
-
-          </Table.Body>
-        </Table>
-        
+                  <Table.Cell>{d?.gpCode ? d?.gpCode : "-"}</Table.Cell>
+                  <Table.Cell>{d?.contractorName}</Table.Cell>
+                  <Table.Cell>{d?.contractorGSTIN}</Table.Cell>
+                  <Table.Cell>{d?.contractorPAN}</Table.Cell>
+                  <Table.Cell>{d?.contractorMobile}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
       </div>
     </>
   );

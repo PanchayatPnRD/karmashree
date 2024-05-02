@@ -8,4 +8,7 @@ export const fetch = {
   post: async (data, route, extenstion) => {
     return axios.post(devApi + route + extenstion, data);
   },
+  put: async (data, route, extenstion) => {
+    return axios.put(devApi + route + extenstion, data);
+  },
 };
