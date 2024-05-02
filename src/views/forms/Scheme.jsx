@@ -1,7 +1,412 @@
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
+import {
+  getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
+  getAllGramPanchayatList, getAllSectorActionList, addCreateAction
+} from "../../Service/ActionPlan/ActionPlanService";
+import {
+  getAllDepartmentList
+} from "../../Service/NewUserService";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getAllContractorList,addCreateScheme } from "../../Service/Scheme/SchemeService";
+import { format } from 'date-fns';
+
+
 const Scheme = () => {
+  const jsonString = localStorage.getItem("karmashree_User");
+  const data = JSON.parse(jsonString);
+  const [area, setArea] = useState("");
+  const [allDistrictList, setAllDistrictList] = useState([]);
+  const [allMunicipalityList, setAllMunicipalityList] = useState([]);
+  const [municipality, setMunicipality] = useState("");
+  const [allBlockList, setAllBlockList] = useState([]);
+  const [gp, setGP] = useState("");
+  const [block, setBlock] = useState("");
+  const [district, setDistrict] = useState("");
+  const [allGpList, setAllGpList] = useState([]);
+  const [sector, setSector] = useState("");
+  const [allSectorList, setAllSectorList] = useState([]);
+  const [schemeName, setSchemeName] = useState('');
+  const [isValidSchemeName, setIsValidSchemeName] = useState(true);
+  const [Location, setLocation] = useState("");
+  const [department, setDepartment] = useState("");
+  const [allDepartmentList, setAllDepartmentList] = useState([]);
+  const [status, setStatus] = useState("");
+  const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(new Date());
+  const [actualWorkStartDate, setActualWorkStartDate] = useState(new Date());
+  const [expectedWorkDate, setExpectedWorkDate] = useState(new Date());
+  const [projectCost, setProjectCost] = useState('');
+  const [totalWages, setTotalWages] = useState('');
+  const [persondaysWork, setPersondaysWork] = useState('');
+  const [unskilled, setUnskilled] = useState('');
+  const [semiskilled, setSemiskilled] = useState('');
+  const [skilled, setSkilled] = useState('');
+  const [workOrderNumber, setWorkOrderNumber] = useState('');
+  const [isValidWorkOrderNumber, setIsValidWorkOrderNumber] = useState(true);
+  const [workOrderDate, setWorkOrderDate] = useState(new Date());
+  const [allContractorList, setAllContractorList] = useState([]);
+  const [contractor, setContractor] = useState("");
+  const [remark, setRemark] = useState('');
+  const [isValidRemark, setIsValidRemark] = useState(true);
+
+
+
+
+  console.log(tentativeWorkStartDate, "tentativeWorkStartDate")
+  useEffect(() => {
+    const jsonString = localStorage.getItem("karmashree_User");
+    const data = JSON.parse(jsonString);
+    // setUserData(data);
+
+    getAllDistrictActionList(data?.districtcode).then(function (result) {
+      const response = result?.data?.result;
+      setAllDistrictList(response);
+    });
+
+    getAllSectorActionList().then(function (result) {
+      const response = result?.data?.result;
+      setAllSectorList(response);
+    });
+
+    getAllDepartmentList(0).then(function (result) {
+      const response = result?.data?.result;
+      setAllDepartmentList(response);
+    });
+
+    getAllContractorList().then(function (result) {
+      const response = result?.data?.result;
+      setAllContractorList(response);
+    });
+
+  }, []);
+
+  console.log(allContractorList, "allContractorList")
+  //District list
+
+  let districtListDropdown = <option>Loading...</option>;
+  if (allDistrictList && allDistrictList.length > 0) {
+    districtListDropdown = allDistrictList.map((distRow, index) => (
+      <option value={distRow.districtCode}>{distRow.districtName}</option>
+    ));
+  }
+
+  //sector list
+
+  let sectorListDropdown = <option>Loading...</option>;
+  if (allSectorList && allSectorList.length > 0) {
+    sectorListDropdown = allSectorList.map((secRow, index) => (
+      <option value={secRow.sectorid}>{secRow.sectorname}</option>
+    ));
+  }
+
+  //Department list
+  let departmentListDropdown = <option>Loading...</option>;
+  if (allDepartmentList && allDepartmentList.length > 0) {
+    departmentListDropdown = allDepartmentList.map((deptRow, index) => (
+      <option value={deptRow.departmentNo}>{deptRow.departmentName}</option>
+    ));
+  }
+
+  //Contractor list
+  let contractorListDropdown = <option>Loading...</option>;
+  if (allContractorList && allContractorList.length > 0) {
+    contractorListDropdown = allContractorList.map((ContRow, index) => (
+      <option value={ContRow.cont_sl}>{ContRow.contractorNameGst}</option>
+    ));
+  }
+
+  const onArea = (e) => {
+    setArea(e.target.value)
+  }
+
+
+  const onDistrict = (e) => {
+    setDistrict(e.target.value)
+    getAllBlockList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllBlockList(response);
+    });
+
+    getAllMunicipalityList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllMunicipalityList(response);
+    });
+  }
+
+  let blockListDropdown = <option>Loading...</option>;
+  if (allBlockList && allBlockList.length > 0) {
+    blockListDropdown = allBlockList.map((blockRow, index) => (
+      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+    ));
+  }
+
+  let municipalityListDropdown = <option>Loading...</option>;
+  if (allMunicipalityList && allMunicipalityList.length > 0) {
+    municipalityListDropdown = allMunicipalityList.map((munRow, index) => (
+      <option value={munRow.urbanCode}>{munRow.urbanName}</option>
+    ));
+  }
+
+  const onBlock = (e) => {
+    setBlock(e.target.value)
+    getAllGramPanchayatList(district, e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllGpList(response);
+    });
+  }
+
+  let GpListDropdown = <option>Loading...</option>;
+  if (allGpList && allGpList.length > 0) {
+    GpListDropdown = allGpList.map((gpRow, index) => (
+      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+    ));
+  }
+
+  const onGP = (e) => {
+    setGP(e.target.value)
+  }
+
+  const onMunicipality = (e) => {
+    console.log(e.target.value, "municipality")
+    setMunicipality(e.target.value)
+  }
+
+
+  const onSector = (e) => {
+    setSector(e.target.value);
+  };
+
+  const onSchemeName = (e) => {
+    const value = e.target.value;
+    // Regular expression to allow only alphabets and white spaces
+    const regex = /^[A-Za-z\s]+$/;
+    if (regex.test(value)) {
+      setSchemeName(value);
+      setIsValidSchemeName(true)
+    } else {
+      setIsValidSchemeName(false)
+      // toast.error("Please use only Alphabet characters")
+
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    // Allow only alphabets and white spaces
+    if (
+      !(
+        (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
+        (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
+        event.keyCode === 32 || event.key === "Backspace"
+      )
+    ) {
+      event.preventDefault();
+    }
+  }
+
+  const onLocation = (e) => {
+    setLocation(e.target.value);
+  }
+
+  const onDepartment = (e) => {
+    setDepartment(e.target.value);
+  };
+
+  const onStatus = (e) => {
+    setStatus(e.target.value);
+  };
+
+  const onProjectCost = (e) => {
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === '') {
+      setProjectCost(value);
+    }
+  }
+
+
+  const onTotalWages = (e) => {
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === '') {
+      setTotalWages(value);
+    }
+  }
+
+  const onPersondaysWork = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9]*$/;
+    if (regex.test(value) || value === '') {
+      setPersondaysWork(value);
+    }
+  }
+
+  const onUnskilled = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9]*$/;
+    if (regex.test(value) || value === '') {
+      setUnskilled(value);
+    }
+  }
+
+  const onSemiskilled = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9]*$/;
+    if (regex.test(value) || value === '') {
+      setSemiskilled(value);
+    }
+  }
+
+  const onSkilled = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9]*$/;
+    if (regex.test(value) || value === '') {
+      setSkilled(value);
+    }
+  }
+
+  const onWorkOrderNumber = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s,\/]*$/;
+    if (regex.test(value) || value === '') {
+      setWorkOrderNumber(value);
+      setIsValidWorkOrderNumber(true);
+    } else {
+      setIsValidWorkOrderNumber(false);
+    }
+  };
+
+  const onContractor = (e) => {
+    setContractor(e.target.value)
+  }
+
+  const onRemarks = (event) => {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9\s,\/]*$/;
+    if (regex.test(value) || value === '') {
+      setRemark(value);
+      setIsValidRemark(true);
+    } else {
+      setIsValidRemark(false);
+    }
+  };
+
+
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
+
+
+  const getCurrentFinancialYear = () => {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    let financialYear = '';
+    console.log(currentMonth)
+    console.log(currentYear)
+
+    // Financial year starts from April
+    if (currentMonth >= 4) {
+      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+    } else {
+      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+    }
+
+    return financialYear;
+  };
+
+  const financialYear = getCurrentFinancialYear();
+  console.log(financialYear, "financialYear")
+  console.log(currentMonth, "currentMonth")
+  console.log(currentYear, "currentYear")
+
+
+  console.log(format(new Date(tentativeWorkStartDate), 'yyyy-MM-dd'),"fatafatafa")
+  const onSubmit = () => {
+    console.log("clicked")
+    if (area === "") {
+      toast.error("Please Select Area Type")
+    } else if (district === "") {
+      toast.error("Please Select District")
+    } else if (area === "U" && municipality === "") {
+      toast.error("Please Select Municipality")
+    } else if (area === "R" && block === "") {
+      toast.error("Please Select Block")
+    } else if (area === "R" && gp === "") {
+      toast.error("Please Select Gram Panchayat")
+    } else if (sector === "") {
+      toast.error("Please Select Scheme Sector")
+    } else if (schemeName === "") {
+      toast.error("Please Type Scheme Name")
+    } else if (Location === "") {
+      toast.error("Please Type Worksite Location")
+    } else if (department === "") {
+      toast.error("Please Select Funding Department")
+    } else if (status === "") {
+      toast.error("Please Select Status Of Work")
+    } else if (!tentativeWorkStartDate) {
+      toast.error("Please Select Tentative Work Start Date")
+    } else if (!actualWorkStartDate) {
+      toast.error("Please Select Actual Work Start Date")
+    } else if (!expectedWorkDate) {
+      toast.error("Please Select Expected Work Completion Date")
+    } else if (projectCost === "") {
+      toast.error("Please Type Project Cost")
+    } else if (totalWages === "") {
+      toast.error("Please  Total Wage Cost involved in the Work")
+    } else if (persondaysWork === "") {
+      toast.error("Please Type Persondays to be generated from the Work")
+    } else if (unskilled === "") {
+      toast.error("Please Type No of Unskilled Workers to be engaged")
+    } else if (semiskilled === "") {
+      toast.error("Please Type No of Semi-Skilled Workers to be engaged")
+    } else if (skilled === "") {
+      toast.error("Please Type No of Skilled Workers to be engaged")
+    } else if (workOrderNumber === "") {
+      toast.error("Please Type Work Order Number")
+    } else if (!workOrderDate) {
+      toast.error("Please Select Work Order Date")
+    } else if (contractor === "") {
+      toast.error("Please Select Contractor List")
+    } else if (remark === "") {
+      toast.error("Please Type Remarks")
+    } else {
+      addCreateScheme(
+        area,
+        data?.departmentNo,
+        district,
+        municipality,
+        block,
+        gp,
+        "",
+        Location,
+        sector,
+        "-",
+        schemeName,
+        department,
+        allDepartmentList.find(c => c.departmentNo == department)?.departmentName,
+      
+        data?.departmentNo,allDepartmentList.find(c => c.departmentNo === data?.departmentNo)?.departmentName,
+        data?.departmentNo,allDepartmentList.find(c => c.departmentNo === data?.departmentNo)?.departmentName,
+        status,format(new Date(tentativeWorkStartDate), 'yyyy-MM-dd'),format(new Date(actualWorkStartDate), 'yyyy-MM-dd'),
+        format(new Date(expectedWorkDate), 'yyyy-MM-dd'),projectCost,totalWages,0,persondaysWork,
+        unskilled,semiskilled,skilled,workOrderNumber,
+        format(new Date(workOrderDate), 'yyyy-MM-dd'),contractor,"A",currentMonth,currentYear,financialYear,
+        remark,data?.userIndex,
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            // navigate("/dashboard/contractor-list");
+          } else {
+            toast.error(r.message);
+          }
+        }
+      );
+    }
+  }
+
   return (
     <div className="flex-grow">
       <ToastContainer />
@@ -44,13 +449,15 @@ const Scheme = () => {
           <br></br>
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex w-full space-x-4 mb-6">
-              
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Area Type *
+                  Area Type
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <select
                   id="scheme_name"
@@ -58,31 +465,11 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   required
+                  onChange={onArea}
                 >
-                  <option value="">Select Scheme Name</option>
+                  <option value="" selected hidden>Select Scheme Name</option>
                   <option value="R">Rural</option>
                   <option value="U">Urban</option>
-                  
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District *
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select District List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
 
                   {/* Add more options as needed */}
                 </select>
@@ -93,115 +480,168 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Municipality
+                  District
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <select
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onDistrict}
+
                 >
-                  <option value="">Select Municipality List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                  <option value="" selected hidden>Select District List</option>
+                  {districtListDropdown}
+
 
                   {/* Add more options as needed */}
                 </select>
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Block 
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Municipality List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+              {district.length > 0 && area === "U" ? (
 
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  GP 
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Municipality List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Municipality
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onClick={onMunicipality}
+                  >
+                    <option value="" selected hidden>Select Municipality List</option>
+                    {municipalityListDropdown}
 
-                  {/* Add more options as needed */}
-                </select>
-              </div>
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {district.length > 0 && area === "R" ? (
+
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+
+                  >
+                    <option value="" selected hidden>Select Block List</option>
+                    {blockListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {block.length > 0 && area === "R" ? (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Gram Panchayat
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onClick={onGP}
+                  >
+                    <option value="" selected hidden>Select GP List</option>
+                    {GpListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+
             </div>
-            
+
             <div className="flex flex-col w-full mb-4">
-            <div className="px-4">
+              <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Sector * Drop Down List
+                  Scheme Sector
+                  <span className="text-red-500 "> * </span>
                 </label>
                 <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="">Select Sector Name</option>
-                <option value="scheme1">PWD</option>
-                <option value="scheme2">PNRD</option>
-
-                {/* Add more options as needed */}
-              </select>
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                  onChange={onSector}
+                >
+                  <option selected hidden>
+                    Select Sector
+                  </option>
+                  {sectorListDropdown}
+                </select>
               </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Name * Only Alphabel and White Space allow
+                  Scheme Name
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Scheme Name... * Only Alphabel and White Space allow"
+                  placeholder="Scheme Name..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                  onChange={onSchemeName}
+                  onKeyDown={handleKeyDown}
                 />
+                {!isValidSchemeName && (
+                  <div style={{ color: 'red' }}>Please enter a valid Scheme Name</div>
+                )}
               </div>
-              
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Worksite Location (Full Address) *
+                  Worksite Location (Full Address)
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Worksite Location (Full Address) ..."
+                  placeholder="Worksite Location ..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onLocation}
                 />
               </div>
               <div className="px-4">
@@ -209,31 +649,36 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Funding Department *  Drop Down List
+                  Funding Department
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="">Select Sector Name</option>
-                <option value="scheme1">PWD</option>
-                <option value="scheme2">PNRD</option>
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  onChange={onDepartment}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    Select a Department
 
-                {/* Add more options as needed */}
-              </select>
+                  </option>
+                  {departmentListDropdown}
+                </select>
               </div>
-              
+
             </div>
             <div className="flex w-full space-x-4 mb-6">
-              
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Status of Work *
+                  Status of Work
+                  <span className="text-red-500 ">*</span>
+
                 </label>
                 <select
                   id="scheme_name"
@@ -241,31 +686,11 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   required
+                  onChange={onStatus}
                 >
-                  <option value="">Select Status of Work</option>
-                  <option value="P">Proposed</option>
-                  <option value="S">Started</option>
-                  <option value="O">Ongoing</option>
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Tentative Work Start Date * (if = Proposed Then)
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select District List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                  <option value="" selected hidden>Select Status of Work</option>
+                  <option value="Proposed">Proposed</option>
+                  <option value="Started">Started</option>
 
                   {/* Add more options as needed */}
                 </select>
@@ -276,42 +701,38 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Actual Work Start Date (if = Proposed Then)
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Municipality List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                  Tentative Work Start Date
+                  <span className="text-red-500 "> * </span>
 
-                  {/* Add more options as needed */}
-                </select>
+                </label>
+                <DatePicker selected={tentativeWorkStartDate} onChange={(date) => setTentativeWorkStartDate(date)} />
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Actual Work Start Date
+                  <span className="text-red-500 "> * </span>
+
+                </label>
+                <DatePicker selected={actualWorkStartDate} onChange={(date) => setActualWorkStartDate(date)} />
+
               </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Expected Work Completion Date  (if = Proposed Then)
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="">Select Municipality List</option>
-                  <option value="scheme1">PWD</option>
-                  <option value="scheme2">PNRD</option>
+                  Expected Work Completion Date
+                  <span className="text-red-500 "> * </span>
 
-                  {/* Add more options as needed */}
-                </select>
+                </label>
+                <DatePicker selected={expectedWorkDate} onChange={(date) => setExpectedWorkDate(date)} />
+
               </div>
-              
+
             </div>
             <div className="flex w-full mb-4">
               <div className="px-4">
@@ -319,14 +740,18 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Project Cost (in Rs.) * Validation  Numuric with 2 decemel
+                  Project Cost (in Rs.)
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Project Cost..."
+                  value={projectCost}
+                  onChange={onProjectCost}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
@@ -335,14 +760,18 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Total Wage Cost involved in the Work  * Validation  Numuric with 2 decemel
+                  Total Wage Cost involved in the Work
+                  <span className="text-red-500 "> *</span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Total Wage Cost involved in the Work..."
+                  value={totalWages}
+                  onChange={onTotalWages}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
@@ -351,33 +780,61 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Persondays to be generated from the Work  * Validation  Numuric
+                  Persondays to be generated from the Work
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
-                  name="scheme_name"
+                  name="Persondays"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="Persondays to be generated from the Work..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={persondaysWork}
+                  onChange={onPersondaysWork}
                 />
               </div>
-              
+
             </div>
             <div className="flex w-full space-x-4 mb-4 ">
-            <div className="px-4">
+              <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  No of Unskilled Workers to be  engaged  * Validation Numuric
+                  No of Unskilled Workers to be  engaged
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Scheme Name"
+                  placeholder="No of Unskilled Workers to be  engaged..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={unskilled}
+                  onChange={onUnskilled}
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  No of Semi-Skilled Workers to be  engaged
+                  <span className="text-red-500 "> * </span>
+
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="No of Semi-Skilled Workers to be  engaged..."
+                  value={semiskilled}
+                  onChange={onSemiskilled}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
@@ -386,111 +843,111 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  No of Semi-Skilled Workers to be  engaged  * Validation  Numuric 
+                  No of Skilled Workers to be  engaged
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder=" /[0-9]$/; "
+                  placeholder="No of Skilled Workers to be  engaged..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={skilled}
+                  onChange={onSkilled}
                 />
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  No of Skilled Workers to be  engaged  * Validation  Numuric 
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder=" /[0-9]$/; "
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              
+
             </div>
             <div className="flex w-full space-x-4 mb-4 ">
-            <div className="px-4">
+              <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Work Order Number 
+                  Work Order Number
+                  <span className="text-red-500 "> * </span>
+
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Work Order Number...."
+                  placeholder="Work Order Number..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onWorkOrderNumber}
                 />
+                {!isValidWorkOrderNumber && (
+                  <div style={{ color: 'red' }}>Please enter a Valid Work Order Number</div>
+                )}
               </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Work Order Date  Calander Date
+                  Work Order Date
+                  <span className="text-red-500 "> * </span>
                 </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Date.... "
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
+                <DatePicker selected={workOrderDate} onChange={(date) => setWorkOrderDate(date)} />
+
               </div>
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Contractor List From Contractor Master
+                  Contractor List
+                  <span className="text-red-500 "> * </span>
                 </label>
-                <input
+                <select
                   id="scheme_name"
                   name="scheme_name"
-                  type="text"
                   autoComplete="off"
-                  placeholder=" /[7]{1}[0-9]{5}$/; "
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
+                  onChange={onContractor}
+
+                >
+                  <option value="" selected hidden>Select Contractor List</option>
+                  {contractorListDropdown}
+
+
+                  {/* Add more options as needed */}
+                </select>
               </div>
-              
+
             </div>
             <div className="flex flex-col w-full mb-4">
-            <div className="px-4">
+              <div className="px-4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Remarks Validation Alph anumuric special (,/)
+                  Remarks
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder=" Remarks........"
+                  placeholder=" Remarks..."
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onRemarks}
                 />
+                {!isValidRemark && (
+                  <div style={{ color: 'red' }}>Please enter a Valid Remark</div>
+                )}
               </div>
-              </div>
+            </div>
             <div className="flex justify-center items-center">
               <button
                 type="button"
                 className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                //onClick={onRegister}
+                onClick={onSubmit}
               >
-                Save
+                Submit
               </button>
             </div>
           </div>
