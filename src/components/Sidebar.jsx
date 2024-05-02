@@ -20,6 +20,7 @@ import { devApi } from "../WebApi/WebApi";
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
 import ContractorList from "../views/forms/ContractorList";
+import SchemeList from "../views/forms/SchemeList";
 // import Register from "../views/Register/Register";
 
 export const sideBarList = [
@@ -93,6 +94,12 @@ export const sideBarList = [
     Component: Scheme,
     text: "scheme",
     route: "/dashboard/scheme",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: SchemeList,
+    text: "scheme List",
+    route: "/dashboard/scheme-list",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {

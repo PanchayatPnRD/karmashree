@@ -152,3 +152,12 @@ export const addCreateScheme = async (
         console.log("fdgdf")
  }
 };
+
+
+//scheme list
+
+export const getAllSchemeList = async (userId) => {
+    console.log(userId, "userId")
+    return await webApi.get(`/api/schememaster/schemelist/${userId}`,
+    );
+}

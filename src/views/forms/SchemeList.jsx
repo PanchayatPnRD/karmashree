@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllDesignationList } from "../../Service/DNO/dnoService";
 import { getAllContractorList } from "../../Service/Contractor/ContractorService";
 
-const ContractorList = () => {
+const SchemeList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -28,10 +28,16 @@ const ContractorList = () => {
     "Municipality",
     "Block",
     "GP",
-    "Contractor Name",
-    "Contractor GSTIN",
-    "Contractor PAN",
-    "Contractor Mobile",
+    "Scheme Sector",
+    "Scheme Name",
+    "Department",
+    "Status of Work",
+    "Tentative work start",
+    "Actual Work Start Date",
+    "Expected Work Completion Date",
+    "Project Cost",
+    "Work Order Number",
+    "Contractor"
   ];
 
   useEffect(() => {
@@ -76,7 +82,7 @@ const ContractorList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Contractor List
+                    Scheme List
                   </li>
                 </ol>
               </nav>
@@ -129,4 +135,4 @@ const ContractorList = () => {
   );
 };
 
-export default ContractorList;
+export default SchemeList;
