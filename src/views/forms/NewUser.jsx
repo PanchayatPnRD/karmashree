@@ -350,6 +350,7 @@ const NewUser = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         message={errorMessage?.result}
+        userCreate={true}
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         isSuccess={!Boolean(errorMessage?.errorCode)}
         errorMsg={errorMessage?.message}

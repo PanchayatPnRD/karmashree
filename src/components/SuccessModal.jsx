@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { Modal } from "flowbite-react";
 
 const SuccessModal = ({
+  userCreate,
   setOpenModal,
   openModal,
   isSuccess,
@@ -24,14 +25,22 @@ const SuccessModal = ({
           </h1>
           <div className="space-y-6 px-12 p-6">
             {isSuccess ? (
-              <>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                  You have successfully been registered in Karmashree portal,
-                  your user id is <b className="text-zinc-700">{message}</b> and details have been sent to your
-                  registered mobile number. Please change your password in first
-                  login
-                </p>
-              </>
+              userCreate ? (
+                <>
+                  <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    You have successfully been registered in Karmashree portal,
+                    your user id is <b className="text-zinc-700">{message}</b>{" "}
+                    and details have been sent to your registered mobile number.
+                    Please change your password in first login
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    User details updated successfully
+                  </p>
+                </>
+              )
             ) : (
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 {errorMsg}

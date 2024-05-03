@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { fetch } from "../functions/Fetchfunctions";
+import SuccessModal from "./SuccessModal";
 
 const Edit = () => {
   const requiredKeys = ["userName", "UserAddress"];
@@ -93,7 +94,7 @@ const Edit = () => {
             className="rounded"
             type="text"
             name="UserAddress"
-            defaultValue={formdata?.UserAddress}
+            value={formdata?.UserAddress}
             onChange={handleChange}
           />
         </div>
