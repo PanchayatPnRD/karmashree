@@ -379,7 +379,7 @@ const Scheme = () => {
         municipality,
         block,
         gp,
-        "",
+        "0",
         Location,
         sector,
         "-",
@@ -398,7 +398,7 @@ const Scheme = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             toast.success(r.message);
-            // navigate("/dashboard/contractor-list");
+            navigate("/dashboard/scheme-list");
           } else {
             toast.error(r.message);
           }
@@ -689,8 +689,8 @@ const Scheme = () => {
                   onChange={onStatus}
                 >
                   <option value="" selected hidden>Select Status of Work</option>
-                  <option value="Proposed">Proposed</option>
-                  <option value="Started">Started</option>
+                  <option value="P">Proposed</option>
+                  <option value="S">Started</option>
 
                   {/* Add more options as needed */}
                 </select>

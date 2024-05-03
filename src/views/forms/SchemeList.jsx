@@ -1,59 +1,44 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-
-
-import { getAllDesignationList } from "../../Service/DNO/dnoService";
-import { getAllContractorList } from "../../Service/Contractor/ContractorService";
+import {getAllSchemeList} from "../../Service/Scheme/SchemeService";
 
 const SchemeList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex, "userIndex")
   const [startIndex, endIndex] = useMemo(() => {
     const start = (currentPage - 1) * 5;
     const end = currentPage * 5;
 
     return [start, end];
   }, [currentPage]);
-  const [contractorList, setContractorList] = useState([]);
-  const [allDesignationList, setAllDesignationList] = useState([]);
 
-  console.log(allDesignationList, "allDesignationList")
+  const [schemeList, setSchemeList] = useState([]);
+
   const HeadData = [
     "Financial Year",
-    "Area",
-    "District",
-    "Municipality",
-    "Block",
+    "Block/Municipality",
     "GP",
-    "Scheme Sector",
     "Scheme Name",
-    "Department",
-    "Status of Work",
-    "Tentative work start",
-    "Actual Work Start Date",
-    "Expected Work Completion Date",
     "Project Cost",
-    "Work Order Number",
-    "Contractor"
+    "Total Wages Paid till date",
+    "No of labours",
+    "Engaged for no. of Days(MGNREGA WORKERS)",
+    "Funding Department",
+    "Action"
   ];
 
   useEffect(() => {
-    getAllContractorList(userIndex).then(function (result) {
+    getAllSchemeList(userIndex).then(function (result) {
       const response = result?.data?.result;
       console.log(response, "res-->")
-      setContractorList(response);
-
+      setSchemeList(response);
     });
 
-    getAllDesignationList().then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "sibamdey");
-      setAllDesignationList(response);
-    });
   }, [])
+
+console.log(schemeList,"scehemeList")
 
   return (
     <>
@@ -103,7 +88,7 @@ const SchemeList = () => {
               ))}
             </Table.Head>
             <Table.Body className="divide-y">
-              {contractorList?.map((d, index) => (
+              {schemeList?.map((d, index) => (
                 <Table.Row
                   key={userIndex}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -113,18 +98,18 @@ const SchemeList = () => {
                   </Table.Cell>
 
                   <Table.Cell>{d?.finYear}</Table.Cell>
-                  <Table.Cell>{d?.area === "R" ? "Rural" : "Urban"}</Table.Cell>
-                  <Table.Cell>{d?.districtcode}</Table.Cell>
+                  <Table.Cell>{d?.blockcode?d?.blockcode:d?.municipalityCode}</Table.Cell>
+                  <Table.Cell>{d?.gpCode}</Table.Cell>
                   <Table.Cell>
-                    {d?.Municipality ? d?.Municipality : "-"}
+                    {d?.schemeName}
                   </Table.Cell>
-                  <Table.Cell>{d?.blockcode ? d?.blockcode : "-"}</Table.Cell>
+                  <Table.Cell>{d?.totalprojectCost}</Table.Cell>
 
-                  <Table.Cell>{d?.gpCode ? d?.gpCode : "-"}</Table.Cell>
-                  <Table.Cell>{d?.contractorName}</Table.Cell>
-                  <Table.Cell>{d?.contractorGSTIN}</Table.Cell>
-                  <Table.Cell>{d?.contractorPAN}</Table.Cell>
-                  <Table.Cell>{d?.contractorMobile}</Table.Cell>
+                  <Table.Cell>{d?.totalWageCost}</Table.Cell>
+                  <Table.Cell>{d?.totalLabour}</Table.Cell>
+                  <Table.Cell>----</Table.Cell>
+                  <Table.Cell>{d?.departmentNo}</Table.Cell>
+                  <Table.Cell>*</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
