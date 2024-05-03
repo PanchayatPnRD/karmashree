@@ -7,13 +7,14 @@ import { fetch } from "../functions/Fetchfunctions";
 import SuccessModal from "./SuccessModal";
 
 const Edit = () => {
+  const [openModal, setOpenModal] = useState();
   const requiredKeys = ["userName", "UserAddress"];
   const [formdata, setFormdata] = useState({});
   const navigate = useNavigate();
   const { state } = useLocation();
   let { userId } = useParams();
 
-  const { data: userDetails, isSuccess } = useQuery({
+  const { data: userDetails, isSuccess:fetchStatus } = useQuery({
     queryKey: ["edit"],
     queryFn: async () => {
       const { data } = await fetch.get("/api/user/viewuser/", userId);
@@ -22,7 +23,7 @@ const Edit = () => {
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (fetchStatus) {
       const filteredData = Object.fromEntries(
         Object.entries(userDetails).filter(([key]) =>
           requiredKeys.includes(key)
@@ -30,7 +31,7 @@ const Edit = () => {
       );
       setFormdata(filteredData);
     }
-  }, [isSuccess]);
+  }, [fetchStatus]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -41,19 +42,28 @@ const Edit = () => {
   }
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isSuccess:editStatus } = useMutation({
     mutationFn: (data) => {
       return fetch.put(data, "/api/user/updateUser/", userId);
     },
     mutationKey: ["update"],
     onSuccess: () => {
       queryClient.invalidateQueries("edit");
+      setOpenModal(true);
       // navigate("/dashboard/" + state)
     },
   });
 
   return (
     <>
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        
+        isSuccess={editStatus}
+        
+        to={state}
+      />
       <button
         onClick={() => navigate("/dashboard/" + state)}
         className="px-4 flex items-center space-x-3 py-1 bg-blue-500 w-fit m-4 hover:bg-blue-500/90 text-white  rounded transition-all hover:shadow-md"
@@ -74,7 +84,7 @@ const Edit = () => {
             onChange={handleChange}
           />
         </div>
-        {/* <div className="flex items-center px-6 space-x-4">
+        <div className="flex items-center px-6 space-x-4">
           <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
             contact
           </label>
@@ -85,7 +95,7 @@ const Edit = () => {
             value={formdata?.designationName}
             onChange={handleChange}
           />
-        </div> */}
+        </div>
         <div className="flex items-center px-6 space-x-4">
           <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
             address
