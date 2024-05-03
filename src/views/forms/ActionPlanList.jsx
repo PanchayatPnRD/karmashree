@@ -187,47 +187,46 @@ const ActionPlanList = () => {
         </div>
       </div>
       <div className="bg-transparent flex flex-col items-center p-8 px-12">
-        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          <div className="flex justify-between items-center px-4">
-            <select
-              className="rounded-lg"
-              name=""
-              id=""
-              value={items}
-              onChange={(e) => setItems(e.target.value)}
+        <div className="flex justify-between items-center px-4 w-full">
+          <select
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+          >
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() => exportToExcel(rowToArray(), table, "actionPlan")}
+              // onClick={rowToArray}
             >
-              {ListOptions.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-
-            <div className="h-full py-1">
-              <input
-                type="text"
-                value={filtering}
-                placeholder="search..."
-                className="border-2 rounded-lg border-zinc-400"
-                onChange={(e) => setFiltering(e.target.value)}
-              />
-              <button
-                className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-                onClick={() => exportToExcel(rowToArray(), table, "actionPlan")}
-                // onClick={rowToArray}
-              >
-                XLSX
-              </button>
-              <button
-                className="border px-4 h-[42px] text-black rounded border-black"
-                onClick={() => exportToCSV(table, "actionPlan")}
-                // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
-              >
-                CSV
-              </button>
-            </div>
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "actionPlan")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
           </div>
-
+        </div>
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id}>
