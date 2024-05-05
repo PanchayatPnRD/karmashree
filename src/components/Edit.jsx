@@ -8,7 +8,12 @@ import SuccessModal from "./SuccessModal";
 
 const Edit = () => {
   const [openModal, setOpenModal] = useState();
-  const requiredKeys = ["userName", "UserAddress", "designationID"];
+  const requiredKeys = [
+    "userName",
+    "UserAddress",
+    "designationID",
+    "role_type",
+  ];
   const [formdata, setFormdata] = useState({});
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -22,6 +27,14 @@ const Edit = () => {
     },
   });
 
+  const { data: roles } = useQuery({
+    queryKey: ["roles"],
+    queryFn: async () => {
+      const { data } = await fetch.get("/api/mastertable/roles");
+      return data.result;
+    },
+  });
+
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
     queryFn: async () => {
@@ -29,8 +42,6 @@ const Edit = () => {
       return data.result;
     },
   });
-
-  
 
   useEffect(() => {
     if (fetchStatus) {
@@ -106,6 +117,22 @@ const Edit = () => {
           >
             {designationList?.map((e) => (
               <option value={e.designationId}>{e.designation}</option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center px-6 space-x-4">
+          <label htmlFor="" className=" text-end text-zinc-500/90">
+            Role Type
+          </label>
+          <select
+            name="role_type"
+            id=""
+            className="w-fit"
+            value={formdata?.role_type}
+            onChange={handleChange}
+          >
+            {roles?.map((e) => (
+              <option value={e.id}>{e.role_type}</option>
             ))}
           </select>
         </div>
