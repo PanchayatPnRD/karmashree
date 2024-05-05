@@ -8,7 +8,7 @@ import SuccessModal from "./SuccessModal";
 
 const Edit = () => {
   const [openModal, setOpenModal] = useState();
-  const requiredKeys = ["userName", "UserAddress"];
+  const requiredKeys = ["userName", "UserAddress", "designationID"];
   const [formdata, setFormdata] = useState({});
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -30,6 +30,8 @@ const Edit = () => {
     },
   });
 
+  
+
   useEffect(() => {
     if (fetchStatus) {
       const filteredData = Object.fromEntries(
@@ -45,7 +47,7 @@ const Edit = () => {
     const { name, value } = e.target;
     setFormdata((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: parseInt(value) ? parseInt(value) : value,
     }));
   }
   const queryClient = useQueryClient();
@@ -95,9 +97,15 @@ const Edit = () => {
           <label htmlFor="" className=" text-end text-zinc-500/90">
             designation
           </label>
-          <select name="" id="" className="w-fit">
+          <select
+            name="designationID"
+            id=""
+            className="w-fit"
+            value={formdata?.designationID}
+            onChange={handleChange}
+          >
             {designationList?.map((e) => (
-              <option value={e.designationID}>{e.designationName}</option>
+              <option value={e.designationId}>{e.designation}</option>
             ))}
           </select>
         </div>
