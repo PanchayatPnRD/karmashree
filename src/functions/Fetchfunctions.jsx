@@ -3,7 +3,9 @@ import { devApi } from "../WebApi/WebApi";
 
 export const fetch = {
   get: async (route, extenstion) => {
-    return axios.get(devApi + route + extenstion);
+    return extenstion
+      ? axios.get(devApi + route + extenstion)
+      : axios.get(devApi + route );
   },
   post: async (data, route, extenstion) => {
     return axios.post(devApi + route + extenstion, data);

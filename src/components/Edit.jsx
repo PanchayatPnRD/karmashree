@@ -14,10 +14,18 @@ const Edit = () => {
   const { state } = useLocation();
   let { userId } = useParams();
 
-  const { data: userDetails, isSuccess:fetchStatus } = useQuery({
+  const { data: userDetails, isSuccess: fetchStatus } = useQuery({
     queryKey: ["edit"],
     queryFn: async () => {
       const { data } = await fetch.get("/api/user/viewuser/", userId);
+      return data.result;
+    },
+  });
+
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
+    queryFn: async () => {
+      const { data } = await fetch.get("/api/mastertable/DesignationList");
       return data.result;
     },
   });
@@ -42,7 +50,7 @@ const Edit = () => {
   }
   const queryClient = useQueryClient();
 
-  const { mutate, isSuccess:editStatus } = useMutation({
+  const { mutate, isSuccess: editStatus } = useMutation({
     mutationFn: (data) => {
       return fetch.put(data, "/api/user/updateUser/", userId);
     },
@@ -59,10 +67,9 @@ const Edit = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        
-        isSuccess={editStatus}
-        
         to={state}
+        isSuccess={editStatus}
+        userCreate={false}
       />
       <button
         onClick={() => navigate("/dashboard/" + state)}
@@ -85,16 +92,14 @@ const Edit = () => {
           />
         </div>
         <div className="flex items-center px-6 space-x-4">
-          <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
-            contact
+          <label htmlFor="" className=" text-end text-zinc-500/90">
+            designation
           </label>
-          <input
-            className="rounded"
-            type="text"
-            name="designationName"
-            value={formdata?.designationName}
-            onChange={handleChange}
-          />
+          <select name="" id="" className="w-fit">
+            {designationList?.map((e) => (
+              <option value={e.designationID}>{e.designationName}</option>
+            ))}
+          </select>
         </div>
         <div className="flex items-center px-6 space-x-4">
           <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
