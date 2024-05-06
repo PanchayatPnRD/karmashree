@@ -1,23 +1,24 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Loading } from "./Department";
-const Designation = () => {
-  const [search, setSearch] = useState("");
-  const HeadData = ["designation tier", "designation", "edit", "delete"];
-  const options = [5, 10, 15, 20, 30];
-  const [currentPage, setCurrentPage] = useState(1);
-  const [results, setResults] = useState(5);
-  const [startIndex, endIndex] = useMemo(() => {
-    const start = (currentPage - 1) * results;
-    const end = currentPage * results;
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Pagination } from "../../components/Pagination";
+import classNames from "classnames";
+import { SortIcon } from "../../components/SortIcon";
 
-    return [start, end];
-  }, [currentPage, results]);
+const Designation = () => {
+  const HeadData = ["designation tier", "designation", "edit", "delete"];
 
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
@@ -71,6 +72,60 @@ const Designation = () => {
       allowScroll();
     };
   }, [isPending]);
+
+  const ListOptions = [5, 10, 15, "all"];
+  const [items, setItems] = useState(ListOptions[0]);
+
+  const data = useMemo(() => designationList ?? [], [designationList]);
+
+  const list = [
+    {
+      header: "Sl no",
+      accessorKey: "designationId",
+      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+      headclass: "cursor-pointer",
+      // sortingFn: "id",
+    },
+    {
+      header: "Designation tier",
+      accessorKey: "designationLevel",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Designation",
+      accessorKey: "designation",
+      headclass: "cursor-pointer",
+    },
+  ];
+
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
+
+  const table = useReactTable({
+    data,
+    columns: list,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering,
+    },
+    initialState: {
+      pagination: {
+        pageSize: parseInt(items),
+      },
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
+
+  useEffect(() => {
+    if (items == "all") table.setPageSize(9999);
+    else table.setPageSize(parseInt(items));
+  }, [items]);
 
   return (
     <>
@@ -151,77 +206,82 @@ const Designation = () => {
         </div>
         <div className=" flex justify-between px-12 items-center h-12">
           <select
-            className="outline-none border-2 rounded-lg border-zinc-300"
-            onChange={(e) => setResults(e.target.value)}
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
           >
-            {options.map((e) => (
-              <option value={e}>{e}</option>
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
             ))}
           </select>
           <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
             type="text"
-            placeholder="search"
-            className="px-4 outline-none border-2 rounded-lg border-zinc-300"
+            value={filtering}
+            placeholder="search..."
+            className="border-2 rounded-lg border-zinc-400"
+            onChange={(e) => setFiltering(e.target.value)}
           />
         </div>
         <div className="px-12 flex flex-col space-y-6 pb-8">
-          <Table className="">
-            <Table.Head>
-              <Table.HeadCell className="capitalize bg-zinc-200">
-                sl no
-              </Table.HeadCell>
-              {HeadData.map((e) => (
-                <Table.HeadCell key={e} className="capitalize bg-zinc-200">
-                  {e}
-                </Table.HeadCell>
-              ))}
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {designationList
-                ?.slice(
-                  startIndex,
-                  designationList.length > endIndex
-                    ? endIndex
-                    : designationList.length
-                )
-                .map(
-                  ({ designationId, designationLevel, designation }, index) => (
-                    <Table.Row
-                      key={designationId}
-                      className="bg-white hover:bg-zinc-50"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {index + 1 + startIndex}
-                      </Table.Cell>
-                      <Table.Cell>{designationLevel}</Table.Cell>
-                      <Table.Cell className="min-w-[560px]">
-                        {designation}
-                      </Table.Cell>
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headclass,
+                      "hover:bg-zinc-200/70 transition-all"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2 justify-between">
+                        <span className="normal-case">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
+                ))}
+                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+              </Table.Head>
+            ))}
 
-                      <Table.Cell>
-                        <a
-                          href="#"
-                          className="font-medium text-cyan-600 hover:underline text-2xl"
-                        >
-                          <Icon icon={"mingcute:edit-line"} />
-                        </a>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <a
-                          href="#"
-                          className="font-medium text-red-600 hover:underline text-2xl"
-                        >
-                          <Icon icon={"ic:round-delete"} />
-                        </a>
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                )}
+            <Table.Body className="divide-y">
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className={cell.column.columnDef.className}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
+
+                  <Table.Cell className="flex items-center justify-center space-x-8">
+                    <Icon
+                      icon={"mingcute:edit-line"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    />
+                  </Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
           </Table>
-          
+          <Pagination data={data} table={table} />
         </div>
       </div>
     </>
