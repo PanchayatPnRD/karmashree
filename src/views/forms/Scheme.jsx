@@ -2,17 +2,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import {
-  getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
-  getAllGramPanchayatList, getAllSectorActionList, addCreateAction
+  getAllDistrictActionList,
+  getAllBlockList,
+  getAllMunicipalityList,
+  getAllGramPanchayatList,
+  getAllSectorActionList,
+  addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
-import {
-  getAllDepartmentList
-} from "../../Service/NewUserService";
+import { getAllDepartmentList } from "../../Service/NewUserService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getAllContractorList,addCreateScheme } from "../../Service/Scheme/SchemeService";
-import { format } from 'date-fns';
-
+import {
+  getAllContractorList,
+  addCreateScheme,
+} from "../../Service/Scheme/SchemeService";
+import { format } from "date-fns";
 
 const Scheme = () => {
   const jsonString = localStorage.getItem("karmashree_User");
@@ -28,33 +32,32 @@ const Scheme = () => {
   const [allGpList, setAllGpList] = useState([]);
   const [sector, setSector] = useState("");
   const [allSectorList, setAllSectorList] = useState([]);
-  const [schemeName, setSchemeName] = useState('');
+  const [schemeName, setSchemeName] = useState("");
   const [isValidSchemeName, setIsValidSchemeName] = useState(true);
   const [Location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [status, setStatus] = useState("");
-  const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(new Date());
+  const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(
+    new Date()
+  );
   const [actualWorkStartDate, setActualWorkStartDate] = useState(new Date());
   const [expectedWorkDate, setExpectedWorkDate] = useState(new Date());
-  const [projectCost, setProjectCost] = useState('');
-  const [totalWages, setTotalWages] = useState('');
-  const [persondaysWork, setPersondaysWork] = useState('');
-  const [unskilled, setUnskilled] = useState('');
-  const [semiskilled, setSemiskilled] = useState('');
-  const [skilled, setSkilled] = useState('');
-  const [workOrderNumber, setWorkOrderNumber] = useState('');
+  const [projectCost, setProjectCost] = useState("");
+  const [totalWages, setTotalWages] = useState("");
+  const [persondaysWork, setPersondaysWork] = useState("");
+  const [unskilled, setUnskilled] = useState("");
+  const [semiskilled, setSemiskilled] = useState("");
+  const [skilled, setSkilled] = useState("");
+  const [workOrderNumber, setWorkOrderNumber] = useState("");
   const [isValidWorkOrderNumber, setIsValidWorkOrderNumber] = useState(true);
   const [workOrderDate, setWorkOrderDate] = useState(new Date());
   const [allContractorList, setAllContractorList] = useState([]);
   const [contractor, setContractor] = useState("");
-  const [remark, setRemark] = useState('');
+  const [remark, setRemark] = useState("");
   const [isValidRemark, setIsValidRemark] = useState(true);
 
-
-
-
-  console.log(allContractorList, "tentativeWorkStartDate")
+  console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -79,10 +82,9 @@ const Scheme = () => {
       const response = result?.data?.result;
       setAllContractorList(response);
     });
-
   }, []);
 
-  console.log(allContractorList, "allContractorList")
+  console.log(allContractorList, "allContractorList");
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -118,12 +120,11 @@ const Scheme = () => {
   }
 
   const onArea = (e) => {
-    setArea(e.target.value)
-  }
-
+    setArea(e.target.value);
+  };
 
   const onDistrict = (e) => {
-    setDistrict(e.target.value)
+    setDistrict(e.target.value);
     getAllBlockList(e.target.value).then(function (result) {
       const response = result?.data?.result;
       setAllBlockList(response);
@@ -133,7 +134,7 @@ const Scheme = () => {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
-  }
+  };
 
   let blockListDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
@@ -150,12 +151,12 @@ const Scheme = () => {
   }
 
   const onBlock = (e) => {
-    setBlock(e.target.value)
+    setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
       setAllGpList(response);
     });
-  }
+  };
 
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
@@ -165,14 +166,13 @@ const Scheme = () => {
   }
 
   const onGP = (e) => {
-    setGP(e.target.value)
-  }
+    setGP(e.target.value);
+  };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality")
-    setMunicipality(e.target.value)
-  }
-
+    console.log(e.target.value, "municipality");
+    setMunicipality(e.target.value);
+  };
 
   const onSector = (e) => {
     setSector(e.target.value);
@@ -184,13 +184,12 @@ const Scheme = () => {
     const regex = /^[A-Za-z\s]+$/;
     if (regex.test(value)) {
       setSchemeName(value);
-      setIsValidSchemeName(true)
+      setIsValidSchemeName(true);
     } else {
-      setIsValidSchemeName(false)
+      setIsValidSchemeName(false);
       // toast.error("Please use only Alphabet characters")
-
     }
-  }
+  };
 
   const handleKeyDown = (event) => {
     // Allow only alphabets and white spaces
@@ -198,16 +197,17 @@ const Scheme = () => {
       !(
         (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
         (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 || event.key === "Backspace"
+        event.keyCode === 32 ||
+        event.key === "Backspace"
       )
     ) {
       event.preventDefault();
     }
-  }
+  };
 
   const onLocation = (e) => {
     setLocation(e.target.value);
-  }
+  };
 
   const onDepartment = (e) => {
     setDepartment(e.target.value);
@@ -220,56 +220,55 @@ const Scheme = () => {
   const onProjectCost = (e) => {
     const value = e.target.value;
     const regex = /^\d*\.?\d{0,2}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setProjectCost(value);
     }
-  }
-
+  };
 
   const onTotalWages = (e) => {
     const value = e.target.value;
     const regex = /^\d*\.?\d{0,2}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setTotalWages(value);
     }
-  }
+  };
 
   const onPersondaysWork = (e) => {
     const value = e.target.value;
     const regex = /^[0-9]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPersondaysWork(value);
     }
-  }
+  };
 
   const onUnskilled = (e) => {
     const value = e.target.value;
     const regex = /^[0-9]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setUnskilled(value);
     }
-  }
+  };
 
   const onSemiskilled = (e) => {
     const value = e.target.value;
     const regex = /^[0-9]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setSemiskilled(value);
     }
-  }
+  };
 
   const onSkilled = (e) => {
     const value = e.target.value;
     const regex = /^[0-9]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setSkilled(value);
     }
-  }
+  };
 
   const onWorkOrderNumber = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setWorkOrderNumber(value);
       setIsValidWorkOrderNumber(true);
     } else {
@@ -278,13 +277,13 @@ const Scheme = () => {
   };
 
   const onContractor = (e) => {
-    setContractor(e.target.value)
-  }
+    setContractor(e.target.value);
+  };
 
   const onRemarks = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setRemark(value);
       setIsValidRemark(true);
     } else {
@@ -292,85 +291,87 @@ const Scheme = () => {
     }
   };
 
-
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
-
 
   const getCurrentFinancialYear = () => {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
-    let financialYear = '';
-    console.log(currentMonth)
-    console.log(currentYear)
+    let financialYear = "";
+    console.log(currentMonth);
+    console.log(currentYear);
 
     // Financial year starts from April
     if (currentMonth >= 4) {
-      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+      financialYear =
+        currentYear.toString() + "-" + (currentYear + 1).toString();
     } else {
-      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+      financialYear =
+        (currentYear - 1).toString() + "-" + currentYear.toString();
     }
 
     return financialYear;
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear")
-  console.log(currentMonth, "currentMonth")
-  console.log(currentYear, "currentYear")
+  console.log(financialYear, "financialYear");
+  console.log(currentMonth, "currentMonth");
+  console.log(currentYear, "currentYear");
 
-
-  console.log(format(new Date(tentativeWorkStartDate), 'yyyy-MM-dd'),"fatafatafa")
+  console.log(
+    format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
+    "fatafatafa"
+  );
   const onSubmit = () => {
-    console.log("clicked")
+    console.log("clicked");
     if (area === "") {
-      toast.error("Please Select Area Type")
+      toast.error("Please Select Area Type");
     } else if (district === "") {
-      toast.error("Please Select District")
+      toast.error("Please Select District");
     } else if (area === "U" && municipality === "") {
-      toast.error("Please Select Municipality")
+      toast.error("Please Select Municipality");
     } else if (area === "R" && block === "") {
-      toast.error("Please Select Block")
+      toast.error("Please Select Block");
     } else if (area === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat")
+      toast.error("Please Select Gram Panchayat");
     } else if (sector === "") {
-      toast.error("Please Select Scheme Sector")
+      toast.error("Please Select Scheme Sector");
     } else if (schemeName === "") {
-      toast.error("Please Type Scheme Name")
+      toast.error("Please Type Scheme Name");
     } else if (Location === "") {
-      toast.error("Please Type Worksite Location")
+      toast.error("Please Type Worksite Location");
     } else if (department === "") {
-      toast.error("Please Select Funding Department")
+      toast.error("Please Select Funding Department");
     } else if (status === "") {
-      toast.error("Please Select Status Of Work")
+      toast.error("Please Select Status Of Work");
     } else if (!tentativeWorkStartDate) {
-      toast.error("Please Select Tentative Work Start Date")
+      toast.error("Please Select Tentative Work Start Date");
     } else if (!actualWorkStartDate) {
-      toast.error("Please Select Actual Work Start Date")
+      toast.error("Please Select Actual Work Start Date");
     } else if (!expectedWorkDate) {
-      toast.error("Please Select Expected Work Completion Date")
+      toast.error("Please Select Expected Work Completion Date");
     } else if (projectCost === "") {
-      toast.error("Please Type Project Cost")
+      toast.error("Please Type Project Cost");
     } else if (totalWages === "") {
-      toast.error("Please  Total Wage Cost involved in the Work")
+      toast.error("Please  Total Wage Cost involved in the Work");
     } else if (persondaysWork === "") {
-      toast.error("Please Type Persondays to be generated from the Work")
+      toast.error("Please Type Persondays to be generated from the Work");
     } else if (unskilled === "") {
-      toast.error("Please Type No of Unskilled Workers to be engaged")
+      toast.error("Please Type No of Unskilled Workers to be engaged");
     } else if (semiskilled === "") {
-      toast.error("Please Type No of Semi-Skilled Workers to be engaged")
+      toast.error("Please Type No of Semi-Skilled Workers to be engaged");
     } else if (skilled === "") {
-      toast.error("Please Type No of Skilled Workers to be engaged")
+      toast.error("Please Type No of Skilled Workers to be engaged");
     } else if (workOrderNumber === "") {
-      toast.error("Please Type Work Order Number")
+      toast.error("Please Type Work Order Number");
     } else if (!workOrderDate) {
-      toast.error("Please Select Work Order Date")
+      toast.error("Please Select Work Order Date");
     } else if (contractor === "") {
-      toast.error("Please Select Contractor List")
+      toast.error("Please Select Contractor List");
     } else if (remark === "") {
-      toast.error("Please Type Remarks")
+      toast.error("Please Type Remarks");
     } else {
       addCreateScheme(
         area,
@@ -385,15 +386,35 @@ const Scheme = () => {
         "-",
         schemeName,
         department,
-        allDepartmentList.find(c => c.departmentNo == department)?.departmentName,
-      
-        data?.departmentNo,allDepartmentList.find(c => c.departmentNo === data?.departmentNo)?.departmentName,
-        data?.departmentNo,allDepartmentList.find(c => c.departmentNo === data?.departmentNo)?.departmentName,
-        status,format(new Date(tentativeWorkStartDate), 'yyyy-MM-dd'),format(new Date(actualWorkStartDate), 'yyyy-MM-dd'),
-        format(new Date(expectedWorkDate), 'yyyy-MM-dd'),projectCost,totalWages,0,persondaysWork,
-        unskilled,semiskilled,skilled,workOrderNumber,
-        format(new Date(workOrderDate), 'yyyy-MM-dd'),contractor,"A",currentMonth,currentYear,financialYear,
-        remark,data?.userIndex,
+        allDepartmentList.find((c) => c.departmentNo == department)
+          ?.departmentName,
+
+        data?.departmentNo,
+        allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
+          ?.departmentName,
+        data?.departmentNo,
+        allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
+          ?.departmentName,
+        status,
+        format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
+        format(new Date(actualWorkStartDate), "yyyy-MM-dd"),
+        format(new Date(expectedWorkDate), "yyyy-MM-dd"),
+        projectCost,
+        totalWages,
+        0,
+        persondaysWork,
+        unskilled,
+        semiskilled,
+        skilled,
+        workOrderNumber,
+        format(new Date(workOrderDate), "yyyy-MM-dd"),
+        contractor,
+        "A",
+        currentMonth,
+        currentYear,
+        financialYear,
+        remark,
+        data?.userIndex,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -405,7 +426,7 @@ const Scheme = () => {
         }
       );
     }
-  }
+  };
 
   return (
     <div className="flex-grow">
@@ -449,7 +470,6 @@ const Scheme = () => {
           <br></br>
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex w-full space-x-4 mb-6">
-
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -457,7 +477,6 @@ const Scheme = () => {
                 >
                   Area Type
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <select
                   id="scheme_name"
@@ -467,7 +486,9 @@ const Scheme = () => {
                   required
                   onChange={onArea}
                 >
-                  <option value="" selected hidden>Select Scheme Name</option>
+                  <option value="" selected hidden>
+                    Select Scheme Name
+                  </option>
                   <option value="R">Rural</option>
                   <option value="U">Urban</option>
 
@@ -482,7 +503,6 @@ const Scheme = () => {
                 >
                   District
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <select
                   id="scheme_name"
@@ -490,17 +510,16 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onDistrict}
-
                 >
-                  <option value="" selected hidden>Select District List</option>
+                  <option value="" selected hidden>
+                    Select District List
+                  </option>
                   {districtListDropdown}
-
 
                   {/* Add more options as needed */}
                 </select>
               </div>
               {district.length > 0 && area === "U" ? (
-
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -515,7 +534,9 @@ const Scheme = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onClick={onMunicipality}
                   >
-                    <option value="" selected hidden>Select Municipality List</option>
+                    <option value="" selected hidden>
+                      Select Municipality List
+                    </option>
                     {municipalityListDropdown}
 
                     {/* Add more options as needed */}
@@ -526,7 +547,6 @@ const Scheme = () => {
               )}
 
               {district.length > 0 && area === "R" ? (
-
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -540,9 +560,10 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onBlock}
-
                   >
-                    <option value="" selected hidden>Select Block List</option>
+                    <option value="" selected hidden>
+                      Select Block List
+                    </option>
                     {blockListDropdown}
 
                     {/* Add more options as needed */}
@@ -567,7 +588,9 @@ const Scheme = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onClick={onGP}
                   >
-                    <option value="" selected hidden>Select GP List</option>
+                    <option value="" selected hidden>
+                      Select GP List
+                    </option>
                     {GpListDropdown}
 
                     {/* Add more options as needed */}
@@ -576,7 +599,6 @@ const Scheme = () => {
               ) : (
                 ""
               )}
-
             </div>
 
             <div className="flex flex-col w-full mb-4">
@@ -608,7 +630,6 @@ const Scheme = () => {
                 >
                   Scheme Name
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -616,12 +637,15 @@ const Scheme = () => {
                   type="text"
                   autoComplete="off"
                   placeholder="Scheme Name..."
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
                   onChange={onSchemeName}
                   onKeyDown={handleKeyDown}
                 />
                 {!isValidSchemeName && (
-                  <div style={{ color: 'red' }}>Please enter a valid Scheme Name</div>
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Scheme Name
+                  </div>
                 )}
               </div>
 
@@ -632,7 +656,6 @@ const Scheme = () => {
                 >
                   Worksite Location (Full Address)
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -651,7 +674,6 @@ const Scheme = () => {
                 >
                   Funding Department
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <select
                   id="scheme_name"
@@ -662,33 +684,31 @@ const Scheme = () => {
                 >
                   <option value="" selected hidden>
                     Select a Department
-
                   </option>
                   {departmentListDropdown}
                 </select>
               </div>
-
             </div>
-            <div className="flex w-full space-x-4 mb-6">
-
-              <div className="px-4">
+            <div className="flex w-full space-x-4 mb-6 px-4 ">
+              <div className="w-1/4 flex flex-col">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Status of Work
                   <span className="text-red-500 ">*</span>
-
                 </label>
                 <select
                   id="scheme_name"
                   name="scheme_name"
                   autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="p-2 block w-full border border-gray-300 rounded-md mt-1"
                   required
                   onChange={onStatus}
                 >
-                  <option value="" selected hidden>Select Status of Work</option>
+                  <option value="" selected hidden>
+                    Select Status of Work
+                  </option>
                   <option value="P">Proposed</option>
                   <option value="S">Started</option>
 
@@ -696,53 +716,58 @@ const Scheme = () => {
                 </select>
               </div>
 
-              <div className="px-4">
+              <div className="w-1/4 flex flex-col">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Tentative Work Start Date
                   <span className="text-red-500 "> * </span>
-
                 </label>
-                <DatePicker selected={tentativeWorkStartDate} onChange={(date) => setTentativeWorkStartDate(date)} />
+                <DatePicker
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={tentativeWorkStartDate}
+                  onChange={(date) => setTentativeWorkStartDate(date)}
+                />
               </div>
 
-              <div className="px-4">
+              <div className="w-1/4 flex flex-col">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Actual Work Start Date
                   <span className="text-red-500 "> * </span>
-
                 </label>
-                <DatePicker selected={actualWorkStartDate} onChange={(date) => setActualWorkStartDate(date)} />
-
+                <DatePicker
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={actualWorkStartDate}
+                  onChange={(date) => setActualWorkStartDate(date)}
+                />
               </div>
-              <div className="px-4">
+              <div className="w-fit flex flex-col">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 w-fit"
                 >
                   Expected Work Completion Date
                   <span className="text-red-500 "> * </span>
-
                 </label>
-                <DatePicker selected={expectedWorkDate} onChange={(date) => setExpectedWorkDate(date)} />
-
+                <DatePicker
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={expectedWorkDate}
+                  onChange={(date) => setExpectedWorkDate(date)}
+                />
               </div>
-
             </div>
-            <div className="flex w-full mb-4">
-              <div className="px-4">
+            <div className="flex w-full mb-4 space-x-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Project Cost (in Rs.)
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -755,14 +780,13 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Total Wage Cost involved in the Work
                   <span className="text-red-500 "> *</span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -775,14 +799,13 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4">
+              <div className="px-4 w-fit">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Persondays to be generated from the Work
-                  <span className="text-red-500 "> * </span>
-
+                  Persondays to be generated
+                  <span className="text-red-500 w-fit"> * </span>
                 </label>
                 <input
                   id="scheme_name"
@@ -795,17 +818,15 @@ const Scheme = () => {
                   onChange={onPersondaysWork}
                 />
               </div>
-
             </div>
             <div className="flex w-full space-x-4 mb-4 ">
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  No of Unskilled Workers to be  engaged
+                  No of Unskilled Workers to be engaged
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -818,14 +839,13 @@ const Scheme = () => {
                   onChange={onUnskilled}
                 />
               </div>
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  No of Semi-Skilled Workers to be  engaged
+                  No of Semi-Skilled Workers to be engaged
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -838,14 +858,13 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  No of Skilled Workers to be  engaged
+                  No of Skilled Workers to be engaged
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -858,17 +877,15 @@ const Scheme = () => {
                   onChange={onSkilled}
                 />
               </div>
-
             </div>
             <div className="flex w-full space-x-4 mb-4 ">
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Work Order Number
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <input
                   id="scheme_name"
@@ -880,10 +897,12 @@ const Scheme = () => {
                   onChange={onWorkOrderNumber}
                 />
                 {!isValidWorkOrderNumber && (
-                  <div style={{ color: 'red' }}>Please enter a Valid Work Order Number</div>
+                  <div style={{ color: "red" }}>
+                    Please enter a Valid Work Order Number
+                  </div>
                 )}
               </div>
-              <div className="px-4">
+              <div className="px-4 w-1/3 flex flex-col">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -891,10 +910,13 @@ const Scheme = () => {
                   Work Order Date
                   <span className="text-red-500 "> * </span>
                 </label>
-                <DatePicker selected={workOrderDate} onChange={(date) => setWorkOrderDate(date)} />
-
+                <DatePicker
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={workOrderDate}
+                  onChange={(date) => setWorkOrderDate(date)}
+                />
               </div>
-              <div className="px-4">
+              <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -908,16 +930,15 @@ const Scheme = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onContractor}
-
                 >
-                  <option value="" selected hidden>Select Contractor List</option>
+                  <option value="" selected hidden>
+                    Select Contractor List
+                  </option>
                   {contractorListDropdown}
-
 
                   {/* Add more options as needed */}
                 </select>
               </div>
-
             </div>
             <div className="flex flex-col w-full mb-4">
               <div className="px-4">
@@ -937,7 +958,9 @@ const Scheme = () => {
                   onChange={onRemarks}
                 />
                 {!isValidRemark && (
-                  <div style={{ color: 'red' }}>Please enter a Valid Remark</div>
+                  <div style={{ color: "red" }}>
+                    Please enter a Valid Remark
+                  </div>
                 )}
               </div>
             </div>

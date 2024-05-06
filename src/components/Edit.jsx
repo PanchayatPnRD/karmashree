@@ -8,23 +8,22 @@ import SuccessModal from "./SuccessModal";
 
 const Edit = () => {
   const [openModal, setOpenModal] = useState();
-  const requiredKeys = [
-    "userName",
-    "UserAddress",
-    "designationID",
-    "role_type",
-  ];
   const [formdata, setFormdata] = useState({});
   const navigate = useNavigate();
   const { state } = useLocation();
   let { userId } = useParams();
 
-  const { data: userDetails, isSuccess: fetchStatus } = useQuery({
+  const {
+    data: userDetails,
+    isSuccess: fetchStatus,
+    dataUpdatedAt,
+  } = useQuery({
     queryKey: ["edit"],
     queryFn: async () => {
       const { data } = await fetch.get("/api/user/viewuser/", userId);
       return data.result;
     },
+    // refetchOnMount:"always"
   });
 
   const { data: roles } = useQuery({
@@ -44,15 +43,11 @@ const Edit = () => {
   });
 
   useEffect(() => {
+    setFormdata(null);
     if (fetchStatus) {
-      const filteredData = Object.fromEntries(
-        Object.entries(userDetails).filter(([key]) =>
-          requiredKeys.includes(key)
-        )
-      );
-      setFormdata(filteredData);
+      setFormdata({ ...userDetails, dataUpdatedAt: dataUpdatedAt });
     }
-  }, [fetchStatus]);
+  }, [userDetails]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -85,13 +80,27 @@ const Edit = () => {
         userCreate={false}
       />
       <button
-        onClick={() => navigate("/dashboard/" + state)}
+        onClick={() => {
+          navigate("/dashboard/" + state);
+        }}
         className="px-4 flex items-center space-x-3 py-1 bg-blue-500 w-fit m-4 hover:bg-blue-500/90 text-white  rounded transition-all hover:shadow-md"
       >
         <Icon icon={"fluent-mdl2:chrome-back"} />
         <span>Back</span>
       </button>
       <div className="flex flex-col items-center flex-grow space-y-4">
+        <div className="flex items-center px-6 space-x-4">
+          <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
+            Department
+          </label>
+          <input
+            className="rounded"
+            type="text"
+            name="deptName"
+            value={formdata?.deptName}
+            onChange={handleChange}
+          />
+        </div>
         <div className="flex items-center px-6 space-x-4">
           <label htmlFor="" className="w-1/5 text-end text-zinc-500/90">
             username

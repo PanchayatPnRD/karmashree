@@ -16,10 +16,12 @@ import {
 } from "@tanstack/react-table";
 
 const ActionPlanList = () => {
+
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   const { data: actionPlanList } = useQuery({
     queryKey: ["actionPlanList"],
     queryFn: async () => {
-      const data = await fetch.get("/api/actionplan/getActionList/", 1);
+      const data = await fetch.get("/api/actionplan/getActionList/",userIndex );
 
       return data.data.result;
     },

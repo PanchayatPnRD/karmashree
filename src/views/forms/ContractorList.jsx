@@ -1,53 +1,128 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-
-
-import { getAllDesignationList } from "../../Service/DNO/dnoService";
-import { getAllContractorList } from "../../Service/Contractor/ContractorService";
+import { fetch } from "../../functions/Fetchfunctions";
+import { SortIcon } from "../../components/SortIcon";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Pagination } from "../../components/Pagination";
+import classNames from "classnames";
 
 const ContractorList = () => {
-
-  const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(userIndex, "userIndex")
-  const [startIndex, endIndex] = useMemo(() => {
-    const start = (currentPage - 1) * 5;
-    const end = currentPage * 5;
 
-    return [start, end];
-  }, [currentPage]);
-  const [contractorList, setContractorList] = useState([]);
-  const [allDesignationList, setAllDesignationList] = useState([]);
+  const { data: contractorList } = useQuery({
+    queryKey: ["contractorList"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/contractor/getcontractorList/",
+        userIndex
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
 
-  console.log(allDesignationList, "allDesignationList")
-  const HeadData = [
-    "Financial Year",
-    "Area",
-    "District",
-    "Municipality",
-    "Block",
-    "GP",
-    "Contractor Name",
-    "Contractor GSTIN",
-    "Contractor PAN",
-    "Contractor Mobile",
+  const ListOptions = [5, 10, 15, "all"];
+  const [items, setItems] = useState(ListOptions[0]);
+
+  const data = useMemo(() => contractorList ?? [], [contractorList]);
+
+  const list = [
+    {
+      header: "Sl no",
+      accessorKey: "cont_sl",
+      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+      headclass: "cursor-pointer",
+      // sortingFn: "id",
+    },
+    {
+      header: "Financial Year",
+      accessorKey: "finYear",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Area",
+      accessorKey: "area",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "District",
+      accessorKey: "districtName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Municapility",
+      accessorKey: "Municipality",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Block",
+      accessorKey: "blockname",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "GP",
+      accessorKey: "gpName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Contractor Name",
+      accessorKey: "contractorName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Contractor GSTIN",
+      accessorKey: "contractorGSTIN",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Contractor PAN",
+      accessorKey: "contractorPAN",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Contractor Mobile",
+      accessorKey: "contractorMobile",
+      headclass: "cursor-pointer",
+    },
   ];
 
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
+
+  const table = useReactTable({
+    data,
+    columns: list,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering,
+    },
+    initialState: {
+      pagination: {
+        pageSize: parseInt(items),
+      },
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
+
   useEffect(() => {
-    getAllContractorList(userIndex).then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "res-->")
-      setContractorList(response);
+    if (items == "all") table.setPageSize(9999);
+    else table.setPageSize(parseInt(items));
+  }, [items]);
 
-    });
-
-    getAllDesignationList().then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "sibamdey");
-      setAllDesignationList(response);
-    });
-  }, [])
 
   return (
     <>
@@ -86,44 +161,85 @@ const ContractorList = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow p-8 px-12">
+        <div className=" flex justify-between px-2 items-center h-12">
+          <select
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+          >
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={filtering}
+            placeholder="search..."
+            className="border-2 rounded-lg border-zinc-400"
+            onChange={(e) => setFiltering(e.target.value)}
+          />
+        </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          <Table className="">
-            <Table.Head>
-              <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-              {HeadData?.map((e) => (
-                <Table.HeadCell key={e} className="capitalize">
-                  {e}
-                </Table.HeadCell>
-              ))}
-            </Table.Head>
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headclass,
+                      "hover:bg-zinc-200/70 transition-all"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2 justify-between">
+                        <span className="normal-case">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
+                ))}
+                {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
+              </Table.Head>
+            ))}
+
             <Table.Body className="divide-y">
-              {contractorList?.map((d, index) => (
-                <Table.Row
-                  key={userIndex}
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {index + 1}
-                  </Table.Cell>
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className={cell.column.columnDef.className}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
 
-                  <Table.Cell>{d?.finYear}</Table.Cell>
-                  <Table.Cell>{d?.area === "R" ? "Rural" : "Urban"}</Table.Cell>
-                  <Table.Cell>{d?.districtcode}</Table.Cell>
-                  <Table.Cell>
-                    {d?.Municipality ? d?.Municipality : "-"}
-                  </Table.Cell>
-                  <Table.Cell>{d?.blockcode ? d?.blockcode : "-"}</Table.Cell>
-
-                  <Table.Cell>{d?.gpCode ? d?.gpCode : "-"}</Table.Cell>
-                  <Table.Cell>{d?.contractorName}</Table.Cell>
-                  <Table.Cell>{d?.contractorGSTIN}</Table.Cell>
-                  <Table.Cell>{d?.contractorPAN}</Table.Cell>
-                  <Table.Cell>{d?.contractorMobile}</Table.Cell>
+                  {/* <Table.Cell className="flex items-center justify-center space-x-8">
+                    <Icon
+                      icon={"mingcute:edit-line"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    />
+                  </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
         </div>
+        <Pagination data={data} table={table} />
       </div>
     </>
   );

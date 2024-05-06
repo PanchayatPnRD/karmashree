@@ -25,7 +25,8 @@ const UserList = () => {
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await fetch.get(
-        "/api/user/getUserList?created_by=",userIndex
+        "/api/user/getUserList?created_by=",
+        userIndex
       );
 
       return data.data.result.data;
@@ -79,34 +80,34 @@ const UserList = () => {
     },
   ];
 
-const [sorting, setSorting] = useState([]);
-const [filtering, setFiltering] = useState("");
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
 
-const table = useReactTable({
-  data,
-  columns: list,
-  getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  state: {
-    sorting: sorting,
-    globalFilter: filtering,
-  },
-  initialState: {
-    pagination: {
-      pageSize: parseInt(items),
+  const table = useReactTable({
+    data,
+    columns: list,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering,
     },
-  },
-  onSortingChange: setSorting,
-  onGlobalFilterChange: setFiltering,
-});
+    initialState: {
+      pagination: {
+        pageSize: parseInt(items),
+      },
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
 
-useEffect(() => {
-  if (items == "all") table.setPageSize(9999);
-  else table.setPageSize(parseInt(items));
-}, [items]);
-  
+  useEffect(() => {
+    if (items == "all") table.setPageSize(9999);
+    else table.setPageSize(parseInt(items));
+  }, [items]);
+
   function rowToArray() {
     let array = [];
     table.getFilteredRowModel().rows.forEach((row) => {
@@ -117,7 +118,6 @@ useEffect(() => {
 
     return array;
   }
-
 
   return (
     <>
@@ -237,7 +237,7 @@ useEffect(() => {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Table.Cell>
                 ))}
-                
+
                 <Table.Cell className="flex items-center justify-center space-x-8">
                   <Link
                     to={"/dashboard/edit/" + row.original.userIndex}
