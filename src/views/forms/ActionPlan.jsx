@@ -178,12 +178,12 @@ const ActionPlan = () => {
       toast.error("Please Select Scheme Area");
     } else if (district === "") {
       toast.error("Please Select District");
-    } else if (schemeArea === "U" && municipality === "") {
-      toast.error("Please Select Municipality");
-    } else if (schemeArea === "R" && block === "") {
-      toast.error("Please Select Block");
-    } else if (schemeArea === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat");
+    // } else if (schemeArea === "U" && municipality === "") {
+    //   toast.error("Please Select Municipality");
+    // } else if (schemeArea === "R" && block === "") {
+    //   toast.error("Please Select Block");
+    // } else if (schemeArea === "R" && gp === "") {
+    //   toast.error("Please Select Gram Panchayat");
     } else if (sector === "") {
       toast.error("Please Select Sector");
     } else if (schemeProposed === "") {
