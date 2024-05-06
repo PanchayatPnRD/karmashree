@@ -153,7 +153,7 @@ export const Sidebar = () => {
     userDetails?.role_type,
     Boolean(parseInt(userDetails?.dno_status))
   )?.uniqueId
-  console.log(userRoleIndex, "permission");
+  // console.log(userRoleIndex, "permission");
 
   return (
     <div className="z-20 flex flex-col p-3">
