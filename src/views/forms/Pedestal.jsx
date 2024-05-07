@@ -15,8 +15,16 @@ import {
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {addCreatePedestal} from "../../Service/Pedestal/PedestalService";
+import { Loading } from "./Department";
+
+
 
 export const Pedestal = () => {
+  const [department, setDepartment] = useState("");
+  const [pedestal, setPedestal] = useState("");
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
@@ -25,41 +33,39 @@ export const Pedestal = () => {
     },
   });
 
+  console.log(departmentList,"departmentList")
+
   const { data: pedestalList } = useQuery({
     queryKey: ["pedestalList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/getAllPedestal");
+      const data = await axios.get(devApi + "/api/mastertable/PedestalList");
       return data.data.result;
     },
   });
 
   const deptNameRef = useRef(null);
-  const shortFormRef = useRef(null);
+  const pedalstalRef = useRef(null);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
+      return axios.post(devApi + "/api/mastertable/createPedestal", newTodo);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("departmentList");
+      queryClient.invalidateQueries("pedestalList");
+      deptNameRef.current.value =""
+      pedalstalRef.current.value =""
+      
     },
   });
 
-  function addDepartment() {
-    mutate({
-      departmentName: deptNameRef.current.value,
-      labourConverge: "Y",
-      deptshort: shortFormRef.current.value,
-      organization: "S",
-    });
-  }
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => pedestalList ?? [], [pedestalList]);
-
+  const jsonString = localStorage.getItem("karmashree_User");
+  const dataUser = JSON.parse(jsonString);
   const list = [
     {
       header: "#",
@@ -76,7 +82,7 @@ export const Pedestal = () => {
     },
     {
       header: "Pedestal Name",
-      accessorKey: "deptshort",
+      accessorKey: "pedestalName",
       headclass: "cursor-pointer",
     },
   ];
@@ -129,8 +135,57 @@ export const Pedestal = () => {
     };
   }, [isPending]);
 
+  const onDepartment = (e) => {
+    console.log(e.target.value,"dept")
+    setDepartment(e.target.value);
+  }
+
+  const onPedestal = (e) => {
+    setPedestal(e.target.value);
+  }
+
+  function performPost() {
+    if (department === "") {
+      toast.error("Please Select Department")
+    } else if (pedestal==="") {
+      toast.error("Please Type Pedestal name")
+    } else {
+    mutate({
+      departmentNo:department,
+      departmentName:departmentList.find(c => c.departmentNo == department)?.departmentName,
+      pedestalName:pedestal,
+      userIndex: dataUser?.userIndex
+    })}
+  }
+
+
+  const addPedestal = () => {
+    if (department === "") {
+      toast.error("Please Select Department")
+    } else if (pedestal==="") {
+      toast.error("Please Type Pedestal name")
+    } else {
+      addCreatePedestal(
+       department,
+       departmentList.find(c => c.departmentNo == department)?.departmentName,
+       pedestal,
+        dataUser?.userIndex,
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            // navigate("/dashboard/scheme-list");
+          } else {
+            toast.error(r.message);
+          }
+        }
+      );
+    }
+
+  }
   return (
     <>
+      <ToastContainer />
       {isPending && <Loading />}
       <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
@@ -177,6 +232,8 @@ export const Pedestal = () => {
               id=""
               className="rounded-md border border-zinc-300"
               required={true}
+              onChange={onDepartment}
+              ref={deptNameRef}
             >
               <option value="">-Select Department-</option>
               {departmentList?.map((e) => (
@@ -191,20 +248,21 @@ export const Pedestal = () => {
             </label>
             <input
               required
-              placeholder="enter pedestal name ..."
+              placeholder="Enter Pedestal name ..."
               type="text"
-              ref={shortFormRef}
+              ref={pedalstalRef}
               HeadData
               className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md capitalize"
+              onChange={onPedestal}
             />
           </div>
           <div className="flex justify-center items-center">
             <button
               type="button"
               className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={addDepartment}
+              onClick={performPost}
             >
-              Save
+              Submit
             </button>
           </div>
         </div>
