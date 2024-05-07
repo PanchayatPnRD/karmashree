@@ -16,9 +16,7 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-
 const Department = () => {
-  
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
@@ -38,6 +36,8 @@ const Department = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("departmentList");
+      deptNameRef.current.value = "";
+      shortFormRef.current.value = "";
     },
   });
 
@@ -57,11 +57,11 @@ const Department = () => {
 
   const list = [
     {
-      header: "Sl no",
+      header: "#",
       accessorKey: "departmentNo",
       className: "font-bold text-zinc-600 text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer w-fit",
       // sortingFn: "id",
     },
     {
@@ -236,7 +236,7 @@ const Department = () => {
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center space-x-2 justify-between">
+                      <div className="flex items-center justify-between">
                         <span className="normal-case">
                           {flexRender(
                             header.column.columnDef.header,
@@ -268,15 +268,22 @@ const Department = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <Icon
-                      icon={"mingcute:edit-line"}
-                      className="font-medium text-cyan-600 hover:underline text-2xl"
-                    />
+                    <button onClick>
+                      <Icon
+                        icon={"mingcute:edit-line"}
+                        className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
+                      />
+                    </button>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
+          {data.length < 1 && (
+            <div className="text-md font-semibold opacity-40 text-center">
+              No data available
+            </div>
+          )}
           <Pagination data={data} table={table} />
         </div>
       </div>

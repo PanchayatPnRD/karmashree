@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { Table } from "flowbite-react";
+import { SortIcon } from "../../components/SortIcon";
 import { devApi } from "../../WebApi/WebApi";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Icon } from "@iconify/react";
 import axios from "axios";
-import { Loading } from "./Department";
 import {
   flexRender,
   getCoreRowModel,
@@ -15,86 +14,69 @@ import {
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
-import { SortIcon } from "../../components/SortIcon";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-const Designation = () => {
-  const HeadData = ["designation tier", "designation", "edit", "delete"];
-
-  const { data: designationList } = useQuery({
-    queryKey: ["designationList"],
+export const Pedestal = () => {
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/DesignationList");
-      // console.log(Array.isArray(data.data.result));
+      const data = await axios.get(devApi + "/api/mastertable/DepartmentList");
       return data.data.result;
     },
   });
 
-  const designationTier = useRef(null);
-  const designation = useRef(null);
+  const { data: pedestalList } = useQuery({
+    queryKey: ["pedestalList"],
+    queryFn: async () => {
+      const data = await axios.get(devApi + "/api/mastertable/getAllPedestal");
+      return data.data.result;
+    },
+  });
+
+  const deptNameRef = useRef(null);
+  const shortFormRef = useRef(null);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/createDesignation", newTodo);
+      return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("designationList");
-      designation.current.value = "";
-      designationTier.current.value = "";
+      queryClient.invalidateQueries("departmentList");
     },
   });
 
-  function addDesignation() {
+  function addDepartment() {
     mutate({
-      designationLevel: designationTier.current.value,
-      designation: designation.current.value,
-      designationstage: 0,
-      userType: "",
-      officeName: "",
+      departmentName: deptNameRef.current.value,
+      labourConverge: "Y",
+      deptshort: shortFormRef.current.value,
+      organization: "S",
     });
   }
-  useEffect(() => {
-    const preventScroll = () => {
-      document.body.style.overflow = "hidden";
-    };
-
-    const allowScroll = () => {
-      document.body.style.overflow = "auto";
-    };
-
-    if (isPending) {
-      preventScroll();
-    } else {
-      allowScroll();
-    }
-
-    return () => {
-      allowScroll();
-    };
-  }, [isPending]);
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => designationList ?? [], [designationList]);
+  const data = useMemo(() => pedestalList ?? [], [pedestalList]);
 
   const list = [
     {
-      header: "Sl no",
-      accessorKey: "designationId",
+      header: "#",
+      accessorKey: "departmentNo",
       className: "font-bold text-zinc-600 text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer w-fit",
       // sortingFn: "id",
     },
     {
-      header: "Designation tier",
-      accessorKey: "designationLevel",
+      header: "Department",
+      accessorKey: "departmentName",
       headclass: "cursor-pointer",
     },
     {
-      header: "Designation",
-      accessorKey: "designation",
+      header: "Pedestal Name",
+      accessorKey: "deptshort",
       headclass: "cursor-pointer",
     },
   ];
@@ -127,10 +109,30 @@ const Designation = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
+  useEffect(() => {
+    const preventScroll = () => {
+      document.body.style.overflow = "hidden";
+    };
+
+    const allowScroll = () => {
+      document.body.style.overflow = "auto";
+    };
+
+    if (isPending) {
+      preventScroll();
+    } else {
+      allowScroll();
+    }
+
+    return () => {
+      allowScroll();
+    };
+  }, [isPending]);
+
   return (
     <>
       {isPending && <Loading />}
-      <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
+      <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
@@ -156,7 +158,7 @@ const Designation = () => {
                     /
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Designation Master
+                    Pedestal Master
                   </li>
                 </ol>
               </nav>
@@ -165,42 +167,44 @@ const Designation = () => {
           <br />
         </div>
         <div className="px-36 flex flex-col space-y-6 py-8">
-          <div>
-            <label htmlFor="">
-              Designation Tier<span className="text-red-500 "> * </span>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="" className="capitalize text-black">
+              department name
+              <span className="text-red-500 "> * </span>
             </label>
             <select
-              ref={designationTier}
               name=""
               id=""
-              className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md"
+              className="rounded-md border border-zinc-300"
+              required={true}
             >
-              <option value="">Select Designation Tier</option>
-              <option value="HQ">Headquater</option>
-              <option value="DIST">District</option>
-              <option value="BLOCK">Block</option>
+              <option value="">-Select Department-</option>
+              {departmentList?.map((e) => (
+                <option value={e.departmentNo}>{e.departmentName}</option>
+              ))}
             </select>
           </div>
           <div>
-            <label htmlFor="" className="capitalize text-black">
-              designation
+            <label className="capitalize text-black">
+              Pedestal Name
               <span className="text-red-500 "> * </span>
             </label>
             <input
-              ref={designation}
               required
-              placeholder="Enter designation ..."
+              placeholder="enter pedestal name ..."
               type="text"
-              className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md"
+              ref={shortFormRef}
+              HeadData
+              className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md capitalize"
             />
           </div>
           <div className="flex justify-center items-center">
             <button
               type="button"
               className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={addDesignation}
+              onClick={addDepartment}
             >
-              Submit
+              Save
             </button>
           </div>
         </div>
@@ -240,7 +244,7 @@ const Designation = () => {
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center space-x-2 justify-between">
+                      <div className="flex items-center justify-between">
                         <span className="normal-case">
                           {flexRender(
                             header.column.columnDef.header,
@@ -272,22 +276,23 @@ const Designation = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <button onClick={()=>console.log(row.original)}>
-                      <Icon
-                        icon={"mingcute:edit-line"}
-                        className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
-                      />
-                    </button>
+                    <Icon
+                      icon={"mingcute:edit-line"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    />
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
+          {data.length < 1 && (
+            <div className="text-md font-semibold opacity-40 text-center">
+              No data available
+            </div>
+          )}
           <Pagination data={data} table={table} />
         </div>
       </div>
     </>
   );
 };
-
-export default Designation;

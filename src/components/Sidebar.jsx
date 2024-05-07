@@ -13,6 +13,7 @@ import DashboardHome from "../views/forms/DashboardHome";
 import DnoList from "../views/forms/DnoList";
 import Dno from "../views/forms/Dno";
 import WorkRequirement from "../views/forms/WorkRequirement";
+import { Pedestal } from "../views/forms/Pedestal";
 import { Calc_permission } from "../functions/Permissions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -64,6 +65,12 @@ export const sideBarList = [
     Component: Department,
     text: "department master",
     route: "/dashboard/department-master",
+    permissions: [1],
+  },
+  {
+    Component: Pedestal,
+    text: "pedestar master",
+    route: "/dashboard/pedestal-master",
     permissions: [1],
   },
   {
