@@ -18,7 +18,7 @@ import classNames from "classnames";
 import { SortIcon } from "../../components/SortIcon";
 
 const Designation = () => {
-  const HeadData = ["designation tier", "designation", "edit", "delete"];
+  const [mutationId, setMutationId] = useState(null);
 
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
@@ -33,7 +33,7 @@ const Designation = () => {
   const designation = useRef(null);
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: add, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
       return axios.post(devApi + "/api/mastertable/createDesignation", newTodo);
     },
@@ -42,16 +42,39 @@ const Designation = () => {
       designation.current.value = "";
       designationTier.current.value = "";
     },
+    mutationKey:["adddesignation"]
   });
 
-  function addDesignation() {
-    mutate({
-      designationLevel: designationTier.current.value,
-      designation: designation.current.value,
-      designationstage: 0,
-      userType: "",
-      officeName: "",
-    });
+  const { mutate: update, isPending: updatePending } = useMutation({
+    mutationFn: (newTodo) => {
+      return axios.put(
+        devApi + "/api/mastertable/UpdateDesigntion" + mutationId,
+        newTodo
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("designationList");
+      designation.current.value = "";
+      designationTier.current.value = "";
+      setMutationId(null)
+    },
+    mutationKey:["updatedesignation"]
+  });
+
+  function performMutation() {
+    if (mutationId === null)
+      add({
+        designationLevel: designationTier.current.value,
+        designation: designation.current.value,
+        designationstage: 0,
+        userType: "",
+        officeName: "",
+      });
+    else
+      update({
+        designationLevel: designationTier.current.value,
+        designation: designation.current.value,
+      });
   }
   useEffect(() => {
     const preventScroll = () => {
@@ -62,7 +85,7 @@ const Designation = () => {
       document.body.style.overflow = "auto";
     };
 
-    if (isPending) {
+    if (addPending || updatePending) {
       preventScroll();
     } else {
       allowScroll();
@@ -71,7 +94,7 @@ const Designation = () => {
     return () => {
       allowScroll();
     };
-  }, [isPending]);
+  }, [addPending, updatePending]);
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
@@ -129,7 +152,7 @@ const Designation = () => {
 
   return (
     <>
-      {isPending && <Loading />}
+      {(addPending || updatePending) && <Loading />}
       <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
@@ -198,9 +221,9 @@ const Designation = () => {
             <button
               type="button"
               className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={addDesignation}
+              onClick={performMutation}
             >
-              Submit
+              {!mutationId ? "Submit" : "Update"}
             </button>
           </div>
         </div>
@@ -272,7 +295,15 @@ const Designation = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <button onClick={()=>console.log(row.original)}>
+                    <button
+                      onClick={() => {
+                        designation.current.value = row.original.designation;
+                        designationTier.current.value =
+                          row.original.designationLevel;
+                        console.log(row.original);
+                        setMutationId(row.original.designationId);
+                      }}
+                    >
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
