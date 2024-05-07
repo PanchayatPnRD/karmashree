@@ -10,6 +10,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const ActionPlan = () => {
   const jsonString = localStorage.getItem("karmashree_User");
@@ -37,7 +38,9 @@ const ActionPlan = () => {
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
-  const [selectedYear, setSelectedYear] = useState(`${currentYear}-${currentYear + 1}`);
+  const [selectedYear, setSelectedYear] = useState(
+    `${currentYear}-${currentYear + 1}`
+  );
 
   const lastTenYears = Array.from({ length: 10 }, (_, index) => {
     const startYear = currentYear - index;
@@ -45,7 +48,7 @@ const ActionPlan = () => {
   });
 
   const onFinancialYear = (event) => {
-    console.log(event.target.value,"fififififi")
+    console.log(event.target.value, "fififififi");
     setSelectedYear(event.target.value);
   };
 
@@ -158,7 +161,6 @@ const ActionPlan = () => {
   const onTotalAverageDays = (e) => {
     setTotalAverageDays(e.target.value);
   };
-
 
   const getCurrentFinancialYear = () => {
     const today = new Date();
@@ -288,7 +290,6 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Financial Year
-                  
                 </label>
                 {/* <input
                   id="scheme_name"
@@ -485,10 +486,12 @@ const ActionPlan = () => {
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
                 >
-                  Tentative Total Cost of Schemes
+                  <span> Tentative Total Cost of Schemes</span>
                   <span className="text-red-500 "> * </span>
+                  <span>( Cost in</span>
+                  <Icon className="text-xs" icon={"fa:rupee"} /> upees )
                 </label>
                 <input
                   id="scheme_cost"
