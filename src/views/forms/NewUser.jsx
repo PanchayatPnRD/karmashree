@@ -8,6 +8,9 @@ import {
   getAllSubDivisionList,
   getAllBlockList,
 } from "../../Service/NewUserService";
+import {
+  getAllMunicipalityList, getAllGramPanchayatList
+} from "../../Service/ActionPlan/ActionPlanService";
 import { Button, Modal } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,9 +35,13 @@ const NewUser = () => {
   const [allRoleList, setAllRoleList] = useState([]);
   const [allSubDivisionList, setAllSubDivisionList] = useState([]);
   const [allBlockList, setAllBlockList] = useState([]);
+  const [allAreaBlockList, setAllAreaBlockList] = useState([]);
+  const [allMunicipalityList, setAllMunicipalityList] = useState([]);
+  const [municipality, setMunicipality] = useState("");
   const [userData, setUserData] = useState(null);
   const [subDivision, setSubDivision] = useState("");
   const [block, setBlock] = useState("");
+  const [areaBlock, setAreaBlock] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [role, setRole] = useState("");
   const [allDesignationList, setAllDesignationList] = useState([]);
@@ -49,6 +56,11 @@ const NewUser = () => {
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
   const [technicalOfficerEmailInput, setTechnicalOfficerEmailInput] =
     useState("");
+  const [area, setArea] = useState("");
+  const [allGpList, setAllGpList] = useState([]);
+  const [areaGp, setAreaGP] = useState("");
+
+
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -145,6 +157,15 @@ const NewUser = () => {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
+    getAllBlockList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllAreaBlockList(response);
+    });
+
+    getAllMunicipalityList(e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllMunicipalityList(response);
+    });
   };
 
   let subDivisionDropdown = <option>Loading...</option>;
@@ -159,6 +180,35 @@ const NewUser = () => {
       <option value={blockRow.blockCode}>{blockRow.blockName}</option>
     ));
   }
+  let blockListDropdown = <option>Loading...</option>;
+  if (allAreaBlockList && allAreaBlockList.length > 0) {
+    blockListDropdown = allAreaBlockList.map((blockRow, index) => (
+      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+    ));
+  }
+
+  let municipalityListDropdown = <option>Loading...</option>;
+  if (allMunicipalityList && allMunicipalityList.length > 0) {
+    municipalityListDropdown = allMunicipalityList.map((munRow, index) => (
+      <option value={munRow.urbanCode}>{munRow.urbanName}</option>
+    ));
+  }
+  const onAreaBlock = (e) => {
+    setAreaBlock(e.target.value)
+    getAllGramPanchayatList(district, e.target.value).then(function (result) {
+      const response = result?.data?.result;
+      setAllGpList(response);
+    });
+  }
+
+  let GpListDropdown = <option>Loading...</option>;
+  if (allGpList && allGpList.length > 0) {
+    GpListDropdown = allGpList.map((gpRow, index) => (
+      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+    ));
+  }
+
+
 
   const onOfficeName = (e) => {
     setOfficeName(e.target.value);
@@ -279,19 +329,19 @@ const NewUser = () => {
         userData?.category === "HD"
           ? district
           : userData?.districtcode
-          ? userData?.districtcode
-          : district,
+            ? userData?.districtcode
+            : district,
 
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-          ? userData?.subDivision
-          : subDivision,
+            ? userData?.subDivision
+            : subDivision,
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-          ? userData?.blockCode
-          : block,
+            ? userData?.blockCode
+            : block,
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -302,19 +352,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DIST"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision === "" && block === ""
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision && block === ""
-          ? "SUB"
-          : (userData?.category === "DIST" && subDivision && block) ||
-            (userData?.category === "DIST" && subDivision === "" && block)
-          ? "BLOCK"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DIST"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST" && subDivision === "" && block === ""
+                ? "DIST"
+                : userData?.category === "DIST" && subDivision && block === ""
+                  ? "SUB"
+                  : (userData?.category === "DIST" && subDivision && block) ||
+                    (userData?.category === "DIST" && subDivision === "" && block)
+                    ? "BLOCK"
+                    : userData?.category === "SUB"
+                      ? "BLOCK"
+                      : "BLOCK",
         "",
         "A",
         1,
@@ -343,7 +393,18 @@ const NewUser = () => {
       );
     }
   };
-  console.log(errorMessage?.message, "message");
+
+  const onArea = (e) => {
+    setArea(e.target.value)
+  }
+  const onGP = (e) => {
+    setAreaGP(e.target.value)
+  }
+  const onMunicipality = (e) => {
+    console.log(e.target.value, "municipality")
+    setMunicipality(e.target.value)
+  }
+
   return (
     <div className="flex-grow ">
       <SuccessModal
@@ -416,6 +477,73 @@ const NewUser = () => {
                 {departmentListDropdown}
               </select>
             </div>
+            {userData?.category === "HQ" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Area
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onArea}
+                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                >
+                  <option value="" selected >
+                    Select a area
+                  </option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
+                </select>
+              </div>
+            )}
+
+            {userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Pedestal
+                  {/* <span className="text-red-500 "> * </span> */}
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  // onChange={handleChange}
+                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                >
+                  <option value="" selected >
+                    Select a Pedestal
+                  </option>
+                  <option value="1">P&RD 15th Finance Commission</option>
+                  <option value="2">P&RD Chaa Sundari</option>
+                  <option value="3">P&RD WBCADC</option>
+                  <option value="4">P&RD Rural Roads</option>
+                  <option value="5">P&RD Sanitation</option>
+                  <option value="6">P&RD Public Health</option>
+                  <option value="7">P&RD Anandadhara</option>
+                  <option value="8">P&RD SFC</option>
+                  <option value="9">P&RD RGSA</option>
+                </select>
+              </div>
+            )}
             {userData?.category === "HQ" ? (
               ""
             ) : (
@@ -436,13 +564,152 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" ||
-                    userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
                   {districtListDropdown}
+                </select>
+              </div>
+            )}
+            {userData?.category === "HD" && district.length > 0 && area === "U" ? (
+
+              <div>
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Municipality
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onClick={onMunicipality}
+                >
+                  <option value="" selected hidden>Select Municipality List</option>
+                  {municipalityListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+            {userData?.category === "HD" && district.length > 0 && area === "R" ? (
+
+              <div>
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onAreaBlock}
+
+                >
+                  <option value="" selected hidden>Select Block List</option>
+                  {blockListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {userData?.category === "HD" && areaBlock.length > 0 && area === "R" ? (
+              <div>
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Gram Panchayat
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onClick={onGP}
+                >
+                  <option value="" selected hidden>Select GP List</option>
+                  {GpListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+
+
+            {userData?.category === "HQ" ||
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Sub-Division
+                  <span className="text-red-500 "> * </span>
+
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onSubDivision}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
+                      ? subDivisionDropdown
+                      : "Select a sub-division"}
+                  </option>
+                  {subDivisionDropdown}
+                </select>
+              </div>
+            )}
+            {userData?.category === "HQ" ||
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
+              ""
+            ) : (
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onBlock}
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "BLOCK"
+                      ? blockDropdown
+                      : "Select a block"}
+                  </option>
+                  {blockDropdown}
                 </select>
               </div>
             )}
@@ -523,73 +790,13 @@ const NewUser = () => {
               />
             </div>
 
+
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Sub-Division
-                  <span className="text-red-500 "> * </span>
-                  
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onSubDivision}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    {userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
-                      ? subDivisionDropdown
-                      : "Select a sub-division"}
-                  </option>
-                  {subDivisionDropdown}
-                </select>
-              </div>
-            )}
-            {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Block
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onBlock}
-                >
-                  <option value="" selected hidden>
-                    {userData?.category === "BLOCK"
-                      ? blockDropdown
-                      : "Select a block"}
-                  </option>
-                  {blockDropdown}
-                </select>
-              </div>
-            )}
-            {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -616,11 +823,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>

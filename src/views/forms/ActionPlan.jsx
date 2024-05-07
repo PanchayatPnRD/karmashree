@@ -34,6 +34,20 @@ const ActionPlan = () => {
   const [totalPersonDays, setTotalPersonDays] = useState("");
   const [totalJobCard, setTotalJobCard] = useState("");
   const [totalAverageDays, setTotalAverageDays] = useState("");
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
+  const [selectedYear, setSelectedYear] = useState(`${currentYear}-${currentYear + 1}`);
+
+  const lastTenYears = Array.from({ length: 10 }, (_, index) => {
+    const startYear = currentYear - index;
+    return `${startYear}-${startYear + 1}`;
+  });
+
+  const onFinancialYear = (event) => {
+    console.log(event.target.value,"fififififi")
+    setSelectedYear(event.target.value);
+  };
 
   useEffect(() => {
     getAllDistrictActionList().then(function (result) {
@@ -144,9 +158,7 @@ const ActionPlan = () => {
   const onTotalAverageDays = (e) => {
     setTotalAverageDays(e.target.value);
   };
-  const today = new Date();
-  const currentMonth = today.getMonth() + 1;
-  const currentYear = today.getFullYear();
+
 
   const getCurrentFinancialYear = () => {
     const today = new Date();
@@ -178,12 +190,12 @@ const ActionPlan = () => {
       toast.error("Please Select Scheme Area");
     } else if (district === "") {
       toast.error("Please Select District");
-    } else if (schemeArea === "U" && municipality === "") {
-      toast.error("Please Select Municipality");
-    } else if (schemeArea === "R" && block === "") {
-      toast.error("Please Select Block");
-    } else if (schemeArea === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat");
+      // } else if (schemeArea === "U" && municipality === "") {
+      //   toast.error("Please Select Municipality");
+      // } else if (schemeArea === "R" && block === "") {
+      //   toast.error("Please Select Block");
+      // } else if (schemeArea === "R" && gp === "") {
+      //   toast.error("Please Select Gram Panchayat");
     } else if (sector === "") {
       toast.error("Please Select Sector");
     } else if (schemeProposed === "") {
@@ -214,7 +226,7 @@ const ActionPlan = () => {
         totalPersonDays,
         totalJobCard,
         totalAverageDays,
-        financialYear,
+        selectedYear,
         currentMonth,
         currentYear,
         data?.departmentNo,
@@ -276,8 +288,9 @@ const ActionPlan = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Financial Year
+                  
                 </label>
-                <input
+                {/* <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
@@ -286,7 +299,21 @@ const ActionPlan = () => {
                   className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   // onChange={onSchemeProposed}
                   value={financialYear}
-                />
+                /> */}
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                  onChange={onFinancialYear}
+                  value={selectedYear}
+                >
+                  {lastTenYears.map((yearRange) => (
+                    <option key={yearRange} value={yearRange}>
+                      {yearRange}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="px-4">
@@ -454,7 +481,7 @@ const ActionPlan = () => {
                   onChange={onSchemeProposed}
                 />
               </div>
-            
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -528,7 +555,7 @@ const ActionPlan = () => {
                   onChange={onTotalJobCard}
                 />
               </div>
-            
+
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"

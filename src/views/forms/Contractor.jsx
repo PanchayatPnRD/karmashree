@@ -275,12 +275,13 @@ const Contractor = () => {
       toast.error("Please Select Area Type")
     } else if (district === "") {
       toast.error("Please Select District")
-    } else if (area === "U" && municipality === "") {
-      toast.error("Please Select Municipality")
-    } else if (area === "R" && block === "") {
-      toast.error("Please Select Block")
-    } else if (area === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat")
+      // }
+      //  else if (area === "U" && municipality === "") {
+      //   toast.error("Please Select Municipality")
+      // } else if (area === "R" && block === "") {
+      //   toast.error("Please Select Block")
+      // } else if (area === "R" && gp === "") {
+      //   toast.error("Please Select Gram Panchayat")
     } else if (contractorName === "") {
       toast.error("Please Type Contractor Name")
     } else if (gstin === "") {
