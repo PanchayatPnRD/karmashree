@@ -268,7 +268,7 @@ const Department = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <button onClick>
+                    <button >
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
