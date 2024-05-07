@@ -424,7 +424,13 @@ const WorkRequirement = () => {
           <Table.Body className="divide-y">
             {dates.map((e) => (
               <Table.Row>
-                <Table.Cell className="text-zinc-800">{e.toLocaleDateString()}</Table.Cell>
+                <Table.Cell className="text-zinc-800">
+                  {e.toLocaleDateString("en-IN", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </Table.Cell>
                 <Table.Cell> hello sir</Table.Cell>
                 <Table.Cell> hello sir</Table.Cell>
                 <Table.Cell> hello sir</Table.Cell>
