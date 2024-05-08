@@ -449,7 +449,7 @@ const WorkRequirement = () => {
                 maxLength={10}
               />
               {!isValidMobile && (
-                <div style={{ color: 'red' }}>Please enter a valid Contact Phone number</div>
+                <div style={{ color: 'red' }}>Please enter a valid Contact Phone Number</div>
               )}
             </div>
           </div>
@@ -467,7 +467,7 @@ const WorkRequirement = () => {
                 onChange={onReportingPlace}
                 />
                 {!isValidReportingPlace && (
-                  <div style={{ color: 'red' }}>Please enter a valid Reporting place</div>
+                  <div style={{ color: 'red' }}>Please enter a valid Reporting Place</div>
                 )}
             </div>
 
