@@ -99,7 +99,11 @@ const Designation = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => designationList ?? [], [designationList]);
+  const data = useMemo(() => {
+    const sortedList = [...(designationList ?? [])];
+    sortedList.sort((a, b) => b.designationId - a.designationId);
+    return sortedList;
+  }, [designationList]);
 
   const list = [
     {
@@ -107,7 +111,7 @@ const Designation = () => {
       accessorKey: "designationId",
       className: "font-bold text-zinc-600 text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer w-32",
       // sortingFn: "id",
     },
     {

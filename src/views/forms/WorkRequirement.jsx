@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import DatePicker from "react-datepicker";
+import { Table } from "flowbite-react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { getDatesArray } from "../../functions/dateCalc";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -13,32 +16,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
+  const [days, setDays] = useState(1);
+  const [startDate, setStartDate] = useState(new Date());
   const [area, setArea] = useState();
+  const [dates, setDates] = useState([]);
+
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
+
   const [allBlockList, setAllBlockList] = useState([]);
   const [block, setBlock] = useState("");
   const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
-  const [contractorName, setContractorName] = useState("");
-  const [gstin, setGSTIN] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isValidContractorName, setIsValidContractorName] = useState(true);
-  const [panNumber, setPanNumber] = useState("");
-  const [isValidPan, setIsValidPan] = useState(true);
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [isValidMobile, setIsValidMobile] = useState(true);
-  const [address, setAddress] = useState("");
-  const [isValidAddress, setIsValidAddress] = useState(true);
-  const [village, setVillage] = useState("");
-  const [isValidVillage, setIsValidVillage] = useState(true);
-  const [policeStation, setPoliceStation] = useState("");
-  const [isValidPoliceStation, setIsValidPoliceStation] = useState(true);
-  const [postOffice, setPostOffice] = useState("");
-  const [isValidPostOffice, setIsValidPostOffice] = useState(true);
-  const [pinCode, setPinCode] = useState("");
-  const [isValidPinCode, setIsValidPinCode] = useState(true);
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -106,123 +95,10 @@ const WorkRequirement = () => {
     ));
   }
 
-  const onContractorName = (e) => {
-    const value = e.target.value;
-    // Regular expression to allow only alphabets and white spaces
-    const regex = /^[A-Za-z\s]+$/;
-    if (regex.test(value)) {
-      setContractorName(value);
-      setIsValidContractorName(true);
-    } else {
-      setIsValidContractorName(false);
-      // toast.error("Please use only Alphabet characters")
-    }
-  };
+  useEffect(() => {
+    setDates(getDatesArray(startDate, days));
+  }, [days, startDate]);
 
-  const handleKeyDown = (event) => {
-    // Allow only alphabets and white spaces
-    if (
-      !(
-        (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
-        (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 ||
-        event.key === "Backspace"
-      )
-    ) {
-      event.preventDefault();
-    }
-  };
-
-  const onGstIn = (event) => {
-    const value = event.target.value;
-    // Regular expression to match GSTIN format
-    const regex =
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
-    if (regex.test(value) || value === "") {
-      setGSTIN(value);
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  };
-
-  const onPanCard = (event) => {
-    const value = event.target.value.toUpperCase(); // Convert to uppercase for consistency
-    // Regular expression to match PAN format
-    const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (regex.test(value) || value === "") {
-      setPanNumber(value);
-      setIsValidPan(true);
-    } else {
-      setIsValidPan(false);
-    }
-  };
-
-  const onMobile = (event) => {
-    const value = event.target.value;
-    const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === "") {
-      setMobileNumber(value);
-      setIsValidMobile(true);
-    } else {
-      setIsValidMobile(false);
-    }
-  };
-
-  const onAddress = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setAddress(value);
-      setIsValidAddress(true);
-    } else {
-      setIsValidAddress(false);
-    }
-  };
-
-  const onVillage = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setVillage(value);
-      setIsValidVillage(true);
-    } else {
-      setIsValidVillage(false);
-    }
-  };
-
-  const onPoliceStation = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s\/]*$/;
-    if (regex.test(value) || value === "") {
-      setPoliceStation(value);
-      setIsValidPoliceStation(true);
-    } else {
-      setIsValidPoliceStation(false);
-    }
-  };
-
-  const onPostOffice = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setPostOffice(value);
-      setIsValidPostOffice(true);
-    } else {
-      setIsValidPostOffice(false);
-    }
-  };
-
-  const onPinCode = (event) => {
-    const value = event.target.value;
-    const regex = /^[7]{1}[0-9]{5}$/;
-    if (regex.test(value) || value === "") {
-      setPinCode(value);
-      setIsValidPinCode(true);
-    } else {
-      setIsValidPinCode(false);
-    }
-  };
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
       <ToastContainer />
@@ -382,209 +258,187 @@ const WorkRequirement = () => {
           )}
         </div>
 
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Name * (Please use only Alphabet Characters)
-            </label>
-            <input
-              id="contractor_name"
-              name="contractor_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onContractorName}
-              onKeyDown={handleKeyDown}
-            />
-            {!isValidContractorName && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Contractor Name
-              </div>
-            )}
-          </div>
+        <div className="flex flex-col w-full mb-4 space-y-4">
+          <div className="flex w-full">
+            <div className="px-4 w-1/2">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Scheme List
+              </label>
+              <select
+                name=""
+                id=""
+                className="w-full rounded-md border-zinc-300"
+              >
+                <option value="">-select scheme-</option>
+              </select>
+            </div>
 
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor GSTIN *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please enter Contractor GSTIN Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onGstIn}
-            />
-            {!isValid && (
-              <div style={{ color: "red" }}>Please enter a valid GSTIN</div>
-            )}
+            <div className="px-4 w-1/2">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Village Name
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-md border-zinc-300"
+              />
+            </div>
           </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor PAN *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Pan Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-              onChange={onPanCard}
-            />
-            {!isValidPan && (
-              <div style={{ color: "red" }}>
-                Please enter a valid PAN Number
-              </div>
-            )}
+          <div className="flex w-full">
+            <div className="px-4 w-1/3">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor List
+              </label>
+              <select
+                name=""
+                id=""
+                className="w-full rounded-md border-zinc-300"
+              >
+                <option value="">-select scheme-</option>
+              </select>
+            </div>
+
+            <div className="px-4 w-1/3">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contact Person Name
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-md border-zinc-300"
+              />
+            </div>
+            <div className="px-4 w-1/3">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contact Phone number
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-md border-zinc-300"
+              />
+            </div>
           </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Mobile *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Mobile Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-              onChange={onMobile}
-              // value={mobileNumber}
-            />
-            {!isValidMobile && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Mobile Number
+          <div className="flex w-full">
+            <div className="px-4 w-1/2">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Reporting place
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-md border-zinc-300"
+              />
+            </div>
+
+            <div className="px-4 w-1/2">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Nearest landmark
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-md border-zinc-300"
+              />
+            </div>
+          </div>
+          <div className="flex w-full">
+            <div className="px-4 w-1/5 flex flex-col">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Start Date
+              </label>
+              <DatePicker
+                minDate={new Date()}
+                dateFormat="dd/MM/yyyy"
+                className="w-full border border-gray-300 rounded-md "
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </div>
+
+            <div className="px-4 w-1/6">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                No of Days
+              </label>
+              <div className="border rounded-md border-zinc-300 flex items-center h-10 justify-around">
+                <button
+                  className="text-3xl text-zinc-400 hover:text-zinc-600"
+                  onClick={() => {
+                    if (days >= 2) setDays((e) => e - 1);
+                  }}
+                >
+                  <Icon icon={"ic:round-minus"} />
+                </button>
+                <span className="text-md font-semibold text-zinc-800 w-4">
+                  {days}
+                </span>
+                <button
+                  className="text-3xl text-zinc-400 hover:text-zinc-600"
+                  onClick={() => {
+                    if (days <= 13) setDays((e) => e + 1);
+                  }}
+                >
+                  <Icon icon={"ic:round-add"} />
+                </button>
               </div>
-            )}
+            </div>
           </div>
         </div>
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Address *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Address"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onAddress}
-            />
-            {!isValidAddress && (
-              <div style={{ color: "red" }}>Please enter a valid Address</div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Village Name/Word no *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Village Name/Word no"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onVillage}
-            />
-            {!isValidVillage && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Village Name/Word no
-              </div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Police Station *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Police Station Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPoliceStation}
-            />
-            {!isValidPoliceStation && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Police station Name
-              </div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Post Office *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Enter Scheme Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPostOffice}
-            />
-            {!isValidPostOffice && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Post Office Name
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex w-full space-x-4 flex-col mb-4 ">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Pin *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter a Pin Code"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPinCode}
-            />
-            {!isValidPinCode && (
-              <div style={{ color: "red" }}>Please enter a valid Pin Code</div>
-            )}
-          </div>
-        </div>
+        <Table>
+          <Table.Head>
+            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+              Date
+            </Table.HeadCell>
+            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+              Unskill
+            </Table.HeadCell>
+            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+              Semi-Skill
+            </Table.HeadCell>
+            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+              Skill
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {dates.map((e) => (
+              <Table.Row>
+                <Table.Cell className="text-zinc-800">
+                  {e.toLocaleDateString("en-IN", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </Table.Cell>
+                <Table.Cell> hello sir</Table.Cell>
+                <Table.Cell> hello sir</Table.Cell>
+                <Table.Cell> hello sir</Table.Cell>
+              </Table.Row>
+            ))}
+            {console.table(dates)}
+          </Table.Body>
+        </Table>
 
         <div className="flex justify-center items-center">
           <button

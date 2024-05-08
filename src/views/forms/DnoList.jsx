@@ -35,7 +35,11 @@ const DnoList = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => dnoUserList ?? [], [dnoUserList]);
+  const data = useMemo(() =>{
+    const sortedDnoUserList = [...(dnoUserList ?? [])];
+    sortedDnoUserList.sort((a, b) => b.userIndex - a.userIndex);
+    return sortedDnoUserList;
+  }, [dnoUserList]);
 
   const list = [
     {

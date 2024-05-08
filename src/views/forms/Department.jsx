@@ -53,15 +53,19 @@ const Department = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => departmentList ?? [], [departmentList]);
+  const data = useMemo(() => {
+    const sortedList = [...(departmentList ?? [])];
+    sortedList.sort((a, b) => b.departmentNo - a.departmentNo);
+    return sortedList;
+  }, [departmentList]);
 
   const list = [
     {
       header: "#",
       accessorKey: "departmentNo",
-      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      className: "font-bold text-zinc-600 text-center cursor-pointer w-12",
       cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer w-fit",
+      headclass: "cursor-pointer w-32",
       // sortingFn: "id",
     },
     {

@@ -36,7 +36,11 @@ const UserList = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => userlist ?? [], [userlist]);
+  const data = useMemo(() => {
+    const sortedUserList = [...(userlist ?? [])];
+    sortedUserList.sort((a, b) => b.userIndex - a.userIndex);
+    return sortedUserList;
+  }, [userlist]);
 
   const list = [
     {
@@ -50,6 +54,11 @@ const UserList = () => {
     {
       header: "Department",
       accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "User ID",
+      accessorKey: "userId",
       headclass: "cursor-pointer",
     },
     {
