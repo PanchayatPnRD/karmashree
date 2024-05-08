@@ -1,18 +1,22 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { Table } from "flowbite-react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import DatePicker from "react-datepicker";
 import {
   getAllDistrictActionList,
   getAllBlockList,
   getAllMunicipalityList,
   getAllGramPanchayatList,
-  getAllSectorActionList,
-  addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
+  const [days, setDays] = useState(1);
+  const [date, setDate] = useState();
+  const [list, setList] = useState([]);
+
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -381,209 +385,114 @@ const WorkRequirement = () => {
             ""
           )}
         </div>
-
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Name * (Please use only Alphabet Characters)
-            </label>
-            <input
-              id="contractor_name"
-              name="contractor_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onContractorName}
-              onKeyDown={handleKeyDown}
-            />
-            {!isValidContractorName && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Contractor Name
-              </div>
-            )}
-          </div>
-
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor GSTIN *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please enter Contractor GSTIN Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onGstIn}
-            />
-            {!isValid && (
-              <div style={{ color: "red" }}>Please enter a valid GSTIN</div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor PAN *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Pan Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-              onChange={onPanCard}
-            />
-            {!isValidPan && (
-              <div style={{ color: "red" }}>
-                Please enter a valid PAN Number
-              </div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Mobile *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Mobile Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-              onChange={onMobile}
-              // value={mobileNumber}
-            />
-            {!isValidMobile && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Mobile Number
-              </div>
-            )}
-          </div>
+        <div className=" w-full flex justify-end py-4">
+          <button className="flex space-x-2 items-center bg-green-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90">
+            <span>Add</span>
+            <Icon className="text-2xl" icon={"ic:round-add"} />
+          </button>
         </div>
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Address *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Address"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onAddress}
-            />
-            {!isValidAddress && (
-              <div style={{ color: "red" }}>Please enter a valid Address</div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Village Name/Word no *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Village Name/Word no"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onVillage}
-            />
-            {!isValidVillage && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Village Name/Word no
-              </div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Police Station *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Police Station Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPoliceStation}
-            />
-            {!isValidPoliceStation && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Police station Name
-              </div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Post Office *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Enter Scheme Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPostOffice}
-            />
-            {!isValidPostOffice && (
-              <div style={{ color: "red" }}>
-                Please enter a valid Post Office Name
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex w-full space-x-4 flex-col mb-4 ">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Pin *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter a Pin Code"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPinCode}
-            />
-            {!isValidPinCode && (
-              <div style={{ color: "red" }}>Please enter a valid Pin Code</div>
-            )}
-          </div>
+
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table className="w-full">
+            <Table.Head>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
+                #
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                Worker Job Card No
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                Worker name
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Gender
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Cast
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Whether Minority
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Whether Migrant Worker
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Mobile
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Aadhar
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Type of Worker
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Work Application Date
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                No of Days (Work Demanded)
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              <Table.Row>
+                <Table.Cell>1</Table.Cell>
+                <Table.Cell className="flex">
+                  {" "}
+                  <input type="text" className="" />
+                  <input type="text" className="" />
+                  <input type="text" className="" />
+                </Table.Cell>
+                <Table.Cell>
+                  {" "}
+                  <input type="text" />{" "}
+                </Table.Cell>
+                <Table.Cell>
+                  <select name="" id="">
+                    <option value="">-select gender-</option>
+                    <option value="">Male</option>
+                    <option value="">Female</option>
+                  </select>
+                </Table.Cell>
+                <Table.Cell>
+                  {" "}
+                  <select name="" id="">
+                    <option value="">-select cast-</option>
+                    <option value="">ST</option>
+                    <option value="">SC</option>
+                    <option value="">Others</option>
+                  </select>{" "}
+                </Table.Cell>
+                <Table.Cell> Yes / No (Radio Button)</Table.Cell>
+                <Table.Cell> Yes / No (Radio Button)</Table.Cell>
+
+                <Table.Cell>
+                  {" "}
+                  <input type="text" length={10} />{" "}
+                </Table.Cell>
+                <Table.Cell>
+                  {" "}
+                  <input type="text" length={16} />{" "}
+                </Table.Cell>
+                <Table.Cell>
+                  <select name="" id="">
+                    <option value="">-select worker type-</option>
+                    <option value="">Unskilled</option>
+                    <option value="">Semi-skilled</option>
+                    <option value="">Skilled</option>
+                  </select>
+                </Table.Cell>
+                <Table.Cell>
+                  {" "}
+                  <DatePicker
+                    minDate={new Date()}
+                    dateFormat="dd/MM/yyyy"
+                    className="w-full border border-gray-300 rounded-md "
+                    onChange={(date) => setStartDate(date)}
+                  />{" "}
+                </Table.Cell>
+                <Table.Cell> <input type="number" min={1} max={14}/> </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
         </div>
 
         <div className="flex justify-center items-center">
