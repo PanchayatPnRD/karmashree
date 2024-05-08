@@ -7,6 +7,7 @@ import {
   getAllRoleList,
   getAllSubDivisionList,
   getAllBlockList,
+  getAllPedastalList
 } from "../../Service/NewUserService";
 import {
   getAllMunicipalityList, getAllGramPanchayatList
@@ -59,9 +60,9 @@ const NewUser = () => {
   const [area, setArea] = useState("");
   const [allGpList, setAllGpList] = useState([]);
   const [areaGp, setAreaGP] = useState("");
+  const [pedastal, setAllPedastalList] = useState([]);
 
-
-
+  console.log(pedastal, "pedastal")
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -69,6 +70,11 @@ const NewUser = () => {
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
+    });
+    //Pedastal list
+    getAllPedastalList(data?.departmentNo).then(function (result) {
+      const response = result?.data?.result;
+      setAllPedastalList(response);
     });
 
     getAllDesignationList(data?.category).then(function (result) {

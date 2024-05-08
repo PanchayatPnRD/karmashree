@@ -32,6 +32,11 @@ export const getAllDesignationList = async (category) => {
     );
 }
 
+export const getAllPedastalList = async (departmentNo) => {
+    return await webApi.get(`/api/mastertable/getAllPedestal/${departmentNo}`,
+    );
+}
+
 //ADD USER
 
 
