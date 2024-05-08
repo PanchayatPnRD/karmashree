@@ -35,6 +35,7 @@ const NewUser = () => {
   const [userAddress, setUserAddress] = useState("");
   const [allRoleList, setAllRoleList] = useState([]);
   const [allSubDivisionList, setAllSubDivisionList] = useState([]);
+  const [allPedastralList, setAllPedastralList] = useState([]);  
   const [allBlockList, setAllBlockList] = useState([]);
   const [allAreaBlockList, setAllAreaBlockList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -144,6 +145,12 @@ const NewUser = () => {
 
   const onDepartment = (e) => {
     setDepartment(e.target.value);
+    getAllPedastalList(
+      e.target.value,
+    ).then(function (result) {
+      const response = result?.data?.result;
+      setAllPedastralList(response);
+    });
   };
 
   const onDistrict = (e) => {
@@ -173,6 +180,13 @@ const NewUser = () => {
       setAllMunicipalityList(response);
     });
   };
+
+  let pedastralDropdown = <option>Loading...</option>;
+  if (allPedastralList && allPedastralList.length > 0) {
+    pedastralDropdown = allPedastralList.map((peddivRow, index) => (
+      <option value={peddivRow.id}>{peddivRow.pedestalName}</option>
+    ));
+  }
 
   let subDivisionDropdown = <option>Loading...</option>;
   if (allSubDivisionList && allSubDivisionList.length > 0) {
@@ -538,15 +552,8 @@ const NewUser = () => {
                   <option value="" selected >
                     Select a Pedestal
                   </option>
-                  <option value="1">P&RD 15th Finance Commission</option>
-                  <option value="2">P&RD Chaa Sundari</option>
-                  <option value="3">P&RD WBCADC</option>
-                  <option value="4">P&RD Rural Roads</option>
-                  <option value="5">P&RD Sanitation</option>
-                  <option value="6">P&RD Public Health</option>
-                  <option value="7">P&RD Anandadhara</option>
-                  <option value="8">P&RD SFC</option>
-                  <option value="9">P&RD RGSA</option>
+                  {pedastralDropdown}
+                  
                 </select>
               </div>
             )}

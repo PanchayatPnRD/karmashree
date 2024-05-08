@@ -206,7 +206,9 @@ const ActionPlan = () => {
       toast.error("Please Type Tentative Total Cost of Schemes");
     } else if (totalWages === "") {
       toast.error("Please Type Tentative Total Wage to be paid in the Schemes");
-    } else if (totalPersonDays === "") {
+    } else if (totalWages >costOfSCheme) {
+      toast.error("Total Wage cant greater than Total Cost");
+    }else if (totalPersonDays === "") {
       toast.error("Please Type Total Persondays to be Generated");
     } else if (totalJobCard === "") {
       toast.error("Please Type Total no. of Job Card Holders to be engaged");
@@ -507,10 +509,12 @@ const ActionPlan = () => {
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
                 >
-                  Tentative Total Wage to be paid in the Schemes
+                  <span> Tentative Total Wage to be paid in the Schemes</span>                  
                   <span className="text-red-500 "> * </span>
+                  <span>( Cost in</span>
+                  <Icon className="text-xs" icon={"fa:rupee"} /> upees )
                 </label>
                 <input
                   id="scheme_name"
