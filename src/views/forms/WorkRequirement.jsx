@@ -18,8 +18,9 @@ import "react-toastify/dist/ReactToastify.css";
 const WorkRequirement = () => {
   const [days, setDays] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
-  const [area, setArea] = useState();
   const [dates, setDates] = useState([]);
+
+  const [area, setArea] = useState();
 
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -406,7 +407,7 @@ const WorkRequirement = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center" >
+        <div className="flex justify-center">
           <Table className="w-full">
             <Table.Head>
               <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-20">
@@ -438,13 +439,15 @@ const WorkRequirement = () => {
                   </Table.Cell>
                   <Table.Cell>
                     {" "}
-                    <input type="number" className="rounded-md border-zinc-300"/>
+                    <input
+                      type="number"
+                      className="rounded-md border-zinc-300"
+                    />
                   </Table.Cell>
                   <Table.Cell className="hidden">0</Table.Cell>
                   <Table.Cell className="hidden">0</Table.Cell>
                 </Table.Row>
               ))}
-              
             </Table.Body>
           </Table>
         </div>
