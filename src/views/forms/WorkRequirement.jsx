@@ -406,39 +406,48 @@ const WorkRequirement = () => {
             </div>
           </div>
         </div>
-        <Table>
-          <Table.Head>
-            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-              Date
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-              Unskill
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-              Semi-Skill
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-              Skill
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {dates.map((e) => (
-              <Table.Row>
-                <Table.Cell className="text-zinc-800">
-                  {e.toLocaleDateString("en-IN", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </Table.Cell>
-                <Table.Cell> hello sir</Table.Cell>
-                <Table.Cell> hello sir</Table.Cell>
-                <Table.Cell> hello sir</Table.Cell>
-              </Table.Row>
-            ))}
-            {console.table(dates)}
-          </Table.Body>
-        </Table>
+        <div className="flex justify-center" >
+          <Table className="w-full">
+            <Table.Head>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-20">
+                #
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                Date
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case rounded-tr-lg">
+                Unskill
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
+                Semi-Skill
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
+                Skill
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {dates.map((e, index) => (
+                <Table.Row>
+                  <Table.Cell>{index + 1}</Table.Cell>
+                  <Table.Cell className="text-zinc-800">
+                    {e.toLocaleDateString("en-IN", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {" "}
+                    <input type="number" className="rounded-md border-zinc-300"/>
+                  </Table.Cell>
+                  <Table.Cell className="hidden">0</Table.Cell>
+                  <Table.Cell className="hidden">0</Table.Cell>
+                </Table.Row>
+              ))}
+              
+            </Table.Body>
+          </Table>
+        </div>
 
         <div className="flex justify-center items-center">
           <button

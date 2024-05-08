@@ -45,13 +45,13 @@ export const sideBarList = [
   },
   {
     Component: Dno,
-    text: "dNO user",
+    text: "DNO-MGNREGS User",
     route: "/dashboard/dno-user",
     permissions: [1, 12, 24],
   },
   {
     Component: DnoList,
-    text: "dNO user list",
+    text: "DNO-MGNREGS User list",
     route: "/dashboard/dno-userlist",
     permissions: [1, 12, 24],
   },
