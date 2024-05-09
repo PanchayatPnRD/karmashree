@@ -23,6 +23,7 @@ import { SidebarElement, SidebarExpand } from "./SidebarElems";
 import ContractorList from "../views/forms/ContractorList";
 import SchemeList from "../views/forms/SchemeList";
 // import Register from "../views/Register/Register";
+import WorkRequirementList from "../views/forms/WorkRequirementList";
 
 export const sideBarList = [
   {
@@ -121,6 +122,12 @@ export const sideBarList = [
     Component: WorkRequirement,
     text: "work requirement",
     route: "/dashboard/work-requirement",
+    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
+  },
+  {
+    Component: WorkRequirementList,
+    text: "work requirement List",
+    route: "/dashboard/work-requirement-list",
     permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },
 

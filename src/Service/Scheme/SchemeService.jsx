@@ -5,6 +5,13 @@ export const getAllContractorList = async () => {
     );
 }
 
+
+export const getSchemeList = async () => {
+    return await webApi.get(`/api/schememaster/getAllScheme`,
+    );
+}
+
+
 //add Scheme
 
 export const addCreateScheme = async (
