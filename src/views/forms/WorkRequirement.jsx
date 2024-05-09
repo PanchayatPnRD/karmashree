@@ -212,10 +212,6 @@ const WorkRequirement = () => {
     }
   };
 
-  useEffect(() => {
-    setDates(getDatesArray(startDate, days));
-  }, [days, startDate]);
-
   const getCurrentFinancialYear = () => {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
@@ -287,26 +283,38 @@ const WorkRequirement = () => {
   };
 
   useEffect(() => {
-    const new_array = dates.map((e, index) => {
-      return {
-        index: index,
+    setDates(getDatesArray(startDate, days));
+  }, [days, startDate]);
+
+  useEffect(() => {
+    if(allData.length == dates.length -1)
+    setAllData([
+      ...allData,
+      {
+        index: allData.length,
         unskilledWorkers: 0,
         skilledWorkers: 0,
         semiSkilledWorkers: 0,
         finYearWork: getCurrentFinancialYear(),
-        currentMonth: e.toLocaleDateString("en-IN", {
+        currentMonth: new Date().toLocaleDateString("en-IN", {
           month: "long",
         }),
-        currentYear: e.toLocaleDateString("en-IN", { year: "numeric" }),
-        date: e.toLocaleDateString("en-IN", {
+        currentYear: new Date().toLocaleDateString("en-IN", {
+          year: "numeric",
+        }),
+        date: new Date().toLocaleDateString("en-IN", {
           year: "numeric",
           month: "long",
           day: "numeric",
         }),
-      };
-    });
-    setAllData(new_array);
+      },
+    ]);
   }, [dates]);
+
+  const boolean_value = useMemo(() => {
+    const arr = allData.map((e) => e.unskilledWorkers);
+    return arr.includes(0) || arr.includes("")
+  }, [allData]);
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -636,11 +644,7 @@ const WorkRequirement = () => {
                 <button
                   className="text-3xl text-zinc-400 hover:text-zinc-600"
                   onClick={() => {
-                    e.toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    });
+                    if (days >= 2) setDays((e) => e - 1);
                   }}
                 >
                   <Icon icon={"ic:round-minus"} />
@@ -696,9 +700,16 @@ const WorkRequirement = () => {
                       type="number"
                       className="rounded-md border-zinc-300"
                       placeholder="Please Enter Unskilled"
-                      onChange={(e) => {
-                        const new_array = allData;
-                        new_array[index].unskilledWorkers = e.target.value;
+                      onChange={(event) => {
+                        const new_array = allData.map((e) => {
+                          if (e.index === index) {
+                            return {
+                              ...e,
+                              unskilledWorkers: event.target.value,
+                            };
+                          }
+                          return e;
+                        });
                         setAllData(new_array);
                         // console.log(allData[index].unskilledWorkers);
                       }}
@@ -717,7 +728,7 @@ const WorkRequirement = () => {
           <button
             type="button"
             className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={()=>console.table(allData)}
+            onClick={() => console.table(allData)}
           >
             Submit
           </button>
