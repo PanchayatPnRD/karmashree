@@ -14,8 +14,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAllContractorList, getSchemeList } from "../../Service/Scheme/SchemeService";
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
+import { useNavigate } from "react-router-dom";
 
 const WorkRequirement = () => {
+  const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
@@ -351,7 +353,7 @@ const WorkRequirement = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             toast.success(r.message);
-            // navigate("/dashboard/scheme-list");
+            navigate("/dashboard/work-requirement-list");
           } else {
             toast.error(r.message);
           }

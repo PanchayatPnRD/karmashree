@@ -17,8 +17,11 @@ import {
   addCreateScheme,
 } from "../../Service/Scheme/SchemeService";
 import { format } from "date-fns";
+import {  useNavigate } from "react-router-dom";
+
 
 const Scheme = () => {
+  const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [area, setArea] = useState("");
