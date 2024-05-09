@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import DatePicker from "react-datepicker";
 import { Table } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -8,16 +8,14 @@ import {
   getAllDistrictActionList,
   getAllBlockList,
   getAllMunicipalityList,
-  getAllGramPanchayatList
+  getAllGramPanchayatList,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAllContractorList, getSchemeList } from "../../Service/Scheme/SchemeService";
+import { getAllContractorList } from "../../Service/Scheme/SchemeService";
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
-import { useNavigate } from "react-router-dom";
 
 const WorkRequirement = () => {
-  const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
@@ -44,15 +42,13 @@ const WorkRequirement = () => {
   const [isValidReportingPlace, setIsValidReportingPlace] = useState(true);
   const [nearestLandmark, setNearestLandmark] = useState("");
   const [isValidNearestLandmark, setIsValidNearestLandmark] = useState(true);
-  const [allData, setAllData] = useState(0)
-  const [unSkilled, setUnSkilled] = useState("")
-  const [allSchemeList, setAllSchemeList] = useState([]);
-  const [scheme, setScheme] = useState("")
+  const [allData, setAllData] = useState([]);
+  const [unSkilled, setUnSkilled] = useState("");
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
-  console.log(allSchemeList, "allSchemeList")
-  console.log(allData, "allData")
+
+  console.log(allData, "allData");
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -68,21 +64,7 @@ const WorkRequirement = () => {
       const response = result?.data?.result;
       setAllContractorList(response);
     });
-
-    getSchemeList().then(function (result) {
-      const response = result?.data?.result;
-      setAllSchemeList(response);
-    });
   }, []);
-
-  //Scheme list
-
-  let schemeListDropdown = <option>Loading...</option>;
-  if (allSchemeList && allSchemeList.length > 0) {
-    schemeListDropdown = allSchemeList.map((schemeRow, index) => (
-      <option value={schemeRow.scheme_sl}>{schemeRow.schemename}</option>
-    ));
-  }
 
   //District list
 
@@ -140,17 +122,12 @@ const WorkRequirement = () => {
     });
   };
 
-  const onScheme = (e) => {
-    setScheme(e.target.value)
-  }
-
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
     GpListDropdown = allGpList.map((gpRow, index) => (
       <option value={gpRow.gpCode}>{gpRow.gpName}</option>
     ));
   }
-
 
   //Contractor list
   let contractorListDropdown = <option>Loading...</option>;
@@ -160,17 +137,16 @@ const WorkRequirement = () => {
     ));
   }
 
-
   const onVillageName = (e) => {
     const value = e.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setVillageName(value);
       setIsValidVillageName(true);
     } else {
       setIsValidVillageName(false);
     }
-  }
+  };
 
   const onContractor = (e) => {
     setContractor(e.target.value);
@@ -180,13 +156,12 @@ const WorkRequirement = () => {
     const value = e.target.value;
     // Regular expression to allow only alphabets and white spaces
     const regex = /^[A-Za-z\s]+$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPersonaName(value);
-      setIsValidContractorName(true)
+      setIsValidContractorName(true);
     } else {
-      setIsValidContractorName(false)
+      setIsValidContractorName(false);
       // toast.error("Please use only Alphabet characters")
-
     }
   };
 
@@ -196,17 +171,18 @@ const WorkRequirement = () => {
       !(
         (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
         (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 || event.key === "Backspace"
+        event.keyCode === 32 ||
+        event.key === "Backspace"
       )
     ) {
       event.preventDefault();
     }
-  }
+  };
 
   const onContactPhoneNumber = (event) => {
     const value = event.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPhoneNumber(value);
       setIsValidMobile(true);
     } else {
@@ -217,7 +193,7 @@ const WorkRequirement = () => {
   const onReportingPlace = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setReportingPlace(value);
       setIsValidReportingPlace(true);
     } else {
@@ -228,17 +204,13 @@ const WorkRequirement = () => {
   const onNearestLandmark = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setNearestLandmark(value);
       setIsValidNearestLandmark(true);
     } else {
       setIsValidNearestLandmark(false);
     }
   };
-
-  useEffect(() => {
-    setDates(getDatesArray(startDate, days));
-  }, [days, startDate]);
 
   const getCurrentFinancialYear = () => {
     const today = new Date();
@@ -265,29 +237,7 @@ const WorkRequirement = () => {
   console.log(currentMonth, "currentMonth");
   console.log(currentYear, "currentYear");
 
-  const handleToggle = (a, financialYear, currentMonth, currentYear, index, date) => {
-    setUnSkilled(a.target.value)
-    const value = a.target.value; // Convert the string to a boolean
-    console.log(value, index, date, "value")
-
-    setAllData(prevState => ({
-      ...prevState,
-      [index]: {
-        "unskilledWorkers": value,
-        "skilledWorkers": 0,
-        "semiSkilledWorkers": 0,
-        "finYearWork": financialYear,
-        "currentMonthWork": currentMonth,
-        "currentYearWork": currentYear,
-        "dateofwork": date,
-      }
-
-    }));
-  };
-
-
   const onSubmit = () => {
-
     if (area === "") {
       toast.error("Please Select Area Type");
     } else if (district === "") {
@@ -298,72 +248,74 @@ const WorkRequirement = () => {
       toast.error("Please Select Block");
     } else if (area === "R" && gp === "") {
       toast.error("Please Select Gram Panchayat");
-    } else if (scheme === "") {
-      toast.error("Please Select Scheme List");
-
     } else if (villageName === "") {
       toast.error("Please Type Village Name");
-
     } else if (contractor === "") {
       toast.error("Please Select Contractor List");
-
     } else if (personName === "") {
       toast.error("Please Type Contact Person Name");
-
     } else if (phoneNumber === "") {
       toast.error("Please Type Contact Phone Number");
-
     } else if (reportingPlace === "") {
       toast.error("Please Type Reporting Place");
-
     } else if (nearestLandmark === "") {
       toast.error("Please Type Nearest Landmark");
+      // } else if (unSkilled === "" || unSkilled == 0) {
+    } else if (boolean_value) {
+      toast.error("Please Enter Valid Unskilled value");
+    } else {
+      console.log(unSkilledWorkerList);
+      // console.log(allData[1]?.unskilledWorkers===""||allData[1]?.unskilledWorkers==="0"?"FALSE":"TRUE","sibam")
 
-    } else if (unSkilled === "" || unSkilled === "0") {
-      toast.error("Please Enter Valid Unskilled Value");
+      // addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
+      //   block, gp, villageName, "", contractor, personName, phoneNumber, reportingPlace,
+      //   nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, data?.userIndex, createworkalloDto,
+      //   (r) => {
+      //     console.log(r, "response");
+      //     if (r.errorCode == 0) {
+      //       toast.success(r.message);
+      //       // navigate("/dashboard/scheme-list");
+      //     } else {
+      //       toast.error(r.message);
+      //     }
+      //   }
+      // )
     }
-    else if (
-      allData[0]?.unskilledWorkers === "" || allData[0]?.unskilledWorkers === 0 ||
-      allData[1]?.unskilledWorkers === "" || allData[1]?.unskilledWorkers === 0 ||
-      allData[2]?.unskilledWorkers === "" || allData[2]?.unskilledWorkers === "0" ||
-      allData[3]?.unskilledWorkers === "" || allData[3]?.unskilledWorkers === "0" ||
-      allData[4]?.unskilledWorkers === "" || allData[4]?.unskilledWorkers === "0" ||
-      allData[5]?.unskilledWorkers === "" || allData[5]?.unskilledWorkers === "0" ||
-      allData[6]?.unskilledWorkers === "" || allData[6]?.unskilledWorkers === "0" ||
-      allData[7]?.unskilledWorkers === "" || allData[7]?.unskilledWorkers === "0" ||
-      allData[8]?.unskilledWorkers === "" || allData[8]?.unskilledWorkers === "0" ||
-      allData[9]?.unskilledWorkers === "" || allData[9]?.unskilledWorkers === "0" ||
-      allData[10]?.unskilledWorkers === "" || allData[10]?.unskilledWorkers === "0" ||
-      allData[11]?.unskilledWorkers === "" || allData[11]?.unskilledWorkers === "0" ||
-      allData[12]?.unskilledWorkers === "" || allData[12]?.unskilledWorkers === "0" ||
-      allData[13]?.unskilledWorkers === "" || allData[13]?.unskilledWorkers === "0"
-    ) {
-      toast.error("Please Enter Valid Unskilled Value");
-    }
-    else {
-      const createworkalloDto = [];
-      Object.values(allData).map((data) => (
-        createworkalloDto.push(data)
-      ))
+  };
 
-      addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
-        block, gp, villageName, scheme, contractor, personName, phoneNumber, reportingPlace,
-        nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, data?.userIndex, createworkalloDto,
-        (r) => {
-          console.log(r, "response");
-          if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/work-requirement-list");
-          } else {
-            toast.error(r.message);
-          }
-        }
-      )
-    }
+  useEffect(() => {
+    setDates(getDatesArray(startDate, days));
+  }, [days, startDate]);
 
+  useEffect(() => {
+    if (allData.length == dates.length - 1)
+      setAllData([
+        ...allData,
+        {
+          index: allData.length,
+          unskilledWorkers: 0,
+          skilledWorkers: 0,
+          semiSkilledWorkers: 0,
+          finYearWork: getCurrentFinancialYear(),
+          currentMonth: new Date().toLocaleDateString("en-IN", {
+            month: "long",
+          }),
+          currentYear: new Date().toLocaleDateString("en-IN", {
+            year: "numeric",
+          }),
+          date: new Date().toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        },
+      ]);
+  }, [dates]);
 
-  }
-
+  const boolean_value = useMemo(() => {
+    const arr = allData.map((e) => e.unskilledWorkers);
+    return arr.includes(0) || arr.includes("");
+  }, [allData]);
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -411,7 +363,7 @@ const WorkRequirement = () => {
               required
               onChange={onArea}
             >
-              <option value="" selected >
+              <option value="" selected hidden>
                 Select Scheme Name
               </option>
               <option value="R">Rural</option>
@@ -436,7 +388,7 @@ const WorkRequirement = () => {
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               onChange={onDistrict}
             >
-              <option value="" selected >
+              <option value="" selected hidden>
                 Select District List
               </option>
               {districtListDropdown}
@@ -458,9 +410,8 @@ const WorkRequirement = () => {
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 onClick={onMunicipality}
-
               >
-                <option value="" selected>
+                <option value="" selected hidden>
                   Select Municipality List
                 </option>
                 {municipalityListDropdown}
@@ -487,7 +438,7 @@ const WorkRequirement = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 onChange={onBlock}
               >
-                <option value="" selected >
+                <option value="" selected hidden>
                   Select Block List
                 </option>
                 {blockListDropdown}
@@ -514,7 +465,7 @@ const WorkRequirement = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 onClick={onGP}
               >
-                <option value="" selected >
+                <option value="" selected hidden>
                   Select GP List
                 </option>
                 {GpListDropdown}
@@ -540,10 +491,8 @@ const WorkRequirement = () => {
                 name=""
                 id=""
                 className="w-full rounded-md border-zinc-300"
-                onChange={onScheme}
               >
                 <option value="">-select scheme-</option>
-                {schemeListDropdown}
               </select>
             </div>
 
@@ -561,7 +510,9 @@ const WorkRequirement = () => {
                 onChange={onVillageName}
               />
               {!isValidVillageName && (
-                <div style={{ color: 'red' }}>Please enter a valid Village Name</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Village Name
+                </div>
               )}
             </div>
           </div>
@@ -597,10 +548,11 @@ const WorkRequirement = () => {
                 onChange={onPersonName}
                 onKeyDown={handleKeyDown}
                 placeholder="Please Enter Contact Person Name"
-
               />
               {!isValidContractorName && (
-                <div style={{ color: 'red' }}>Please enter a valid Contact Person Name</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Contact Person Name
+                </div>
               )}
             </div>
             <div className="px-4 w-1/3">
@@ -618,7 +570,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Contact Phone Number"
               />
               {!isValidMobile && (
-                <div style={{ color: 'red' }}>Please enter a valid Contact Phone Number</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Contact Phone Number
+                </div>
               )}
             </div>
           </div>
@@ -637,7 +591,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Reporting Place"
               />
               {!isValidReportingPlace && (
-                <div style={{ color: 'red' }}>Please enter a valid Reporting Place</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Reporting Place
+                </div>
               )}
             </div>
 
@@ -655,7 +611,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Nearest Landmark"
               />
               {!isValidNearestLandmark && (
-                <div style={{ color: 'red' }}>Please enter a valid Nearest Landmark</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Nearest Landmark
+                </div>
               )}
             </div>
           </div>
@@ -719,10 +677,10 @@ const WorkRequirement = () => {
               <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case rounded-tr-lg">
                 Unskill
               </Table.HeadCell>
-              <Table.HeadCell hidden className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
                 Semi-Skill
               </Table.HeadCell>
-              <Table.HeadCell hidden className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
                 Skill
               </Table.HeadCell>
             </Table.Head>
@@ -736,8 +694,6 @@ const WorkRequirement = () => {
                       month: "long",
                       day: "numeric",
                     })}
-
-
                   </Table.Cell>
                   <Table.Cell>
                     {" "}
@@ -745,17 +701,24 @@ const WorkRequirement = () => {
                       type="number"
                       className="rounded-md border-zinc-300"
                       placeholder="Please Enter Unskilled"
-                      defaultValue="0"
-                      onChange={(a) => handleToggle(a, financialYear, currentMonth, currentYear, index, e.toLocaleDateString("en-IN", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }))}
-
+                      onChange={(event) => {
+                        const new_array = allData.map((e) => {
+                          if (e.index === index) {
+                            return {
+                              ...e,
+                              unskilledWorkers: event.target.value,
+                            };
+                          }
+                          return e;
+                        });
+                        setAllData(new_array);
+                        // console.log(allData[index].unskilledWorkers);
+                      }}
                     />
+                    {/* {console.log(allData[0].unskilledWorkers)} */}
                   </Table.Cell>
-                  <Table.Cell hidden className="">0</Table.Cell>
-                  <Table.Cell hidden className="">0</Table.Cell>
+                  <Table.Cell className="hidden">0</Table.Cell>
+                  <Table.Cell className="hidden">0</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
