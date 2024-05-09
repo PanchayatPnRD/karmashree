@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
@@ -16,6 +17,7 @@ import {
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { SortIcon } from "../../components/SortIcon";
+import { ToastContainer, toast } from "react-toastify";
 
 const Designation = () => {
   const [mutationId, setMutationId] = useState(null);
@@ -62,19 +64,25 @@ const Designation = () => {
   });
 
   function performMutation() {
-    if (mutationId === null)
-      add({
-        designationLevel: designationTier.current.value,
-        designation: designation.current.value,
-        designationstage: 0,
-        userType: "",
-        officeName: "",
-      });
-    else
-      update({
-        designationLevel: designationTier.current.value,
-        designation: designation.current.value,
-      });
+    if (designationTier.current.value === "") {
+      toast.error("Please Select Department");
+    } else if (designation.current.value === "") {
+      toast.error("Please Type Pedestal name");
+    } else {
+      if (mutationId === null)
+        add({
+          designationLevel: designationTier.current.value,
+          designation: designation.current.value,
+          designationstage: 0,
+          userType: "",
+          officeName: "",
+        });
+      else
+        update({
+          designationLevel: designationTier.current.value,
+          designation: designation.current.value,
+        });
+    }
   }
   useEffect(() => {
     const preventScroll = () => {
@@ -156,6 +164,7 @@ const Designation = () => {
 
   return (
     <>
+      <ToastContainer />
       {(addPending || updatePending) && <Loading />}
       <div className="bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
@@ -221,14 +230,31 @@ const Designation = () => {
               className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md"
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-4">
             <button
               type="button"
-              className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={classNames(
+                "w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all",
+                mutationId
+                  ? "bg-green-400 hover:bg-green-500"
+                  : "bg-indigo-600 hover:bg-indigo-700"
+              )}
               onClick={performMutation}
             >
               {!mutationId ? "Submit" : "Update"}
             </button>
+            {mutationId && (
+              <button
+                onClick={() => {
+                  setMutationId(null);
+                  designation.current.value = "";
+                  designationTier.current.value = "";
+                }}
+                className="w-1/8 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                reset
+              </button>
+            )}
           </div>
         </div>
         <div className=" flex justify-between px-12 items-center h-12">
@@ -304,8 +330,11 @@ const Designation = () => {
                         designation.current.value = row.original.designation;
                         designationTier.current.value =
                           row.original.designationLevel;
-                        console.log(row.original);
                         setMutationId(row.original.designationId);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                       }}
                     >
                       <Icon
