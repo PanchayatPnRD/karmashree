@@ -8,7 +8,7 @@ import {
   getAllDistrictActionList,
   getAllBlockList,
   getAllMunicipalityList,
-  getAllGramPanchayatList
+  getAllGramPanchayatList,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,13 +42,13 @@ const WorkRequirement = () => {
   const [isValidReportingPlace, setIsValidReportingPlace] = useState(true);
   const [nearestLandmark, setNearestLandmark] = useState("");
   const [isValidNearestLandmark, setIsValidNearestLandmark] = useState(true);
-  const [allData, setAllData] = useState({})
-  const [unSkilled,setUnSkilled]=useState("")
+  const [allData, setAllData] = useState([]);
+  const [unSkilled, setUnSkilled] = useState("");
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
 
-  console.log(allData, "allData")
+  console.log(allData, "allData");
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -129,7 +129,6 @@ const WorkRequirement = () => {
     ));
   }
 
-
   //Contractor list
   let contractorListDropdown = <option>Loading...</option>;
   if (allContractorList && allContractorList.length > 0) {
@@ -138,17 +137,16 @@ const WorkRequirement = () => {
     ));
   }
 
-
   const onVillageName = (e) => {
     const value = e.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setVillageName(value);
       setIsValidVillageName(true);
     } else {
       setIsValidVillageName(false);
     }
-  }
+  };
 
   const onContractor = (e) => {
     setContractor(e.target.value);
@@ -158,13 +156,12 @@ const WorkRequirement = () => {
     const value = e.target.value;
     // Regular expression to allow only alphabets and white spaces
     const regex = /^[A-Za-z\s]+$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPersonaName(value);
-      setIsValidContractorName(true)
+      setIsValidContractorName(true);
     } else {
-      setIsValidContractorName(false)
+      setIsValidContractorName(false);
       // toast.error("Please use only Alphabet characters")
-
     }
   };
 
@@ -174,17 +171,18 @@ const WorkRequirement = () => {
       !(
         (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
         (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 || event.key === "Backspace"
+        event.keyCode === 32 ||
+        event.key === "Backspace"
       )
     ) {
       event.preventDefault();
     }
-  }
+  };
 
   const onContactPhoneNumber = (event) => {
     const value = event.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPhoneNumber(value);
       setIsValidMobile(true);
     } else {
@@ -195,7 +193,7 @@ const WorkRequirement = () => {
   const onReportingPlace = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setReportingPlace(value);
       setIsValidReportingPlace(true);
     } else {
@@ -206,7 +204,7 @@ const WorkRequirement = () => {
   const onNearestLandmark = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setNearestLandmark(value);
       setIsValidNearestLandmark(true);
     } else {
@@ -243,29 +241,7 @@ const WorkRequirement = () => {
   console.log(currentMonth, "currentMonth");
   console.log(currentYear, "currentYear");
 
-  const handleToggle = (a, financialYear, currentMonth, currentYear, index, date) => {
-    setUnSkilled(a.target.value)
-    const value = a.target.value; // Convert the string to a boolean
-    console.log(value, index, date, "value")
-
-    setAllData(prevState => ({
-      ...prevState,
-      [index]: {
-        "unskilledWorkers": value,
-        "skilledWorkers": 0,
-        "semiSkilledWorkers": 0,
-        "finYearWork": financialYear,
-        "currentMonthWork": currentMonth,
-        "currentYearWork": currentYear,
-        "dateofwork": date,
-      }
-
-    }));
-  };
-
-
   const onSubmit = () => {
-
     if (area === "") {
       toast.error("Please Select Area Type");
     } else if (district === "") {
@@ -278,32 +254,20 @@ const WorkRequirement = () => {
       toast.error("Please Select Gram Panchayat");
     } else if (villageName === "") {
       toast.error("Please Type Village Name");
-
-    }else if (contractor === "") {
+    } else if (contractor === "") {
       toast.error("Please Select Contractor List");
-
     } else if (personName === "") {
       toast.error("Please Type Contact Person Name");
-
     } else if (phoneNumber === "") {
       toast.error("Please Type Contact Phone Number");
-
     } else if (reportingPlace === "") {
       toast.error("Please Type Reporting Place");
-
     } else if (nearestLandmark === "") {
       toast.error("Please Type Nearest Landmark");
-
-    } 
-    else if (unSkilled === "" || unSkilled==0) {
+    } else if (unSkilled === "" || unSkilled == 0) {
       toast.error("Please Enter Valid Unskilled value");
-
-    }
-      else {
-      const createworkalloDto = [];
-      Object.values(allData).map((data) => (
-        createworkalloDto.push(data)
-      ))
+    } else {
+      console.log(unSkilledWorkerList);
       // console.log(allData[1]?.unskilledWorkers===""||allData[1]?.unskilledWorkers==="0"?"FALSE":"TRUE","sibam")
 
       // addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
@@ -320,10 +284,29 @@ const WorkRequirement = () => {
       //   }
       // )
     }
+  };
 
-
-  }
-
+  useEffect(() => {
+    const new_array = dates.map((e, index) => {
+      return {
+        index: index,
+        unskilledWorkers: 0,
+        skilledWorkers: 0,
+        semiSkilledWorkers: 0,
+        finYearWork: getCurrentFinancialYear(),
+        currentMonth: e.toLocaleDateString("en-IN", {
+          month: "long",
+        }),
+        currentYear: e.toLocaleDateString("en-IN", { year: "numeric" }),
+        date: e.toLocaleDateString("en-IN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+      };
+    });
+    setAllData(new_array);
+  }, [dates]);
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -418,7 +401,6 @@ const WorkRequirement = () => {
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 onClick={onMunicipality}
-
               >
                 <option value="" selected hidden>
                   Select Municipality List
@@ -519,7 +501,9 @@ const WorkRequirement = () => {
                 onChange={onVillageName}
               />
               {!isValidVillageName && (
-                <div style={{ color: 'red' }}>Please enter a valid Village Name</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Village Name
+                </div>
               )}
             </div>
           </div>
@@ -555,10 +539,11 @@ const WorkRequirement = () => {
                 onChange={onPersonName}
                 onKeyDown={handleKeyDown}
                 placeholder="Please Enter Contact Person Name"
-
               />
               {!isValidContractorName && (
-                <div style={{ color: 'red' }}>Please enter a valid Contact Person Name</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Contact Person Name
+                </div>
               )}
             </div>
             <div className="px-4 w-1/3">
@@ -576,7 +561,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Contact Phone Number"
               />
               {!isValidMobile && (
-                <div style={{ color: 'red' }}>Please enter a valid Contact Phone Number</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Contact Phone Number
+                </div>
               )}
             </div>
           </div>
@@ -595,7 +582,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Reporting Place"
               />
               {!isValidReportingPlace && (
-                <div style={{ color: 'red' }}>Please enter a valid Reporting Place</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Reporting Place
+                </div>
               )}
             </div>
 
@@ -613,7 +602,9 @@ const WorkRequirement = () => {
                 placeholder="Please Enter Nearest Landmark"
               />
               {!isValidNearestLandmark && (
-                <div style={{ color: 'red' }}>Please enter a valid Nearest Landmark</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid Nearest Landmark
+                </div>
               )}
             </div>
           </div>
@@ -645,7 +636,11 @@ const WorkRequirement = () => {
                 <button
                   className="text-3xl text-zinc-400 hover:text-zinc-600"
                   onClick={() => {
-                    if (days >= 2) setDays((e) => e - 1);
+                    e.toLocaleDateString("en-IN", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    });
                   }}
                 >
                   <Icon icon={"ic:round-minus"} />
@@ -694,8 +689,6 @@ const WorkRequirement = () => {
                       month: "long",
                       day: "numeric",
                     })}
-
-
                   </Table.Cell>
                   <Table.Cell>
                     {" "}
@@ -703,13 +696,14 @@ const WorkRequirement = () => {
                       type="number"
                       className="rounded-md border-zinc-300"
                       placeholder="Please Enter Unskilled"
-                      onChange={(a) => handleToggle(a, financialYear, currentMonth, currentYear, index, e.toLocaleDateString("en-IN", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }))}
-
+                      onChange={(e) => {
+                        const new_array = allData;
+                        new_array[index].unskilledWorkers = e.target.value;
+                        setAllData(new_array);
+                        // console.log(allData[index].unskilledWorkers);
+                      }}
                     />
+                    {/* {console.log(allData[0].unskilledWorkers)} */}
                   </Table.Cell>
                   <Table.Cell className="hidden">0</Table.Cell>
                   <Table.Cell className="hidden">0</Table.Cell>
@@ -723,7 +717,7 @@ const WorkRequirement = () => {
           <button
             type="button"
             className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={onSubmit}
+            onClick={()=>console.table(allData)}
           >
             Submit
           </button>
