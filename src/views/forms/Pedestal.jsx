@@ -17,10 +17,8 @@ import classNames from "classnames";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {addCreatePedestal} from "../../Service/Pedestal/PedestalService";
+import { addCreatePedestal } from "../../Service/Pedestal/PedestalService";
 import { Loading } from "./Department";
-
-
 
 export const Pedestal = () => {
   const [department, setDepartment] = useState("");
@@ -33,7 +31,7 @@ export const Pedestal = () => {
     },
   });
 
-  console.log(departmentList,"departmentList")
+  console.log(departmentList, "departmentList");
 
   const { data: pedestalList } = useQuery({
     queryKey: ["pedestalList"],
@@ -53,12 +51,10 @@ export const Pedestal = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("pedestalList");
-      deptNameRef.current.value =""
-      pedalstalRef.current.value =""
-      
+      deptNameRef.current.value = "";
+      pedalstalRef.current.value = "";
     },
   });
-
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
@@ -136,53 +132,30 @@ export const Pedestal = () => {
   }, [isPending]);
 
   const onDepartment = (e) => {
-    console.log(e.target.value,"dept")
+    console.log(e.target.value, "dept");
     setDepartment(e.target.value);
-  }
+  };
 
   const onPedestal = (e) => {
     setPedestal(e.target.value);
-  }
+  };
 
   function performPost() {
     if (department === "") {
-      toast.error("Please Select Department")
-    } else if (pedestal==="") {
-      toast.error("Please Type Pedestal name")
+      toast.error("Please Select Department");
+    } else if (pedestal === "") {
+      toast.error("Please Type Pedestal name");
     } else {
-    mutate({
-      departmentNo:department,
-      departmentName:departmentList.find(c => c.departmentNo == department)?.departmentName,
-      pedestalName:pedestal,
-      userIndex: dataUser?.userIndex
-    })}
-  }
-
-
-  const addPedestal = () => {
-    if (department === "") {
-      toast.error("Please Select Department")
-    } else if (pedestal==="") {
-      toast.error("Please Type Pedestal name")
-    } else {
-      addCreatePedestal(
-       department,
-       departmentList.find(c => c.departmentNo == department)?.departmentName,
-       pedestal,
-        dataUser?.userIndex,
-        (r) => {
-          console.log(r, "response");
-          if (r.errorCode == 0) {
-            toast.success(r.message);
-            // navigate("/dashboard/scheme-list");
-          } else {
-            toast.error(r.message);
-          }
-        }
-      );
+      mutate({
+        departmentNo: department,
+        departmentName: departmentList.find((c) => c.departmentNo == department)
+          ?.departmentName,
+        pedestalName: pedestal,
+        userIndex: dataUser?.userIndex,
+      });
     }
-
   }
+
   return (
     <>
       <ToastContainer />

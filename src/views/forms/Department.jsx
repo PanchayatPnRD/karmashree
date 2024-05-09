@@ -12,11 +12,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { ToastContainer, toast } from "react-toastify";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Department = () => {
+  const [mutationId, setMutationId] = useState(null);
+
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
@@ -30,24 +33,53 @@ const Department = () => {
   const shortFormRef = useRef(null);
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: add, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
       return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("designationList");
+      deptNameRef.current.value = "";
+      shortFormRef.current.value = "";
+    },
+    mutationKey: ["addDepartment"],
+  });
+
+  const { mutate: update, isPending: updatePending } = useMutation({
+    mutationFn: (newTodo) => {
+      return axios.post(
+        devApi + "/api/mastertable/UpdateDepartment/" + mutationId,
+        newTodo
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries("departmentList");
       deptNameRef.current.value = "";
       shortFormRef.current.value = "";
+      setMutationId(null);
     },
+    mutationKey: ["updateDepartment"],
   });
 
-  function addDepartment() {
-    mutate({
-      departmentName: deptNameRef.current.value,
-      labourConverge: "Y",
-      deptshort: shortFormRef.current.value,
-      organization: "S",
-    });
+  function perfromMutation() {
+    if (designationTier.current.value === "") {
+      toast.error("Please Select Department");
+    } else if (designation.current.value === "") {
+      toast.error("Please Type Pedestal name");
+    } else {
+      if (mutationId === null)
+        add({
+          departmentName: deptNameRef.current.value,
+          labourConverge: "Y",
+          deptshort: shortFormRef.current.value,
+          organization: "S",
+        });
+      else
+        update({
+          departmentName: deptNameRef.current.value,
+          deptshort: shortFormRef.current.value,
+        });
+    }
   }
 
   const ListOptions = [5, 10, 15, "all"];
@@ -117,7 +149,7 @@ const Department = () => {
       document.body.style.overflow = "auto";
     };
 
-    if (isPending) {
+    if (addPending || updatePending) {
       preventScroll();
     } else {
       allowScroll();
@@ -126,11 +158,12 @@ const Department = () => {
     return () => {
       allowScroll();
     };
-  }, [isPending]);
+  }, [addPending, updatePending]);
 
   return (
     <>
-      {isPending && <Loading />}
+      <ToastContainer />
+      {(addPending || updatePending) && <Loading />}
       <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
@@ -194,14 +227,29 @@ const Department = () => {
               className="mt-1 p-2 px-4 block w-full border border-gray-300 rounded-md"
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-4">
             <button
               type="button"
-              className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={addDepartment}
+              className={classNames(
+                "w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all",
+                (mutationId ? "bg-green-400 hover:bg-green-500" : "bg-indigo-600 hover:bg-indigo-700")
+              )}
+              onClick={perfromMutation}
             >
-              Save
+              {!mutationId ? "Submit" : "Update"}
             </button>
+            {mutationId && (
+              <button
+                onClick={() => {
+                  setMutationId(null);
+                  shortFormRef.current.value = "";
+                  deptNameRef.current.value = "";
+                }}
+                className="w-1/8 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                reset
+              </button>
+            )}
           </div>
         </div>
         <div className=" flex justify-between px-12 items-center h-12">
@@ -272,7 +320,17 @@ const Department = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <button >
+                    <button
+                      onClick={() => {
+                        deptNameRef.current.value = row.original.departmentName;
+                        shortFormRef.current.value = row.original.deptshort;
+                        setMutationId(row.original.departmentNo);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                    >
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
