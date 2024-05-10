@@ -17,7 +17,7 @@ import {
   addCreateScheme,
 } from "../../Service/Scheme/SchemeService";
 import { format } from "date-fns";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Scheme = () => {
