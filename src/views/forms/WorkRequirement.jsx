@@ -12,10 +12,12 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAllContractorList } from "../../Service/Scheme/SchemeService";
+import { getAllContractorList, getSchemeList } from "../../Service/Scheme/SchemeService";
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
+import { useNavigate } from "react-router-dom";
 
 const WorkRequirement = () => {
+  const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
@@ -43,6 +45,8 @@ const WorkRequirement = () => {
   const [nearestLandmark, setNearestLandmark] = useState("");
   const [isValidNearestLandmark, setIsValidNearestLandmark] = useState(true);
   const [allData, setAllData] = useState([]);
+  const [schemeAllList, setAllSchemeAllList] = useState([]);
+  const [schemeList, setSchemeList] = useState([]);
   const [unSkilled, setUnSkilled] = useState("");
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
@@ -64,7 +68,21 @@ const WorkRequirement = () => {
       const response = result?.data?.result;
       setAllContractorList(response);
     });
+
+    getSchemeList().then(function (result) {
+      const response = result?.data?.result;
+      setAllSchemeAllList(response);
+    });
   }, []);
+
+  //Scheme list
+
+  let schemeListDropdown = <option>Loading...</option>;
+  if (schemeAllList && schemeAllList.length > 0) {
+    schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
+      <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
+    ));
+  }
 
   //District list
 
@@ -121,6 +139,10 @@ const WorkRequirement = () => {
       setAllGpList(response);
     });
   };
+
+  const onScheme = (e) => {
+    setSchemeList(e.target.value);
+  }
 
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
@@ -264,22 +286,22 @@ const WorkRequirement = () => {
     } else if (boolean_value) {
       toast.error("Please Enter Valid Unskilled value");
     } else {
-      console.log(unSkilledWorkerList);
+      // console.log(unSkilledWorkerList);
       // console.log(allData[1]?.unskilledWorkers===""||allData[1]?.unskilledWorkers==="0"?"FALSE":"TRUE","sibam")
 
-      // addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
-      //   block, gp, villageName, "", contractor, personName, phoneNumber, reportingPlace,
-      //   nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, data?.userIndex, createworkalloDto,
-      //   (r) => {
-      //     console.log(r, "response");
-      //     if (r.errorCode == 0) {
-      //       toast.success(r.message);
-      //       // navigate("/dashboard/scheme-list");
-      //     } else {
-      //       toast.error(r.message);
-      //     }
-      //   }
-      // )
+      addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
+        block, gp, villageName, schemeList, contractor, personName, phoneNumber, reportingPlace,
+        nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, data?.userIndex, allData,
+        (r) => {
+          console.log(r, "response");
+          if (r.errorCode == 0) {
+            toast.success(r.message);
+            navigate("/dashboard/work-requirement-list");
+          } else {
+            toast.error(r.message);
+          }
+        }
+      )
     }
   };
 
@@ -314,7 +336,7 @@ const WorkRequirement = () => {
 
   const boolean_value = useMemo(() => {
     const arr = allData.map((e) => e.unskilledWorkers);
-    return arr.includes(0) || arr.includes("");
+    return (arr.includes("0") || arr.includes("") || arr.includes(0));
   }, [allData]);
 
   return (
@@ -491,8 +513,10 @@ const WorkRequirement = () => {
                 name=""
                 id=""
                 className="w-full rounded-md border-zinc-300"
+                onChange={onScheme}
               >
-                <option value="">-select scheme-</option>
+                <option value="" selected>-select scheme-</option>
+                {schemeListDropdown}
               </select>
             </div>
 
