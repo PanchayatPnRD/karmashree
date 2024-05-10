@@ -6,7 +6,7 @@ const Home = () => {
   const portalList = [
     {
       src: "/assets/img/PublicGrievance.png",
-      href: "http://www.prdgrievance.in/",
+      href: "http://www.prdgrievance.wb.gov.in/",
     },
     {
       src: "/assets/img/GA.png",
@@ -14,7 +14,7 @@ const Home = () => {
     },
     {
       src: "/assets/img/OnlineBookingGuestHouse.png",
-      href: "https://prdtourism.in/",
+      href: "https://prdtourism.wb.gov.in/",
     },
     {
       src: "/assets/img/SHIR.png",

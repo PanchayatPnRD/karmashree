@@ -12,7 +12,10 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAllContractorList, getSchemeList } from "../../Service/Scheme/SchemeService";
+import {
+  getAllContractorList,
+  getSchemeList,
+} from "../../Service/Scheme/SchemeService";
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
 import { useNavigate } from "react-router-dom";
 
@@ -142,7 +145,7 @@ const WorkRequirement = () => {
 
   const onScheme = (e) => {
     setSchemeList(e.target.value);
-  }
+  };
 
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
@@ -289,9 +292,27 @@ const WorkRequirement = () => {
       // console.log(unSkilledWorkerList);
       // console.log(allData[1]?.unskilledWorkers===""||allData[1]?.unskilledWorkers==="0"?"FALSE":"TRUE","sibam")
 
-      addCreateWorkRequirement(area, data?.departmentNo, district, municipality,
-        block, gp, villageName, schemeList, contractor, personName, phoneNumber, reportingPlace,
-        nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, data?.userIndex, allData,
+      addCreateWorkRequirement(
+        area,
+        data?.departmentNo,
+        district,
+        municipality,
+        block,
+        gp,
+        villageName,
+        schemeList,
+        contractor,
+        personName,
+        phoneNumber,
+        reportingPlace,
+        nearestLandmark,
+        startDate,
+        days,
+        currentMonth,
+        currentYear,
+        financialYear,
+        data?.userIndex,
+        allData,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -301,7 +322,7 @@ const WorkRequirement = () => {
             toast.error(r.message);
           }
         }
-      )
+      );
     }
   };
 
@@ -334,9 +355,14 @@ const WorkRequirement = () => {
       ]);
   }, [dates]);
 
+  // useEffect(() => {
+  //   if (dates.length - 1 === allData.length)
+  //     setAllData(prev=>prev.slice(0,-1))
+  // }, [dates])
+
   const boolean_value = useMemo(() => {
     const arr = allData.map((e) => e.unskilledWorkers);
-    return (arr.includes("0") || arr.includes("") || arr.includes(0));
+    return arr.includes("0") || arr.includes("") || arr.includes(0);
   }, [allData]);
 
   return (
@@ -515,7 +541,9 @@ const WorkRequirement = () => {
                 className="w-full rounded-md border-zinc-300"
                 onChange={onScheme}
               >
-                <option value="" selected>-select scheme-</option>
+                <option value="" selected>
+                  -select scheme-
+                </option>
                 {schemeListDropdown}
               </select>
             </div>
@@ -669,7 +697,10 @@ const WorkRequirement = () => {
                 <button
                   className="text-3xl text-zinc-400 hover:text-zinc-600"
                   onClick={() => {
-                    if (days >= 2) setDays((e) => e - 1);
+                    if (days >= 2) {
+                      setDays((e) => e - 1);
+                      setAllData((prev) => prev.slice(0, -1));
+                    }
                   }}
                 >
                   <Icon icon={"ic:round-minus"} />

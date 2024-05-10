@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Table } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
+// import { Datepicker } from "flowbite-react";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -16,7 +17,7 @@ const WorkRequirement = () => {
   const [days, setDays] = useState(1);
   const [date, setDate] = useState();
   const [list, setList] = useState([]);
-
+  
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -485,11 +486,18 @@ const WorkRequirement = () => {
                   <DatePicker
                     minDate={new Date()}
                     dateFormat="dd/MM/yyyy"
-                    className="w-full border border-gray-300 rounded-md "
-                    onChange={(date) => setStartDate(date)}
-                  />{" "}
+                    selected={date}
+                    portalId="root-portal"
+                    className="w-32 border cursor-pointer border-gray-300 rounded-md"
+                    onChange={(e) => setDate(e)}
+                    // withPortal
+                  />
+                  {/* <Datepicker /> */}
                 </Table.Cell>
-                <Table.Cell> <input type="number" min={1} max={14}/> </Table.Cell>
+                <Table.Cell>
+                  {" "}
+                  <input type="number" min={1} max={14} />{" "}
+                </Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
