@@ -18,6 +18,7 @@ import {
 } from "../../Service/Scheme/SchemeService";
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 const WorkRequirement = () => {
   const navigate = useNavigate();
@@ -306,7 +307,7 @@ const WorkRequirement = () => {
         phoneNumber,
         reportingPlace,
         nearestLandmark,
-        startDate,
+        format(new Date(startDate), "yyyy-MM-dd"),
         days,
         currentMonth,
         currentYear,

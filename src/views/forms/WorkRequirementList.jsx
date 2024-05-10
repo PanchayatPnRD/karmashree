@@ -24,7 +24,7 @@ const WorkRequirementList = () => {
         queryKey: ["workRequirementList"],
         queryFn: async () => {
             const data = await fetch.get(
-                `/api/workerrequisition/workerrequisitionlist?districtcode=${karmashree_data?.districtcode}&blockcode=${karmashree_data?.blockCode}`,
+                `/api/workerrequisition/getallrequztion?userIndex=${karmashree_data?.userIndex}`,
 
             );
             // console.log(Array.isArray(data.data.result));
@@ -52,30 +52,41 @@ const WorkRequirementList = () => {
             headclass: "cursor-pointer",
         },
         {
-            header: "Area",
-            accessorKey: "area",
+            header: "Req ID",
+            accessorKey: "workerreqID",
             headclass: "cursor-pointer",
         },
         {
-            header: "District",
-            accessorKey: "districtName",
+            header: "Scheme ID",
+            accessorKey: "workCodeSchemeID",
             headclass: "cursor-pointer",
         },
         {
-            header: "Municapility",
-            accessorKey: "Municipality",
+            header: "Contractor",
+            accessorKey: "ContractorID",
             headclass: "cursor-pointer",
         },
         {
-            header: "Block",
-            accessorKey: "blockname",
+            header: "Contact No",
+            accessorKey: "contactPersonPhoneNumber",
             headclass: "cursor-pointer",
         },
         {
-            header: "GP",
-            accessorKey: "gpName",
+            header: "Start Date",
+            accessorKey: "fromDate",
             headclass: "cursor-pointer",
         },
+        {
+            header: "No of Days",
+            accessorKey: "noOfDays",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "Funding Department",
+            accessorKey: "-",
+            headclass: "cursor-pointer",
+        },
+        
 
     ];
 
