@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-const RadioButton = ({ index, value, updateVal ,name}) => {
+const RadioButton = ({ index, value, updateVal, name }) => {
   return (
     <div className="flex flex-col">
       <ul className="inline-flex items-center -space-x-[2px]">
@@ -10,7 +10,9 @@ const RadioButton = ({ index, value, updateVal ,name}) => {
               "rounded-l-lg border px-3 py-2 leading-tight border-blue-500",
               value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
             )}
-            onClick={() => updateVal({target:{name:name,value:true}}, index)}
+            onClick={() =>
+              updateVal({ target: { name: name, value: true } }, index)
+            }
           >
             Yes
           </button>
@@ -21,7 +23,9 @@ const RadioButton = ({ index, value, updateVal ,name}) => {
               "rounded-r-lg border px-3 py-2 leading-tight border-blue-500  ",
               !value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
             )}
-            onClick={() => updateVal({target:{name:name,value:false}}, index)}
+            onClick={() =>
+              updateVal({ target: { name: name, value: false } }, index)
+            }
           >
             No
           </button>

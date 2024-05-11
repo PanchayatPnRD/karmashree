@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
   const options = Array.from({ length: 30 }, (_, i) => i + 1);
+  const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
 
   const initialData = {
     workerJobCardNo: "",
@@ -124,7 +125,7 @@ const WorkRequirement = () => {
       ...new_array[index],
       [key]: val,
     };
-
+    console.log(e);
     setAllData(new_array);
   }
 
@@ -336,88 +337,13 @@ const WorkRequirement = () => {
               <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                 Work Application Date
               </Table.HeadCell>
+
               <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                 No of Days (Work Demanded)
               </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case "></Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              <Table.Row>
-                <Table.Cell>1</Table.Cell>
-                <Table.Cell className="">
-                  <div className="flex w-96">
-                    <input type="text" className="w-1/3" />
-                    <select name="" className="w-fit capitalize" id="">
-                      <option value="">-sansad no-</option>
-                      {options.map((e) => (
-                        <option value={e}>{e}</option>
-                      ))}
-                    </select>
-                    <input
-                      type="text"
-                      placeholder="family-Id"
-                      min={1}
-                      max={999}
-                      className="w-1/3"
-                    />
-                  </div>
-                </Table.Cell>
-                <Table.Cell>
-                  {" "}
-                  <input type="text" />{" "}
-                </Table.Cell>
-                <Table.Cell>
-                  <select name="" id="">
-                    <option value="">-select gender-</option>
-                    <option value="">Male</option>
-                    <option value="">Female</option>
-                  </select>
-                </Table.Cell>
-                <Table.Cell>
-                  {" "}
-                  <select name="" id="">
-                    <option value="">-select cast-</option>
-                    <option value="">ST</option>
-                    <option value="">SC</option>
-                    <option value="">Others</option>
-                  </select>{" "}
-                </Table.Cell>
-                <Table.Cell> Yes / No (Radio Button)</Table.Cell>
-                <Table.Cell> Yes / No (Radio Button)</Table.Cell>
-
-                <Table.Cell>
-                  {" "}
-                  <input type="text" length={10} />{" "}
-                </Table.Cell>
-                <Table.Cell>
-                  {" "}
-                  <input type="text" length={16} />{" "}
-                </Table.Cell>
-                <Table.Cell>
-                  <select name="" id="">
-                    <option value="">-select worker type-</option>
-                    <option value="">Unskilled</option>
-                    <option value="">Semi-skilled</option>
-                    <option value="">Skilled</option>
-                  </select>
-                </Table.Cell>
-                <Table.Cell>
-                  {" "}
-                  <DatePicker
-                    minDate={new Date()}
-                    dateFormat="dd/MM/yyyy"
-                    // selected={date}
-                    portalId="root-portal"
-                    className="w-32 border cursor-pointer border-gray-300 rounded-md"
-                    // onChange={(e) => setDate(e)}
-                    // withPortal
-                  />
-                  {/* <Datepicker /> */}
-                </Table.Cell>
-                <Table.Cell>
-                  {" "}
-                  <input type="number" min={1} max={14} />{" "}
-                </Table.Cell>
-              </Table.Row>
               {allData.map(
                 (
                   {
@@ -440,18 +366,21 @@ const WorkRequirement = () => {
                 ) => (
                   <Table.Row>
                     <Table.Cell>{index + 1}</Table.Cell>
-                    <Table.Cell>{workerJobCardNo}</Table.Cell>
+                    <Table.Cell className="">
+                      {workerJobCardNo || "logic went for oil"}
+                    </Table.Cell>
                     <Table.Cell>
-                      {" "}
                       <input
+                        className="border cursor-pointer border-gray-300 rounded-md"
                         type="text"
                         name="workerName"
                         value={workerName}
                         onChange={(e) => updateVal(e, index)}
-                      />{" "}
+                      />
                     </Table.Cell>
                     <Table.Cell>
                       <select
+                        className="border cursor-pointer border-gray-300 rounded-md"
                         name="gender"
                         id=""
                         onChange={(e) => updateVal(e, index)}
@@ -463,6 +392,7 @@ const WorkRequirement = () => {
                     </Table.Cell>
                     <Table.Cell>
                       <select
+                        className="border cursor-pointer border-gray-300 rounded-md"
                         name="caste"
                         id=""
                         onChange={(e) => updateVal(e, index)}
@@ -489,16 +419,92 @@ const WorkRequirement = () => {
                         name={"whetherMigrantWorker"}
                       />
                     </Table.Cell>
+                    <Table.Cell>
+                      <input
+                        className="border cursor-pointer border-gray-300 rounded-md"
+                        type="number"
+                        name="mobileNo"
+                        maxLength={10}
+                        value={mobileNo}
+                        onChange={(e) => updateVal(e, index)}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <input
+                        className="border cursor-pointer border-gray-300 rounded-md"
+                        type="number"
+                        name="aadhaarNo"
+                        maxLength={16}
+                        value={aadhaarNo}
+                        onChange={(e) => updateVal(e, index)}
+                      />
+                    </Table.Cell>
 
-                    <Table.Cell>{whetherMigrantWorker}</Table.Cell>
-                    <Table.Cell>{mobileNo}</Table.Cell>
-                    <Table.Cell>{aadhaarNo}</Table.Cell>
-                    <Table.Cell>{typeOfWorkers}</Table.Cell>
-                    <Table.Cell>{dateOfApplicationForWork}</Table.Cell>
-                    <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
-                    <Table.Cell>{currentMonth}</Table.Cell>
-                    <Table.Cell>{currentYear}</Table.Cell>
-                    <Table.Cell>{finYear}</Table.Cell>
+                    <Table.Cell>
+                      <select
+                        className="border cursor-pointer border-gray-300 rounded-md"
+                        name="typeOfWorkers"
+                        id=""
+                        onChange={(e) => updateVal(e, index)}
+                      >
+                        <option value="">-select worker type-</option>
+                        <option value="U">Unskilled</option>
+                        <option value="SS">Semi-Skilled</option>
+                        <option value="S">Skilled</option>
+                      </select>
+                    </Table.Cell>
+
+                    <Table.Cell>
+                      <DatePicker
+                        minDate={new Date()}
+                        dateFormat="dd/MM/yyyy"
+                        selected={dateOfApplicationForWork}
+                        portalId="root-portal"
+                        className="w-32 border cursor-pointer border-gray-300 rounded-md"
+                        onChange={(e) =>
+                          updateVal(
+                            {
+                              target: {
+                                name: "dateOfApplicationForWork",
+                                value: e.toString(),
+                              },
+                            },
+                            index
+                          )
+                        }
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <select
+                        className="w-32 border cursor-pointer border-gray-300 rounded-md"
+                        name="noOfDaysWorkDemanded"
+                        id=""
+                        onChange={(e) => updateVal(e, index)}
+                      >
+                        <option value="">
+                          -select no of Days Work Demanded-
+                        </option>
+                        {demandDays.map((day) => (
+                          <option value={day}>{day}</option>
+                        ))}
+                      </select>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {index != 0 && (
+                        <button
+                          className="rounded-lg px-3 py-2 leading-tight bg-red-600 text-white hover:shadow-md transition-all hover:bg-opacity-90"
+                          onClick={() => {
+                            const new_array = allData.filter(
+                              (e, idx) => idx != index
+                            );
+                            setAllData(new_array);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      )}
+                      {index == 0 && <div className="w-[66px]"></div>}
+                    </Table.Cell>
                   </Table.Row>
                 )
               )}
