@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import RadioButton from "../../components/RadioButton";
+import { useMutation } from "@tanstack/react-query";
 import { Table } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
@@ -14,36 +16,39 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
-  const [days, setDays] = useState(1);
-  const [date, setDate] = useState();
-  const [list, setList] = useState([]);
-  
+  const options = Array.from({ length: 30 }, (_, i) => i + 1);
+
+  const initialData = {
+    workerJobCardNo: "",
+    workerName: "",
+    gender: "",
+    caste: "",
+    whetherMinority: "",
+    whetherMigrantWorker: "",
+    mobileNo: "",
+    aadhaarNo: "",
+    typeOfWorkers: "",
+    dateOfApplicationForWork: undefined,
+    noOfDaysWorkDemanded: null,
+    currentMonth: null,
+    currentYear: null,
+    finYear: null,
+  };
+
+  const distRef = useRef(null);
+  const blockRef = useRef(null);
+  const gpRef = useRef(null);
+  const municipalityRef = useRef(null);
+
+  const [allData, setAllData] = useState([initialData]);
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
+
   const [allBlockList, setAllBlockList] = useState([]);
   const [block, setBlock] = useState("");
   const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
-  const [contractorName, setContractorName] = useState("");
-  const [gstin, setGSTIN] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isValidContractorName, setIsValidContractorName] = useState(true);
-  const [panNumber, setPanNumber] = useState("");
-  const [isValidPan, setIsValidPan] = useState(true);
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [isValidMobile, setIsValidMobile] = useState(true);
-  const [address, setAddress] = useState("");
-  const [isValidAddress, setIsValidAddress] = useState(true);
-  const [village, setVillage] = useState("");
-  const [isValidVillage, setIsValidVillage] = useState(true);
-  const [policeStation, setPoliceStation] = useState("");
-  const [isValidPoliceStation, setIsValidPoliceStation] = useState(true);
-  const [postOffice, setPostOffice] = useState("");
-  const [isValidPostOffice, setIsValidPostOffice] = useState(true);
-  const [pinCode, setPinCode] = useState("");
-  const [isValidPinCode, setIsValidPinCode] = useState(true);
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -111,123 +116,18 @@ const WorkRequirement = () => {
     ));
   }
 
-  const onContractorName = (e) => {
-    const value = e.target.value;
-    // Regular expression to allow only alphabets and white spaces
-    const regex = /^[A-Za-z\s]+$/;
-    if (regex.test(value)) {
-      setContractorName(value);
-      setIsValidContractorName(true);
-    } else {
-      setIsValidContractorName(false);
-      // toast.error("Please use only Alphabet characters")
-    }
-  };
+  function updateVal(e, index) {
+    const key = e.target.name;
+    const val = e.target.value;
+    const new_array = [...allData];
+    new_array[index] = {
+      ...new_array[index],
+      [key]: val,
+    };
 
-  const handleKeyDown = (event) => {
-    // Allow only alphabets and white spaces
-    if (
-      !(
-        (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
-        (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 ||
-        event.key === "Backspace"
-      )
-    ) {
-      event.preventDefault();
-    }
-  };
+    setAllData(new_array);
+  }
 
-  const onGstIn = (event) => {
-    const value = event.target.value;
-    // Regular expression to match GSTIN format
-    const regex =
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
-    if (regex.test(value) || value === "") {
-      setGSTIN(value);
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  };
-
-  const onPanCard = (event) => {
-    const value = event.target.value.toUpperCase(); // Convert to uppercase for consistency
-    // Regular expression to match PAN format
-    const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (regex.test(value) || value === "") {
-      setPanNumber(value);
-      setIsValidPan(true);
-    } else {
-      setIsValidPan(false);
-    }
-  };
-
-  const onMobile = (event) => {
-    const value = event.target.value;
-    const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === "") {
-      setMobileNumber(value);
-      setIsValidMobile(true);
-    } else {
-      setIsValidMobile(false);
-    }
-  };
-
-  const onAddress = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setAddress(value);
-      setIsValidAddress(true);
-    } else {
-      setIsValidAddress(false);
-    }
-  };
-
-  const onVillage = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setVillage(value);
-      setIsValidVillage(true);
-    } else {
-      setIsValidVillage(false);
-    }
-  };
-
-  const onPoliceStation = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s\/]*$/;
-    if (regex.test(value) || value === "") {
-      setPoliceStation(value);
-      setIsValidPoliceStation(true);
-    } else {
-      setIsValidPoliceStation(false);
-    }
-  };
-
-  const onPostOffice = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === "") {
-      setPostOffice(value);
-      setIsValidPostOffice(true);
-    } else {
-      setIsValidPostOffice(false);
-    }
-  };
-
-  const onPinCode = (event) => {
-    const value = event.target.value;
-    const regex = /^[7]{1}[0-9]{5}$/;
-    if (regex.test(value) || value === "") {
-      setPinCode(value);
-      setIsValidPinCode(true);
-    } else {
-      setIsValidPinCode(false);
-    }
-  };
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
       <ToastContainer />
@@ -293,6 +193,7 @@ const WorkRequirement = () => {
               <span className="text-red-500 "> * </span>
             </label>
             <select
+              ref={distRef}
               id="scheme_name"
               name="scheme_name"
               autoComplete="off"
@@ -316,6 +217,7 @@ const WorkRequirement = () => {
                 Municipality
               </label>
               <select
+                ref={municipalityRef}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
@@ -342,6 +244,7 @@ const WorkRequirement = () => {
                 Block
               </label>
               <select
+                ref={blockRef}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
@@ -369,6 +272,7 @@ const WorkRequirement = () => {
                 GP
               </label>
               <select
+                ref={gpRef}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
@@ -387,7 +291,10 @@ const WorkRequirement = () => {
           )}
         </div>
         <div className=" w-full flex justify-end py-4">
-          <button className="flex space-x-2 items-center bg-green-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90">
+          <button
+            className="flex space-x-2 items-center bg-green-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90"
+            onClick={() => setAllData((prev) => [...prev, initialData])}
+          >
             <span>Add</span>
             <Icon className="text-2xl" icon={"ic:round-add"} />
           </button>
@@ -436,11 +343,23 @@ const WorkRequirement = () => {
             <Table.Body className="divide-y">
               <Table.Row>
                 <Table.Cell>1</Table.Cell>
-                <Table.Cell className="flex">
-                  {" "}
-                  <input type="text" className="" />
-                  <input type="text" className="" />
-                  <input type="text" className="" />
+                <Table.Cell className="">
+                  <div className="flex w-96">
+                    <input type="text" className="w-1/3" />
+                    <select name="" className="w-fit capitalize" id="">
+                      <option value="">-sansad no-</option>
+                      {options.map((e) => (
+                        <option value={e}>{e}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="family-Id"
+                      min={1}
+                      max={999}
+                      className="w-1/3"
+                    />
+                  </div>
                 </Table.Cell>
                 <Table.Cell>
                   {" "}
@@ -486,10 +405,10 @@ const WorkRequirement = () => {
                   <DatePicker
                     minDate={new Date()}
                     dateFormat="dd/MM/yyyy"
-                    selected={date}
+                    // selected={date}
                     portalId="root-portal"
                     className="w-32 border cursor-pointer border-gray-300 rounded-md"
-                    onChange={(e) => setDate(e)}
+                    // onChange={(e) => setDate(e)}
                     // withPortal
                   />
                   {/* <Datepicker /> */}
@@ -499,6 +418,90 @@ const WorkRequirement = () => {
                   <input type="number" min={1} max={14} />{" "}
                 </Table.Cell>
               </Table.Row>
+              {allData.map(
+                (
+                  {
+                    workerJobCardNo,
+                    workerName,
+                    gender,
+                    caste,
+                    whetherMinority,
+                    whetherMigrantWorker,
+                    mobileNo,
+                    aadhaarNo,
+                    typeOfWorkers,
+                    dateOfApplicationForWork,
+                    noOfDaysWorkDemanded,
+                    currentMonth,
+                    currentYear,
+                    finYear,
+                  },
+                  index
+                ) => (
+                  <Table.Row>
+                    <Table.Cell>{index + 1}</Table.Cell>
+                    <Table.Cell>{workerJobCardNo}</Table.Cell>
+                    <Table.Cell>
+                      {" "}
+                      <input
+                        type="text"
+                        name="workerName"
+                        value={workerName}
+                        onChange={(e) => updateVal(e, index)}
+                      />{" "}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <select
+                        name="gender"
+                        id=""
+                        onChange={(e) => updateVal(e, index)}
+                      >
+                        <option value="">-select gender-</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <select
+                        name="caste"
+                        id=""
+                        onChange={(e) => updateVal(e, index)}
+                      >
+                        <option value="">-select cast-</option>
+                        <option value="ST">ST</option>
+                        <option value="SC">SC</option>
+                        <option value="Others">Others</option>
+                      </select>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <RadioButton
+                        value={whetherMinority}
+                        updateVal={updateVal}
+                        index={index}
+                        name={"whetherMinority"}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <RadioButton
+                        value={whetherMigrantWorker}
+                        updateVal={updateVal}
+                        index={index}
+                        name={"whetherMigrantWorker"}
+                      />
+                    </Table.Cell>
+
+                    <Table.Cell>{whetherMigrantWorker}</Table.Cell>
+                    <Table.Cell>{mobileNo}</Table.Cell>
+                    <Table.Cell>{aadhaarNo}</Table.Cell>
+                    <Table.Cell>{typeOfWorkers}</Table.Cell>
+                    <Table.Cell>{dateOfApplicationForWork}</Table.Cell>
+                    <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                    <Table.Cell>{currentMonth}</Table.Cell>
+                    <Table.Cell>{currentYear}</Table.Cell>
+                    <Table.Cell>{finYear}</Table.Cell>
+                  </Table.Row>
+                )
+              )}
             </Table.Body>
           </Table>
         </div>
