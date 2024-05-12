@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { updateVal } from "../../functions/updateVal";
 import RadioButton from "../../components/RadioButton";
 import { useMutation } from "@tanstack/react-query";
-import { Table } from "flowbite-react";
+import { Table, TextInput } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
 // import { Datepicker } from "flowbite-react";
@@ -117,17 +118,27 @@ const WorkRequirement = () => {
     ));
   }
 
-  function updateVal(e, index) {
-    const key = e.target.name;
-    const val = e.target.value;
-    const new_array = [...allData];
-    new_array[index] = {
-      ...new_array[index],
-      [key]: val,
-    };
-    console.log(e);
-    setAllData(new_array);
-  }
+  // function updateVal(e, index, arr, setArr) {
+  //   const key = e.target.name;
+  //   const val = e.target.value;
+  //   if (!arr) {
+  //     const new_array = [...allData];
+  //     new_array[index] = {
+  //       ...new_array[index],
+  //       [key]: val,
+  //     };
+  //     console.log(e);
+  //     setAllData(new_array);
+  //   } else {
+  //     const new_array = [...arr];
+  //     new_array[index] = {
+  //       ...new_array[index],
+  //       [key]: val,
+  //     };
+  //     console.log(e);
+  //     setArr(new_array);
+  //   }
+  // }
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -375,7 +386,9 @@ const WorkRequirement = () => {
                         type="text"
                         name="workerName"
                         value={workerName}
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       />
                     </Table.Cell>
                     <Table.Cell>
@@ -383,7 +396,9 @@ const WorkRequirement = () => {
                         className="border cursor-pointer border-gray-300 rounded-md"
                         name="gender"
                         id=""
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       >
                         <option value="">-select gender-</option>
                         <option value="Male">Male</option>
@@ -395,7 +410,9 @@ const WorkRequirement = () => {
                         className="border cursor-pointer border-gray-300 rounded-md"
                         name="caste"
                         id=""
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       >
                         <option value="">-select cast-</option>
                         <option value="ST">ST</option>
@@ -409,6 +426,8 @@ const WorkRequirement = () => {
                         updateVal={updateVal}
                         index={index}
                         name={"whetherMinority"}
+                        data={allData}
+                        setData={setAllData}
                       />
                     </Table.Cell>
                     <Table.Cell>
@@ -417,6 +436,8 @@ const WorkRequirement = () => {
                         updateVal={updateVal}
                         index={index}
                         name={"whetherMigrantWorker"}
+                        data={allData}
+                        setData={setAllData}
                       />
                     </Table.Cell>
                     <Table.Cell>
@@ -426,7 +447,9 @@ const WorkRequirement = () => {
                         name="mobileNo"
                         maxLength={10}
                         value={mobileNo}
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       />
                     </Table.Cell>
                     <Table.Cell>
@@ -436,7 +459,9 @@ const WorkRequirement = () => {
                         name="aadhaarNo"
                         maxLength={16}
                         value={aadhaarNo}
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       />
                     </Table.Cell>
 
@@ -445,7 +470,9 @@ const WorkRequirement = () => {
                         className="border cursor-pointer border-gray-300 rounded-md"
                         name="typeOfWorkers"
                         id=""
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       >
                         <option value="">-select worker type-</option>
                         <option value="U">Unskilled</option>
@@ -479,7 +506,9 @@ const WorkRequirement = () => {
                         className="w-32 border cursor-pointer border-gray-300 rounded-md"
                         name="noOfDaysWorkDemanded"
                         id=""
-                        onChange={(e) => updateVal(e, index)}
+                        onChange={(e) =>
+                          updateVal(e, index, allData, setAllData)
+                        }
                       >
                         <option value="">
                           -select no of Days Work Demanded-
