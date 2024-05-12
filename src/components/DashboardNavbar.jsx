@@ -106,7 +106,7 @@ export const DashboardNavbar = () => {
 
   
   const navigate = useNavigate();
-
+console.log(Calc_permission(userDetails?.category,userDetails?.role_type,userDetails?.dno_status),"calc")
   return (
     <>
       <div className="p-1 px-16 flex w-screen justify-between border items-center fixed top-0 left-0 z-50 bg-white shadow-lg">
@@ -195,6 +195,7 @@ export const DashboardNavbar = () => {
           </DropdownItem>
         </Dropdown>
       </div>
+
     </>
   );
 };

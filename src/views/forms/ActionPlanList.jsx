@@ -44,7 +44,7 @@ const ActionPlanList = () => {
       header: "Scheme Area",
       accessorKey: "schemeArea",
       headClass: "cursor-pointer",
-      // cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
+      cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
     },
     {
       header: "Department",
