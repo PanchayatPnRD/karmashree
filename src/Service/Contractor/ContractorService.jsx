@@ -25,10 +25,10 @@ export const addCreateContractor = async (contractorName, contractorGSTIN, contr
                 c_Year: c_Year,
                 finYear: finYear,
                 DepartmentNo: DepartmentNo,
-                districtcode: districtcode,
-                Municipality: Municipality,
-                blockcode: blockcode,
-                gpCode: gpCode,
+                districtcode: parseInt(districtcode === "" ? 0 : districtcode),
+                Municipality: parseInt(Municipality === "" ? 0 : Municipality),
+                blockCode: parseInt(blockCode === "" ? 0 : blockCode),
+                gpCode: parseInt(gpCode === "" ? 0 : gpCode),
                 area: area
 
             },
