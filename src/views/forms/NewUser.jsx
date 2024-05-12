@@ -387,7 +387,7 @@ const NewUser = () => {
                       : "BLOCK",
         "",
         "A",
-        1,
+        areaGp,
         role,
         role,
         "",
