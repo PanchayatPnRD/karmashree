@@ -9,19 +9,19 @@ export const getAllDistrictActionList = async () => {
 
 export const getAllBlockList = async (districtCode) => {
     console.log(districtCode, "districtCode")
-    return await webApi.get(`/api/mastertable/getBlockaction/${districtCode}`,
+    return await webApi.get(`/api/mastertable/getBlockaction/${parseInt(districtCode)}`,
     );
 }
 
 export const getAllMunicipalityList = async (districtCode) => {
     console.log(districtCode, "districtCode")
-    return await webApi.get(`/api/mastertable/getMunicipality/${districtCode}`,
+    return await webApi.get(`/api/mastertable/getMunicipality/${parseInt(districtCode)}`,
     );
 }
 
 export const getAllGramPanchayatList = async (districtCode, BlockCode) => {
     console.log(districtCode, BlockCode, "districtCode")
-    return await webApi.get(`/api/mastertable/getGpaction/${districtCode}/${BlockCode}`,
+    return await webApi.get(`/api/mastertable/getGpaction/${parseInt(districtCode)}/${parseInt(BlockCode)}`,
     );
 }
 
@@ -47,12 +47,12 @@ export const addCreateAction = async (schemeArea, district, municipality, block,
             `/api/actionplan/create-actionplan`,
             {
                 schemeArea: schemeArea,
-                districtCode: district,
-                municipalityCode: municipality ? municipality : "",
-                blockCode: block ? block : "",
-                gpCode: gp ? gp : "",
+                districtCode: parseInt(district === "" ? 0 : district),
+                municipalityCode: parseInt(municipality === "" ? 0 : municipality),
+                blockCode: parseInt(block === "" ? 0 : block),
+                gpCode: parseInt(gp === "" ? 0 : gp),
                 schemeSector: sector,
-                schemeProposed:schemeProposed,
+                schemeProposed: schemeProposed,
                 tentativeCostOfScheme: costOfSCheme,
                 totWagesPaid: totalWages,
                 totPersonDays: totalPersonDays,
