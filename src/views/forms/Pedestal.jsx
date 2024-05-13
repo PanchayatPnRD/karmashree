@@ -186,7 +186,7 @@ export const Pedestal = () => {
                     /
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Pedestal Master
+                  Parastatals Master
                   </li>
                 </ol>
               </nav>
@@ -216,12 +216,12 @@ export const Pedestal = () => {
           </div>
           <div>
             <label className="capitalize text-black">
-              Pedestal Name
+            Parastatals Name
               <span className="text-red-500 "> * </span>
             </label>
             <input
               required
-              placeholder="Enter Pedestal name ..."
+              placeholder="Enter Parastatals name ..."
               type="text"
               ref={pedalstalRef}
               HeadData

@@ -613,7 +613,7 @@ const Scheme = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Scheme Sector
+                  Type of Sector
                   <span className="text-red-500 "> * </span>
                 </label>
                 <select

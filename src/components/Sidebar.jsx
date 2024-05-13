@@ -70,7 +70,7 @@ export const sideBarList = [
   },
   {
     Component: Pedestal,
-    text: "pedestal master",
+    text: "Parastatals master",
     route: "/dashboard/pedestal-master",
     permissions: [1],
   },
