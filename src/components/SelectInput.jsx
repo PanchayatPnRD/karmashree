@@ -2,16 +2,16 @@ import { useState, useEffect, useMemo } from "react";
 import classNames from "classnames";
 import { updateVal } from "../functions/updateVal";
 
-export const TextInput = ({
+export const SelectInput = ({
   required,
   dynamic,
-  type,
   index,
   name,
   helperText,
   validation,
   state,
   label,
+  children,
 }) => {
   const [touched, setTouched] = useState(false);
   const [validated, setValidated] = validation;
@@ -54,10 +54,9 @@ export const TextInput = ({
             {label}
           </label>
         )}
-        <input
-          type={type}
+        <select
           name={name}
-          value={name ? (dynamic ? value[index][name] : value[name]) : value}
+          // value={name ? (dynamic ? value[index][name] : value[name]) : value}
           class={classNames(
             "border-2 block w-full p-2.5 outline-none rounded-lg border-gray-400",
             (!required || isFilled) &&
@@ -77,7 +76,9 @@ export const TextInput = ({
             setIsFilled(true);
             if (required) setValidated(true);
           }}
-        />
+        >
+          {...children}
+        </select>
         {!isFilled && required && touched && (
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
             {helperText || "This field is required"}
