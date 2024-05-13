@@ -78,9 +78,9 @@ export const TextInput = ({
             if (required) setValidated(true);
           }}
         />
-        {helperText && !isFilled && required && touched && (
+        {!isFilled && required && touched && (
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            {helperText}
+            {helperText || "This field is required"}
           </p>
         )}
       </div>

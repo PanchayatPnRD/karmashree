@@ -2,10 +2,13 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { updateVal } from "../../functions/updateVal";
 import RadioButton from "../../components/RadioButton";
-import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { devApi } from "../../WebApi/WebApi";
+
 import { Table, TextInput } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 // import { Datepicker } from "flowbite-react";
 import {
   getAllDistrictActionList,
@@ -17,8 +20,44 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
+  const { userIndex, category } = JSON.parse(
+    localStorage.getItem("karmashree_User")
+  );
+
+  const { data: userDetails, isSuccess } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+
+      return data.data.result;
+    },
+  });
+  const [gpCode, setGpCode] = useState("");
   const options = Array.from({ length: 30 }, (_, i) => i + 1);
   const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
+
+  const queryClient = useQueryClient();
+
+  
+
+
+  const { data: jobcardNo, isLoading } = useQuery({
+    queryKey: ["jobcardNo"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi + "/api/mastertable/NrgsCode/" + gpCode
+        // "http://localhost:8094/api/mastertable/NrgsCode/107977"
+      );
+      console.log(devApi + "/api/mastertable/NrgsCode/" + gpCode);
+
+      return data.data.result[0].nregaPanchCode;
+    },
+    // enabled: gpCode.length > 0
+  });
+
+  useEffect(() => {
+    if (gpCode != "") queryClient.refetchQueries(["jobcardNo"]);
+  }, [gpCode]);
 
   const initialData = {
     workerJobCardNo: "",
@@ -42,7 +81,16 @@ const WorkRequirement = () => {
   const gpRef = useRef(null);
   const municipalityRef = useRef(null);
 
-  const [allData, setAllData] = useState([initialData]);
+  const [allData, setAllData] = useState([initialData]); //! all data
+
+  // const apiData = useMemo(() => {
+  //   allData.map((e) => {
+  //     const obj = { ...e, userIndex:user };
+      
+  //   })
+  // },[allData]);
+
+
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -71,6 +119,9 @@ const WorkRequirement = () => {
       <option value={distRow.districtCode}>{distRow.districtName}</option>
     ));
   }
+  useEffect(() => {
+    console.log(gpRef.current);
+  }, []);
 
   const onArea = (e) => {
     setArea(e.target.value);
@@ -117,29 +168,7 @@ const WorkRequirement = () => {
       <option value={gpRow.gpCode}>{gpRow.gpName}</option>
     ));
   }
-
-  // function updateVal(e, index, arr, setArr) {
-  //   const key = e.target.name;
-  //   const val = e.target.value;
-  //   if (!arr) {
-  //     const new_array = [...allData];
-  //     new_array[index] = {
-  //       ...new_array[index],
-  //       [key]: val,
-  //     };
-  //     console.log(e);
-  //     setAllData(new_array);
-  //   } else {
-  //     const new_array = [...arr];
-  //     new_array[index] = {
-  //       ...new_array[index],
-  //       [key]: val,
-  //     };
-  //     console.log(e);
-  //     setArr(new_array);
-  //   }
-  // }
-
+  
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
       <ToastContainer />
@@ -289,6 +318,7 @@ const WorkRequirement = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={(e) => setGpCode(e.target.value)}
               >
                 <option value="" selected hidden>
                   Select GP List
@@ -377,8 +407,8 @@ const WorkRequirement = () => {
                 ) => (
                   <Table.Row>
                     <Table.Cell>{index + 1}</Table.Cell>
-                    <Table.Cell className="">
-                      {workerJobCardNo || "logic went for oil"}
+                    <Table.Cell>
+                      <div className="w-32">{jobcardNo || "Please select GP"}</div>
                     </Table.Cell>
                     <Table.Cell>
                       <input
@@ -547,7 +577,7 @@ const WorkRequirement = () => {
           <button
             type="button"
             className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            //onClick={onRegister}
+            // onClick={onRegister}
           >
             Save
           </button>
