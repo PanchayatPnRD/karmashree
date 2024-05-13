@@ -77,7 +77,7 @@ export const Pedestal = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "Pedestal Name",
+      header: "Parastatals Name",
       accessorKey: "pedestalName",
       headclass: "cursor-pointer",
     },
@@ -144,7 +144,7 @@ export const Pedestal = () => {
     if (department === "") {
       toast.error("Please Select Department");
     } else if (pedestal === "") {
-      toast.error("Please Type Pedestal name");
+      toast.error("Please Type Parastatals name");
     } else {
       mutate({
         departmentNo: department,

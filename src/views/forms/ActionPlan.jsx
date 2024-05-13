@@ -492,15 +492,15 @@ const ActionPlan = () => {
                 >
                   <span> Tentative Total Cost of Schemes</span>
                   <span className="text-red-500 "> * </span>
-                  <span>( Cost in</span>
-                  <Icon className="text-xs" icon={"fa:rupee"} /> upees )
+                  <span>(in &nbsp;</span>
+                  Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
                 </label>
                 <input
                   id="scheme_cost"
                   name="scheme_cost"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Tentative Total Cost of Schemes"
+                  placeholder="Enter Tentative Total Cost of Schemes in Rupees..."
                   className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onCostOfSCheme}
                 />
@@ -513,15 +513,15 @@ const ActionPlan = () => {
                 >
                   <span> Tentative Total Wage to be paid in the Schemes</span>                  
                   <span className="text-red-500 "> * </span>
-                  <span>( Cost in</span>
-                  <Icon className="text-xs" icon={"fa:rupee"} /> upees )
+                  <span>(in &nbsp;</span>
+                  Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
                 </label>
                 <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
                   autoComplete="off"
-                  placeholder="Enter Tentative Total Wage to be paid in the Schemes"
+                  placeholder="Enter Tentative Total Wage to be paid in the Schemes in Rupess..."
                   className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                   onChange={onTotalWages}
                 />
