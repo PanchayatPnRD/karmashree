@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import classNames from "classnames";
-import { updateVal } from "../functions/updateVal";
+import DatePicker from "react-datepicker";
 
-export const TextInput = ({
+
+export const DateInput = ({
   required,
   dynamic,
   type,
@@ -35,15 +36,20 @@ export const TextInput = ({
   }, [condition, value, validated]);
 
   function handleChange(e) {
-    if (name && !dynamic) {
+    if (name && !dynamic)
+    {
       const new_val = { ...value };
-      new_val[e.target.name] = e.target.value;
+      new_val[e.target.name] = e.toString()
       setValue(new_val);
-    } else if (dynamic) {
+    }
+    else if (dynamic)
+    {
       const new_array = [...value];
-      new_array[index][name] = e.target.value;
+      new_array[index][name] = e.toString()
       setValue(new_array);
-    } else setValue(e.target.value);
+    }
+    else
+      setValue(e);
   }
 
   return (
@@ -54,11 +60,12 @@ export const TextInput = ({
             {label}
           </label>
         )}
-        <input
-          type={type}
-          name={name}
-          value={name ? (dynamic ? value[index][name] : value[name]) : value}
-          class={classNames(
+        <DatePicker
+          minDate={new Date()}
+          dateFormat="dd/MM/yyyy"
+          portalId="root-portal"
+          selected={name ? (dynamic ? value[index][name] : value[name]) : value}
+          className={classNames(
             "border-2 block w-full p-2.5 outline-none rounded-lg border-gray-400",
             (!required || isFilled) &&
               "text-gray-900  focus:ring-blue-500 focus:border-blue-500 block ",
@@ -78,9 +85,9 @@ export const TextInput = ({
             if (required) setValidated(true);
           }}
         />
-        {helperText && !isFilled && required && touched && (
+        { !isFilled && required && touched && (
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            {helperText}
+            {helperText || "This field is required"}
           </p>
         )}
       </div>

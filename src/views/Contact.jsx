@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { TextInput } from "../components/TextInput";
+import { SelectInput } from "../components/SelectInput";
+import { DateInput } from "../components/DateInput";
 
 const Contact = () => {
   const [validated, setValidated] = useState();
   const [value, setValue] = useState([
-    { first: "", second: "" },
-    { first: "", second: "" },
+    { first: "", second: "", third: "", date:"" },
+    { first: "", second: "", third: "", date:"" },
   ]);
 
   return (
@@ -37,6 +39,29 @@ const Contact = () => {
               index={index}
               name="second"
               label="Not Required field"
+              validation={[validated, setValidated]}
+              state={[value, setValue]}
+            />
+            <SelectInput
+              required
+              dynamic
+              index={index}
+              name="third"
+              label="Not Required field"
+              validation={[validated, setValidated]}
+              state={[value, setValue]}
+              helperText={"This field highly required"}
+            >
+              <option value="">select a value</option>
+              <option value="first">first</option>
+              <option value="second">second</option>
+            </SelectInput>
+            <DateInput
+              required
+              dynamic
+              label="select date"
+              index={index}
+              name="date"
               validation={[validated, setValidated]}
               state={[value, setValue]}
             />

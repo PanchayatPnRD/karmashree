@@ -496,7 +496,9 @@ const WorkRequirement = () => {
                                 value: e.toString(),
                               },
                             },
-                            index
+                            index,
+                            allData,
+                            setAllData
                           )
                         }
                       />
