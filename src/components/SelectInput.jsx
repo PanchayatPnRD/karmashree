@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { updateVal } from "../functions/updateVal";
 
 export const SelectInput = ({
+  buttonClicked,
   required,
   dynamic,
   index,
@@ -29,6 +30,11 @@ export const SelectInput = ({
     }
     if (!required) return true;
   }, [required, isFilled, touched]);
+
+  useEffect(() => {
+    if (buttonClicked)
+      setTouched(true)
+  }, [buttonClicked])
 
   useEffect(() => {
     if (!condition) setValidated(condition);

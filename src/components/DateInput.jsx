@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 
 
 export const DateInput = ({
+  buttonClicked,
   required,
   dynamic,
   type,
@@ -23,6 +24,10 @@ export const DateInput = ({
       setValidated(!isFilled);
     }
   }, []);
+
+  useEffect(() => {
+    if (buttonClicked) setTouched(true);
+  }, [buttonClicked]);
 
   const condition = useMemo(() => {
     if (required) {

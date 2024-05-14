@@ -4,10 +4,11 @@ import { SelectInput } from "../components/SelectInput";
 import { DateInput } from "../components/DateInput";
 
 const Contact = () => {
+  const [buttonClicked, setButtonClicked] = useState(false);
   const [validated, setValidated] = useState();
   const [value, setValue] = useState([
-    { first: "", second: "", third: "", date:"" },
-    { first: "", second: "", third: "", date:"" },
+    { first: "", second: "", third: "", date: "" },
+    { first: "", second: "", third: "", date: "" },
   ]);
 
   return (
@@ -25,6 +26,7 @@ const Contact = () => {
         value.map((e, index) => (
           <div className="flex">
             <TextInput
+              buttonClicked={buttonClicked}
               required
               dynamic
               index={index}
@@ -35,6 +37,7 @@ const Contact = () => {
               state={[value, setValue]}
             />
             <TextInput
+              buttonClicked={buttonClicked}
               dynamic
               index={index}
               name="second"
@@ -43,6 +46,7 @@ const Contact = () => {
               state={[value, setValue]}
             />
             <SelectInput
+              buttonClicked={buttonClicked}
               required
               dynamic
               index={index}
@@ -57,6 +61,7 @@ const Contact = () => {
               <option value="second">second</option>
             </SelectInput>
             <DateInput
+              buttonClicked={buttonClicked}
               required
               dynamic
               label="select date"
@@ -67,6 +72,14 @@ const Contact = () => {
             />
           </div>
         ))}
+      <div>
+        <button
+          className="px-3 text-white py-1 bg-blue-500 rounded-md hover:bg-blue-500/90"
+          onClick={() => setButtonClicked(true)}
+        >
+          submit
+        </button>
+      </div>
     </div>
   );
 };
