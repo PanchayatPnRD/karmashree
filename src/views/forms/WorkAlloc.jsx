@@ -4,12 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-import {
-  getAllDistrictActionList,
-  getAllBlockList,
-  getAllMunicipalityList,
-  getAllGramPanchayatList,
-} from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -131,7 +125,7 @@ const WorkAlloc = () => {
             </select>
           </div>
           {
-            // dropdownData[0].length > 0 &&
+            dropdownData[0].length > 0 &&
             (
             <div className="px-4">
               <label
@@ -147,7 +141,7 @@ const WorkAlloc = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => console.log(1,e.target.value)}
+                onChange={(e) => updateDropdown(1,e.target.value)}
                 // onChange={onDistrict}
               >
                 <option value="" selected hidden>

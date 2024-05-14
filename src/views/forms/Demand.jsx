@@ -23,7 +23,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
-  
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
   const options = Array.from({ length: 30 }, (_, i) => i + 1);
@@ -34,21 +33,21 @@ const WorkRequirement = () => {
     localStorage.getItem("karmashree_User")
   );
 
-  const { data: allDistList } = useQuery({
-    queryKey: ["allDistList"],
-    queryFn: async () => {
-      const data = await getAllDistrictActionList();
-      return data.data.result;
-    },
-  });
+  // const { data: allDistList } = useQuery({
+  //   queryKey: ["allDistList"],
+  //   queryFn: async () => {
+  //     const data = await getAllDistrictActionList();
+  //     return data.data.result;
+  //   },
+  // });
 
-  const { data: blockList } = useQuery({
-    queryKey: ["blockList"],
-    queryFn: async () => {
-      const data = await getAllBlockList();
-      return data.data.result;
-    },
-  });
+  // const { data: blockList } = useQuery({
+  //   queryKey: ["blockList"],
+  //   queryFn: async () => {
+  //     const data = await getAllBlockList();
+  //     return data.data.result;
+  //   },
+  // });
 
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
@@ -84,12 +83,15 @@ const WorkRequirement = () => {
   }
 
   useEffect(() => {
-    if (dropdownData[2] != "") queryClient.invalidateQueries("jobcardNo");
-    if (dropdownData[2] == "") queryClient.resetQueries("jobcardNo");
+    if (dropdownData[2] != "")
+      queryClient.invalidateQueries({ queryKey: ["jobcardNo"] });
+    if (dropdownData[2] == "")
+      queryClient.resetQueries({ queryKey: ["jobcardNo"] });
   }, [dropdownData]);
 
   const initialData = {
-    workerJobCardNo: "",
+    sansadId: "",
+    familyId: "",
     workerName: "",
     gender: "",
     caste: "",
@@ -129,8 +131,10 @@ const WorkRequirement = () => {
 
   const demandData = useMemo(() => {
     return allData.map((e) => {
+      const { sansadId, familyId, ...rest } = e;
       return {
-        ...e,
+        ...rest,
+        workerJobCardNo: `${jobcardNo ?? ""}-${sansadId}-${familyId}`,
         userIndex: userDetails?.userIndex,
         departmentNo: userDetails?.departmentNo,
         schemeArea: "R",
@@ -140,7 +144,7 @@ const WorkRequirement = () => {
         gpCode: dropdownData[2],
       };
     });
-  }, [allData, dropdownData]);
+  }, [allData, dropdownData,jobcardNo]);
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -415,7 +419,8 @@ const WorkRequirement = () => {
               {allData.map(
                 (
                   {
-                    workerJobCardNo,
+                    sansadId,
+                    familyId,
                     workerName,
                     gender,
                     caste,
@@ -444,9 +449,13 @@ const WorkRequirement = () => {
                           )}
                         </div>
                         <select
-                          name=""
+                          value={sansadId}
+                          name="sansadId"
                           id=""
                           className="border-zinc-300 rounded-l-lg"
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
                         >
                           <option value="">-sansad-</option>
                           {options.map((e) => (
@@ -454,6 +463,11 @@ const WorkRequirement = () => {
                           ))}
                         </select>
                         <input
+                          value={familyId}
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
+                          name="familyId"
                           type="text"
                           placeholder="family id"
                           className="text-center w-32 border-zinc-300 rounded-r-lg"
