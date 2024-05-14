@@ -120,13 +120,13 @@ export const sideBarList = [
   },
   {
     Component: WorkRequirement,
-    text: "work requirement",
+    text: "work requisition",
     route: "/dashboard/work-requirement",
     permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: WorkRequirementList,
-    text: "work requirement List",
+    text: "work requisition List",
     route: "/dashboard/work-requirement-list",
     permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },

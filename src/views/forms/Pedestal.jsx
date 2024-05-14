@@ -31,7 +31,7 @@ export const Pedestal = () => {
     },
   });
 
-  console.log(departmentList, "departmentList");
+  // console.log(departmentList, "departmentList");
 
   const { data: pedestalList } = useQuery({
     queryKey: ["pedestalList"],

@@ -4,6 +4,8 @@ import { updateVal } from "../../functions/updateVal";
 import RadioButton from "../../components/RadioButton";
 import axios from "axios";
 import { devApi } from "../../WebApi/WebApi";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { Table, TextInput } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -21,47 +23,75 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
+  const [dropdownData, setDropdownData] = useState(["", "", ""]);
+
+  const options = Array.from({ length: 30 }, (_, i) => i + 1);
+  const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
+
+  const queryClient = useQueryClient();
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
   );
+
+  // const { data: allDistList } = useQuery({
+  //   queryKey: ["allDistList"],
+  //   queryFn: async () => {
+  //     const data = await getAllDistrictActionList();
+  //     return data.data.result;
+  //   },
+  // });
+
+  // const { data: blockList } = useQuery({
+  //   queryKey: ["blockList"],
+  //   queryFn: async () => {
+  //     const data = await getAllBlockList();
+  //     return data.data.result;
+  //   },
+  // });
 
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
       const data = await fetch.get("/api/user/viewuser/", userIndex);
-
       return data.data.result;
     },
   });
-  const [gpCode, setGpCode] = useState("");
-  const options = Array.from({ length: 30 }, (_, i) => i + 1);
-  const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
-
-  const queryClient = useQueryClient();
-
-  
-
 
   const { data: jobcardNo, isLoading } = useQuery({
     queryKey: ["jobcardNo"],
     queryFn: async () => {
       const data = await axios.get(
-        devApi + "/api/mastertable/NrgsCode/" + gpCode
-        // "http://localhost:8094/api/mastertable/NrgsCode/107977"
+        devApi + "/api/mastertable/NrgsCode/" + dropdownData[2]
       );
-      console.log(devApi + "/api/mastertable/NrgsCode/" + gpCode);
-
       return data.data.result[0].nregaPanchCode;
     },
-    // enabled: gpCode.length > 0
+    enabled: dropdownData[2] != "",
   });
 
+  function updateDropdown(index, value) {
+    const newData = [...dropdownData];
+
+    const old_val = newData[index];
+    if (old_val != value) {
+      newData[index] = value;
+      for (let i = index + 1; i < newData.length; i++) {
+        newData[i] = "";
+      }
+    }
+
+    setDropdownData(newData);
+  }
+
   useEffect(() => {
-    if (gpCode != "") queryClient.refetchQueries(["jobcardNo"]);
-  }, [gpCode]);
+    if (dropdownData[2] != "")
+      queryClient.invalidateQueries({ queryKey: ["jobcardNo"] });
+    if (dropdownData[2] == "")
+      queryClient.resetQueries({ queryKey: ["jobcardNo"] });
+  }, [dropdownData]);
 
   const initialData = {
-    workerJobCardNo: "",
+    sansadId: "",
+    familyId: "",
     workerName: "",
     gender: "",
     caste: "",
@@ -77,20 +107,7 @@ const WorkRequirement = () => {
     finYear: null,
   };
 
-  const distRef = useRef(null);
-  const blockRef = useRef(null);
-  const gpRef = useRef(null);
-  const municipalityRef = useRef(null);
-
   const [allData, setAllData] = useState([initialData]); //! all data
-
-  // const apiData = useMemo(() => {
-  //   allData.map((e) => {
-  //     const obj = { ...e, userIndex:user };
-      
-  //   })
-  // },[allData]);
-
 
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
@@ -112,7 +129,22 @@ const WorkRequirement = () => {
     });
   }, []);
 
-  //District list
+  const demandData = useMemo(() => {
+    return allData.map((e) => {
+      const { sansadId, familyId, ...rest } = e;
+      return {
+        ...rest,
+        workerJobCardNo: `${jobcardNo ?? ""}-${sansadId}-${familyId}`,
+        userIndex: userDetails?.userIndex,
+        departmentNo: userDetails?.departmentNo,
+        schemeArea: "R",
+        districtcode: dropdownData[0],
+        municipalityCode: "",
+        blockCode: dropdownData[1],
+        gpCode: dropdownData[2],
+      };
+    });
+  }, [allData, dropdownData,jobcardNo]);
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -120,15 +152,14 @@ const WorkRequirement = () => {
       <option value={distRow.districtCode}>{distRow.districtName}</option>
     ));
   }
-  useEffect(() => {
-    console.log(gpRef.current);
-  }, []);
 
   const onArea = (e) => {
+    updateDropdown(0, e.target.value);
     setArea(e.target.value);
   };
 
   const onDistrict = (e) => {
+    updateDropdown(0, e.target.value);
     setDistrict(e.target.value);
     getAllBlockList(e.target.value).then(function (result) {
       const response = result?.data?.result;
@@ -156,6 +187,7 @@ const WorkRequirement = () => {
   }
 
   const onBlock = (e) => {
+    updateDropdown(1, e.target.value);
     setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
@@ -169,7 +201,7 @@ const WorkRequirement = () => {
       <option value={gpRow.gpCode}>{gpRow.gpName}</option>
     ));
   }
-  
+
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
       <ToastContainer />
@@ -201,7 +233,7 @@ const WorkRequirement = () => {
       </div>
       <div className="bg-white shadow-md rounded-lg px-12 pb-12">
         <div className="flex w-full space-x-4 mb-6">
-          <div className="px-4">
+          <div className="px-4 hidden">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -235,7 +267,7 @@ const WorkRequirement = () => {
               <span className="text-red-500 "> * </span>
             </label>
             <select
-              ref={distRef}
+              value={dropdownData[0]}
               id="scheme_name"
               name="scheme_name"
               autoComplete="off"
@@ -246,12 +278,10 @@ const WorkRequirement = () => {
                 Select District List
               </option>
               {districtListDropdown}
-
-              {/* Add more options as needed */}
             </select>
           </div>
-          {district.length > 0 && area === "U" ? (
-            <div className="px-4">
+          {/* {(
+            <div className="px-4 hidden">
               <label
                 htmlFor="scheme_name"
                 className="block text-sm font-medium text-gray-700"
@@ -270,14 +300,14 @@ const WorkRequirement = () => {
                 </option>
                 {municipalityListDropdown}
 
-                {/* Add more options as needed */}
+                
               </select>
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
-          {district.length > 0 && area === "R" ? (
+          {dropdownData[0].length > 0 && (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -286,7 +316,7 @@ const WorkRequirement = () => {
                 Block
               </label>
               <select
-                ref={blockRef}
+                value={dropdownData[1]}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
@@ -301,11 +331,9 @@ const WorkRequirement = () => {
                 {/* Add more options as needed */}
               </select>
             </div>
-          ) : (
-            ""
           )}
 
-          {block.length > 0 && area === "R" ? (
+          {dropdownData[1].length > 0 && (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -314,12 +342,16 @@ const WorkRequirement = () => {
                 GP
               </label>
               <select
-                ref={gpRef}
+                value={dropdownData[2]}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => setGpCode(e.target.value)}
+                onChange={(e) => {
+                  const temp = [...dropdownData];
+                  temp[2] = e.target.value;
+                  setDropdownData(temp);
+                }}
               >
                 <option value="" selected hidden>
                   Select GP List
@@ -329,8 +361,6 @@ const WorkRequirement = () => {
                 {/* Add more options as needed */}
               </select>
             </div>
-          ) : (
-            ""
           )}
         </div>
         <div className=" w-full flex justify-end py-4">
@@ -389,7 +419,8 @@ const WorkRequirement = () => {
               {allData.map(
                 (
                   {
-                    workerJobCardNo,
+                    sansadId,
+                    familyId,
                     workerName,
                     gender,
                     caste,
@@ -409,7 +440,39 @@ const WorkRequirement = () => {
                   <Table.Row>
                     <Table.Cell>{index + 1}</Table.Cell>
                     <Table.Cell>
-                      <div className="w-32">{jobcardNo || "Please select GP"}</div>
+                      <div className="flex items-center ">
+                        <div className="w-32">
+                          {isLoading ? (
+                            <Skeleton className="h-10 rounded-lg mr-2" />
+                          ) : (
+                            jobcardNo || "Please select GP"
+                          )}
+                        </div>
+                        <select
+                          value={sansadId}
+                          name="sansadId"
+                          id=""
+                          className="border-zinc-300 rounded-l-lg"
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
+                        >
+                          <option value="">-sansad-</option>
+                          {options.map((e) => (
+                            <option value={e}>{e}</option>
+                          ))}
+                        </select>
+                        <input
+                          value={familyId}
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
+                          name="familyId"
+                          type="text"
+                          placeholder="family id"
+                          className="text-center w-32 border-zinc-300 rounded-r-lg"
+                        />
+                      </div>
                     </Table.Cell>
                     <Table.Cell>
                       <input

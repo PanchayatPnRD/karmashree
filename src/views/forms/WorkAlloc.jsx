@@ -4,58 +4,68 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-import {
-  getAllDistrictActionList,
-  getAllBlockList,
-  getAllMunicipalityList,
-  getAllGramPanchayatList,
-} from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkAlloc = () => {
-  const [distCode, setDistCode] = useState("");
-  const [blockCode, setBlockCode] = useState("");
-  const [gpCode, setGpCode] = useState("");
+  const [dropdownData, setDropdownData] = useState(["", "", ""]);
+
+  function updateDropdown(index, value) {
+    const newData = [...dropdownData];
+
+    const old_val = newData[index];
+    if (old_val != value) {
+      newData[index] = value;
+      for (let i = index + 1; i < newData.length; i++) {
+        newData[i] = "";
+      }
+    }
+
+    setDropdownData(newData);
+  }
+  
+
   const jsonString = localStorage.getItem("karmashree_User");
 
   const queryClient = useQueryClient();
+
   const { data: districtList } = useQuery({
     queryKey: ["districtList"],
     queryFn: async () => {
       const data = await axios.get(
         devApi + "/api/mastertable/getAllDistrictsaction"
       );
-      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
 
-  const { data: blockList , isLoading: blockLoading} = useQuery({
+  const { data: blockList, isLoading: blockLoading } = useQuery({
     queryKey: ["blockList"],
     queryFn: async () => {
       const data = await axios.get(
-        devApi + "/api/mastertable/getBlockaction/" + distCode
+        devApi + "/api/mastertable/getBlockaction/" + dropdownData[0]
       );
 
       return data.data.result;
     },
+    enabled: dropdownData[0].length > 0
   });
 
-   const { data: gpList, isLoading: gpLoading } = useQuery({
-     queryKey: ["gpList"],
-     queryFn: async () => {
-       const data = await axios.get(
-         devApi + "/api/mastertable/getGpaction/" + distCode + "/" + blockCode
-       );
+  const { data: gpList, isLoading: gpLoading } = useQuery({
+    queryKey: ["gpList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi + "/api/mastertable/getGpaction/" + dropdownData[0] + "/" + dropdownData[1]
+      );
 
-       return data.data.result;
-     },
-   });
+      return data.data.result;
+    },
+    enabled: dropdownData[1].length > 0
+  });
 
   useEffect(() => {
-    if (distCode.length > 0) queryClient.invalidateQueries("blocklist");
-  }, [distCode]);
+    if (dropdownData[0].length > 0) queryClient.invalidateQueries("blocklist");
+  }, [dropdownData]);
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -98,12 +108,12 @@ const WorkAlloc = () => {
               <span className="text-red-500 "> * </span>
             </label>
             <select
-              value={distCode}
+              value={dropdownData[0]}
               id="scheme_name"
               name="scheme_name"
               autoComplete="off"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={(e) => setDistCode(e.target.value)}
+              onChange={(e) => updateDropdown(0, e.target.value)}
               // onChange={onDistrict}
             >
               <option value="" selected hidden>
@@ -114,7 +124,9 @@ const WorkAlloc = () => {
               ))}
             </select>
           </div>
-          {distCode.length > 0 && (
+          {
+            dropdownData[0].length > 0 &&
+            (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -124,12 +136,12 @@ const WorkAlloc = () => {
                 <span className="text-red-500 "> * </span>
               </label>
               <select
-                value={blockCode}
+                value={dropdownData[1]}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => setBlockCode(e.target.value)}
+                onChange={(e) => updateDropdown(1,e.target.value)}
                 // onChange={onDistrict}
               >
                 <option value="" selected hidden>
@@ -142,7 +154,7 @@ const WorkAlloc = () => {
               </select>
             </div>
           )}
-          {blockCode.length > 0 && (
+          {dropdownData[1].length > 0 && (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -152,12 +164,12 @@ const WorkAlloc = () => {
                 <span className="text-red-500 "> * </span>
               </label>
               <select
-                value={gpCode}
+                value={dropdownData[2]}
                 id="scheme_name"
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => setGpCode(e.target.value)}
+                onChange={(e) => updateDropdown(2,e.target.value)}
                 // onChange={onDistrict}
               >
                 <option value="" selected hidden>
