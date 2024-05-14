@@ -1,6 +1,7 @@
 import { Karmashree_logo } from "./Logo";
 import { Calc_permission } from "../functions/Permissions";
 import emblem from "/assets/logo/biswa.png";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, DropdownItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -10,6 +11,7 @@ import { devApi } from "../WebApi/WebApi";
 import { fetch } from "../functions/Fetchfunctions";
 
 export const DashboardNavbar = () => {
+  const [permission, setPermission] = useState();
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
   );
@@ -17,9 +19,9 @@ export const DashboardNavbar = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/",userIndex);
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
 
-      return data.data.result
+      return data.data.result;
     },
   });
 
@@ -29,11 +31,10 @@ export const DashboardNavbar = () => {
     queryKey: ["getDistrict"],
     queryFn: async () => {
       const data = await fetch.get(
-  
-          "/api/mastertable/GetAllDistricts/",
-          (userDetails?.districtcode?.length == 1
-            ? `0${userDetails?.districtcode}`
-            : userDetails?.districtcode)
+        "/api/mastertable/GetAllDistricts/",
+        userDetails?.districtcode?.length == 1
+          ? `0${userDetails?.districtcode}`
+          : userDetails?.districtcode
       );
 
       return data.data.result[0];
@@ -81,16 +82,13 @@ export const DashboardNavbar = () => {
     queryKey: ["getGp"],
     queryFn: async () => {
       const data = await axios.get(
-        devApi +
-          "/api/mastertable/getonlyGp/" +
-          userDetails?.gpCode
+        devApi + "/api/mastertable/getonlyGp/" + userDetails?.gpCode
       );
 
       return data.data.result[0];
     },
     enabled: Boolean(userDetails?.gpCode),
   });
-
 
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
@@ -102,11 +100,35 @@ export const DashboardNavbar = () => {
       return data.data.result;
     },
     enabled: Boolean(districtCode),
-  });  
+  });
 
-  
   const navigate = useNavigate();
-console.log(Calc_permission(userDetails?.category,userDetails?.role_type,userDetails?.dno_status),"calc")
+
+  useEffect(() => {
+    setPermission(
+      Calc_permission(
+        userDetails?.category,
+        userDetails?.role_type,
+
+        Boolean(parseInt(userDetails?.dno_status))
+      )?.uniqueId
+    );
+  }, [userDetails]);
+
+  const userTitle = useMemo(() => {
+    if (permission == 1) return "Karmashree Admin";
+    if (permission == 7) return userDetails?.deptName;
+    if (permission == 12) return userDetails?.districtName;
+    if (permission >= 13 && permission <= 17)
+      return userDetails?.deptName + " " + userDetails?.districtName;
+    if (permission >= 18 && permission <= 23)
+      return userDetails?.districtName + " " + userDetails?.subDivisionName;
+    if (permission >= 24 && permission <= 29)
+      return userDetails?.districtName + " " + userDetails?.blockname;
+    if (permission >= 30 && permission <= 35)
+      return userDetails?.districtName + " " + userDetails?.blockname + " " + userDetails?.gpName;
+  }, [permission]);
+
   return (
     <>
       <div className="p-1 px-16 flex w-screen justify-between border items-center fixed top-0 left-0 z-50 bg-white shadow-lg">
@@ -133,28 +155,8 @@ console.log(Calc_permission(userDetails?.category,userDetails?.role_type,userDet
                   {userDetails?.userName}
                 </div>
                 <span className="text-sm text-end">
-                  {userDetails?.category != "BLOCK" &&
-                    userDetails?.category != "GP" &&
-                    departmentList?.[
-                      departmentList?.findIndex(
-                        (obj) => obj.departmentNo == userDetails?.departmentNo
-                      )
-                    ]?.departmentName}{" "}
-                  {userDetails?.districtcode == 0 &&
-                    userDetails?.category == "HQ" &&
-                    "Karmashree Admin"}{" "}
-                  {userDetails?.category != "HD" &&
-                    userDetails?.category != "HQ" &&
-                    userDetails?.districtcode !== 0 &&
-                    getDistrict?.districtName}{" "}
-                  {userDetails?.subDivision != 0 && getSubDivision?.subdivName}{" "}
-                  {userDetails?.blockCode != 0 && getBlock?.blockName}{" "}
-                  {userDetails?.category == "BLOCK" &&
-                    Boolean(parseInt(userDetails?.dno_status)) &&
-                    (userDetails?.category == "BLOCK" ? "BDO" : "DNO")}{" "}
-                  {Boolean(parseInt(userDetails?.dno_status)) &&
-                    (userDetails?.category == "DIST" ? "DNO" : "")}
-                  {Boolean(parseInt(userDetails?.gpCode)) && getGp?.gpName}
+                  {userTitle}
+
                   {" #"}
                   {userIndex}
                 </span>
@@ -195,7 +197,6 @@ console.log(Calc_permission(userDetails?.category,userDetails?.role_type,userDet
           </DropdownItem>
         </Dropdown>
       </div>
-
     </>
   );
 };
