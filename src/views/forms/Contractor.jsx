@@ -190,49 +190,49 @@ const Contractor = () => {
     }
   };
 
-  const onVillage = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
-      setVillage(value);
-      setIsValidVillage(true);
-    } else {
-      setIsValidVillage(false);
-    }
-  };
+  // const onVillage = (event) => {
+  //   const value = event.target.value;
+  //   const regex = /^[a-zA-Z0-9\s,\/]*$/;
+  //   if (regex.test(value) || value === '') {
+  //     setVillage(value);
+  //     setIsValidVillage(true);
+  //   } else {
+  //     setIsValidVillage(false);
+  //   }
+  // };
 
-  const onPoliceStation = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s\/]*$/;
-    if (regex.test(value) || value === '') {
-      setPoliceStation(value);
-      setIsValidPoliceStation(true);
-    } else {
-      setIsValidPoliceStation(false);
-    }
-  };
+  // const onPoliceStation = (event) => {
+  //   const value = event.target.value;
+  //   const regex = /^[a-zA-Z0-9\s\/]*$/;
+  //   if (regex.test(value) || value === '') {
+  //     setPoliceStation(value);
+  //     setIsValidPoliceStation(true);
+  //   } else {
+  //     setIsValidPoliceStation(false);
+  //   }
+  // };
 
-  const onPostOffice = (event) => {
-    const value = event.target.value;
-    const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
-      setPostOffice(value);
-      setIsValidPostOffice(true);
-    } else {
-      setIsValidPostOffice(false);
-    }
-  };
+  // const onPostOffice = (event) => {
+  //   const value = event.target.value;
+  //   const regex = /^[a-zA-Z0-9\s,\/]*$/;
+  //   if (regex.test(value) || value === '') {
+  //     setPostOffice(value);
+  //     setIsValidPostOffice(true);
+  //   } else {
+  //     setIsValidPostOffice(false);
+  //   }
+  // };
 
-  const onPinCode = (event) => {
-    const value = event.target.value;
-    const regex = /^[7]{1}[0-9]{5}$/;
-    if (regex.test(value) || value === '') {
-      setPinCode(value);
-      setIsValidPinCode(true);
-    } else {
-      setIsValidPinCode(false);
-    }
-  };
+  // const onPinCode = (event) => {
+  //   const value = event.target.value;
+  //   const regex = /^[7]{1}[0-9]{5}$/;
+  //   if (regex.test(value) || value === '') {
+  //     setPinCode(value);
+  //     setIsValidPinCode(true);
+  //   } else {
+  //     setIsValidPinCode(false);
+  //   }
+  // };
 
   const onMunicipality = (e) => {
     console.log(e.target.value,"municipality")
@@ -293,6 +293,7 @@ const Contractor = () => {
     } else if (address===""){
       toast.error("Please Type Contractor Address")
     } else {
+      console.log("CLICKED")
       addCreateContractor(
         contractorName,gstin,panNumber,mobileNumber,address,"A",data?.userIndex,
         currentMonth,currentYear,financialYear,data?.departmentNo,district,municipality,

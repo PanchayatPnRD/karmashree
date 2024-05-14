@@ -35,7 +35,7 @@ const NewUser = () => {
   const [userAddress, setUserAddress] = useState("");
   const [allRoleList, setAllRoleList] = useState([]);
   const [allSubDivisionList, setAllSubDivisionList] = useState([]);
-  const [allPedastralList, setAllPedastralList] = useState([]);  
+  const [allPedastralList, setAllPedastralList] = useState([]);
   const [allBlockList, setAllBlockList] = useState([]);
   const [allAreaBlockList, setAllAreaBlockList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -62,6 +62,7 @@ const NewUser = () => {
   const [allGpList, setAllGpList] = useState([]);
   const [areaGp, setAreaGP] = useState("");
   const [pedastal, setAllPedastalList] = useState([]);
+  const [parastatals, setParastatals] = useState("")
 
   console.log(pedastal, "pedastal")
   useEffect(() => {
@@ -104,7 +105,7 @@ const NewUser = () => {
   console.log(allDistrictList, "allDistrictList");
 
   //Designation list
-  let designationListDropdown = <option>Loading...</option>;
+  let designationListDropdown = <option>No data found...</option>;
   if (allDesignationList && allDesignationList.length > 0) {
     designationListDropdown = allDesignationList.map((desgRow, index) => (
       <option value={desgRow.designationId}>{desgRow.designation}</option>
@@ -112,7 +113,7 @@ const NewUser = () => {
   }
 
   //Department list
-  let departmentListDropdown = <option>Loading...</option>;
+  let departmentListDropdown = <option>No data found...</option>;
   if (allDepartmentList && allDepartmentList.length > 0) {
     departmentListDropdown = allDepartmentList.map((deptRow, index) => (
       <option value={deptRow.departmentNo}>{deptRow.departmentName}</option>
@@ -121,7 +122,7 @@ const NewUser = () => {
 
   //District list
 
-  let districtListDropdown = <option>Loading...</option>;
+  let districtListDropdown = <option>No data found...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
     districtListDropdown = allDistrictList.map((distRow, index) => (
       <option value={distRow.districtCode}>{distRow.districtName}</option>
@@ -136,7 +137,7 @@ const NewUser = () => {
     });
   }
 
-  let roleListDropdown = <option>Loading...</option>;
+  let roleListDropdown = <option>No data found...</option>;
   if (allRoleList && allRoleList.length > 0) {
     roleListDropdown = allRoleList.map((roleRow, index) => (
       <option value={roleRow.id}>{roleRow.role_type}</option>
@@ -152,6 +153,10 @@ const NewUser = () => {
       setAllPedastralList(response);
     });
   };
+
+  const onParastatals = (e) => {
+    setParastatals(e.target.value);
+  }
 
   const onDistrict = (e) => {
     console.log(e.target.value, "district");
@@ -181,33 +186,33 @@ const NewUser = () => {
     });
   };
 
-  let pedastralDropdown = <option>Loading...</option>;
+  let pedastralDropdown = <option>No data found...</option>;
   if (allPedastralList && allPedastralList.length > 0) {
     pedastralDropdown = allPedastralList.map((peddivRow, index) => (
       <option value={peddivRow.id}>{peddivRow.pedestalName}</option>
     ));
   }
 
-  let subDivisionDropdown = <option>Loading...</option>;
+  let subDivisionDropdown = <option>No data found...</option>;
   if (allSubDivisionList && allSubDivisionList.length > 0) {
     subDivisionDropdown = allSubDivisionList.map((subdivRow, index) => (
       <option value={subdivRow.subdivCode}>{subdivRow.subdivName}</option>
     ));
   }
-  let blockDropdown = <option>Loading...</option>;
+  let blockDropdown = <option>No data found...</option>;
   if (allBlockList && allBlockList.length > 0) {
     blockDropdown = allBlockList.map((blockRow, index) => (
       <option value={blockRow.blockCode}>{blockRow.blockName}</option>
     ));
   }
-  let blockListDropdown = <option>Loading...</option>;
+  let blockListDropdown = <option>No data found...</option>;
   if (allAreaBlockList && allAreaBlockList.length > 0) {
     blockListDropdown = allAreaBlockList.map((blockRow, index) => (
       <option value={blockRow.blockCode}>{blockRow.blockName}</option>
     ));
   }
 
-  let municipalityListDropdown = <option>Loading...</option>;
+  let municipalityListDropdown = <option>No data found...</option>;
   if (allMunicipalityList && allMunicipalityList.length > 0) {
     municipalityListDropdown = allMunicipalityList.map((munRow, index) => (
       <option value={munRow.urbanCode}>{munRow.urbanName}</option>
@@ -221,7 +226,7 @@ const NewUser = () => {
     });
   }
 
-  let GpListDropdown = <option>Loading...</option>;
+  let GpListDropdown = <option>No data found...</option>;
   if (allGpList && allGpList.length > 0) {
     GpListDropdown = allGpList.map((gpRow, index) => (
       <option value={gpRow.gpCode}>{gpRow.gpName}</option>
@@ -497,6 +502,36 @@ const NewUser = () => {
                 {departmentListDropdown}
               </select>
             </div>
+
+            {
+             !department  ? (
+                ""
+              ) : (
+                <div>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Parastatals
+                    {/* <span className="text-red-500 "> * </span> */}
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    onChange={onParastatals}
+                    className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected >
+                      Select a Parastatals
+                    </option>
+                    {pedastralDropdown}
+
+                  </select>
+                </div>
+              )}
+
+
             {userData?.category === "HQ" ||
               userData?.category === "DEPT" ||
               userData?.category === "SUB" ||
@@ -527,36 +562,7 @@ const NewUser = () => {
               </div>
             )}
 
-            {userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
-              ""
-            ) : (
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Pedestal
-                  {/* <span className="text-red-500 "> * </span> */}
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  // onChange={handleChange}
-                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-                >
-                  <option value="" selected >
-                    Select a Pedestal
-                  </option>
-                  {pedastralDropdown}
-                  
-                </select>
-              </div>
-            )}
+
             {userData?.category === "HQ" ? (
               ""
             ) : (
