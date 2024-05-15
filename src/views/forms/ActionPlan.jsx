@@ -18,13 +18,13 @@ const ActionPlan = () => {
 
   const [schemeArea, setSchemeArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState();
   const [allBlockList, setAllBlockList] = useState([]);
-  const [block, setBlock] = useState("");
+  const [block, setBlock] = useState();
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
+  const [municipality, setMunicipality] = useState();
   const [allGpList, setAllGpList] = useState([]);
-  const [gp, setGp] = useState("");
+  const [gp, setGp] = useState();
   const [allSectorList, setAllSectorList] = useState([]);
   const [sector, setSector] = useState("");
   const navigate = useNavigate();
@@ -190,7 +190,7 @@ const ActionPlan = () => {
   const onRegister = () => {
     if (schemeArea === "") {
       toast.error("Please Select Scheme Area");
-    } else if (district === "") {
+    } else if (!district) {
       toast.error("Please Select District");
       // } else if (schemeArea === "U" && municipality === "") {
       //   toast.error("Please Select Municipality");
@@ -364,14 +364,14 @@ const ActionPlan = () => {
                 </select>
               </div>
 
-              {district.length > 0 && schemeArea === "U" ? (
+              {district?.length > 0 && schemeArea === "U" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Municipality/Development Authority
-                    <span className="text-red-500 "> * </span>
+                    {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <select
                     id="scheme_name"
@@ -392,14 +392,14 @@ const ActionPlan = () => {
                 ""
               )}
 
-              {district.length > 0 && schemeArea === "R" ? (
+              {district?.length > 0 && schemeArea === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Block
-                    <span className="text-red-500 "> * </span>
+                    {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <select
                     id="scheme_name"
@@ -418,14 +418,14 @@ const ActionPlan = () => {
                 ""
               )}
 
-              {block.length > 0 && schemeArea === "R" ? (
+              {block?.length > 0 && schemeArea === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Gram Panchayat
-                    <span className="text-red-500 "> * </span>
+                    {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <select
                     id="scheme_name"

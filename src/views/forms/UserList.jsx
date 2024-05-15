@@ -84,7 +84,7 @@ const UserList = () => {
     },
     {
       header: "Phone",
-      accessorKey: "tech_mobile",
+      accessorKey: "contactNo",
       headclass: "cursor-pointer",
     },
   ];

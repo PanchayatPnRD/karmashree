@@ -7,7 +7,7 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {addCreateContractor} from "../../Service/Contractor/ContractorService";
+import { addCreateContractor } from "../../Service/Contractor/ContractorService";
 import { useNavigate } from "react-router-dom";
 
 
@@ -19,11 +19,11 @@ const Contractor = () => {
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
+  const [municipality, setMunicipality] = useState();
   const [allBlockList, setAllBlockList] = useState([]);
-  const [gp, setGP] = useState("");
-  const [block, setBlock] = useState("");
-  const [district, setDistrict] = useState("");
+  const [gp, setGP] = useState();
+  const [block, setBlock] = useState();
+  const [district, setDistrict] = useState();
   const [allGpList, setAllGpList] = useState([]);
   const [contractorName, setContractorName] = useState('');
   const [gstin, setGSTIN] = useState('');
@@ -171,7 +171,7 @@ const Contractor = () => {
   const onMobile = (event) => {
     const value = event.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value)  || value === '') {
+    if (regex.test(value) || value === '') {
       setMobileNumber(value);
       setIsValidMobile(true);
     } else {
@@ -235,7 +235,7 @@ const Contractor = () => {
   // };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value,"municipality")
+    console.log(e.target.value, "municipality")
     setMunicipality(e.target.value)
   }
 
@@ -273,7 +273,7 @@ const Contractor = () => {
   const onSubmit = () => {
     if (area === "") {
       toast.error("Please Select Area Type")
-    } else if (district === "") {
+    } else if (!district) {
       toast.error("Please Select District")
       // }
       //  else if (area === "U" && municipality === "") {
@@ -290,14 +290,13 @@ const Contractor = () => {
       toast.error("Please Type Contractor PAN")
     } else if (mobileNumber === "") {
       toast.error("Please Type Contractor Mobile Number")
-    } else if (address===""){
+    } else if (address === "") {
       toast.error("Please Type Contractor Address")
     } else {
-      console.log("CLICKED")
       addCreateContractor(
-        contractorName,gstin,panNumber,mobileNumber,address,"A",data?.userIndex,
-        currentMonth,currentYear,financialYear,data?.departmentNo,district,municipality,
-        block,gp,area,
+        contractorName, gstin, panNumber, mobileNumber, address, "A", data?.userIndex,
+        currentMonth, currentYear, financialYear, data?.departmentNo, district, municipality,
+        block, gp, area,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -347,7 +346,9 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Area Type *
+              Area Type
+              <span className="text-red-500 "> * </span>
+
             </label>
             <select
               id="scheme_name"
@@ -389,7 +390,7 @@ const Contractor = () => {
               {/* Add more options as needed */}
             </select>
           </div>
-          {district.length > 0 && area === "U" ? (
+          {district?.length > 0 && area === "U" ? (
 
             <div className="px-4">
               <label
@@ -415,7 +416,7 @@ const Contractor = () => {
             ""
           )}
 
-          {district.length > 0 && area === "R" ? (
+          {district?.length > 0 && area === "R" ? (
 
             <div className="px-4">
               <label
@@ -442,7 +443,7 @@ const Contractor = () => {
             ""
           )}
 
-          {block.length > 0 && area === "R" ? (
+          {block?.length > 0 && area === "R" ? (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -475,7 +476,8 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Name *
+              Contractor Name <span className="text-red-500 "> * </span>
+
               (Please use only Alphabet Characters)
             </label>
             <input
@@ -498,7 +500,8 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor GSTIN *
+              Contractor GSTIN <span className="text-red-500 "> * </span>
+
             </label>
             <input
               id="scheme_name"
@@ -519,7 +522,9 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor PAN *
+              Contractor PAN
+              <span className="text-red-500 "> * </span>
+
             </label>
             <input
               id="scheme_name"
@@ -539,7 +544,9 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Mobile *
+              Contractor Mobile
+              <span className="text-red-500 "> * </span>
+
             </label>
             <input
               id="scheme_name"
@@ -551,7 +558,7 @@ const Contractor = () => {
               onChange={onMobile}
               maxLength={10}
 
-              // value={mobileNumber}
+            // value={mobileNumber}
             />
             {!isValidMobile && (
               <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
@@ -564,7 +571,9 @@ const Contractor = () => {
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
             >
-              Contractor Address *
+              Contractor Address
+              <span className="text-red-500 "> * </span>
+
             </label>
             <input
               id="scheme_name"

@@ -30,11 +30,11 @@ const WorkRequirement = () => {
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
-  const [gp, setGP] = useState("");
+  const [municipality, setMunicipality] = useState();
+  const [gp, setGP] = useState();
   const [allBlockList, setAllBlockList] = useState([]);
-  const [block, setBlock] = useState("");
-  const [district, setDistrict] = useState("");
+  const [block, setBlock] = useState();
+  const [district, setDistrict] = useState();
   const [allGpList, setAllGpList] = useState([]);
   const [villageName, setVillageName] = useState("");
   const [isValidVillageName, setIsValidVillageName] = useState(true);
@@ -266,15 +266,17 @@ const WorkRequirement = () => {
   const onSubmit = () => {
     if (area === "") {
       toast.error("Please Select Area Type");
-    } else if (district === "") {
+    } else if (!district) {
       toast.error("Please Select District");
-    } else if (area === "U" && municipality === "") {
-      toast.error("Please Select Municipality");
-    } else if (area === "R" && block === "") {
-      toast.error("Please Select Block");
-    } else if (area === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat");
-    } else if (villageName === "") {
+    } 
+    // else if (area === "U" && municipality === "") {
+    //   toast.error("Please Select Municipality");
+    // } else if (area === "R" && block === "") {
+    //   toast.error("Please Select Block");
+    // } else if (area === "R" && gp === "") {
+    //   toast.error("Please Select Gram Panchayat");
+    // } 
+    else if (villageName === "") {
       toast.error("Please Type Village Name");
     } else if (contractor === "") {
       toast.error("Please Select Contractor List");
@@ -445,7 +447,7 @@ const WorkRequirement = () => {
               {/* Add more options as needed */}
             </select>
           </div>
-          {district.length > 0 && area === "U" ? (
+          {district?.length > 0 && area === "U" ? (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -472,7 +474,7 @@ const WorkRequirement = () => {
             ""
           )}
 
-          {district.length > 0 && area === "R" ? (
+          {district?.length > 0 && area === "R" ? (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -499,7 +501,7 @@ const WorkRequirement = () => {
             ""
           )}
 
-          {block.length > 0 && area === "R" ? (
+          {block?.length > 0 && area === "R" ? (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"

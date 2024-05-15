@@ -4,12 +4,10 @@ import webApi, { baseURL } from "../../WebApi/WebApi";
 
 export const addCreateContractor = async (contractorName, contractorGSTIN, contractorPAN,
     contractorMobile, contractorAddress, contractorStatus, userIndex, c_month, c_Year,
-    finYear, DepartmentNo, districtcode, Municipality, blockcode, gpCode, area, onSuccess, onFailure) => {
+    finYear, DepartmentNo, districtcode, Municipality, block, gpCode, area, onSuccess, onFailure) => {
 
 
-    console.log(contractorName, contractorGSTIN, contractorPAN,
-        contractorMobile, contractorAddress, contractorStatus, userIndex, c_month, c_Year,
-        finYear, DepartmentNo, districtcode, Municipality, blockcode, gpCode, area, "contractor")
+    console.log(districtcode, Municipality, block, gpCode, area, "contractor")
     try {
         const res = await webApi.post(
             `/api/contractor/createcontractor`,
@@ -25,10 +23,10 @@ export const addCreateContractor = async (contractorName, contractorGSTIN, contr
                 c_Year: c_Year,
                 finYear: finYear,
                 DepartmentNo: DepartmentNo,
-                districtcode: parseInt(districtcode === "" ? 0 : districtcode),
-                Municipality: parseInt(Municipality === "" ? 0 : Municipality),
-                blockCode: parseInt(blockCode === "" ? 0 : blockCode),
-                gpCode: parseInt(gpCode === "" ? 0 : gpCode),
+                districtcode: districtcode,
+                Municipality: Municipality,
+                gpCode: gpCode,
+                blockCode: block,
                 area: area
 
             },

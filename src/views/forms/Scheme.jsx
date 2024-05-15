@@ -27,11 +27,11 @@ const Scheme = () => {
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState("");
+  const [municipality, setMunicipality] = useState();
   const [allBlockList, setAllBlockList] = useState([]);
-  const [gp, setGP] = useState("");
-  const [block, setBlock] = useState("");
-  const [district, setDistrict] = useState("");
+  const [gp, setGP] = useState();
+  const [block, setBlock] = useState();
+  const [district, setDistrict] = useState();
   const [allGpList, setAllGpList] = useState([]);
   const [sector, setSector] = useState("");
   const [allSectorList, setAllSectorList] = useState([]);
@@ -332,15 +332,17 @@ const Scheme = () => {
     console.log("clicked");
     if (area === "") {
       toast.error("Please Select Area Type");
-    } else if (district === "") {
+    } else if (!district) {
       toast.error("Please Select District");
-    } else if (area === "U" && municipality === "") {
-      toast.error("Please Select Municipality");
-    } else if (area === "R" && block === "") {
-      toast.error("Please Select Block");
-    } else if (area === "R" && gp === "") {
-      toast.error("Please Select Gram Panchayat");
-    } else if (sector === "") {
+    }
+    //  else if (area === "U" && municipality === "") {
+    //   toast.error("Please Select Municipality");
+    // } else if (area === "R" && block === "") {
+    //   toast.error("Please Select Block");
+    // } else if (area === "R" && gp === "") {
+    //   toast.error("Please Select Gram Panchayat");
+    // } 
+    else if (sector === "") {
       toast.error("Please Select Scheme Sector");
     } else if (schemeName === "") {
       toast.error("Please Type Scheme Name");
@@ -376,9 +378,11 @@ const Scheme = () => {
       toast.error("Please Select Work Order Date");
     } else if (contractor === "") {
       toast.error("Please Select Contractor List");
-    } else if (remark === "") {
-      toast.error("Please Type Remarks");
-    } else {
+    } 
+    // else if (remark === "") {
+    //   toast.error("Please Type Remarks");
+    // } 
+    else {
       addCreateScheme(
         area,
         data?.departmentNo,
@@ -525,7 +529,7 @@ const Scheme = () => {
                   {/* Add more options as needed */}
                 </select>
               </div>
-              {district.length > 0 && area === "U" ? (
+              {district?.length > 0 && area === "U" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -552,7 +556,7 @@ const Scheme = () => {
                 ""
               )}
 
-              {district.length > 0 && area === "R" ? (
+              {district?.length > 0 && area === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -579,7 +583,7 @@ const Scheme = () => {
                 ""
               )}
 
-              {block.length > 0 && area === "R" ? (
+              {block?.length > 0 && area === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
