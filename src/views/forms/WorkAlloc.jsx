@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import DatePicker from "react-datepicker";
@@ -11,6 +11,12 @@ import "react-toastify/dist/ReactToastify.css";
 const WorkAlloc = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState("");
+
+  // const dateDifference = useMemo(() => {
+  //   const timeDiff = Math.abs(endDate.getTime() - startDate.getTime()); // Absolute difference in milliseconds
+  //   const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+  //   return daysDifference;
+  // }, [startDate, endDate]);
 
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
