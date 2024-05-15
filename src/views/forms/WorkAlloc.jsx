@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
+import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-
+import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkAlloc = () => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState("");
+
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
   function updateDropdown(index, value) {
@@ -23,7 +27,6 @@ const WorkAlloc = () => {
 
     setDropdownData(newData);
   }
-  
 
   const jsonString = localStorage.getItem("karmashree_User");
 
@@ -48,23 +51,50 @@ const WorkAlloc = () => {
 
       return data.data.result;
     },
-    enabled: dropdownData[0].length > 0
+    enabled: dropdownData[0].length > 0,
   });
 
   const { data: gpList, isLoading: gpLoading } = useQuery({
     queryKey: ["gpList"],
     queryFn: async () => {
       const data = await axios.get(
-        devApi + "/api/mastertable/getGpaction/" + dropdownData[0] + "/" + dropdownData[1]
+        devApi +
+          "/api/mastertable/getGpaction/" +
+          dropdownData[0] +
+          "/" +
+          dropdownData[1]
       );
 
       return data.data.result;
     },
-    enabled: dropdownData[1].length > 0
+    enabled: dropdownData[1].length > 0,
   });
 
+  const { data: demandData, isLoading: demandLoading } = useQuery({
+    queryKey: ["demandData"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/demand/getDemandforAllocation?" +
+          `blockcode=${dropdownData[1]}&gpCode=${dropdownData[2]}`
+      );
+
+      return data.data.result;
+    },
+    enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
+    staleTime: 0,
+  });
+  demandData;
+
   useEffect(() => {
-    if (dropdownData[0].length > 0) queryClient.invalidateQueries("blocklist");
+    if (dropdownData[0].length > 0)
+      queryClient.invalidateQueries({ queryKey: ["blockList"] });
+    if (dropdownData[1].length > 0)
+      queryClient.invalidateQueries({ queryKey: ["gpList"] });
+    if (dropdownData[2].length > 0)
+      queryClient.invalidateQueries({ queryKey: ["demandData"] });
+    if (dropdownData[2].length == "")
+      queryClient.resetQueries({ queryKey: ["demandData"] });
   }, [dropdownData]);
 
   return (
@@ -91,14 +121,14 @@ const WorkAlloc = () => {
               /
             </li>
             <li className="text-gray-500 font-bold" aria-current="page">
-              Demand
+              Allocation
             </li>
           </ol>
         </nav>
       </div>
 
       <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-        <div className="flex">
+        <div className="flex pb-8">
           <div className="px-4">
             <label
               htmlFor="scheme_name"
@@ -124,9 +154,7 @@ const WorkAlloc = () => {
               ))}
             </select>
           </div>
-          {
-            dropdownData[0].length > 0 &&
-            (
+          {dropdownData[0].length > 0 && (
             <div className="px-4">
               <label
                 htmlFor="scheme_name"
@@ -141,7 +169,7 @@ const WorkAlloc = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => updateDropdown(1,e.target.value)}
+                onChange={(e) => updateDropdown(1, e.target.value)}
                 // onChange={onDistrict}
               >
                 <option value="" selected hidden>
@@ -169,7 +197,7 @@ const WorkAlloc = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={(e) => updateDropdown(2,e.target.value)}
+                onChange={(e) => updateDropdown(2, e.target.value)}
                 // onChange={onDistrict}
               >
                 <option value="" selected hidden>
@@ -182,6 +210,121 @@ const WorkAlloc = () => {
               </select>
             </div>
           )}
+        </div>
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table className="w-full">
+            <Table.Head>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
+                #
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                Worker Job Card No
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                Worker name
+              </Table.HeadCell>
+
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Work Application Date
+              </Table.HeadCell>
+
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                No of Days (Work Demanded)
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Work Code/SchemeID
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                Work Allocation Date
+              </Table.HeadCell>
+              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                No of Days (Work Alloted)
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {demandData?.map(
+                (
+                  {
+                    workerJobCardNo,
+                    workerName,
+                    dateOfApplicationForWork,
+                    noOfDaysWorkDemanded,
+                  },
+                  index
+                ) => (
+                  <Table.Row>
+                    <Table.Cell>{index + 1}</Table.Cell>
+
+                    <Table.Cell>
+                      {" "}
+                      <div className="w-44">{workerJobCardNo}</div>
+                    </Table.Cell>
+
+                    <Table.Cell>{workerName}</Table.Cell>
+                    <Table.Cell>
+                      {new Date(dateOfApplicationForWork).toLocaleDateString(
+                        "en-IN",
+                        {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        }
+                      )}
+                    </Table.Cell>
+                    <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                    <Table.Cell>
+                      <div>
+                        <select
+                          type="text"
+                          className="border-zinc-400 rounded-lg w-fit"
+                        >
+                          <option>-select schemeId-</option>
+                        </select>
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex items-center space-x-2">
+                        <DatePicker
+                          minDate={new Date()}
+                          dateFormat="dd/MM/yyyy"
+                          selected={startDate}
+                          onChange={(date) => setStartDate(date)}
+                          selectsStart
+                          startDate={startDate}
+                          endDate={endDate}
+                          // selected={dateOfApplicationForWork}
+                          portalId="root-portal"
+                          className="w-32 cursor-pointer border-gray-300 rounded-md"
+                        />
+                        <DatePicker
+                          selected={endDate}
+                          onChange={(date) => setEndDate(date)}
+                          selectsEnd
+                          startDate={startDate}
+                          endDate={endDate}
+                          minDate={startDate}
+                          maxDate={
+                            startDate.getTime() +
+                            noOfDaysWorkDemanded * 24 * 60 * 60 * 1000
+                          }
+                          // minDate={new Date()}
+                          dateFormat="dd/MM/yyyy"
+                          // selected={dateOfApplicationForWork}
+                          portalId="root-portal"
+                          className="w-32 cursor-pointer border-gray-300 rounded-md"
+                        />
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="border h-10 border-zinc-300 rounded-lg w-36">
+                        {"ok"}
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              )}
+            </Table.Body>
+          </Table>
         </div>
         <div className="flex justify-center items-center">
           <button
