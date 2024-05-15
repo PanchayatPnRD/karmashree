@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import "./App.css";
-
+import React, { useState, useEffect } from 'react';
 import { sideBarList } from "./components/Sidebar";
 import Home from "./views/Home";
 import Auth from "./auth/Auth";
@@ -15,6 +15,9 @@ import Edit from "./components/Edit";
 import Dno from "./views/forms/Dno";
 import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   const homeRoutes = [
@@ -26,8 +29,27 @@ function App() {
     { path: "/reset", Element: ResetPassword },
   ];
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+
+    
+  }, []);
+  {isOnline?"":toast.error("No internet,Please Checking the network cables, modem, and router")}
+
   return (
     <>
+      <ToastContainer />
       <Routes>
         {homeRoutes.slice(0, 3).map(({ path, Element }, index) => {
           return (
