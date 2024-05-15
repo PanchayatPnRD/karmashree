@@ -62,7 +62,7 @@ const NewUser = () => {
   const [allGpList, setAllGpList] = useState([]);
   const [areaGp, setAreaGP] = useState("");
   const [pedastal, setAllPedastalList] = useState([]);
-  const [parastatals, setParastatals] = useState("")
+  const [parastatals, setParastatals] = useState()
 
   console.log(pedastal, "pedastal")
   useEffect(() => {
@@ -302,7 +302,8 @@ const NewUser = () => {
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a department");
-    } else if (
+    }
+    else if (
       !userData?.category === "HQ" ||
       (userData?.category === "HD" && district === "")
       // (userData?.category === "DEPT" && district === "")
@@ -311,6 +312,15 @@ const NewUser = () => {
       // (userData?.category === "BLOCK" && district === "")
     ) {
       toast.error("Please select a district");
+    } else if (
+
+      (userData?.category === "HQ" && !parastatals)
+      // (userData?.category === "DEPT" && district === "")
+      // (userData?.category === "DIST" && district === "") ||
+      // (userData?.category === "SUB" && district === "") ||
+      // (userData?.category === "BLOCK" && district === "")
+    ) {
+      toast.error("Please select a Parastatals");
     } else if (
       !userData?.category === "HQ"
       // (userData?.category === "DIST" && subDivision === "")
@@ -362,11 +372,13 @@ const NewUser = () => {
           : userData?.subDivision
             ? userData?.subDivision
             : subDivision,
+
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
             ? userData?.blockCode
             : block,
+
         officeName,
         nodalOfficerName,
         contactNumber,
@@ -390,9 +402,12 @@ const NewUser = () => {
                     : userData?.category === "SUB"
                       ? "BLOCK"
                       : "BLOCK",
-        "",
+
+        parastatals ? parastatals : userData?.deptWing,
         "A",
+        area,
         areaGp,
+        municipality,
         role,
         role,
         "",
@@ -409,7 +424,7 @@ const NewUser = () => {
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
             // toast.success(r.message);
-            // navigate("/dashboard/dept-userlist");
+            navigate("/dashboard/dept-userlist");
           } else {
             // setErrorMessage(r.message)
             // toast.error(r.message);
@@ -503,36 +518,37 @@ const NewUser = () => {
               </select>
             </div>
 
-            {
-             !department  ? (
-                ""
-              ) : (
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Parastatals
-                    {/* <span className="text-red-500 "> * </span> */}
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    required
-                    onChange={onParastatals}
-                    className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected >
-                      Select a Parastatals
-                    </option>
-                    {pedastralDropdown}
 
-                  </select>
-                </div>
-              )}
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Parastatals
+                <span className="text-red-500 "> * </span>
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                onChange={onParastatals}
+                className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+              >
+                <option value="" selected >
+                  {userData?.category === "HQ"
+                    ? "Select a Parastatals"
+                    : pedastralDropdown}
+
+                </option>
+                {pedastralDropdown}
+
+              </select>
+            </div>
+
 
 
             {userData?.category === "HQ" ||
+            userData?.category === "DIST" ||
               userData?.category === "DEPT" ||
               userData?.category === "SUB" ||
               userData?.category === "BLOCK" ? (
@@ -593,7 +609,7 @@ const NewUser = () => {
                 </select>
               </div>
             )}
-            {userData?.category === "HD" && district.length > 0 && area === "U" ? (
+            {userData?.category === "HD" && userData?.category === "DIST" &&  area === "U" || userData?.area === "U" ? (
 
               <div>
                 <label
@@ -618,7 +634,7 @@ const NewUser = () => {
             ) : (
               ""
             )}
-            {userData?.category === "HD" && district.length > 0 && area === "R" ? (
+            {/* {userData?.category === "HD" && district.length > 0 && area === "R" ? (
 
               <div>
                 <label
@@ -638,14 +654,14 @@ const NewUser = () => {
                   <option value="" selected hidden>Select Block List</option>
                   {blockListDropdown}
 
-                  {/* Add more options as needed */}
+             
                 </select>
               </div>
             ) : (
               ""
-            )}
+            )} */}
 
-            {userData?.category === "HD" && areaBlock.length > 0 && area === "R" ? (
+            {/* {userData?.category === "HD" && areaBlock.length > 0 && area === "R" ? (
               <div>
                 <label
                   htmlFor="scheme_name"
@@ -663,12 +679,11 @@ const NewUser = () => {
                   <option value="" selected hidden>Select GP List</option>
                   {GpListDropdown}
 
-                  {/* Add more options as needed */}
-                </select>
+                  </select>
               </div>
             ) : (
               ""
-            )}
+            )} */}
 
 
             {userData?.category === "HQ" ||

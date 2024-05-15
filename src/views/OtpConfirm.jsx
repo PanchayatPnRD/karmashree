@@ -63,13 +63,16 @@ const OTPConfirm = () => {
           subDivision: res?.newPayload?.subDivision,
           blockCode: res?.newPayload?.blockCode,
           userIndex: res?.newPayload?.userIndex,
+          deptWing: res?.newPayload?.deptWing,
+          area: res?.newPayload?.area,
+          municipalityCode: res?.newPayload?.municipalityCode,
         };
         localStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
         navigate("/dashboard");
 
         toast.success(res.message);
-        window.location.reload();
+        // window.location.reload();
       } else if (res.errorCode == 1) {
         console.log("nononononono");
         toast.error(res.message);

@@ -43,13 +43,13 @@ export const getAllPedastalList = async (departmentNo) => {
 // export const addNewUser = async (department, district, subdivision, block, userId, password,
 //     officeName, nodalOfficerName, contactNumber, emailInput, designation, userAddress, role, onSuccess, onFailure) => {
 
-export const addNewUser = async (departmentNo, districtcode, subDivision, blockCode, officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
-    deptWing, area, gpCode, userType, role_type, pwd, entryBy, created_by, technicalOfficerName,
+export const addNewUser = async (departmentNo, districtcode, subDivision, block, officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
+    deptWing, currentStatus, area,areaGp, municipalityCode, userType, role_type, pwd, entryBy, created_by, technicalOfficerName,
     technicalOfficerDesignation, technicalOfficerContactNumber, technicalOfficerEmail, onSuccess, onFailure) => {
 
 
-    console.log(departmentNo, districtcode, subDivision, blockCode, officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
-        deptWing, area, gpCode, userType, role_type, pwd, entryBy, created_by, technicalOfficerName,
+    console.log(departmentNo, districtcode, subDivision, block, officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
+        deptWing, currentStatus, area,areaGp, municipalityCode, userType, role_type, pwd, entryBy, created_by, technicalOfficerName,
         technicalOfficerDesignation, technicalOfficerContactNumber, technicalOfficerEmail, "formData")
     try {
         const res = await webApi.post(
@@ -57,15 +57,15 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
             {
                 category: category,
                 departmentNo: departmentNo,
-                districtcode: parseInt(districtcode === "" ? 0 : districtcode),
-                subDivision: parseInt(subDivision === "" ? 0 : subDivision),
-                blockCode: parseInt(blockCode === "" ? 0 : blockCode),
-                gpCode: parseInt(gpCode === "" ? 0 : gpCode),
+                districtcode: districtcode ? districtcode : 0,
+                subDivision: subDivision ? subDivision : 0,
+                blockCode: block ? block : 0,
+                gpCode: areaGp ? areaGp : 0,
+                municipalityCode: municipalityCode ? municipalityCode : 0,
                 userType: userType,
                 role_type: role_type,
-                // userId:userId,
                 pwd: pwd,
-                // encryptpassword:password,
+                area: area,
                 officeName: officeName,
                 userName: nodalOfficerName,
                 contactNo: contactNo,
@@ -74,7 +74,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, blockC
                 UserAddress: userAddress,
                 entryBy: entryBy,
                 created_by: created_by,
-                currentStatus: "A",
+                currentStatus: currentStatus,
                 deptWing: deptWing,
                 technical_officer: technicalOfficerName,
                 tech_designation_id: technicalOfficerDesignation,
