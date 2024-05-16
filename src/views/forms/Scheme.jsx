@@ -60,7 +60,7 @@ const Scheme = () => {
   const [remark, setRemark] = useState("");
   const [isValidRemark, setIsValidRemark] = useState(true);
 
-  
+
   console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -362,7 +362,7 @@ const Scheme = () => {
       toast.error("Please Type Project Cost");
     } else if (totalWages === "") {
       toast.error("Please Type Total Wage Cost involved in the Work");
-    }else if (totalWages >projectCost) {
+    } else if (totalWages > projectCost) {
       toast.error("Total Wage Cost cant greater than Project Cost ");
     } else if (persondaysWork === "") {
       toast.error("Please Type Persondays to be generated from the Work");
@@ -378,7 +378,7 @@ const Scheme = () => {
       toast.error("Please Select Work Order Date");
     } else if (contractor === "") {
       toast.error("Please Select Contractor List");
-    } 
+    }
     // else if (remark === "") {
     //   toast.error("Please Type Remarks");
     // } 

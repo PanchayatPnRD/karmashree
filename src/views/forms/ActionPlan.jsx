@@ -38,6 +38,7 @@ const ActionPlan = () => {
   const [totalPersonDays, setTotalPersonDays] = useState("");
   const [totalJobCard, setTotalJobCard] = useState("");
   const [totalAverageDays, setTotalAverageDays] = useState("");
+  // const [checkParastatal, setCheckParastatal] = useState([]);
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
@@ -78,7 +79,12 @@ const ActionPlan = () => {
       const response = result?.data?.result;
       setAllSectorList(response);
     });
+
+    // if (allPedastralList?.length == 0) {
+    //   toast.error("Please add Parastatals")
+    // }
   }, []);
+  // console.log(allPedastralList?.length,"allPedadddstralList")
 
   //Department list
   let departmentListDropdown = <option>No data found...</option>;
