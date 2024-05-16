@@ -45,15 +45,24 @@ const Profile = () => {
   const [technicalOfficerDesignation, setTechnicalOfficerDesignation] = useState("");
   const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] = useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
-  const [allUserList, setAllUserList] = useState([]);
+  const [allUserList, setAllUserList] = useState(
+    {
+      userName: '',
+      designationID: '',
+      contactNo: '',
+      email:'',
+      role_type:'',
+      UserAddress:'',
+      technical_officer:'',
+      tech_designation_id:'',
+      tech_mobile:'',
+      tech_email:'',
+    }
+  );
 
   console.log(allUserList, "allUserList");
 
-  const [allData, setAllData] = useState(
-    {
 
-    }
-  );
 
 
   useEffect(() => {
@@ -185,11 +194,15 @@ const Profile = () => {
 
   const onNodalOfficerName = (e) => {
     setNodalOfficerName(e.target.value);
+    setAllUserList({ ...allUserList, userName: e.target.value })
+
   };
 
   const onContactNumber = (e) => {
     if (e.target.value.length <= 10) {
       setContactNumber(e.target.value);
+      setAllUserList({ ...allUserList, contactNo: e.target.value })
+
     }
   };
 
@@ -197,10 +210,14 @@ const Profile = () => {
     setEmailInput(e.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmail(emailRegex.test(e.target.value));
+    setAllUserList({ ...allUserList, email: e.target.value })
+
   };
 
   const onUserAddress = (e) => {
     setUserAddress(e.target.value);
+    setAllUserList({ ...allUserList, UserAddress: e.target.value })
+
   };
 
   const onSubDivision = (e) => {
@@ -213,10 +230,15 @@ const Profile = () => {
 
   const onRole = (e) => {
     setRole(e.target.value);
+    setAllUserList({ ...allUserList, role_type: e.target.value })
+
+    
   };
 
   const onDesignation = (e) => {
     setDesignation(e.target.value);
+    setAllUserList({ ...allUserList, designationID: e.target.value })
+
   };
 
   const onAddTechnicalOfficer = (e) => {
@@ -225,60 +247,43 @@ const Profile = () => {
 
   const onTechnicalOfficerName = (e) => {
     setTechnicalOfficerName(e.target.value);
+    setAllUserList({ ...allUserList, technical_officer: e.target.value })
+
   };
 
   const onTechnicalOfficerDesignation = (e) => {
     setTechnicalOfficerDesignation(e.target.value);
+    setAllUserList({ ...allUserList, tech_designation_id: e.target.value })
+
   };
 
   const onTechnicalOfficerContactNumber = (e) => {
     setTechnicalOfficerContactNumber(e.target.value);
+    setAllUserList({ ...allUserList, tech_mobile: e.target.value })
+
   };
 
   const onTechnicalOfficerEmail = (e) => {
     setTechnicalOfficerEmail(e.target.value);
+    setAllUserList({ ...allUserList, tech_email: e.target.value })
+
   };
 
   console.log(allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation, "desdesdes")
+  console.log(allUserList?.designationID == 1, "idididididid")
 
   const onRegister = () => {
-    if (userData?.category === "HQ" && department === "") {
-      toast.error("Please select a department");
-    } else if (
-      !userData?.category === "HQ" ||
-      (userData?.category === "HD" && district === "")
-      // (userData?.category === "DEPT" && district === "")
-      // (userData?.category === "DIST" && district === "") ||
-      // (userData?.category === "SUB" && district === "") ||
-      // (userData?.category === "BLOCK" && district === "")
-    ) {
-      toast.error("Please select a district");
-    } else if (
-      !userData?.category === "HQ"
-      // (userData?.category === "DIST" && subDivision === "")
-      // (userData?.category === "SUB" && subDivision === "") ||
-      // (userData?.category === "BLOCK" && subDivision === "")
-    ) {
-      toast.error("Please select a sub division");
-    } else if (
-      (!userData?.category === "HQ" && block === "") ||
-      (userData?.category === "SUB" && block === "")
-      // (userData?.category === "BLOCK" && block === "")
-    ) {
-      toast.error("Please select a block");
-    } else if (nodalOfficerName === "") {
+    if (allUserList?.userName === "") {
       toast.error("Please type your nodal officer name");
-    } else if (designation === "") {
+    } else if (designation === "" || allUserList?.designation === "") {
       toast.error("Please select Nodal officer designation");
-    } else if (contactNumber.length != 10) {
+    } else if (allUserList?.contactNo.length != 10) {
       toast.error("Please type 10 digit Nodal officer mobile number");
-    } else if (!email) {
+    } else if (!allUserList?.email) {
       toast.error("Please enter Nodal officer valid email id");
     } else if (!userData?.category === "HQ" && officeName === "") {
       toast.error("Please type your office name");
-    } else if (role === "") {
-      toast.error("Please select role");
-    } else if (userAddress === "") {
+    } else if (allUserList?.UserAddress === "") {
       toast.error("Please type user address");
     } else {
       setOpenModal(true);
@@ -469,8 +474,8 @@ const Profile = () => {
                 <span className="text-red-500 "> * </span>
               </label>
               <input
-                id="username"
-                name="username"
+                id="nodalOfficerName"
+                name="nodalOfficerName"
                 type="text"
                 autoComplete="username"
                 onChange={onNodalOfficerName}
@@ -496,7 +501,7 @@ const Profile = () => {
               >
                 <option value="" selected hidden>
                   {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
-                  {allUserList?.designationID ? allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation : "Select a Designation"}
+                  {allUserList?.designationID ? allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation ? allUserList?.designationID == 1 : "Select a Designation" : "Select a Designation"}
                 </option>
                 {designationListDropdown}
               </select>
@@ -853,7 +858,7 @@ const Profile = () => {
                 className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onRegister}
               >
-                Register
+                Update
               </button>
             </div>
           </div>
