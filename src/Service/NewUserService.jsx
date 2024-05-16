@@ -32,8 +32,8 @@ export const getAllDesignationList = async (category) => {
     );
 }
 
-export const getAllPedastalList = async (departmentNo) => {
-    return await webApi.get(`/api/mastertable/getAllPedestal/${departmentNo}`,
+export const getAllPedastalList = async (departmentNo,deptwing) => {
+    return await webApi.get(`/api/mastertable/getAllPedestal/${departmentNo}/${deptwing===""?0:deptwing}`,
     );
 }
 

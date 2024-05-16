@@ -32,20 +32,22 @@ export const getAllSectorActionList = async () => {
 }
 
 
-export const addCreateAction = async (schemeArea, district, municipality, block, gp, sector,
+export const addCreateAction = async (department,parastatals,schemeArea, district, municipality, block, gp, sector,
     schemeProposed, costOfSCheme, totalWages, totalPersonDays,
     totalJobCard, totalAverageDays, financialYear, currentMonth,
-    currentYear, departmentNo, userIndex, onSuccess, onFailure) => {
+    currentYear, userIndex, onSuccess, onFailure) => {
 
 
-    console.log(schemeArea, district, municipality, block, gp, sector,
+    console.log(department,parastatals,schemeArea, district, municipality, block, gp, sector,
         schemeProposed, costOfSCheme, totalWages, totalPersonDays,
         totalJobCard, totalAverageDays, financialYear, currentMonth,
-        currentYear, departmentNo, userIndex, "sibamdey")
+        currentYear, userIndex, "sibamdey")
     try {
         const res = await webApi.post(
             `/api/actionplan/create-actionplan`,
             {
+                departmentNo:department,
+                pedastal:parastatals,
                 schemeArea: schemeArea,
                 districtCode: district,
                 municipalityCode: municipality ? municipality : 0,
@@ -61,7 +63,6 @@ export const addCreateAction = async (schemeArea, district, municipality, block,
                 finYear: financialYear,
                 acMonth: currentMonth,
                 acYear: currentYear,
-                departmentNo: departmentNo,
                 userIndex: userIndex
             },
 

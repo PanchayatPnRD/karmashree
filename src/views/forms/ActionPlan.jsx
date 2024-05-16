@@ -11,11 +11,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
+import { getAllPedastalList, getAllDepartmentList } from "../../Service/NewUserService";
 const ActionPlan = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
-
+  const [userData, setUserData] = useState(null);
   const [schemeArea, setSchemeArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [district, setDistrict] = useState();
@@ -28,7 +28,10 @@ const ActionPlan = () => {
   const [allSectorList, setAllSectorList] = useState([]);
   const [sector, setSector] = useState("");
   const navigate = useNavigate();
-
+  const [department, setDepartment] = useState("");
+  const [allDepartmentList, setAllDepartmentList] = useState([]);
+  const [allPedastralList, setAllPedastralList] = useState([]);
+  const [parastatals, setParastatals] = useState()
   const [schemeProposed, setSchemeProposed] = useState("");
   const [costOfSCheme, setCostOfSCheme] = useState("");
   const [totalWages, setTotalWages] = useState("");
@@ -46,13 +49,26 @@ const ActionPlan = () => {
     const startYear = currentYear - index;
     return `${startYear}-${startYear + 1}`;
   });
-
+  console.log(department, "department")
   const onFinancialYear = (event) => {
     console.log(event.target.value, "fififififi");
     setSelectedYear(event.target.value);
   };
 
   useEffect(() => {
+    const jsonString = localStorage.getItem("karmashree_User");
+    const data = JSON.parse(jsonString);
+    setUserData(data);
+    getAllDepartmentList(data?.departmentNo).then(function (result) {
+      const response = result?.data?.result;
+      setAllDepartmentList(response);
+    });
+    //Parastatals  list
+    getAllPedastalList(data?.departmentNo, userData?.category === "HQ" || userData?.category === "HD" ? 0 : data?.deptWing).then(function (result) {
+      const response = result?.data?.result;
+      setAllPedastralList(response);
+    });
+
     getAllDistrictActionList().then(function (result) {
       const response = result?.data?.result;
       setAllDistrictList(response);
@@ -63,6 +79,23 @@ const ActionPlan = () => {
       setAllSectorList(response);
     });
   }, []);
+
+  //Department list
+  let departmentListDropdown = <option>No data found...</option>;
+  if (allDepartmentList && allDepartmentList.length > 0) {
+    departmentListDropdown = allDepartmentList.map((deptRow, index) => (
+      <option value={deptRow.departmentNo}>{deptRow.departmentName}</option>
+    ));
+  }
+
+
+  //Parastatals list
+  let pedastralDropdown = <option>No data found...</option>;
+  if (allPedastralList && allPedastralList.length > 0) {
+    pedastralDropdown = allPedastralList.map((peddivRow, index) => (
+      <option value={peddivRow.id}>{peddivRow.pedestalName}</option>
+    ));
+  }
 
   //DISTRICT LIST
 
@@ -162,6 +195,20 @@ const ActionPlan = () => {
     setTotalAverageDays(e.target.value);
   };
 
+  const onDepartment = (e) => {
+    setDepartment(e.target.value);
+    getAllPedastalList(
+      e.target.value, userData?.deptWing,
+    ).then(function (result) {
+      const response = result?.data?.result;
+      setAllPedastralList(response);
+    });
+  };
+
+  const onParastatals = (e) => {
+    setParastatals(e.target.value);
+  }
+
   const getCurrentFinancialYear = () => {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
@@ -188,7 +235,15 @@ const ActionPlan = () => {
   console.log(currentYear, "currentYear");
 
   const onRegister = () => {
-    if (schemeArea === "") {
+    if (userData?.category === "HQ" && department === "") {
+      toast.error("Please select a Department");
+    }
+    else if (userData?.category === "HQ" && !parastatals ||
+      userData?.category === "HD" && !parastatals
+    ) {
+      toast.error("Please select a Parastatal");
+    }
+    else if (schemeArea === "") {
       toast.error("Please Select Scheme Area");
     } else if (!district) {
       toast.error("Please Select District");
@@ -206,9 +261,9 @@ const ActionPlan = () => {
       toast.error("Please Type Tentative Total Cost of Schemes");
     } else if (totalWages === "") {
       toast.error("Please Type Tentative Total Wage to be paid in the Schemes");
-    } else if (totalWages >costOfSCheme) {
+    } else if (totalWages > costOfSCheme) {
       toast.error("Total Wage cant greater than Total Cost");
-    }else if (totalPersonDays === "") {
+    } else if (totalPersonDays === "") {
       toast.error("Please Type Total Persondays to be Generated");
     } else if (totalJobCard === "") {
       toast.error("Please Type Total no. of Job Card Holders to be engaged");
@@ -218,6 +273,8 @@ const ActionPlan = () => {
       );
     } else {
       addCreateAction(
+        department ? department : userData?.departmentNo,
+        parastatals ? parastatals : userData?.deptWing,
         schemeArea,
         district,
         municipality,
@@ -233,7 +290,6 @@ const ActionPlan = () => {
         selectedYear,
         currentMonth,
         currentYear,
-        data?.departmentNo,
         data?.userIndex,
         (r) => {
           console.log(r, "response");
@@ -316,6 +372,57 @@ const ActionPlan = () => {
                       {yearRange}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Department
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onDepartment}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "HQ"
+                      ? "Select a Department"
+                      : departmentListDropdown}
+                  </option>
+                  {departmentListDropdown}
+                </select>
+              </div>
+
+
+              <div className="px-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Parastatals
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onParastatals}
+                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                >
+                  <option value="" selected >
+                    {userData?.category === "HQ" || userData?.category === "HD"
+                      ? "Select a Parastatals"
+                      : pedastralDropdown}
+
+                  </option>
+                  {pedastralDropdown}
+
                 </select>
               </div>
 
@@ -511,7 +618,7 @@ const ActionPlan = () => {
                   htmlFor="scheme_name"
                   className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
                 >
-                  <span> Tentative Total Wage to be paid in the Schemes</span>                  
+                  <span> Tentative Total Wage to be paid in the Schemes</span>
                   <span className="text-red-500 "> * </span>
                   <span>(in &nbsp;</span>
                   Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )

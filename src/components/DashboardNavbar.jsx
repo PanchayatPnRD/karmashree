@@ -152,7 +152,8 @@ export const DashboardNavbar = () => {
             <div className="flex justify-center items-center">
               <div className="flex flex-col px-2">
                 <div className="text-lg font-bold text-end text-black">
-                  {userDetails?.userName}
+                  {userDetails?.category}&nbsp;
+                  {userDetails?.userName} 
                 </div>
                 <span className="text-sm text-end">
                   {userTitle}

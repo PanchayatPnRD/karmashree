@@ -74,9 +74,9 @@ const NewUser = () => {
       setAllDepartmentList(response);
     });
     //Pedastal list
-    getAllPedastalList(data?.departmentNo).then(function (result) {
+    getAllPedastalList(data?.departmentNo, data?.deptWing).then(function (result) {
       const response = result?.data?.result;
-      setAllPedastalList(response);
+      setAllPedastralList(response);
     });
 
     getAllDesignationList(data?.category).then(function (result) {
@@ -147,7 +147,7 @@ const NewUser = () => {
   const onDepartment = (e) => {
     setDepartment(e.target.value);
     getAllPedastalList(
-      e.target.value,
+      e.target.value, userData?.deptWing,
     ).then(function (result) {
       const response = result?.data?.result;
       setAllPedastralList(response);
@@ -540,7 +540,7 @@ const NewUser = () => {
                     : pedastralDropdown}
 
                 </option>
-                {pedastralDropdown}
+                {userData?.category === "HQ"? pedastralDropdown:""}
 
               </select>
             </div>
@@ -548,7 +548,7 @@ const NewUser = () => {
 
 
             {userData?.category === "HQ" ||
-            userData?.category === "DIST" ||
+              userData?.category === "DIST" ||
               userData?.category === "DEPT" ||
               userData?.category === "SUB" ||
               userData?.category === "BLOCK" ? (
@@ -609,7 +609,7 @@ const NewUser = () => {
                 </select>
               </div>
             )}
-            {userData?.category === "HD" && userData?.category === "DIST" &&  area === "U" || userData?.area === "U" ? (
+            {userData?.category === "HD" && userData?.category === "DIST" && area === "U" || userData?.area === "U" ? (
 
               <div>
                 <label

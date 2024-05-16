@@ -72,7 +72,7 @@ const OTPConfirm = () => {
         navigate("/dashboard");
 
         toast.success(res.message);
-        // window.location.reload();
+        window.location.reload();
       } else if (res.errorCode == 1) {
         console.log("nononononono");
         toast.error(res.message);
