@@ -84,6 +84,11 @@ const WorkRequirement = () => {
     setDropdownData(newData);
   }
 
+  function resetData(){
+    updateDropdown(0, "")
+    setAllData([initialData])
+  }
+
   useEffect(() => {
     if (dropdownData[2] != "")
       queryClient.invalidateQueries({ queryKey: ["jobcardNo"] });
@@ -103,7 +108,7 @@ const WorkRequirement = () => {
     aadhaarNo: "",
     typeOfWorkers: "",
     dateOfApplicationForWork: "",
-    noOfDaysWorkDemanded: null,
+    noOfDaysWorkDemanded: "",
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data
@@ -156,7 +161,7 @@ const WorkRequirement = () => {
         municipalityCode: 0,
         blockcode: +dropdownData[1],
         gpCode: +dropdownData[2],
-        noOfDaysWorkDemanded: JSON.parse(noOfDaysWorkDemanded),
+        noOfDaysWorkDemanded: +noOfDaysWorkDemanded,
         finYear: getCurrentFinancialYear().financialYear,
         currentYear: getCurrentFinancialYear().currentYear,
         currentMonth: getCurrentFinancialYear().currentMonth,
@@ -232,13 +237,16 @@ const WorkRequirement = () => {
 
   return (
     <>
-      {/* <SuccessModal
+      <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        // to={state}
-        isSuccess={true}
-        userCreate={false}
-      /> */}
+        message={"Demand Entry Successful"}
+        resetData={resetData}
+        // to={}
+        isSuccess={entryStatus}
+        // isSuccess={true}
+        // userCreate={false}
+      />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
         <div className="p-4 shadow-md rounded">
@@ -523,6 +531,7 @@ const WorkRequirement = () => {
                       </Table.Cell>
                       <Table.Cell>
                         <select
+                          value={gender}
                           className="border cursor-pointer border-gray-300 rounded-md"
                           name="gender"
                           id=""
@@ -531,12 +540,13 @@ const WorkRequirement = () => {
                           }
                         >
                           <option value="">-select gender-</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
+                          <option value="M">Male</option>
+                          <option value="F">Female</option>
                         </select>
                       </Table.Cell>
                       <Table.Cell>
                         <select
+                          value={caste}
                           className="border cursor-pointer border-gray-300 rounded-md"
                           name="caste"
                           id=""
@@ -597,6 +607,7 @@ const WorkRequirement = () => {
 
                       <Table.Cell>
                         <select
+                          value={typeOfWorkers}
                           className="border cursor-pointer border-gray-300 rounded-md"
                           name="typeOfWorkers"
                           id=""
@@ -635,6 +646,7 @@ const WorkRequirement = () => {
                       </Table.Cell>
                       <Table.Cell>
                         <select
+                          value={noOfDaysWorkDemanded}
                           className="w-32 border cursor-pointer border-gray-300 rounded-md"
                           name="noOfDaysWorkDemanded"
                           id=""
@@ -678,6 +690,7 @@ const WorkRequirement = () => {
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={mutate}
+              // onClick={() => setOpenModal(true)}
             >
               Save
             </button>

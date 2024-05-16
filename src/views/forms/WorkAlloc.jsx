@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
+import { updateVal } from "../../functions/updateVal";
 import { useState, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -9,14 +10,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkAlloc = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState("");
+  const [allocData, setAllocData] = useState([]);
 
-  // const dateDifference = useMemo(() => {
-  //   const timeDiff = Math.abs(endDate.getTime() - startDate.getTime()); // Absolute difference in milliseconds
-  //   const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
-  //   return daysDifference;
-  // }, [startDate, endDate]);
+  const dateDifference = useMemo(() => {
+    return allocData.map(({ dateFrom, dateTo }) => {
+      const timeDiff = Math.abs(
+        new Date(dateTo).getTime() - new Date(dateFrom).getTime()
+      ); // Absolute difference in milliseconds
+      const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+
+      return daysDifference;
+    });
+  }, [allocData]);
 
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
@@ -37,6 +42,8 @@ const WorkAlloc = () => {
   const jsonString = localStorage.getItem("karmashree_User");
 
   const queryClient = useQueryClient();
+
+
 
   const { data: districtList } = useQuery({
     queryKey: ["districtList"],
@@ -76,7 +83,22 @@ const WorkAlloc = () => {
     enabled: dropdownData[1].length > 0,
   });
 
-  const { data: demandData, isLoading: demandLoading } = useQuery({
+  const { data: schemeList } = useQuery({
+    queryKey: ["schemeList"],
+    queryFn: async () => {
+      const data = await axios.get(
+        devApi +
+          "/api/schememaster/getschmeforallocation?" +
+          `blockcode=${dropdownData[1]}&gpCode=${dropdownData[2]}`
+      );
+
+      return data.data.result;
+    },
+    enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
+    staleTime: 0,
+  });
+
+  const { data: demandData } = useQuery({
     queryKey: ["demandData"],
     queryFn: async () => {
       const data = await axios.get(
@@ -90,7 +112,19 @@ const WorkAlloc = () => {
     enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
     staleTime: 0,
   });
-  demandData;
+
+  const initialData = {
+    schemeId: "",
+    dateFrom: "",
+    dateTo: "",
+  };
+
+  useEffect(() => {
+    let filledArray = [];
+    if (demandData?.length > 0)
+      filledArray = Array(demandData?.length).fill(initialData);
+    setAllocData(filledArray);
+  }, [demandData]);
 
   useEffect(() => {
     if (dropdownData[0].length > 0)
@@ -152,11 +186,13 @@ const WorkAlloc = () => {
               onChange={(e) => updateDropdown(0, e.target.value)}
               // onChange={onDistrict}
             >
-              <option value="" selected hidden>
+              <option defaultValue="" selected hidden>
                 Select District List
               </option>
               {districtList?.map((e) => (
-                <option value={e.districtCode}>{e.districtName}</option>
+                <option key={e.districtCode} value={e.districtCode}>
+                  {e.districtName}
+                </option>
               ))}
             </select>
           </div>
@@ -248,70 +284,114 @@ const WorkAlloc = () => {
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {demandData?.map(
-                (
-                  {
-                    workerJobCardNo,
-                    workerName,
-                    dateOfApplicationForWork,
-                    noOfDaysWorkDemanded,
-                  },
-                  index
-                ) => (
-                  <Table.Row>
+              {allocData?.map(
+                ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
+                  <Table.Row key={index}>
                     <Table.Cell>{index + 1}</Table.Cell>
 
                     <Table.Cell>
                       {" "}
-                      <div className="w-44">{workerJobCardNo}</div>
+                      <div className="w-44">
+                        {demandData[index]?.workerJobCardNo}
+                      </div>
                     </Table.Cell>
 
-                    <Table.Cell>{workerName}</Table.Cell>
+                    <Table.Cell>{demandData[index]?.workerName}</Table.Cell>
                     <Table.Cell>
-                      {new Date(dateOfApplicationForWork).toLocaleDateString(
-                        "en-IN",
-                        {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        }
-                      )}
+                      {new Date(
+                        demandData[index]?.dateOfApplicationForWork
+                      ).toLocaleDateString("en-IN", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })}
                     </Table.Cell>
-                    <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                    <Table.Cell>
+                      {demandData[index]?.noOfDaysWorkDemanded}
+                    </Table.Cell>
                     <Table.Cell>
                       <div>
                         <select
+                          value={schemeId}
                           type="text"
                           className="border-zinc-400 rounded-lg w-fit"
+                          onChange={(e) =>
+                            updateVal(
+                              {
+                                target: {
+                                  name: "schemeId",
+                                  value: e.target.value,
+                                },
+                              },
+                              index,
+                              allocData,
+                              setAllocData
+                            )
+                          }
                         >
                           <option>-select schemeId-</option>
+                          <option value={"0"}>First</option>
+                          <option value={"1"}>Second</option>
                         </select>
                       </div>
                     </Table.Cell>
                     <Table.Cell>
                       <div className="flex items-center space-x-2">
                         <DatePicker
-                          minDate={new Date()}
+                          minDate={
+                            new Date(
+                              demandData[index]?.dateOfApplicationForWork
+                            )
+                          }
                           dateFormat="dd/MM/yyyy"
-                          selected={startDate}
-                          onChange={(date) => setStartDate(date)}
+                          selected={dateFrom}
+                          onChange={(date) =>
+                            updateVal(
+                              {
+                                target: {
+                                  name: "dateFrom",
+                                  value: date.toString(),
+                                },
+                              },
+                              index,
+                              allocData,
+                              setAllocData
+                            )
+                          }
+                          placeholderText="dd/mm/yyyy"
                           selectsStart
-                          startDate={startDate}
-                          endDate={endDate}
-                          // selected={dateOfApplicationForWork}
+                          startDate={dateFrom}
+                          endDate={dateTo}
                           portalId="root-portal"
                           className="w-32 cursor-pointer border-gray-300 rounded-md"
                         />
                         <DatePicker
-                          selected={endDate}
-                          onChange={(date) => setEndDate(date)}
+                          placeholderText="dd/mm/yyyy"
+                          selected={dateTo}
+                          onChange={(date) =>
+                            updateVal(
+                              {
+                                target: {
+                                  name: "dateTo",
+                                  value: date.toString(),
+                                },
+                              },
+                              index,
+                              allocData,
+                              setAllocData
+                            )
+                          }
                           selectsEnd
-                          startDate={startDate}
-                          endDate={endDate}
-                          minDate={startDate}
+                          startDate={dateFrom}
+                          endDate={dateTo}
+                          minDate={dateFrom}
                           maxDate={
-                            startDate.getTime() +
-                            noOfDaysWorkDemanded * 24 * 60 * 60 * 1000
+                            new Date(dateFrom).getTime() +
+                            demandData[index]?.noOfDaysWorkDemanded *
+                              24 *
+                              60 *
+                              60 *
+                              1000
                           }
                           // minDate={new Date()}
                           dateFormat="dd/MM/yyyy"
@@ -322,8 +402,10 @@ const WorkAlloc = () => {
                       </div>
                     </Table.Cell>
                     <Table.Cell>
-                      <div className="border h-10 border-zinc-300 rounded-lg w-36">
-                        {"ok"}
+                      <div className="w-36">
+                        {isNaN(dateDifference[index])
+                          ? 0
+                          : dateDifference[index]}
                       </div>
                     </Table.Cell>
                   </Table.Row>

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { Modal } from "flowbite-react";
 
 const SuccessModal = ({
+  resetData,
   to,
   userCreate,
   setOpenModal,
@@ -38,7 +39,8 @@ const SuccessModal = ({
               ) : (
                 <>
                   <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    User details updated successfully
+                      {/* User details updated successfully */}
+                      {message}
                   </p>
                 </>
               )
@@ -56,8 +58,10 @@ const SuccessModal = ({
               setOpenModal((prev) => !prev);
               if(isSuccess && userCreate)
                 navigate("/dashboard/dept-userlist", { state: "dept-user" });
-              else if (isSuccess && to)
-                navigate("/dashboard/"+to)
+              if (isSuccess && to)
+                navigate("/dashboard/" + to)
+              if (resetData)
+                resetData();
             }}
           >
             {/* <div className="absolute -top-2 -right-2 size-5 rounded-full bg-red-600 animate-ping"></div>
