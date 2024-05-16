@@ -9,5 +9,5 @@ export function updateVal(e, index, allData, setAllData) {
     [key]: val,
   };
   setAllData(new_array);
-  console.log(new_array);
+  // console.log(new_array);
 }

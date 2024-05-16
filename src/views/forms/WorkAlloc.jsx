@@ -19,7 +19,7 @@ const WorkAlloc = () => {
       ); // Absolute difference in milliseconds
       const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
 
-      return daysDifference;
+      return isNaN(daysDifference) ? 0 : daysDifference;
     });
   }, [allocData]);
 
@@ -42,8 +42,6 @@ const WorkAlloc = () => {
   const jsonString = localStorage.getItem("karmashree_User");
 
   const queryClient = useQueryClient();
-
-
 
   const { data: districtList } = useQuery({
     queryKey: ["districtList"],
@@ -136,6 +134,55 @@ const WorkAlloc = () => {
     if (dropdownData[2].length == "")
       queryClient.resetQueries({ queryKey: ["demandData"] });
   }, [dropdownData]);
+
+  const AllocAPIData = useMemo(() => {
+    const array =  allocData.map((e, index) => {
+      const { schemeId, dateFrom, dateTo, ...rest } = e;
+      const {
+        demandsl,
+        demanduniqueID,
+        ex1,
+        ex2,
+        ex3,
+        ex4,
+        ex5,
+        submitTime,
+        UpdateTime,
+        gender,
+        caste,
+        whetherMinority,
+        whetherMigrantWorker,
+        typeOfWorkers,
+        ...rest2
+      } = demandData[index];
+
+      if (schemeId > 0 && dateFrom.length > 0 && dateTo.length > 0)
+        return {
+          schemeId: +schemeId,
+          ...rest,
+          workAllocationFromDate:
+            dateFrom.length > 5
+              ? new Date(dateFrom).toLocaleDateString("fr-CA", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })
+              : "",
+          workAllocationToDate:
+            dateTo.length > 5
+              ? new Date(dateTo).toLocaleDateString("fr-CA", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })
+              : "",
+          ...rest2,
+          noOfDaysWorkAlloted: dateDifference[index],
+        };
+    });
+
+    return array.filter((value) => value !== undefined);
+  }, [allocData]);
 
   return (
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
@@ -330,8 +377,8 @@ const WorkAlloc = () => {
                           }
                         >
                           <option>-select schemeId-</option>
-                          <option value={"0"}>First</option>
-                          <option value={"1"}>Second</option>
+                          <option value={12}>First</option>
+                          <option value={21}>Second</option>
                         </select>
                       </div>
                     </Table.Cell>
