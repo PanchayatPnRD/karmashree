@@ -3,6 +3,7 @@ export function updateVal(e, index, allData, setAllData) {
   const val = e.target.value;
 
   const new_array = [...allData];
+  
   new_array[index] = {
     ...new_array[index],
     [key]: val,
