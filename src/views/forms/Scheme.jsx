@@ -735,6 +735,7 @@ const Scheme = () => {
                   <span className="text-red-500 "> * </span>
                 </label>
                 <DatePicker
+                  dateFormat="dd/MM/yyyy"
                   className="w-full border border-gray-300 rounded-md mt-1"
                   selected={tentativeWorkStartDate}
                   onChange={(date) => setTentativeWorkStartDate(date)}
@@ -750,6 +751,7 @@ const Scheme = () => {
                   <span className="text-red-500 "> * </span>
                 </label>
                 <DatePicker
+                  dateFormat="dd/MM/yyyy"
                   className="w-full border border-gray-300 rounded-md mt-1"
                   selected={actualWorkStartDate}
                   onChange={(date) => setActualWorkStartDate(date)}
@@ -764,6 +766,7 @@ const Scheme = () => {
                   <span className="text-red-500 "> * </span>
                 </label>
                 <DatePicker
+                  dateFormat="dd/MM/yyyy"
                   className="w-full border border-gray-300 rounded-md mt-1"
                   selected={expectedWorkDate}
                   onChange={(date) => setExpectedWorkDate(date)}
@@ -921,6 +924,7 @@ const Scheme = () => {
                   <span className="text-red-500 "> * </span>
                 </label>
                 <DatePicker
+                  dateFormat="dd/MM/yyyy"
                   className="w-full border border-gray-300 rounded-md mt-1"
                   selected={workOrderDate}
                   onChange={(date) => setWorkOrderDate(date)}

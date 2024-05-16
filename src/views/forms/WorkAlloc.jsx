@@ -137,7 +137,7 @@ const WorkAlloc = () => {
   }, [dropdownData]);
 
   const AllocAPIData = useMemo(() => {
-    const array =  allocData.map((e, index) => {
+    const array = allocData.map((e, index) => {
       const { schemeId, dateFrom, dateTo, ...rest } = e;
       const {
         demandsl,
@@ -186,10 +186,9 @@ const WorkAlloc = () => {
   }, [allocData]);
 
   function resetData() {
-    setDropdownData(["", "", ""])
-    setAllocData([])
+    setDropdownData(["", "", ""]);
+    setAllocData([]);
     queryClient.resetQueries({ queryKey: ["demandData"] });
-
   }
 
   return (
@@ -199,10 +198,7 @@ const WorkAlloc = () => {
         setOpenModal={setOpenModal}
         message={"Allocation Entry Successful"}
         resetData={resetData}
-        // to={}
         isSuccess={true}
-        // isSuccess={true}
-        // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -396,8 +392,11 @@ const WorkAlloc = () => {
                             }
                           >
                             <option>-select schemeId-</option>
-                            <option value={12}>First</option>
-                            <option value={21}>Second</option>
+                            {schemeList?.map((e) => (
+                              <option value={e.scheme_sl}>
+                                {e.schemeId + "-" + e.schemeName+ "  [" + e.finYear+ "]"}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </Table.Cell>
@@ -484,7 +483,7 @@ const WorkAlloc = () => {
             <button
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={()=>setOpenModal(true)}
+              onClick={() => setOpenModal(true)}
             >
               Save
             </button>
