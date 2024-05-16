@@ -52,7 +52,7 @@ export const addCreateScheme = async (
     finYear,
     Remarks,
     userIndex,
-    onSuccess, 
+    onSuccess,
     onFailure) => {
 
 
@@ -93,25 +93,25 @@ export const addCreateScheme = async (
         CurrentYear,
         finYear,
         Remarks,
-        userIndex,"SCHEME")
-   try {
+        userIndex, "SCHEME")
+    try {
         const res = await webApi.post(
             `/api/schememaster/createschememaster`,
             {
                 "schemeArea": schemeArea,
-                "departmentNo":departmentNo,
-                "districtcode": districtcode?districtcode:0,
-                "municipalityCode": municipalityCode?municipalityCode:0,
-                "blockCode": block?block:0,
-                "gpCode": gpCode?gpCode:0,
-                "sansadID":sansadID,
+                "departmentNo": departmentNo,
+                "districtcode": districtcode ? districtcode : 0,
+                "municipalityCode": municipalityCode ? municipalityCode : 0,
+                "blockcode": block ? block : 0,
+                "gpCode": gpCode ? gpCode : 0,
+                "sansadID": sansadID,
                 "village": village,
                 "schemeSector": schemeSector,
-                "schemeSubsector":schemeSubsector,
+                "schemeSubsector": schemeSubsector,
                 "schemeName": schemeName,
-                "FundingDepttID":FundingDepttID,
+                "FundingDepttID": FundingDepttID,
                 "FundingDeptname": FundingDeptname,
-                "ExecutingDepttID":ExecutingDepttID,
+                "ExecutingDepttID": ExecutingDepttID,
                 "ExecutingDeptName": ExecutingDeptName,
                 "ImplementingAgencyID": ImplementingAgencyID,
                 "ImplementingAgencyName": ImplementingAgencyName,
@@ -157,7 +157,7 @@ export const addCreateScheme = async (
         }
     } catch (error) {
         console.log("fdgdf")
- }
+    }
 };
 
 

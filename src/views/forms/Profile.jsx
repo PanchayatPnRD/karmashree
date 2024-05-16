@@ -49,7 +49,7 @@ const Profile = () => {
 
   console.log(allUserList, "allUserList");
 
-  const[allData,setAllData]=useState(
+  const [allData, setAllData] = useState(
     {
 
     }
@@ -403,33 +403,33 @@ const Profile = () => {
 
         <form className="flex">
           <div className="w-full px-36 space-y-6 pb-10">
-          {userData?.category === "HQ" ?"":
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Department
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-              disabled
-                id="country"
-                name="country"
-                required
-                onChange={onDepartment}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+            {userData?.category === "HQ" ? "" :
+              <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Department
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  disabled
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onDepartment}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
 
-              >
-                <option value="" selected hidden>
-                  {userData?.category === "HQ"
-                    ? "Select a Department"
-                    : departmentListDropdown}
-                </option>
-                {departmentListDropdown}
-              </select>
-            </div>
-}
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "HQ"
+                      ? "Select a Department"
+                      : departmentListDropdown}
+                  </option>
+                  {departmentListDropdown}
+                </select>
+              </div>
+            }
             {userData?.category === "HQ" ? (
               ""
             ) : (
@@ -700,7 +700,7 @@ const Profile = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
-                { allUserList?.role_type ? allRoleList.find(c => c.id === allUserList?.role_type)?.role_type : "Select a role"}
+                  {allUserList?.role_type ? allRoleList.find(c => c.id === allUserList?.role_type)?.role_type : "Select a role"}
                 </option>
                 {roleListDropdown}
               </select>
