@@ -9,6 +9,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 
 const WorkAlloc = () => {
   const [allocData, setAllocData] = useState([]);
@@ -194,6 +195,20 @@ const WorkAlloc = () => {
     setAllocData([]);
     queryClient.resetQueries({ queryKey: ["demandData"] });
   }
+
+const onSubmit=()=>{
+  addAllocation(AllocAPIData,
+        (r) => {
+      console.log(r, "response");
+      if (r.errorCode == 0) {
+        toast.success(r.message);
+        navigate("/dashboard/scheme-list");
+      } else {
+        toast.error(r.message);
+      }
+    }
+  );
+}
 
   return (
     <>
@@ -487,9 +502,9 @@ const WorkAlloc = () => {
             <button
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={() => setOpenModal(true)}
+              onClick={onSubmit}
             >
-              Save
+              Submit
             </button>
           </div>
         </div>
