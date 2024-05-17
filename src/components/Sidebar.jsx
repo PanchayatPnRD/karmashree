@@ -24,6 +24,9 @@ import ContractorList from "../views/forms/ContractorList";
 import SchemeList from "../views/forms/SchemeList";
 // import Register from "../views/Register/Register";
 import WorkRequirementList from "../views/forms/WorkRequirementList";
+import EmploymentList from "../views/forms/EmploymentList";
+import DemandList from "../views/forms/DemandList";
+import WorkAllocationList from "../views/forms/WorkAllocationList";
 
 export const sideBarList = [
   {
@@ -119,6 +122,14 @@ export const sideBarList = [
     ],
   },
   {
+    Component: DemandList,
+    text: "demand list",
+    route: "/dashboard/demand-list",
+    permissions: [
+      1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
+    ],
+  },
+  {
     Component: WorkRequirement,
     text: "work requisition",
     route: "/dashboard/work-requirement",
@@ -139,9 +150,22 @@ export const sideBarList = [
   },
 
   {
+    Component: WorkAllocationList,
+    text: "work allocation list",
+    route: "/dashboard/work-allocation-list",
+    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
+  },
+
+  {
     Component: Employment,
     text: "employment",
     route: "/dashboard/employment",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: EmploymentList,
+    text: "employment list",
+    route: "/dashboard/employment-list",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 ];

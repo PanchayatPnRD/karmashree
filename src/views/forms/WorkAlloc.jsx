@@ -201,8 +201,8 @@ const onSubmit=()=>{
         (r) => {
       console.log(r, "response");
       if (r.errorCode == 0) {
-        toast.success(r.message);
-        navigate("/dashboard/scheme-list");
+        setOpenModal(true);
+
       } else {
         toast.error(r.message);
       }
@@ -215,7 +215,8 @@ const onSubmit=()=>{
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Allocation Entry Successful"}
+        message={"Allocation Created Successfully"}
+        to="work-allocation-list"
         resetData={resetData}
         isSuccess={true}
       />

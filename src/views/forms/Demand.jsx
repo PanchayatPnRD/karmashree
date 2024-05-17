@@ -240,9 +240,9 @@ const WorkRequirement = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Demand Entry Successful"}
+        message={"Demand Created Successfully"}
         resetData={resetData}
-        // to={}
+        to="demand-list"
         isSuccess={entryStatus}
         // isSuccess={true}
         // userCreate={false}
@@ -692,7 +692,7 @@ const WorkRequirement = () => {
               onClick={mutate}
               // onClick={() => setOpenModal(true)}
             >
-              Save
+              Submit
             </button>
           </div>
         </div>
