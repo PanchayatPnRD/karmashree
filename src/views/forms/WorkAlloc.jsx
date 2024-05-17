@@ -160,6 +160,10 @@ const WorkAlloc = () => {
       if (schemeId > 0 && dateFrom.length > 0 && dateTo.length > 0)
         return {
           schemeId: +schemeId,
+          schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
+            .schemeName,
+          contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
+            .ControctorID,
           ...rest,
           workAllocationFromDate:
             dateFrom.length > 5
