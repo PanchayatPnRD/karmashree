@@ -111,3 +111,69 @@ export const getAllUserList = async (data) => {
     return await webApi.get(`/api/user/getUserList?created_by=${data}`,
     );
 }
+
+//update profile
+
+export const updateNewUser = async (userIndex,nodalOfficerName,designation,
+    contactNo,email,role_type,userAddress,technicalOfficerName,technicalOfficerDesignation,
+    technicalOfficerContactNumber,technicalOfficerEmail,officeName_hd,onSuccess, onFailure) => {
+
+
+   console.log(userIndex,nodalOfficerName,designation,
+    contactNo,email,role_type,userAddress,technicalOfficerName,technicalOfficerDesignation,
+    technicalOfficerContactNumber,technicalOfficerEmail,"userIndex")
+    try {
+        const res = await webApi.put(
+            `/api/user/updateUser/${userIndex}`,
+            {
+                // category: category,
+                // departmentNo: departmentNo,
+                // districtcode: districtcode ? districtcode : 0,
+                // subDivision: subDivision ? subDivision : 0,
+                // blockCode: block ? block : 0,
+                // gpCode: areaGp ? areaGp : 0,
+                // municipalityCode: municipalityCode ? municipalityCode : 0,
+                // userType: userType,
+                // role_type: role_type,
+                // pwd: pwd,
+                // area: area,
+                // officeName: officeName,
+                userName: nodalOfficerName,
+                designationID: designation,
+                contactNo: contactNo,
+                email: email,
+                role_type: role_type,
+                UserAddress: userAddress,
+                officeName_hd:officeName_hd,
+                // entryBy: entryBy,
+                // created_by: created_by,
+                // currentStatus: currentStatus,
+                // deptWing: deptWing,
+                technical_officer: technicalOfficerName,
+                tech_designation_id: technicalOfficerDesignation,
+                tech_mobile: technicalOfficerContactNumber,
+                tech_email: technicalOfficerEmail,
+                // dno_status: 0
+            },
+
+
+        );
+        if (res?.data?.errorCode == 0) {
+            const r = res.data;
+            console.log(r, "rerere")
+
+            return onSuccess(r);
+
+        } else if (res?.data?.errorCode == 1) {
+            const r = res.data;
+            console.log(r, "rerere")
+
+            return onSuccess(r);
+        } else {
+            onFailure("Something Wrong! Please Try again later" + res.data);
+
+        }
+    } catch (error) {
+        console.log("fdgdf")
+    }
+};

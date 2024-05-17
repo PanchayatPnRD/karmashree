@@ -68,6 +68,7 @@ const OTPConfirm = () => {
           municipalityCode: res?.newPayload?.municipalityCode,
         };
         localStorage.setItem("karmashree_User", JSON.stringify(userdata));
+        localStorage.setItem("karmashree_AuthToken", res?.newPayload?.token);
 
         navigate("/dashboard");
 

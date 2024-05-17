@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  addNewUser,
+  updateNewUser,
   getAllDesignationList,
   getAllDepartmentList,
   getAllDistrictList,
@@ -57,6 +57,7 @@ const Profile = () => {
       tech_designation_id:'',
       tech_mobile:'',
       tech_email:'',
+      officeName_hd:'',
     }
   );
 
@@ -124,9 +125,9 @@ const Profile = () => {
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
-  if (allDistrictList && allDistrictList.length > 0) {
-    districtListDropdown = allDistrictList.map((distRow, index) => (
-      <option value={distRow.districtCode}>{distRow.districtName}</option>
+  if (allDistrictList && allDistrictList?.length > 0) {
+    districtListDropdown = allDistrictList?.map((distRow, index) => (
+      <option value={distRow?.districtCode}>{distRow?.districtName}</option>
     ));
   }
 
@@ -190,6 +191,8 @@ const Profile = () => {
 
   const onOfficeName = (e) => {
     setOfficeName(e.target.value);
+    setAllUserList({ ...allUserList, officeName_hd: e.target.value })
+
   };
 
   const onNodalOfficerName = (e) => {
@@ -275,83 +278,33 @@ const Profile = () => {
   const onRegister = () => {
     if (allUserList?.userName === "") {
       toast.error("Please type your nodal officer name");
-    } else if (designation === "" || allUserList?.designation === "") {
+    } else if (allUserList?.designation === "") {
       toast.error("Please select Nodal officer designation");
     } else if (allUserList?.contactNo.length != 10) {
       toast.error("Please type 10 digit Nodal officer mobile number");
     } else if (!allUserList?.email) {
       toast.error("Please enter Nodal officer valid email id");
-    } else if (!userData?.category === "HQ" && officeName === "") {
+    } else if (userData?.category === "HD" && allUserList?.officeName_hd === "") {
       toast.error("Please type your office name");
     } else if (allUserList?.UserAddress === "") {
       toast.error("Please type user address");
     } else {
-      setOpenModal(true);
+      // setOpenModal(true);
 
-      addNewUser(
-        userData?.category === "HQ"
-          ? department
-          : allDepartmentList[0]?.departmentNo,
+      updateNewUser(
+        userData?.userIndex,allUserList?.userName,allUserList?.designationID,
+        allUserList?.contactNo,allUserList?.email,allUserList?.role_type,
+        allUserList?.UserAddress,allUserList?.technical_officer,allUserList?.tech_designation_id,
+        allUserList?.tech_mobile,allUserList?.tech_email,allUserList?.officeName_hd,
 
-        userData?.category === "HD"
-          ? district
-          : userData?.districtcode
-            ? userData?.districtcode
-            : district,
-
-        userData?.category === "DIST"
-          ? subDivision
-          : userData?.subDivision
-            ? userData?.subDivision
-            : subDivision,
-        userData?.category === "SUB" || userData?.category === "DIST"
-          ? block
-          : userData?.blockCode
-            ? userData?.blockCode
-            : block,
-        officeName,
-        nodalOfficerName,
-        contactNumber,
-        emailInput,
-        designation,
-        userAddress,
-        role,
-        userData?.category === "HQ"
-          ? "HD"
-          : userData?.category === "HD"
-            ? "DIST"
-            : userData?.category === "DEPT"
-              ? "DIST"
-              : userData?.category === "DIST" && subDivision === "" && block === ""
-                ? "DIST"
-                : userData?.category === "DIST" && subDivision && block === ""
-                  ? "SUB"
-                  : (userData?.category === "DIST" && subDivision && block) ||
-                    (userData?.category === "DIST" && subDivision === "" && block)
-                    ? "BLOCK"
-                    : userData?.category === "SUB"
-                      ? "BLOCK"
-                      : "BLOCK",
-        "",
-        "A",
-        1,
-        role,
-        role,
-        "",
-        userData?.userIndex,
-        userData?.userIndex,
-        technicalOfficerName ? technicalOfficerName : "",
-        technicalOfficerDesignation ? technicalOfficerDesignation : "",
-        technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
-        technicalOfficerEmail ? technicalOfficerEmail : "",
         (r) => {
           setErrorMessage(r)
 
           console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
-            // toast.success(r.message);
-            // navigate("/dashboard/dept-userlist");
+            toast.success(r.message);
+            navigate("/dashboard/profile");
           } else {
             // setErrorMessage(r.message)
             // toast.error(r.message);
@@ -435,7 +388,7 @@ const Profile = () => {
                 </select>
               </div>
             }
-            {userData?.category === "HQ" ? (
+            {/* {userData?.category === "HQ" ? (
               ""
             ) : (
               <div>
@@ -464,7 +417,7 @@ const Profile = () => {
                   {districtListDropdown}
                 </select>
               </div>
-            )}
+            )} */}
             <div>
               <label
                 htmlFor="username"
@@ -501,7 +454,7 @@ const Profile = () => {
               >
                 <option value="" selected hidden>
                   {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
-                  {allUserList?.designationID ? allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation ? allUserList?.designationID == 1 : "Select a Designation" : "Select a Designation"}
+                  {allUserList?.designationID==="1" ?"Select a Designation": allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation}
                 </option>
                 {designationListDropdown}
               </select>
@@ -688,6 +641,7 @@ const Profile = () => {
                   onChange={onOfficeName}
                   placeholder="type your office name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={allUserList?.officeName_hd}
                 />
               </div>
             )}
