@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
 import { updateVal } from "../../functions/updateVal";
@@ -10,18 +9,6 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { fetch } from "../../functions/Fetchfunctions";
-import { SortIcon } from "../../components/SortIcon";
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Pagination } from "../../components/Pagination";
-import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 
 const WorkAlloc = () => {
@@ -37,102 +24,6 @@ const WorkAlloc = () => {
       return isNaN(daysDifference) ? 0 : daysDifference;
     });
   }, [allocData]);
-
-  const { data: workRequirementList } = useQuery({
-    queryKey: ["workRequirementList"],
-    queryFn: async () => {
-      const data = await fetch.get(
-        `/api/workerrequisition/getallrequztion?userIndex=${karmashree_data?.userIndex}`
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
-
-  const ListOptions = [5, 10, 15, "all"];
-  const [items, setItems] = useState(ListOptions[0]);
-
-  const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
-
-  const list = [
-    {
-      header: "Sl no",
-      accessorKey: "cont_sl",
-      className: "font-bold text-zinc-600 text-center cursor-pointer",
-      cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer",
-      // sortingFn: "id",
-    },
-    {
-      header: "Financial Year",
-      accessorKey: "finYear",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Req ID",
-      accessorKey: "workerreqID",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Scheme ID",
-      accessorKey: "workCodeSchemeID",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Contractor",
-      accessorKey: "ContractorID",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Contact No",
-      accessorKey: "contactPersonPhoneNumber",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Start Date",
-      accessorKey: "fromDate",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "No of Days",
-      accessorKey: "noOfDays",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Funding Department",
-      accessorKey: "-",
-      headclass: "cursor-pointer",
-      // cell: ({ row }) => row.index + 1,
-    },
-  ];
-
-  const [sorting, setSorting] = useState([]);
-  const [filtering, setFiltering] = useState("");
-
-  const table = useReactTable({
-    data,
-    columns: list,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting: sorting,
-      globalFilter: filtering,
-    },
-    initialState: {
-      pagination: {
-        pageSize: parseInt(items),
-      },
-    },
-    onSortingChange: setSorting,
-    onGlobalFilterChange: setFiltering,
-  });
-
-  useEffect(() => {
-    if (items == "all") table.setPageSize(9999);
-    else table.setPageSize(parseInt(items));
-  }, [items]);
 
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
@@ -356,69 +247,91 @@ const WorkAlloc = () => {
         </div>
 
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-          <div className="flex pb-8 overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Table.Head key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.HeadCell
-                      key={header.id}
-                      className={classNames(
-                        header.column.columnDef.headclass,
-                        "hover:bg-zinc-200/70 transition-all"
-                      )}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div className="flex items-center space-x-2 justify-between">
-                          <span className="normal-case">
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </span>
-                          <SortIcon sort={header.column.getIsSorted()} />
-                        </div>
-                      )}
-                    </Table.HeadCell>
-                  ))}
-                  <Table.HeadCell className="normal-case">
-                    Status
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case">
-                    Actions
-                  </Table.HeadCell>
-                </Table.Head>
-              ))}
-
-              <Table.Body className="divide-y">
-                {table.getRowModel().rows.map((row) => (
-                  <Table.Row key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <Table.Cell
-                        key={cell.id}
-                        className={cell.column.columnDef.className}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Table.Cell>
-                    ))}
-                    <Table.Cell className="flex border items-center justify-center space-x-8"></Table.Cell>
-                    <Table.Cell className="flex border items-center justify-center space-x-8"></Table.Cell>
-                    <Table.Cell className="flex items-center justify-center space-x-8">
-                      <Icon
-                        icon={"mingcute:edit-line"}
-                        className="font-medium text-cyan-600 hover:underline text-2xl"
-                      />
-                    </Table.Cell>
-                  </Table.Row>
+          <div className="flex pb-8">
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                District
+                <span className="text-red-500 "> * </span>
+              </label>
+              <select
+                value={dropdownData[0]}
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={(e) => updateDropdown(0, e.target.value)}
+                // onChange={onDistrict}
+              >
+                <option defaultValue="" selected hidden>
+                  Select District List
+                </option>
+                {districtList?.map((e) => (
+                  <option key={e.districtCode} value={e.districtCode}>
+                    {e.districtName}
+                  </option>
                 ))}
-              </Table.Body>
-            </Table>
+              </select>
+            </div>
+            {dropdownData[0].length > 0 && (
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  value={dropdownData[1]}
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={(e) => updateDropdown(1, e.target.value)}
+                  // onChange={onDistrict}
+                >
+                  <option value="" selected hidden>
+                    Select Block List
+                  </option>
+                  {blockList?.map((e) => (
+                    <option value={e.blockCode}>{e.blockName}</option>
+                  ))}
+                  {blockLoading && <option>Loading...</option>}
+                </select>
+              </div>
+            )}
+            {dropdownData[1].length > 0 && (
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  GP
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  value={dropdownData[2]}
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={(e) => updateDropdown(2, e.target.value)}
+                  // onChange={onDistrict}
+                >
+                  <option value="" selected hidden>
+                    Select Gp List
+                  </option>
+                  {gpList?.map((e) => (
+                    <option value={e.gpCode}>{e.gpName}</option>
+                  ))}
+                  {gpLoading && <option>Loading...</option>}
+                </select>
+              </div>
+            )}
           </div>
-          <Pagination data={data} table={table} />
           <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
             <Table className="w-full">
               <Table.Head>
@@ -588,7 +501,6 @@ const WorkAlloc = () => {
               </Table.Body>
             </Table>
           </div>
-
           <div className="flex justify-center items-center">
             <button
               type="button"
@@ -604,4 +516,4 @@ const WorkAlloc = () => {
   );
 };
 
-export default WorkAlloc;
+// export default WorkAlloc;

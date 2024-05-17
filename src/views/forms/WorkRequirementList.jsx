@@ -24,8 +24,7 @@ const WorkRequirementList = () => {
         queryKey: ["workRequirementList"],
         queryFn: async () => {
             const data = await fetch.get(
-                `/api/workerrequisition/getallrequztion?userIndex=${karmashree_data?.userIndex}`,
-
+                `/api/workerrequisition/getallrequztion?userIndex=${karmashree_data?.userIndex}`
             );
             // console.log(Array.isArray(data.data.result));
             return data.data.result;
