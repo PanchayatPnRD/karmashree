@@ -345,7 +345,7 @@ const onSubmit=()=>{
                   Worker Job Card No
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker name
+                  Worker Name
                 </Table.HeadCell>
 
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
@@ -362,7 +362,7 @@ const onSubmit=()=>{
                   Work Allocation Date
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  No of Days (Work Alloted)
+                  No of Days (Work Allocated)
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
