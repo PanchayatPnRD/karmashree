@@ -81,6 +81,11 @@ const WorkAllocationList = () => {
             accessorKey: "workerName",
             headclass: "cursor-pointer",
         },
+        {
+            header: "Scheme Name",
+            accessorKey: "schemeName",
+            headclass: "cursor-pointer",
+        },
       
         {
             header: "Date Of Application For Work",

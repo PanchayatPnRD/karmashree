@@ -56,7 +56,7 @@ const WorkRequirement = () => {
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
 
-  console.log(allData, "allData");
+  console.log(schemeList, "schemeList");
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -146,6 +146,7 @@ const WorkRequirement = () => {
 
   const onScheme = (e) => {
     setSchemeList(e.target.value);
+    console.log(e.target.value,"aniumesh")
   };
 
   let GpListDropdown = <option>Loading...</option>;

@@ -22,7 +22,7 @@ export const addCreateWorkRequirement = async (area, departmentNo, district, mun
                 "gpCode": gp ? gp : 0,
                 "sansadID": 0,
                 "village": villageName,
-                "workCodeSchemeID": 2,
+                "workCodeSchemeID": scheme,
                 "ContractorID": contractor,
                 "contactPersonName": personName,
                 "contactPersonPhoneNumber": phoneNumber,

@@ -23,22 +23,80 @@ import {
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
-
+import {  
+  getSchemeList,
+} from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
   const [schemeId, setSchemeId] = useState();
+  const [allocData, setAllocData] = useState([]);
+  const [dropdownData, setDropdownData] = useState(["", "", ""]);
+  const [schemeAllList, setAllSchemeAllList] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  
+  useEffect(() => {
+    getSchemeList().then(function (result) {
+      const response = result?.data?.result;
+      setAllSchemeAllList(response);
+    });
+  }, []);
 
-  const { data: demandList } = useQuery({
-    queryKey: ["demandList"],
+  //Scheme list
+
+  let schemeListDropdown = <option>Loading...</option>;
+  if (schemeAllList && schemeAllList.length > 0) {
+    schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
+      <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
+    ));
+  }
+
+  const schemeName=schemeAllList.find((c) => c.scheme_sl == schemeId)
+  ?.schemename;
+
+  const schemeDataId=schemeId;
+console.log(schemeName,"schemeName")
+  const dateDifference = useMemo(() => {
+    return allocData.map(({ dateFrom, dateTo }) => {
+      const timeDiff = Math.abs(
+        new Date(dateTo).getTime() - new Date(dateFrom).getTime()
+      ); // Absolute difference in milliseconds
+      const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+
+      return isNaN(daysDifference) ? 0 : daysDifference;
+    });
+  }, [allocData]);
+  const { data: demandData } = useQuery({
+    queryKey: ["demandData"],
     queryFn: async () => {
       const data = await fetch.get(
-        "/api/allocation/demandslistforallocation/"+schemeId
+        "/api/allocation/demandslistforallocation/" + schemeId
       );
-      // console.log(Array.isArray(data.data.result));
+      console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
     },
     staleTime: 0,
     enabled: !(schemeId === undefined)
   });
+
+
+  console.log(demandData, "demandData")
+
+  // const { data: schemeList } = useQuery({
+  //   queryKey: ["schemeList"],
+  //   queryFn: async () => {
+  //     const data = await axios.get(
+  //       devApi +
+  //       "/api/schememaster/getschmeforallocation?" +
+  //       `blockcode=${dropdownData[1]}&gpCode=${dropdownData[2]}`
+  //     );
+
+  //     return data?.data?.result;
+  //   },
+  //   enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
+  //   staleTime: 0,
+  // });
+
+  // console.log(schemeList,"schemeList")
+
 
   const { data: workRequirementList } = useQuery({
     queryKey: ["workRequirementList"],
@@ -51,10 +109,88 @@ const WorkAlloc = () => {
     },
   });
 
+
+  const initialData = {
+    schemeId: "",
+    dateFrom: "",
+    dateTo: "",
+  };
+
+  useEffect(() => {
+    let filledArray = [];
+    if (demandData?.length > 0)
+      filledArray = Array(demandData?.length).fill(initialData);
+    setAllocData(filledArray);
+  }, [demandData]);
+
+  useEffect(() => {
+    let filledArray = [];
+    if (demandData?.length > 0)
+      filledArray = Array(demandData?.length).fill(initialData);
+    setAllocData(filledArray);
+  }, [demandData]);
+
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
+
+
+
+  const AllocAPIData = useMemo(() => {
+    const array = allocData.map((e, index) => {
+      const { schemeId, dateFrom, dateTo, ...rest } = e;
+      const {
+        demandsl,
+        demanduniqueID,
+        ex1,
+        ex2,
+        ex3,
+        ex4,
+        ex5,
+        submitTime,
+        UpdateTime,
+        gender,
+        caste,
+        whetherMinority,
+        whetherMigrantWorker,
+        typeOfWorkers,
+        ...rest2
+      } = demandData[index];
+
+      if (dateFrom.length > 0 && dateTo.length > 0)
+        return {
+          schemeId: schemeDataId,
+          schemeName:schemeName,
+          // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
+          //   .schemeName,
+          // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
+          //   .ControctorID,
+          ...rest,
+          workAllocationFromDate:
+            dateFrom.length > 5
+              ? new Date(dateFrom).toLocaleDateString("fr-CA", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })
+              : "",
+          workAllocationToDate:
+            dateTo.length > 5
+              ? new Date(dateTo).toLocaleDateString("fr-CA", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })
+              : "",
+          ...rest2,
+          noOfDaysWorkAlloted: dateDifference[index],
+        };
+    });
+
+    return array.filter((value) => value !== undefined);
+  }, [allocData]);
+  console.log(AllocAPIData, "AllocAPIData")
 
   const list = [
     {
@@ -100,21 +236,12 @@ const WorkAlloc = () => {
       accessorKey: "noOfDays",
       headclass: "cursor-pointer",
     },
-    {
-      header: "Funding Department",
-      headclass: "cursor-pointer",
-      // cell: ({ row }) => row.index + 1,
-    },
-    {
-      header: "Funding Department",
-      headclass: "cursor-pointer",
-      // cell: ({ row }) => row.index + 1,
-    },
-    {
-      header: "Funding Department",
-      headclass: "cursor-pointer",
-      // cell: ({ row }) => row.index + 1,
-    },
+    // {
+    //   header: "Funding Department",
+    //   headclass: "cursor-pointer",
+    //   // cell: ({ row }) => row.index + 1,
+    // },
+
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -146,9 +273,28 @@ const WorkAlloc = () => {
   }, [items]);
 
 
+  const onSubmit = () => {
+    addAllocation(AllocAPIData, (r) => {
+      console.log(r, "response");
+      if (r.errorCode == 0) {
+        setOpenModal(true);
+      } else {
+        toast.error(r.message);
+      }
+    });
+  };
+
 
   return (
     <>
+        <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        message={"Allocation Created Successfully"}
+        to="work-allocation-list"
+        // resetData={resetData}
+        isSuccess={true}
+      />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
         <div className="p-4 shadow-md rounded">
@@ -278,11 +424,116 @@ const WorkAlloc = () => {
                   No of Days (Work Allocated)
                 </Table.HeadCell>
               </Table.Head>
-              <Table.Body className="divide-y"></Table.Body>
+              <Table.Body className="divide-y">
+                {allocData?.map(
+                  ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
+                    <Table.Row key={index}>
+                      <Table.Cell>{index + 1}</Table.Cell>
+
+                      <Table.Cell>
+                        {" "}
+                        <div className="w-44">
+                          {demandData[index]?.workerJobCardNo}
+                        </div>
+                      </Table.Cell>
+
+                      <Table.Cell>{demandData[index]?.workerName}</Table.Cell>
+                      <Table.Cell>
+                        {new Date(
+                          demandData[index]?.dateOfApplicationForWork
+                        ).toLocaleDateString("en-IN", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {demandData[index]?.noOfDaysWorkDemanded}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {schemeName}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <div className="flex items-center space-x-2">
+                          <DatePicker
+                            minDate={
+                              new Date(
+                                demandData[index]?.dateOfApplicationForWork
+                              )
+                            }
+                            dateFormat="dd/MM/yyyy"
+                            selected={dateFrom}
+                            onChange={(date) =>
+                              updateVal(
+                                {
+                                  target: {
+                                    name: "dateFrom",
+                                    value: date.toString(),
+                                  },
+                                },
+                                index,
+                                allocData,
+                                setAllocData
+                              )
+                            }
+                            placeholderText="dd/mm/yyyy"
+                            selectsStart
+                            startDate={dateFrom}
+                            endDate={dateTo}
+                            portalId="root-portal"
+                            className="w-32 cursor-pointer border-gray-300 rounded-md"
+                          />
+                          <DatePicker
+                            placeholderText="dd/mm/yyyy"
+                            selected={dateTo}
+                            onChange={(date) =>
+                              updateVal(
+                                {
+                                  target: {
+                                    name: "dateTo",
+                                    value: date.toString(),
+                                  },
+                                },
+                                index,
+                                allocData,
+                                setAllocData
+                              )
+                            }
+                            selectsEnd
+                            startDate={dateFrom}
+                            endDate={dateTo}
+                            minDate={dateFrom}
+                            maxDate={
+                              new Date(dateFrom).getTime() +
+                              demandData[index]?.noOfDaysWorkDemanded *
+                              24 *
+                              60 *
+                              60 *
+                              1000
+                            }
+                            // minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            // selected={dateOfApplicationForWork}
+                            portalId="root-portal"
+                            className="w-32 cursor-pointer border-gray-300 rounded-md"
+                          />
+                        </div>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <div className="w-36">
+                          {isNaN(dateDifference[index])
+                            ? 0
+                            : dateDifference[index]}
+                        </div>
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                )}
+              </Table.Body>
             </Table>
           </div>}
 
-          {/* <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <button
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -290,7 +541,7 @@ const WorkAlloc = () => {
             >
               Submit
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </>
