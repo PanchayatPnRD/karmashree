@@ -179,297 +179,63 @@ const Employment = () => {
           <br></br>
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex pb-8 flex-col space-y-4">
-              <div className="flex">
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Financial year
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    // value={dropdownData[0]}
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    // onChange={(e) => updateDropdown(0, e.target.value)}
-                    // onChange={onDistrict}
-                  >
-                    <option defaultValue="" selected hidden>
-                      2024-2025
-                    </option>
-                    {lastTenYears.map((yearRange) => (
-                      <option key={yearRange} value={yearRange}>
-                        {yearRange}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Area Type
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    value={dropdownData[0]}
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={(e) => updateDropdown(0, e.target.value)}
-                    // onChange={onDistrict}
-                  >
-                    <option defaultValue="" selected hidden>
-                      Select Area
-                    </option>
-                    <option value="R">Rural</option>
-                    <option value="U">Urban</option>
-                  </select>
-                </div>
-                {dropdownData[0].length > 0 && (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+              <div className="flex flex-col space-y-8">
+                <Table>
+                  <Table.Head>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      #
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Financial year
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
                       District
-                      <span className="text-red-500 "> * </span>
-                    </label>
-                    <select
-                      value={dropdownData[1]}
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onChange={(e) => updateDropdown(1, e.target.value)}
-                      // onChange={onDistrict}
-                    >
-                      <option defaultValue="" selected hidden>
-                        Select District List
-                      </option>
-                      {districtList?.map((e) => (
-                        <option key={e.districtCode} value={e.districtCode}>
-                          {e.districtName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                {dropdownData[1].length > 0 &&
-                  (dropdownData[0] == "R" ? (
-                    <div className="px-4">
-                      <label
-                        htmlFor="scheme_name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Block
-                        <span className="text-red-500 "> * </span>
-                      </label>
-                      <select
-                        value={dropdownData[2]}
-                        id="scheme_name"
-                        name="scheme_name"
-                        autoComplete="off"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                        onChange={(e) => updateDropdown(2, e.target.value)}
-                        // onChange={onDistrict}
-                      >
-                        <option value="" selected hidden>
-                          Select Block List
-                        </option>
-                        {blockList?.map((e) => (
-                          <option value={e.blockCode}>{e.blockName}</option>
-                        ))}
-                        {blockLoading && <option>Loading...</option>}
-                      </select>
-                    </div>
-                  ) : (
-                    <div className="px-4">
-                      <label
-                        htmlFor="scheme_name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Municipality
-                        <span className="text-red-500 "> * </span>
-                      </label>
-                      <select
-                        value={dropdownData[2]}
-                        id="scheme_name"
-                        name="scheme_name"
-                        autoComplete="off"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                        onChange={(e) => updateDropdown(2, e.target.value)}
-                        // onChange={onDistrict}
-                      >
-                        <option value="" selected hidden>
-                          Select Munioipality List
-                        </option>
-                        {muncList?.map((e) => (
-                          <option value={e.urbanCode}>{e.urbanName}</option>
-                        ))}
-                        {blockLoading && <option>Loading...</option>}
-                      </select>
-                    </div>
-                  ))}
-                {dropdownData[2].length > 0 && dropdownData[0] == "R" && (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      GP
-                      <span className="text-red-500 "> * </span>
-                    </label>
-                    <select
-                      value={dropdownData[3]}
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onChange={(e) => updateDropdown(3, e.target.value)}
-                      // onChange={onDistrict}
-                    >
-                      <option value="" selected hidden>
-                        Select Gp List
-                      </option>
-                      {gpList?.map((e) => (
-                        <option value={e.gpCode}>{e.gpName}</option>
-                      ))}
-                      {gpLoading && <option>Loading...</option>}
-                    </select>
-                  </div>
-                )}
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Block
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Scheme Id
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      total no of work allcoated
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
+                      total no of work demanded
+                    </Table.HeadCell>
+                    
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Action
+                    </Table.HeadCell>
+                    
+                  </Table.Head>
+                </Table>
+                <Table>
+                  <Table.Head>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      #
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Work Jobcard No
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Job Card Holder Name
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Allocation Date From
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Allocation Date To
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Total Days work Provided
+                    </Table.HeadCell>
+                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                      Total Wage Paid
+                    </Table.HeadCell>
+                  </Table.Head>
+                </Table>
               </div>
-              <div className="flex">
-                {isSchemeVisible && (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Select Scheme
-                      <span className="text-red-500 "> * </span>
-                    </label>
-                    <select
-                      value={schemeSelected.schemeName}
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        setSchemeSelected(e.target.value);
-                        // console.log(JSON.Stringify(e.target.value));
-                      }}
-                      // onChange={onDistrict}
-                    >
-                      <option value="" selected hidden>
-                        Select Scheme
-                      </option>
-                      {schemeList?.length === 0 && (
-                        <option>No Data Available</option>
-                      )}
-                      {schemeList?.map((e) => (
-                        <option value={JSON.stringify(e)}>
-                          {e.schemeName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                <div className="flex flex-col space-y-1 px-4">
-                  <label className="text-sm">Payment Date</label>
-                  <DatePicker
-                    minDate={new Date()}
-                    dateFormat="dd/MM/yyyy"
-                    selected={paymentDate ?? new Date()}
-                    portalId="root-portal"
-                    className="w-32 border cursor-pointer border-gray-300 rounded-md"
-                    // onChange={(e) =>
-                    //   updateVal(
-                    //     {
-                    //       target: {
-                    //         name: "dateOfApplicationForWork",
-                    //         value: e.toString(),
-                    //       },
-                    //     },
-                    //     index,
-                    //     allData,
-                    //     setAllData
-                    //   )
-                    // }
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col space-y-8">
-              <Table>
-                <Table.Head>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Funding Dept
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Executing Dept
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Implementing Agency
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Work Order No
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Contractor Id
-                  </Table.HeadCell>
-                  {/* <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Contact person name
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Contact Person
-                  </Table.HeadCell> */}
-                </Table.Head>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell>{schemeJSON?.FundingDeptname}</Table.Cell>
-                    <Table.Cell>{schemeJSON?.ExecutingDeptName}</Table.Cell>
-                    <Table.Cell>
-                      {schemeJSON?.ImplementingAgencyName}
-                    </Table.Cell>
-                    <Table.Cell>{schemeJSON?.workorderNo}</Table.Cell>
-                    <Table.Cell>{schemeJSON?.ControctorID}</Table.Cell>
-                    {/* <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell> */}
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-              <Table>
-                <Table.Head>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    #
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Work Jobcard No
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Job Card Holder Name
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Allocation Date From
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Allocation Date To
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Total Days work Provided
-                  </Table.HeadCell>
-                  <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                    Total Wage Paid
-                  </Table.HeadCell>
-                </Table.Head>
-              </Table>
             </div>
           </div>
         </div>
