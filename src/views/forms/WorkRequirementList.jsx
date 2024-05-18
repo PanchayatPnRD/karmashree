@@ -30,6 +30,7 @@ const WorkRequirementList = () => {
             return data.data.result;
         },
     });
+    
     console.log(workRequirementList, "workRequirementList")
     const ListOptions = [5, 10, 15, "all"];
     const [items, setItems] = useState(ListOptions[0]);

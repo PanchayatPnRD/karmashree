@@ -23,21 +23,22 @@ import {
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
-import {  
-  getSchemeList,
-} from "../../Service/Scheme/SchemeService";
+import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
   const [schemeId, setSchemeId] = useState();
   const [allocData, setAllocData] = useState([]);
-  const [dropdownData, setDropdownData] = useState(["", "", ""]);
+  
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+
   const [schemeAllList, setAllSchemeAllList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  
+
   useEffect(() => {
     getSchemeList().then(function (result) {
       const response = result?.data?.result;
       setAllSchemeAllList(response);
     });
+    
   }, []);
 
   //Scheme list
@@ -49,11 +50,12 @@ const WorkAlloc = () => {
     ));
   }
 
-  const schemeName=schemeAllList.find((c) => c.scheme_sl == schemeId)
-  ?.schemename;
+  const schemeName = schemeAllList.find(
+    (c) => c.scheme_sl == schemeId
+  )?.schemename;
 
-  const schemeDataId=schemeId;
-console.log(schemeName,"schemeName")
+  const schemeDataId = schemeId;
+  console.log(schemeName, "schemeName");
   const dateDifference = useMemo(() => {
     return allocData.map(({ dateFrom, dateTo }) => {
       const timeDiff = Math.abs(
@@ -64,6 +66,8 @@ console.log(schemeName,"schemeName")
       return isNaN(daysDifference) ? 0 : daysDifference;
     });
   }, [allocData]);
+
+
   const { data: demandData } = useQuery({
     queryKey: ["demandData"],
     queryFn: async () => {
@@ -74,11 +78,10 @@ console.log(schemeName,"schemeName")
       return data.data.result;
     },
     staleTime: 0,
-    enabled: !(schemeId === undefined)
+    enabled: !(schemeId === undefined),
   });
 
-
-  console.log(demandData, "demandData")
+  console.log(demandData, "demandData");
 
   // const { data: schemeList } = useQuery({
   //   queryKey: ["schemeList"],
@@ -97,18 +100,16 @@ console.log(schemeName,"schemeName")
 
   // console.log(schemeList,"schemeList")
 
-
   const { data: workRequirementList } = useQuery({
     queryKey: ["workRequirementList"],
     queryFn: async () => {
       const data = await fetch.get(
-        `/api/workerrequisition/getallrequztion?userIndex=${karmashree_data?.userIndex}`
+        `/api/workerrequisition/getallrequztion?userIndex=${userIndex}`
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
-
 
   const initialData = {
     schemeId: "",
@@ -135,8 +136,6 @@ console.log(schemeName,"schemeName")
 
   const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
 
-
-
   const AllocAPIData = useMemo(() => {
     const array = allocData.map((e, index) => {
       const { schemeId, dateFrom, dateTo, ...rest } = e;
@@ -161,7 +160,7 @@ console.log(schemeName,"schemeName")
       if (dateFrom.length > 0 && dateTo.length > 0)
         return {
           schemeId: schemeDataId,
-          schemeName:schemeName,
+          schemeName: schemeName,
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .schemeName,
           // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
@@ -170,18 +169,18 @@ console.log(schemeName,"schemeName")
           workAllocationFromDate:
             dateFrom.length > 5
               ? new Date(dateFrom).toLocaleDateString("fr-CA", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-              })
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })
               : "",
           workAllocationToDate:
             dateTo.length > 5
               ? new Date(dateTo).toLocaleDateString("fr-CA", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-              })
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })
               : "",
           ...rest2,
           noOfDaysWorkAlloted: dateDifference[index],
@@ -190,7 +189,7 @@ console.log(schemeName,"schemeName")
 
     return array.filter((value) => value !== undefined);
   }, [allocData]);
-  console.log(AllocAPIData, "AllocAPIData")
+  console.log(AllocAPIData, "AllocAPIData");
 
   const list = [
     {
@@ -241,7 +240,6 @@ console.log(schemeName,"schemeName")
     //   headclass: "cursor-pointer",
     //   // cell: ({ row }) => row.index + 1,
     // },
-
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -272,7 +270,6 @@ console.log(schemeName,"schemeName")
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-
   const onSubmit = () => {
     addAllocation(AllocAPIData, (r) => {
       console.log(r, "response");
@@ -284,10 +281,9 @@ console.log(schemeName,"schemeName")
     });
   };
 
-
   return (
     <>
-        <SuccessModal
+      <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         message={"Allocation Created Successfully"}
@@ -325,7 +321,7 @@ console.log(schemeName,"schemeName")
         </div>
 
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-          <div className="flex pb-8 overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <div className="flex flex-col pb-8 overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
             <Table>
               {table.getHeaderGroups().map((headerGroup) => (
                 <Table.Head key={headerGroup.id}>
@@ -394,144 +390,144 @@ console.log(schemeName,"schemeName")
             </Table>
           </div>
           <Pagination data={data} table={table} />
-          {schemeId !== undefined && <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table className="w-full">
-              <Table.Head>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
-                  #
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Job Card No
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Name
-                </Table.HeadCell>
+          {schemeId !== undefined && (
+            <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+              <Table className="w-full">
+                <Table.Head>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
+                    #
+                  </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                    Worker Job Card No
+                  </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                    Worker Name
+                  </Table.HeadCell>
 
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Work Application Date
-                </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    Work Application Date
+                  </Table.HeadCell>
 
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  No of Days (Work Demanded)
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Work Code/SchemeID
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Work Allocation Date
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  No of Days (Work Allocated)
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                {allocData?.map(
-                  ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
-                    <Table.Row key={index}>
-                      <Table.Cell>{index + 1}</Table.Cell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    No of Days (Work Demanded)
+                  </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    Work Code/SchemeID
+                  </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    Work Allocation Date
+                  </Table.HeadCell>
+                  <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    No of Days (Work Allocated)
+                  </Table.HeadCell>
+                </Table.Head>
+                <Table.Body className="divide-y">
+                  {allocData?.map(
+                    ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
+                      <Table.Row key={index}>
+                        <Table.Cell>{index + 1}</Table.Cell>
 
-                      <Table.Cell>
-                        {" "}
-                        <div className="w-44">
-                          {demandData[index]?.workerJobCardNo}
-                        </div>
-                      </Table.Cell>
+                        <Table.Cell>
+                          {" "}
+                          <div className="w-44">
+                            {demandData[index]?.workerJobCardNo}
+                          </div>
+                        </Table.Cell>
 
-                      <Table.Cell>{demandData[index]?.workerName}</Table.Cell>
-                      <Table.Cell>
-                        {new Date(
-                          demandData[index]?.dateOfApplicationForWork
-                        ).toLocaleDateString("en-IN", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {demandData[index]?.noOfDaysWorkDemanded}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {schemeName}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div className="flex items-center space-x-2">
-                          <DatePicker
-                            minDate={
-                              new Date(
-                                demandData[index]?.dateOfApplicationForWork
-                              )
-                            }
-                            dateFormat="dd/MM/yyyy"
-                            selected={dateFrom}
-                            onChange={(date) =>
-                              updateVal(
-                                {
-                                  target: {
-                                    name: "dateFrom",
-                                    value: date.toString(),
+                        <Table.Cell>{demandData[index]?.workerName}</Table.Cell>
+                        <Table.Cell>
+                          {new Date(
+                            demandData[index]?.dateOfApplicationForWork
+                          ).toLocaleDateString("en-IN", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {demandData[index]?.noOfDaysWorkDemanded}
+                        </Table.Cell>
+                        <Table.Cell>{schemeName}</Table.Cell>
+                        <Table.Cell>
+                          <div className="flex items-center space-x-2">
+                            <DatePicker
+                              minDate={
+                                new Date(
+                                  demandData[index]?.dateOfApplicationForWork
+                                )
+                              }
+                              dateFormat="dd/MM/yyyy"
+                              selected={dateFrom}
+                              onChange={(date) =>
+                                updateVal(
+                                  {
+                                    target: {
+                                      name: "dateFrom",
+                                      value: date.toString(),
+                                    },
                                   },
-                                },
-                                index,
-                                allocData,
-                                setAllocData
-                              )
-                            }
-                            placeholderText="dd/mm/yyyy"
-                            selectsStart
-                            startDate={dateFrom}
-                            endDate={dateTo}
-                            portalId="root-portal"
-                            className="w-32 cursor-pointer border-gray-300 rounded-md"
-                          />
-                          <DatePicker
-                            placeholderText="dd/mm/yyyy"
-                            selected={dateTo}
-                            onChange={(date) =>
-                              updateVal(
-                                {
-                                  target: {
-                                    name: "dateTo",
-                                    value: date.toString(),
+                                  index,
+                                  allocData,
+                                  setAllocData
+                                )
+                              }
+                              placeholderText="dd/mm/yyyy"
+                              selectsStart
+                              startDate={dateFrom}
+                              endDate={dateTo}
+                              portalId="root-portal"
+                              className="w-32 cursor-pointer border-gray-300 rounded-md"
+                            />
+                            <DatePicker
+                              placeholderText="dd/mm/yyyy"
+                              selected={dateTo}
+                              onChange={(date) =>
+                                updateVal(
+                                  {
+                                    target: {
+                                      name: "dateTo",
+                                      value: date.toString(),
+                                    },
                                   },
-                                },
-                                index,
-                                allocData,
-                                setAllocData
-                              )
-                            }
-                            selectsEnd
-                            startDate={dateFrom}
-                            endDate={dateTo}
-                            minDate={dateFrom}
-                            maxDate={
-                              new Date(dateFrom).getTime() +
-                              demandData[index]?.noOfDaysWorkDemanded *
-                              24 *
-                              60 *
-                              60 *
-                              1000
-                            }
-                            // minDate={new Date()}
-                            dateFormat="dd/MM/yyyy"
-                            // selected={dateOfApplicationForWork}
-                            portalId="root-portal"
-                            className="w-32 cursor-pointer border-gray-300 rounded-md"
-                          />
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div className="w-36">
-                          {isNaN(dateDifference[index])
-                            ? 0
-                            : dateDifference[index]}
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                )}
-              </Table.Body>
-            </Table>
-          </div>}
+                                  index,
+                                  allocData,
+                                  setAllocData
+                                )
+                              }
+                              selectsEnd
+                              startDate={dateFrom}
+                              endDate={dateTo}
+                              minDate={dateFrom}
+                              maxDate={
+                                new Date(dateFrom).getTime() +
+                                demandData[index]?.noOfDaysWorkDemanded *
+                                  24 *
+                                  60 *
+                                  60 *
+                                  1000
+                              }
+                              // minDate={new Date()}
+                              dateFormat="dd/MM/yyyy"
+                              // selected={dateOfApplicationForWork}
+                              portalId="root-portal"
+                              className="w-32 cursor-pointer border-gray-300 rounded-md"
+                            />
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <div className="w-36">
+                            {isNaN(dateDifference[index])
+                              ? 0
+                              : dateDifference[index]}
+                          </div>
+                        </Table.Cell>
+                      </Table.Row>
+                    )
+                  )}
+                </Table.Body>
+              </Table>
+            </div>
+          )}
 
           <div className="flex justify-center items-center">
             <button
