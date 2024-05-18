@@ -100,7 +100,16 @@ const WorkAlloc = () => {
     },
     {
       header: "Funding Department",
-      accessorKey: "-",
+      headclass: "cursor-pointer",
+      // cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "Funding Department",
+      headclass: "cursor-pointer",
+      // cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "Funding Department",
       headclass: "cursor-pointer",
       // cell: ({ row }) => row.index + 1,
     },
