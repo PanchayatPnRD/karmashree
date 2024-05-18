@@ -25,18 +25,20 @@ import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 
 const WorkAlloc = () => {
-  const [allocData, setAllocData] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const dateDifference = useMemo(() => {
-    return allocData.map(({ dateFrom, dateTo }) => {
-      const timeDiff = Math.abs(
-        new Date(dateTo).getTime() - new Date(dateFrom).getTime()
-      ); // Absolute difference in milliseconds
-      const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+  const [schemeId, setSchemeId] = useState();
 
-      return isNaN(daysDifference) ? 0 : daysDifference;
-    });
-  }, [allocData]);
+  const { data: demandList } = useQuery({
+    queryKey: ["demandList"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/allocation/demandslistforallocation/"+schemeId
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+    staleTime: 0,
+    enabled: !(schemeId === undefined)
+  });
 
   const { data: workRequirementList } = useQuery({
     queryKey: ["workRequirementList"],
@@ -100,7 +102,16 @@ const WorkAlloc = () => {
     },
     {
       header: "Funding Department",
-      accessorKey: "-",
+      headclass: "cursor-pointer",
+      // cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "Funding Department",
+      headclass: "cursor-pointer",
+      // cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "Funding Department",
       headclass: "cursor-pointer",
       // cell: ({ row }) => row.index + 1,
     },
@@ -134,198 +145,10 @@ const WorkAlloc = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-  const [dropdownData, setDropdownData] = useState(["", "", ""]);
 
-  function updateDropdown(index, value) {
-    const newData = [...dropdownData];
-
-    const old_val = newData[index];
-    if (old_val != value) {
-      newData[index] = value;
-      for (let i = index + 1; i < newData.length; i++) {
-        newData[i] = "";
-      }
-    }
-
-    setDropdownData(newData);
-  }
-
-  const jsonString = localStorage.getItem("karmashree_User");
-
-  const queryClient = useQueryClient();
-
-  const { data: districtList } = useQuery({
-    queryKey: ["districtList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getAllDistrictsaction"
-      );
-      return data.data.result;
-    },
-  });
-
-  const { data: blockList, isLoading: blockLoading } = useQuery({
-    queryKey: ["blockList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getBlockaction/" + dropdownData[0]
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[0].length > 0,
-  });
-
-  const { data: gpList, isLoading: gpLoading } = useQuery({
-    queryKey: ["gpList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/mastertable/getGpaction/" +
-          dropdownData[0] +
-          "/" +
-          dropdownData[1]
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[1].length > 0,
-  });
-
-  const { data: schemeList } = useQuery({
-    queryKey: ["schemeList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/schememaster/getschmeforallocation?" +
-          `blockcode=${dropdownData[1]}&gpCode=${dropdownData[2]}`
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
-    staleTime: 0,
-  });
-
-  const { data: demandData } = useQuery({
-    queryKey: ["demandData"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/demand/getDemandforAllocation?" +
-          `blockcode=${dropdownData[1]}&gpCode=${dropdownData[2]}`
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[1].length > 0 && dropdownData[2].length > 0,
-    staleTime: 0,
-  });
-
-  const initialData = {
-    schemeId: "",
-    dateFrom: "",
-    dateTo: "",
-  };
-
-  useEffect(() => {
-    let filledArray = [];
-    if (demandData?.length > 0)
-      filledArray = Array(demandData?.length).fill(initialData);
-    setAllocData(filledArray);
-  }, [demandData]);
-
-  useEffect(() => {
-    if (dropdownData[0].length > 0)
-      queryClient.invalidateQueries({ queryKey: ["blockList"] });
-    if (dropdownData[1].length > 0)
-      queryClient.invalidateQueries({ queryKey: ["gpList"] });
-    if (dropdownData[2].length > 0)
-      queryClient.invalidateQueries({ queryKey: ["demandData"] });
-    if (dropdownData[2].length == "")
-      queryClient.resetQueries({ queryKey: ["demandData"] });
-  }, [dropdownData]);
-
-  const AllocAPIData = useMemo(() => {
-    const array = allocData.map((e, index) => {
-      const { schemeId, dateFrom, dateTo, ...rest } = e;
-      const {
-        demandsl,
-        demanduniqueID,
-        ex1,
-        ex2,
-        ex3,
-        ex4,
-        ex5,
-        submitTime,
-        UpdateTime,
-        gender,
-        caste,
-        whetherMinority,
-        whetherMigrantWorker,
-        typeOfWorkers,
-        ...rest2
-      } = demandData[index];
-
-      if (schemeId > 0 && dateFrom.length > 0 && dateTo.length > 0)
-        return {
-          schemeId: +schemeId,
-          schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
-            .schemeName,
-          contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
-            .ControctorID,
-          ...rest,
-          workAllocationFromDate:
-            dateFrom.length > 5
-              ? new Date(dateFrom).toLocaleDateString("fr-CA", {
-                  year: "numeric",
-                  month: "numeric",
-                  day: "numeric",
-                })
-              : "",
-          workAllocationToDate:
-            dateTo.length > 5
-              ? new Date(dateTo).toLocaleDateString("fr-CA", {
-                  year: "numeric",
-                  month: "numeric",
-                  day: "numeric",
-                })
-              : "",
-          ...rest2,
-          noOfDaysWorkAlloted: dateDifference[index],
-        };
-    });
-
-    return array.filter((value) => value !== undefined);
-  }, [allocData]);
-
-  function resetData() {
-    setDropdownData(["", "", ""]);
-    setAllocData([]);
-    queryClient.resetQueries({ queryKey: ["demandData"] });
-  }
-
-  const onSubmit = () => {
-    addAllocation(AllocAPIData, (r) => {
-      console.log(r, "response");
-      if (r.errorCode == 0) {
-        setOpenModal(true);
-      } else {
-        toast.error(r.message);
-      }
-    });
-  };
 
   return (
     <>
-      <SuccessModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        message={"Allocation Created Successfully"}
-        to="work-allocation-list"
-        resetData={resetData}
-        isSuccess={true}
-      />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
         <div className="p-4 shadow-md rounded">
@@ -405,13 +228,19 @@ const WorkAlloc = () => {
                         )}
                       </Table.Cell>
                     ))}
-                    <Table.Cell className="flex border items-center justify-center space-x-8"></Table.Cell>
-                    <Table.Cell className="flex border items-center justify-center space-x-8"></Table.Cell>
-                    <Table.Cell className="flex items-center justify-center space-x-8">
-                      <Icon
-                        icon={"mingcute:edit-line"}
-                        className="font-medium text-cyan-600 hover:underline text-2xl"
-                      />
+                    <Table.Cell className="">Status</Table.Cell>
+                    <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
+                      <button
+                        className="flex justify-center items-center"
+                        onClick={() =>
+                          setSchemeId(row.original.workCodeSchemeID)
+                        }
+                      >
+                        <Icon
+                          icon={"iconoir:open-in-window"}
+                          className="cursor-pointer"
+                        />
+                      </button>
                     </Table.Cell>
                   </Table.Row>
                 ))}
@@ -419,7 +248,7 @@ const WorkAlloc = () => {
             </Table>
           </div>
           <Pagination data={data} table={table} />
-          <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          {schemeId !== undefined && <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
             <Table className="w-full">
               <Table.Head>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
@@ -449,147 +278,11 @@ const WorkAlloc = () => {
                   No of Days (Work Allocated)
                 </Table.HeadCell>
               </Table.Head>
-              <Table.Body className="divide-y">
-                {allocData?.map(
-                  ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
-                    <Table.Row key={index}>
-                      <Table.Cell>{index + 1}</Table.Cell>
-
-                      <Table.Cell>
-                        {" "}
-                        <div className="w-44">
-                          {demandData[index]?.workerJobCardNo}
-                        </div>
-                      </Table.Cell>
-
-                      <Table.Cell>{demandData[index]?.workerName}</Table.Cell>
-                      <Table.Cell>
-                        {new Date(
-                          demandData[index]?.dateOfApplicationForWork
-                        ).toLocaleDateString("en-IN", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {demandData[index]?.noOfDaysWorkDemanded}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div>
-                          <select
-                            value={schemeId}
-                            type="text"
-                            className="border-zinc-400 rounded-lg w-fit"
-                            onChange={(e) =>
-                              updateVal(
-                                {
-                                  target: {
-                                    name: "schemeId",
-                                    value: e.target.value,
-                                  },
-                                },
-                                index,
-                                allocData,
-                                setAllocData
-                              )
-                            }
-                          >
-                            <option>-select schemeId-</option>
-                            {schemeList?.map((e) => (
-                              <option value={e.scheme_sl}>
-                                {e.schemeId +
-                                  "-" +
-                                  e.schemeName +
-                                  "  [" +
-                                  e.finYear +
-                                  "]"}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div className="flex items-center space-x-2">
-                          <DatePicker
-                            minDate={
-                              new Date(
-                                demandData[index]?.dateOfApplicationForWork
-                              )
-                            }
-                            dateFormat="dd/MM/yyyy"
-                            selected={dateFrom}
-                            onChange={(date) =>
-                              updateVal(
-                                {
-                                  target: {
-                                    name: "dateFrom",
-                                    value: date.toString(),
-                                  },
-                                },
-                                index,
-                                allocData,
-                                setAllocData
-                              )
-                            }
-                            placeholderText="dd/mm/yyyy"
-                            selectsStart
-                            startDate={dateFrom}
-                            endDate={dateTo}
-                            portalId="root-portal"
-                            className="w-32 cursor-pointer border-gray-300 rounded-md"
-                          />
-                          <DatePicker
-                            placeholderText="dd/mm/yyyy"
-                            selected={dateTo}
-                            onChange={(date) =>
-                              updateVal(
-                                {
-                                  target: {
-                                    name: "dateTo",
-                                    value: date.toString(),
-                                  },
-                                },
-                                index,
-                                allocData,
-                                setAllocData
-                              )
-                            }
-                            selectsEnd
-                            startDate={dateFrom}
-                            endDate={dateTo}
-                            minDate={dateFrom}
-                            maxDate={
-                              new Date(dateFrom).getTime() +
-                              demandData[index]?.noOfDaysWorkDemanded *
-                                24 *
-                                60 *
-                                60 *
-                                1000
-                            }
-                            // minDate={new Date()}
-                            dateFormat="dd/MM/yyyy"
-                            // selected={dateOfApplicationForWork}
-                            portalId="root-portal"
-                            className="w-32 cursor-pointer border-gray-300 rounded-md"
-                          />
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div className="w-36">
-                          {isNaN(dateDifference[index])
-                            ? 0
-                            : dateDifference[index]}
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                )}
-              </Table.Body>
+              <Table.Body className="divide-y"></Table.Body>
             </Table>
-          </div>
+          </div>}
 
-          <div className="flex justify-center items-center">
+          {/* <div className="flex justify-center items-center">
             <button
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -597,7 +290,7 @@ const WorkAlloc = () => {
             >
               Submit
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
