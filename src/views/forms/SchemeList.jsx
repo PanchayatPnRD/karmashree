@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
-import {getAllSchemeList} from "../../Service/Scheme/SchemeService";
+import { fetch } from "../../functions/Fetchfunctions";
+
+import { getAllSchemeList } from "../../Service/Scheme/SchemeService";
 
 const SchemeList = () => {
-
   const [currentPage, setCurrentPage] = useState(1);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   const [startIndex, endIndex] = useMemo(() => {
@@ -14,7 +15,7 @@ const SchemeList = () => {
     return [start, end];
   }, [currentPage]);
 
-  const [schemeList, setSchemeList] = useState([]);
+  // const [schemeList, setSchemeList] = useState([]);
 
   const HeadData = [
     "Financial Year",
@@ -26,19 +27,27 @@ const SchemeList = () => {
     "No of labours",
     "Engaged for no. of Days(MGNREGA WORKERS)",
     "Funding Department",
-    "Action"
+    "Action",
   ];
+  const { data: schemeList } = useQuery({
+    queryKey: ["schemeList"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/schememaster/schemelist/" + userIndex);
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
 
-  useEffect(() => {
-    getAllSchemeList(userIndex).then(function (result) {
-      const response = result?.data?.result;
-      console.log(response, "res-->")
-      setSchemeList(response);
-    });
+  // useEffect(() => {
+  //   getAllSchemeList(userIndex).then(function (result) {
+  //     const response = result?.data?.result;
+  //     console.log(response, "res-->")
+  //     setSchemeList(response);
+  //   });
 
-  }, [])
+  // }, [])
 
-console.log(schemeList,"scehemeList")
+  console.log(schemeList, "scehemeList");
 
   return (
     <>
@@ -98,11 +107,11 @@ console.log(schemeList,"scehemeList")
                   </Table.Cell>
 
                   <Table.Cell>{d?.finYear}</Table.Cell>
-                  <Table.Cell>{d?.blockcode?d?.blockcode:d?.municipalityCode}</Table.Cell>
-                  <Table.Cell>{d?.gpCode}</Table.Cell>
                   <Table.Cell>
-                    {d?.schemeName}
+                    {d?.blockcode ? d?.blockcode : d?.municipalityCode}
                   </Table.Cell>
+                  <Table.Cell>{d?.gpCode}</Table.Cell>
+                  <Table.Cell>{d?.schemeName}</Table.Cell>
                   <Table.Cell>{d?.totalprojectCost}</Table.Cell>
 
                   <Table.Cell>{d?.totalWageCost}</Table.Cell>
