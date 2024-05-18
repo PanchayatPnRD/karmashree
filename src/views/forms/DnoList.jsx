@@ -50,19 +50,55 @@ const DnoList = () => {
       headclass: "cursor-pointer",
       // sortingFn: "id",
     },
+    // {
+    //   header: "District",
+    //   accessorKey: "districtName",
+    //   headclass: "cursor-pointer",
+    // },
+    // {
+    //   header: "Sub Division",
+    //   accessorKey: "subDivisionName",
+    //   headclass: "cursor-pointer",
+    // },
+    // {
+    //   header: "Block",
+    //   accessorKey: "blockname",
+    //   headclass: "cursor-pointer",
+    // },
+
+    // {
+    //   header: "Designation",
+    //   accessorKey: "designationName",
+    //   headclass: "cursor-pointer",
+    // },
+    // {
+    //   header: "Phone",
+    //   accessorKey: "tech_mobile",
+    //   headclass: "cursor-pointer",
+    // },
+    {
+      header: "Department",
+      accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "User ID",
+      accessorKey: "userId",
+      headclass: "cursor-pointer",
+    },
     {
       header: "District",
-      accessorKey: "districtName",
+      accessorKey: "districtcode",
       headclass: "cursor-pointer",
     },
     {
       header: "Sub Division",
-      accessorKey: "subDivisionName",
+      accessorKey: "subDivision",
       headclass: "cursor-pointer",
     },
     {
       header: "Block",
-      accessorKey: "blockname",
+      accessorKey: "blockCode",
       headclass: "cursor-pointer",
     },
 
@@ -73,7 +109,7 @@ const DnoList = () => {
     },
     {
       header: "Phone",
-      accessorKey: "tech_mobile",
+      accessorKey: "contactNo",
       headclass: "cursor-pointer",
     },
   ];

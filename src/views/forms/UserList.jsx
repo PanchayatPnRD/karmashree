@@ -63,17 +63,17 @@ const UserList = () => {
     },
     {
       header: "District",
-      accessorKey: "districtName",
+      accessorKey: "districtcode",
       headclass: "cursor-pointer",
     },
     {
       header: "Sub Division",
-      accessorKey: "subDivisionName",
+      accessorKey: "subDivision",
       headclass: "cursor-pointer",
     },
     {
       header: "Block",
-      accessorKey: "blockname",
+      accessorKey: "blockCode",
       headclass: "cursor-pointer",
     },
 

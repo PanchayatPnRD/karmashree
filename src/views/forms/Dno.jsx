@@ -99,11 +99,13 @@ const Dno = () => {
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
-  if (allDistrictList && allDistrictList.length > 0) {
-    districtListDropdown = allDistrictList.map((distRow, index) => (
-      <option value={distRow.districtCode}>{distRow.districtName}</option>
+  if (allDistrictList && allDistrictList?.length > 0) {
+    districtListDropdown = allDistrictList?.map((distRow, index) => (
+      <option value={distRow?.districtCode}>{distRow?.districtName}</option>
     ));
   }
+
+  console.log(districtListDropdown,"districtListDropdown")
 
   //Role list
   async function getRoleDataList() {
@@ -114,9 +116,9 @@ const Dno = () => {
   }
 
   let roleListDropdown = <option>Loading...</option>;
-  if (allRoleList && allRoleList.length > 0) {
-    roleListDropdown = allRoleList.map((roleRow, index) => (
-      <option value={roleRow.id}>{roleRow.role_type}</option>
+  if (allRoleList && allRoleList?.length > 0) {
+    roleListDropdown = allRoleList?.map((roleRow, index) => (
+      <option value={roleRow?.id}>{roleRow?.role_type}</option>
     ));
   }
 
@@ -312,6 +314,7 @@ const Dno = () => {
         message={errorMessage?.result}
         userCreate={true}
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
+        to="dno-userlist"
         isSuccess={!Boolean(errorMessage?.errorCode)}
         errorMsg={errorMessage?.message}
       />

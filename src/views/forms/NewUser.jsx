@@ -123,9 +123,9 @@ const NewUser = () => {
   //District list
 
   let districtListDropdown = <option>No data found...</option>;
-  if (allDistrictList && allDistrictList.length > 0) {
-    districtListDropdown = allDistrictList.map((distRow, index) => (
-      <option value={distRow.districtCode}>{distRow.districtName}</option>
+  if (allDistrictList && allDistrictList?.length > 0) {
+    districtListDropdown = allDistrictList?.map((distRow, index) => (
+      <option value={distRow?.districtCode}>{distRow?.districtName}</option>
     ));
   }
 
