@@ -97,6 +97,9 @@ const Employment = () => {
                       <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
                         tentative start date
                       </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        expected completion date
+                      </Table.HeadCell>
 
                       <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
                         total no of work days allcoated
@@ -123,6 +126,7 @@ const Employment = () => {
                             tentativeStartDate,
                             noOfDaysWorkAlloted,
                             noOfDaysWorkDemanded,
+                            ExpectedCompletionDate,
                           },
                           index
                         ) => (
@@ -137,6 +141,16 @@ const Employment = () => {
                             <Table.Cell>{workorderNo}</Table.Cell>
                             <Table.Cell>
                               {new Date(tentativeStartDate).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  year: "numeric",
+                                  day: "numeric",
+                                  month: "2-digit",
+                                }
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {new Date(ExpectedCompletionDate).toLocaleDateString(
                                 "en-IN",
                                 {
                                   year: "numeric",
