@@ -51,7 +51,6 @@ const Employment = () => {
     },
     enabled: workAllocationId.length > 0,
     staleTime: 0,
-    
   });
 
   useEffect(() => {
@@ -169,135 +168,7 @@ const Employment = () => {
             <div className="bg-white shadow-md rounded-lg p-12">
               <div className="flex pb-8 flex-col space-y-4">
                 <div className="flex flex-col space-y-8">
-                  <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-                    <Table>
-                      <Table.Head>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          #
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          work allocation id
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          District
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          Block
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          Scheme Id
-                        </Table.HeadCell>
-
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          Contrator Id
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          Funding Department
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          work order no
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          tentative start date
-                        </Table.HeadCell>
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          expected completion date
-                        </Table.HeadCell>
-
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          total no of work days allcoated
-                        </Table.HeadCell>
-                        <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
-                          total no of work days demanded
-                        </Table.HeadCell>
-
-                        <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                          Action
-                        </Table.HeadCell>
-                      </Table.Head>
-                      <Table.Body>
-                        {allocationList?.map(
-                          (
-                            {
-                              workAllocationID,
-                              districtcode,
-                              blockcode,
-                              schemeId,
-                              ControctorID,
-                              FundingDeptname,
-                              workorderNo,
-                              tentativeStartDate,
-                              noOfDaysWorkAlloted,
-                              noOfDaysWorkDemanded,
-                              ExpectedCompletionDate,
-                              FundingDepttID,
-                              ExecutingDepttID,
-                              ImplementingAgencyID,
-                              ExecutingDeptName,
-                              ImplementingAgencyName,
-                            },
-                            index
-                          ) => (
-                            <Table.Row>
-                              <Table.Cell>{index + 1}</Table.Cell>
-                              <Table.Cell>{workAllocationID}</Table.Cell>
-                              <Table.Cell>{districtcode}</Table.Cell>
-                              <Table.Cell>{blockcode}</Table.Cell>
-                              <Table.Cell>{schemeId}</Table.Cell>
-                              <Table.Cell>{ControctorID}</Table.Cell>
-                              <Table.Cell>{FundingDeptname}</Table.Cell>
-                              <Table.Cell>{workorderNo}</Table.Cell>
-                              <Table.Cell>
-                                {new Date(
-                                  tentativeStartDate
-                                ).toLocaleDateString("en-IN", {
-                                  year: "numeric",
-                                  day: "numeric",
-                                  month: "2-digit",
-                                })}
-                              </Table.Cell>
-                              <Table.Cell>
-                                {new Date(
-                                  ExpectedCompletionDate
-                                ).toLocaleDateString("en-IN", {
-                                  year: "numeric",
-                                  day: "numeric",
-                                  month: "2-digit",
-                                })}
-                              </Table.Cell>
-                              <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
-                              <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
-                              <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
-                                <button
-                                  className="flex justify-center items-center"
-                                  onClick={() => {
-                                    setWorkAllocationId(workAllocationID);
-                                    setInitialData({
-                                      totalWagePaid: "",
-                                      FundingDepttID: FundingDepttID,
-                                      FundingDeptname: FundingDeptname,
-                                      ExecutingDepttID: ExecutingDepttID,
-                                      ExecutingDeptName: ExecutingDeptName,
-                                      ImplementingAgencyID:
-                                        ImplementingAgencyID,
-                                      ImplementingAgencyName:
-                                        ImplementingAgencyName,
-                                    });
-                                  }}
-                                >
-                                  <Icon
-                                    icon={"iconoir:open-in-window"}
-                                    className="cursor-pointer"
-                                  />
-                                </button>
-                              </Table.Cell>
-                            </Table.Row>
-                          )
-                        )}
-                      </Table.Body>
-                    </Table>
-                  </div>
-                  {workAllocationId.length > 0 && (
+                  {workAllocationId.length == 0 && (
                     <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                       <Table>
                         <Table.Head>
@@ -305,68 +176,120 @@ const Employment = () => {
                             #
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Work Jobcard No
+                            work allocation id
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Job Card Holder Name
+                            District
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Allocation Date From
+                            Block
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Allocation Date To
+                            Scheme Id
+                          </Table.HeadCell>
+
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            Contrator Id
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Total Days work Provided
+                            Funding Department
                           </Table.HeadCell>
                           <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                            Total Wage Paid
+                            work order no
+                          </Table.HeadCell>
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            tentative start date
+                          </Table.HeadCell>
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            expected completion date
+                          </Table.HeadCell>
+
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            total no of work days allcoated
+                          </Table.HeadCell>
+                          <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
+                            total no of work days demanded
+                          </Table.HeadCell>
+
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            Action
                           </Table.HeadCell>
                         </Table.Head>
                         <Table.Body>
-                          {empList?.map(
+                          {allocationList?.map(
                             (
                               {
-                                workerJobCardNo,
-                                workerName,
-                                workAllocationFromDate,
-                                workAllocationToDate,
+                                workAllocationID,
+                                districtcode,
+                                blockcode,
+                                schemeId,
+                                ControctorID,
+                                FundingDeptname,
+                                workorderNo,
+                                tentativeStartDate,
                                 noOfDaysWorkAlloted,
+                                noOfDaysWorkDemanded,
+                                ExpectedCompletionDate,
+                                FundingDepttID,
+                                ExecutingDepttID,
+                                ImplementingAgencyID,
+                                ExecutingDeptName,
+                                ImplementingAgencyName,
                               },
                               index
                             ) => (
                               <Table.Row>
                                 <Table.Cell>{index + 1}</Table.Cell>
-                                <Table.Cell>{workerJobCardNo}</Table.Cell>
-                                <Table.Cell>{workerName}</Table.Cell>
+                                <Table.Cell>{workAllocationID}</Table.Cell>
+                                <Table.Cell>{districtcode}</Table.Cell>
+                                <Table.Cell>{blockcode}</Table.Cell>
+                                <Table.Cell>{schemeId}</Table.Cell>
+                                <Table.Cell>{ControctorID}</Table.Cell>
+                                <Table.Cell>{FundingDeptname}</Table.Cell>
+                                <Table.Cell>{workorderNo}</Table.Cell>
                                 <Table.Cell>
                                   {new Date(
-                                    workAllocationFromDate
+                                    tentativeStartDate
                                   ).toLocaleDateString("en-IN", {
-                                    month: "2-digit",
-                                    day: "numeric",
                                     year: "numeric",
+                                    day: "numeric",
+                                    month: "2-digit",
                                   })}
                                 </Table.Cell>
                                 <Table.Cell>
                                   {new Date(
-                                    workAllocationToDate
+                                    ExpectedCompletionDate
                                   ).toLocaleDateString("en-IN", {
-                                    month: "2-digit",
-                                    day: "numeric",
                                     year: "numeric",
+                                    day: "numeric",
+                                    month: "2-digit",
                                   })}
                                 </Table.Cell>
                                 <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
-                                <Table.Cell>
-                                  <input
-                                    name="totalWagePaid"
-                                    type="text"
-                                    className="rounded-lg border-zinc-300"
-                                    onChange={(e) =>
-                                      updateVal(e, index, empData, setEmpData)
-                                    }
-                                  />
+                                <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                                <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
+                                  <button
+                                    className="flex justify-center items-center"
+                                    onClick={() => {
+                                      setWorkAllocationId(workAllocationID);
+                                      setInitialData({
+                                        totalWagePaid: "",
+                                        FundingDepttID: FundingDepttID,
+                                        FundingDeptname: FundingDeptname,
+                                        ExecutingDepttID: ExecutingDepttID,
+                                        ExecutingDeptName: ExecutingDeptName,
+                                        ImplementingAgencyID:
+                                          ImplementingAgencyID,
+                                        ImplementingAgencyName:
+                                          ImplementingAgencyName,
+                                      });
+                                    }}
+                                  >
+                                    <Icon
+                                      icon={"iconoir:open-in-window"}
+                                      className="cursor-pointer"
+                                    />
+                                  </button>
                                 </Table.Cell>
                               </Table.Row>
                             )
@@ -375,18 +298,107 @@ const Employment = () => {
                       </Table>
                     </div>
                   )}
+                  {workAllocationId.length > 0 && (
+                    <>
+                      <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+                        <Table>
+                          <Table.Head>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              #
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Work Jobcard No
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Job Card Holder Name
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Allocation Date From
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Allocation Date To
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Total Days work Provided
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Total Wage Paid
+                            </Table.HeadCell>
+                          </Table.Head>
+                          <Table.Body>
+                            {empList?.map(
+                              (
+                                {
+                                  workerJobCardNo,
+                                  workerName,
+                                  workAllocationFromDate,
+                                  workAllocationToDate,
+                                  noOfDaysWorkAlloted,
+                                },
+                                index
+                              ) => (
+                                <Table.Row>
+                                  <Table.Cell>{index + 1}</Table.Cell>
+                                  <Table.Cell>{workerJobCardNo}</Table.Cell>
+                                  <Table.Cell>{workerName}</Table.Cell>
+                                  <Table.Cell>
+                                    {new Date(
+                                      workAllocationFromDate
+                                    ).toLocaleDateString("en-IN", {
+                                      month: "2-digit",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    })}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    {new Date(
+                                      workAllocationToDate
+                                    ).toLocaleDateString("en-IN", {
+                                      month: "2-digit",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    })}
+                                  </Table.Cell>
+                                  <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
+                                  <Table.Cell>
+                                    <input
+                                      name="totalWagePaid"
+                                      type="text"
+                                      className="rounded-lg border-zinc-300"
+                                      onChange={(e) =>
+                                        updateVal(e, index, empData, setEmpData)
+                                      }
+                                    />
+                                  </Table.Cell>
+                                </Table.Row>
+                              )
+                            )}
+                          </Table.Body>
+                        </Table>
+                      </div>
+                      <div className="flex space-x-4 justify-center items-center">
+                        <button
+                          type="button"
+                          className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                          onClick={() => {
+                            setWorkAllocationId("")
+                          }}
+                        >
+                          back
+                        </button>
+                        <button
+                          type="button"
+                          className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          onClick={() => {
+                            if (empDataList.length > 0) mutate();
+                          }}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
-              <div className="flex justify-center items-center">
-                <button
-                  type="button"
-                  className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={() => {
-                    if (empDataList.length > 0) mutate();
-                  }}
-                >
-                  Submit
-                </button>
               </div>
             </div>
           </div>
