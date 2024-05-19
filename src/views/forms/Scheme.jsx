@@ -185,7 +185,7 @@ const Scheme = () => {
   const onSchemeName = (e) => {
     const value = e.target.value;
     // Regular expression to allow only alphabets and white spaces
-    const regex = /^[A-Za-z\s]+$/;
+    const regex = /^[a-zA-Z0-9\s,\/\-]*$/;
     if (regex.test(value)) {
       setSchemeName(value);
       setIsValidSchemeName(true);
@@ -650,7 +650,7 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   required
                   onChange={onSchemeName}
-                  onKeyDown={handleKeyDown}
+                  // onKeyDown={handleKeyDown}
                 />
                 {!isValidSchemeName && (
                   <div style={{ color: "red" }}>

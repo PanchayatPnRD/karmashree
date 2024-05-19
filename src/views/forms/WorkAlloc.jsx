@@ -26,8 +26,9 @@ import { addAllocation } from "../../Service/workAllocation/workAllocationServic
 import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
   const [schemeId, setSchemeId] = useState();
+  const [contractorId, setContractorId] = useState();
   const [allocData, setAllocData] = useState([]);
-  
+
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
   const [schemeAllList, setAllSchemeAllList] = useState([]);
@@ -38,7 +39,6 @@ const WorkAlloc = () => {
       const response = result?.data?.result;
       setAllSchemeAllList(response);
     });
-    
   }, []);
 
   //Scheme list
@@ -66,7 +66,6 @@ const WorkAlloc = () => {
       return isNaN(daysDifference) ? 0 : daysDifference;
     });
   }, [allocData]);
-
 
   const { data: demandData } = useQuery({
     queryKey: ["demandData"],
@@ -124,13 +123,6 @@ const WorkAlloc = () => {
     setAllocData(filledArray);
   }, [demandData]);
 
-  useEffect(() => {
-    let filledArray = [];
-    if (demandData?.length > 0)
-      filledArray = Array(demandData?.length).fill(initialData);
-    setAllocData(filledArray);
-  }, [demandData]);
-
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
@@ -165,6 +157,7 @@ const WorkAlloc = () => {
           //   .schemeName,
           // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .ControctorID,
+          contractorID: contractorId,
           ...rest,
           workAllocationFromDate:
             dateFrom.length > 5
@@ -374,9 +367,10 @@ const WorkAlloc = () => {
                     <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
                       <button
                         className="flex justify-center items-center"
-                        onClick={() =>
-                          setSchemeId(row.original.workCodeSchemeID)
-                        }
+                        onClick={() => {
+                          setSchemeId(row.original.workCodeSchemeID);
+                          setContractorId(row.original.ContractorID);
+                        }}
                       >
                         <Icon
                           icon={"iconoir:open-in-window"}

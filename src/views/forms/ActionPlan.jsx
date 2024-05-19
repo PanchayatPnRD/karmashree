@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SuccessModal from "../../components/SuccessModal";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -45,7 +46,7 @@ const ActionPlan = () => {
   const [selectedYear, setSelectedYear] = useState(
     `${currentYear}-${currentYear + 1}`
   );
-
+  const [openModal, setOpenModal] = useState(false);
   const lastTenYears = Array.from({ length: 10 }, (_, index) => {
     const startYear = currentYear - index;
     return `${startYear}-${startYear + 1}`;
@@ -300,8 +301,7 @@ const ActionPlan = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/action-plan-list");
+            setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -310,52 +310,61 @@ const ActionPlan = () => {
     }
   };
   return (
-    <div className="flex-grow">
-      <ToastContainer />
-      <div className="mx-auto mt-2">
-        <div className="bg-white rounded-lg p-1 text-sm px-2">
-          <div className="shadow-md mb-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                <nav aria-label="Breadcrumb">
-                  <ol className="flex items-center space-x-4 px-4 py-2">
-                    <svg
-                      viewBox="0 0 1024 1024"
-                      fill="currentColor"
-                      height="1em"
-                      width="1em"
-                    >
-                      <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
-                    </svg>
-                    <li>
-                      <a
-                        href="#"
-                        className="text-indigo-600 hover:text-indigo-800"
+    <>
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        message={"Action Plan Created Successfully"}
+        to="action-plan-list"
+        // resetData={resetData}
+        isSuccess={true}
+      />
+      <div className="flex-grow">
+        <ToastContainer />
+        <div className="mx-auto mt-2">
+          <div className="bg-white rounded-lg p-1 text-sm px-2">
+            <div className="shadow-md mb-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center space-x-4">
+                  <nav aria-label="Breadcrumb">
+                    <ol className="flex items-center space-x-4 px-4 py-2">
+                      <svg
+                        viewBox="0 0 1024 1024"
+                        fill="currentColor"
+                        height="1em"
+                        width="1em"
                       >
-                        Home
-                      </a>
-                      /
-                    </li>
-                    <li className="text-gray-500 font-bold" aria-current="page">
-                      Action Plan
-                    </li>
-                  </ol>
-                </nav>
+                        <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
+                      </svg>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-indigo-600 hover:text-indigo-800"
+                        >
+                          Home
+                        </a>
+                        /
+                      </li>
+                      <li className="text-gray-500 font-bold" aria-current="page">
+                        Action Plan
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
               </div>
+              <br />
             </div>
-            <br />
-          </div>
 
-          <div className="bg-white shadow-md rounded-lg px-16 pb-8 mb-8">
-            <div className="flex flex-col w-full space-y-3 mb-6">
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Financial Year
-                </label>
-                {/* <input
+            <div className="bg-white shadow-md rounded-lg px-16 pb-8 mb-8">
+              <div className="flex flex-col w-full space-y-3 mb-6">
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Financial Year
+                  </label>
+                  {/* <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
@@ -365,349 +374,350 @@ const ActionPlan = () => {
                   // onChange={onSchemeProposed}
                   value={financialYear}
                 /> */}
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onFinancialYear}
-                  value={selectedYear}
-                >
-                  {lastTenYears.map((yearRange) => (
-                    <option key={yearRange} value={yearRange}>
-                      {yearRange}
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onFinancialYear}
+                    value={selectedYear}
+                  >
+                    {lastTenYears.map((yearRange) => (
+                      <option key={yearRange} value={yearRange}>
+                        {yearRange}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="px-4">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Department
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    onChange={onDepartment}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected hidden>
+                      {userData?.category === "HQ"
+                        ? "Select a Department"
+                        : departmentListDropdown}
                     </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="px-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Department
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onDepartment}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="" selected hidden>
-                    {userData?.category === "HQ"
-                      ? "Select a Department"
-                      : departmentListDropdown}
-                  </option>
-                  {departmentListDropdown}
-                </select>
-              </div>
+                    {departmentListDropdown}
+                  </select>
+                </div>
 
 
-              <div className="px-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Parastatals
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  required
-                  onChange={onParastatals}
-                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-                >
-                  <option value="" selected >
-                    {userData?.category === "HQ" || userData?.category === "HD"
-                      ? "Select a Parastatals"
-                      : pedastralDropdown}
+                <div className="px-4">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Parastatals
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    onChange={onParastatals}
+                    className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                  >
+                    <option value="" selected >
+                      {userData?.category === "HQ" || userData?.category === "HD"
+                        ? "Select a Parastatals"
+                        : pedastralDropdown}
 
-                  </option>
-                  {pedastralDropdown}
+                    </option>
+                    {pedastralDropdown}
 
-                </select>
-              </div>
+                  </select>
+                </div>
 
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Scheme Area
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onSchemeArea}
-                >
-                  <option selected hidden>
-                    Select Scheme area
-                  </option>
-                  <option value="R">Rural</option>
-                  <option value="U">Urban</option>
-                </select>
-              </div>
-
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  District
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onDistrict}
-                >
-                  <option selected hidden>
-                    Select District
-                  </option>
-                  {districtListDropdown}
-                </select>
-              </div>
-
-              {district?.length > 0 && schemeArea === "U" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Municipality/Development Authority
-                    {/* <span className="text-red-500 "> * </span> */}
+                    Scheme Area
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onMunicipality}
+                    onChange={onSchemeArea}
                   >
                     <option selected hidden>
-                      Select Municipality/Development Authority
+                      Select Scheme area
                     </option>
-                    {municipalityListDropdown}
-
-                    {/* Add more options as needed */}
+                    <option value="R">Rural</option>
+                    <option value="U">Urban</option>
                   </select>
                 </div>
-              ) : (
-                ""
-              )}
 
-              {district?.length > 0 && schemeArea === "R" ? (
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Block
-                    {/* <span className="text-red-500 "> * </span> */}
+                    District
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onBlock}
+                    onChange={onDistrict}
                   >
                     <option selected hidden>
-                      Select Block
+                      Select District
                     </option>
-                    {blockListDropdown}
+                    {districtListDropdown}
                   </select>
                 </div>
-              ) : (
-                ""
-              )}
 
-              {block?.length > 0 && schemeArea === "R" ? (
+                {district?.length > 0 && schemeArea === "U" ? (
+                  <div className="px-4">
+                    <label
+                      htmlFor="scheme_name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Municipality/Development Authority
+                      {/* <span className="text-red-500 "> * </span> */}
+                    </label>
+                    <select
+                      id="scheme_name"
+                      name="scheme_name"
+                      autoComplete="off"
+                      className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                      onChange={onMunicipality}
+                    >
+                      <option selected hidden>
+                        Select Municipality/Development Authority
+                      </option>
+                      {municipalityListDropdown}
+
+                      {/* Add more options as needed */}
+                    </select>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {district?.length > 0 && schemeArea === "R" ? (
+                  <div className="px-4">
+                    <label
+                      htmlFor="scheme_name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Block
+                      {/* <span className="text-red-500 "> * </span> */}
+                    </label>
+                    <select
+                      id="scheme_name"
+                      name="scheme_name"
+                      autoComplete="off"
+                      className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                      onChange={onBlock}
+                    >
+                      <option selected hidden>
+                        Select Block
+                      </option>
+                      {blockListDropdown}
+                    </select>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {block?.length > 0 && schemeArea === "R" ? (
+                  <div className="px-4">
+                    <label
+                      htmlFor="scheme_name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Gram Panchayat
+                      {/* <span className="text-red-500 "> * </span> */}
+                    </label>
+                    <select
+                      id="scheme_name"
+                      name="scheme_name"
+                      autoComplete="off"
+                      className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                      onChange={onGramPanchayat}
+                    >
+                      <option selected hidden>
+                        Select Gram Panchayat
+                      </option>
+                      {GpListDropdown}
+                    </select>
+                  </div>
+                ) : (
+                  ""
+                )}
+
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Gram Panchayat
-                    {/* <span className="text-red-500 "> * </span> */}
+                    Type of Sector
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onGramPanchayat}
+                    onChange={onSector}
                   >
                     <option selected hidden>
-                      Select Gram Panchayat
+                      Select Sector
                     </option>
-                    {GpListDropdown}
+                    {sectorListDropdown}
                   </select>
                 </div>
-              ) : (
-                ""
-              )}
 
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Type of Sector
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onSector}
-                >
-                  <option selected hidden>
-                    Select Sector
-                  </option>
-                  {sectorListDropdown}
-                </select>
-              </div>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    No of Schemes Proposed
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <input
+                    id="scheme_name"
+                    name="scheme_name"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter No of Schemes Proposed"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onSchemeProposed}
+                  />
+                </div>
 
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  No of Schemes Proposed
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter No of Schemes Proposed"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onSchemeProposed}
-                />
-              </div>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
+                  >
+                    <span> Tentative Total Cost of Schemes</span>
+                    <span className="text-red-500 "> * </span>
+                    <span>(in &nbsp;</span>
+                    Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
+                  </label>
+                  <input
+                    id="scheme_cost"
+                    name="scheme_cost"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter Tentative Total Cost of Schemes in Rupees..."
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onCostOfSCheme}
+                  />
+                </div>
 
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
-                >
-                  <span> Tentative Total Cost of Schemes</span>
-                  <span className="text-red-500 "> * </span>
-                  <span>(in &nbsp;</span>
-                  Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
-                </label>
-                <input
-                  id="scheme_cost"
-                  name="scheme_cost"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Tentative Total Cost of Schemes in Rupees..."
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onCostOfSCheme}
-                />
-              </div>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
+                  >
+                    <span> Tentative Total Wage to be paid in the Schemes</span>
+                    <span className="text-red-500 "> * </span>
+                    <span>(in &nbsp;</span>
+                    Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
+                  </label>
+                  <input
+                    id="scheme_name"
+                    name="scheme_name"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter Tentative Total Wage to be paid in the Schemes in Rupess..."
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onTotalWages}
+                  />
+                </div>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Total Persondays to be Generated
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <input
+                    id="scheme_name"
+                    name="scheme_name"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter Total Persondays to be Generated"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onTotalPersonDays}
+                  />
+                </div>
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Total no. of Job Card Holders to be engaged
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <input
+                    id="scheme_name"
+                    name="scheme_name"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter Total no. of Job Card Holders to be engaged"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onTotalJobCard}
+                  />
+                </div>
 
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="flex text-sm items-center space-x-2 font-medium text-gray-700 w-fit"
-                >
-                  <span> Tentative Total Wage to be paid in the Schemes</span>
-                  <span className="text-red-500 "> * </span>
-                  <span>(in &nbsp;</span>
-                  Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Tentative Total Wage to be paid in the Schemes in Rupess..."
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onTotalWages}
-                />
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Average Days of Employment to be provided per family
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <input
+                    id="scheme_name"
+                    name="scheme_name"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Enter Average Days of Employment to be provided per family"
+                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                    onChange={onTotalAverageDays}
+                  />
+                </div>
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+              <div className="flex justify-center items-center">
+                <button
+                  type="button"
+                  className="w-1/5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={onRegister}
                 >
-                  Total Persondays to be Generated
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Total Persondays to be Generated"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onTotalPersonDays}
-                />
+                  Save
+                </button>
               </div>
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Total no. of Job Card Holders to be engaged
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Total no. of Job Card Holders to be engaged"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onTotalJobCard}
-                />
-              </div>
-
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Average Days of Employment to be provided per family
-                  <span className="text-red-500 "> * </span>
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Enter Average Days of Employment to be provided per family"
-                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                  onChange={onTotalAverageDays}
-                />
-              </div>
-            </div>
-            <div className="flex justify-center items-center">
-              <button
-                type="button"
-                className="w-1/5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={onRegister}
-              >
-                Save
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

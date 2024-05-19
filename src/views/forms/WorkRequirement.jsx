@@ -19,6 +19,7 @@ import {
 import { addCreateWorkRequirement } from "../../Service/WorkRequirement/WorkRequirementService";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import SuccessModal from "../../components/SuccessModal";
 
 const WorkRequirement = () => {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ const WorkRequirement = () => {
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
+  const [openModal, setOpenModal] = useState(false);
 
   console.log(schemeList, "schemeList");
 
@@ -146,7 +148,7 @@ const WorkRequirement = () => {
 
   const onScheme = (e) => {
     setSchemeList(e.target.value);
-    console.log(e.target.value,"aniumesh")
+    console.log(e.target.value, "aniumesh")
   };
 
   let GpListDropdown = <option>Loading...</option>;
@@ -269,7 +271,7 @@ const WorkRequirement = () => {
       toast.error("Please Select Area Type");
     } else if (!district) {
       toast.error("Please Select District");
-    } 
+    }
     // else if (area === "U" && municipality === "") {
     //   toast.error("Please Select Municipality");
     // } else if (area === "R" && block === "") {
@@ -320,8 +322,7 @@ const WorkRequirement = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/work-requirement-list");
+            setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -370,6 +371,17 @@ const WorkRequirement = () => {
   }, [allData]);
 
   return (
+    <>
+    <SuccessModal
+      openModal={openModal}
+      setOpenModal={setOpenModal}
+      message={"Work Requisition Created Successfully"}
+      // resetData={resetData}
+      to="work-requirement-list"
+      isSuccess={true}
+      // isSuccess={true}
+      // userCreate={false}
+    />
     <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
       <ToastContainer />
       <div className="p-4 shadow-md rounded">
@@ -795,6 +807,7 @@ const WorkRequirement = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
