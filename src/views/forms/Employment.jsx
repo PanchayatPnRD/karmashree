@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { devApi } from "../../WebApi/WebApi";
+import { fetch } from "../../functions/Fetchfunctions";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
 import { Table, TableHead } from "flowbite-react";
 import axios from "axios";
@@ -7,135 +9,19 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Employment = () => {
-  const [paymentDate, setPaymentDate] = useState();
-  const lastTenYears = Array.from({ length: 10 }, (_, index) => {
-    const startYear = new Date().getFullYear() - index;
-    return `${startYear}-${startYear + 1}`;
-  });
+  const { userIndex, category } = JSON.parse(
+    localStorage.getItem("karmashree_User")
+  );
 
-  const [schemeSelected, setSchemeSelected] = useState("");
-
-  const [dropdownData, setDropdownData] = useState(["", "", "", ""]);
-  function updateDropdown(index, value) {
-    const newData = [...dropdownData];
-
-    const old_val = newData[index];
-    if (old_val != value) {
-      newData[index] = value;
-      for (let i = index + 1; i < newData.length; i++) {
-        newData[i] = "";
-      }
-    }
-
-    setDropdownData(newData);
-  }
-
-  const schemeJSON = useMemo(() => {
-    if (schemeSelected.length > 0) return JSON.parse(schemeSelected);
-  }, [schemeSelected]);
-
-  const queryClient = useQueryClient();
-
-  const { data: districtList } = useQuery({
-    queryKey: ["districtList"],
+  const { data: allocationList } = useQuery({
+    queryKey: ["allocationList"],
     queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getAllDistrictsaction"
+      const data = await fetch.get(
+        `/api/allocation/getallocationListforemp/${userIndex}`
       );
       return data.data.result;
     },
   });
-
-  const { data: blockList, isLoading: blockLoading } = useQuery({
-    queryKey: ["blockList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getBlockaction/" + dropdownData[1]
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[0].length > 0 && dropdownData[0] == "R",
-  });
-
-  const { data: muncList, isLoading: muncLoading } = useQuery({
-    queryKey: ["muncList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getMunicipality/" + dropdownData[1] + "/0"
-        // "http://localhost:8094/api/mastertable/getMunicipality/320/0"
-      );
-      // console.log(
-      //   devApi + "api/mastertable/getMunicipality/" + dropdownData[1] + "/0"
-      // );
-      return data.data.result;
-    },
-    enabled:
-      dropdownData[0].length > 0 &&
-      dropdownData[0] == "U" &&
-      dropdownData[1].length > 0,
-  });
-
-  const { data: allocList, isLoading: allocLoading } = useQuery({
-    queryKey: ["allocList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/employment/listofallocationinemplyment?schemeId=" +
-          schemeJSON?.scheme_sl
-      );
-
-      return data.data.result;
-    },
-    enabled: schemeSelected.length > 0,
-  });
-
-  const { data: gpList, isLoading: gpLoading } = useQuery({
-    queryKey: ["gpList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/mastertable/getGpaction/" +
-          dropdownData[1] +
-          "/" +
-          dropdownData[2]
-      );
-
-      return data.data.result;
-    },
-    enabled: dropdownData[1].length > 0,
-  });
-  const isSchemeVisible = useMemo(() => {
-    if (dropdownData[0] == "R" && dropdownData[3].length > 0) return true;
-    if (dropdownData[0] == "U" && dropdownData[2].length > 0) return true;
-    else return false;
-  }, [dropdownData]);
-
-  const { data: schemeList } = useQuery({
-    queryKey: ["schemeList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/schememaster/getschmeforallocation?" +
-          `blockcode=${dropdownData[2]}&gpCode=${dropdownData[3]}`
-      );
-
-      return data.data.result;
-    },
-    enabled: isSchemeVisible && dropdownData[0] == "R",
-    staleTime: 0,
-  });
-
-  useEffect(() => {
-    if (dropdownData[1].length > 0 && dropdownData[0] == "R")
-      queryClient.invalidateQueries({ queryKey: ["blockList"] });
-    if (dropdownData[2].length > 0 && dropdownData[0] == "R")
-      queryClient.invalidateQueries({ queryKey: ["gpList"] });
-    if (dropdownData[3].length > 0 && dropdownData[0] == "R") {
-      setSchemeSelected("");
-      queryClient.invalidateQueries({ queryKey: ["schemeList"] });
-    }
-  }, [dropdownData]);
 
   return (
     <div className="flex-grow">
@@ -180,36 +66,101 @@ const Employment = () => {
           <div className="bg-white shadow-md rounded-lg p-12">
             <div className="flex pb-8 flex-col space-y-4">
               <div className="flex flex-col space-y-8">
-                <Table>
-                  <Table.Head>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      #
-                    </Table.HeadCell>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      Financial year
-                    </Table.HeadCell>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      District
-                    </Table.HeadCell>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      Block
-                    </Table.HeadCell>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      Scheme Id
-                    </Table.HeadCell>
-                    <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      total no of work allcoated
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
-                      total no of work demanded
-                    </Table.HeadCell>
-                    
+                <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+                  <Table>
+                    <Table.Head>
                       <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                      Action
-                    </Table.HeadCell>
-                    
-                  </Table.Head>
-                </Table>
+                        #
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        work allocation id
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        District
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        Block
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        Scheme Id
+                      </Table.HeadCell>
+
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        Contrator Id
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        Funding Department
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        work order no
+                      </Table.HeadCell>
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        tentative start date
+                      </Table.HeadCell>
+
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        total no of work days allcoated
+                      </Table.HeadCell>
+                      <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
+                        total no of work days demanded
+                      </Table.HeadCell>
+
+                      <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                        Action
+                      </Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body>
+                      {allocationList?.map(
+                        (
+                          {
+                            workAllocationID,
+                            districtcode,
+                            blockcode,
+                            schemeId,
+                            ControctorID,
+                            FundingDeptname,
+                            workorderNo,
+                            tentativeStartDate,
+                            noOfDaysWorkAlloted,
+                            noOfDaysWorkDemanded,
+                          },
+                          index
+                        ) => (
+                          <Table.Row>
+                            <Table.Cell>{index + 1}</Table.Cell>
+                            <Table.Cell>{workAllocationID}</Table.Cell>
+                            <Table.Cell>{districtcode}</Table.Cell>
+                            <Table.Cell>{blockcode}</Table.Cell>
+                            <Table.Cell>{schemeId}</Table.Cell>
+                            <Table.Cell>{ControctorID}</Table.Cell>
+                            <Table.Cell>{FundingDeptname}</Table.Cell>
+                            <Table.Cell>{workorderNo}</Table.Cell>
+                            <Table.Cell>
+                              {new Date(tentativeStartDate).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  year: "numeric",
+                                  day: "numeric",
+                                  month: "2-digit",
+                                }
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
+                            <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                            <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
+                              <button className="flex justify-center items-center">
+                                <Icon
+                                  icon={"iconoir:open-in-window"}
+                                  className="cursor-pointer"
+                                />
+                              </button>
+                            </Table.Cell>
+                          </Table.Row>
+                        )
+                      )}
+                    </Table.Body>
+                  </Table>
+                </div>
                 <Table>
                   <Table.Head>
                     <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
