@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
+import { getCurrentFinancialYear } from "../../functions/dateCalc";
 import { fetch } from "../../functions/Fetchfunctions";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../../components/SuccessModal";
 import { updateVal } from "../../functions/updateVal";
@@ -13,7 +15,7 @@ const Employment = () => {
   const queryClient = useQueryClient();
 
   const temp = {
-    totalWagePaid: undefined,
+    totalWagePaid: "",
     FundingDepttID: undefined,
     FundingDeptname: "",
     ExecutingDepttID: undefined,
@@ -65,8 +67,8 @@ const Employment = () => {
   }, [empList]);
 
   const empDataList = useMemo(() => {
-    const array = empList?.map((e, idx) => {
-      const { totalWagePaid, ...emp } = empData[idx];
+    const array = empData.map((e, idx) => {
+      const { totalWagePaid, ...emp } = e;
       const {
         workallocationsl,
         schemeName,
@@ -83,12 +85,15 @@ const Employment = () => {
         submitTime,
         UpdateTime,
         ...rest
-      } = e;
+      } = empList[idx];
       if (totalWagePaid.length > 0)
         return {
           ...rest,
           ...emp,
+          schemeSector: 23,
           userIndex: userIndex,
+          dateOfPayment: new Date().toLocaleDateString("fr-CA"),
+          finYear: getCurrentFinancialYear().financialYear,
           totalWagePaid: +totalWagePaid,
         };
     });
