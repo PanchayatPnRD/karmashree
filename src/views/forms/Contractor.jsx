@@ -9,13 +9,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addCreateContractor } from "../../Service/Contractor/ContractorService";
 import { useNavigate } from "react-router-dom";
-
+import SuccessModal from "../../components/SuccessModal";
 
 const Contractor = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const navigate = useNavigate();
-
+  const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -300,8 +300,7 @@ const Contractor = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/contractor-list");
+            setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -310,6 +309,15 @@ const Contractor = () => {
     }
   }
   return (
+    <>
+     <SuccessModal
+    openModal={openModal}
+    setOpenModal={setOpenModal}
+    message={"Contractor Created Successfully"}
+    to="contractor-list"
+    // resetData={resetData}
+    isSuccess={true}
+  />
     <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
       <ToastContainer />
       <div className="p-4 px-8 shadow-md rounded">
@@ -686,6 +694,7 @@ const Contractor = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
