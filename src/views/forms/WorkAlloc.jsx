@@ -342,9 +342,7 @@ const WorkAlloc = () => {
                           )}
                         </Table.HeadCell>
                       ))}
-                      <Table.HeadCell className="normal-case">
-                        Status
-                      </Table.HeadCell>
+                      
                       <Table.HeadCell className="normal-case">
                         Actions
                       </Table.HeadCell>
@@ -365,19 +363,16 @@ const WorkAlloc = () => {
                             )}
                           </Table.Cell>
                         ))}
-                        <Table.Cell className="">Status</Table.Cell>
-                        <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
+                        
+                        <Table.Cell className="font-medium  text-white text-sm ">
                           <button
-                            className="flex justify-center items-center"
+                            className="flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
                             onClick={() => {
                               setSchemeId(row.original.workCodeSchemeID);
                               setContractorId(row.original.ContractorID);
                             }}
                           >
-                            <Icon
-                              icon={"iconoir:open-in-window"}
-                              className="cursor-pointer"
-                            />
+                            Allocate
                           </button>
                         </Table.Cell>
                       </Table.Row>

@@ -211,7 +211,7 @@ const Employment = () => {
                             total no of work days demanded
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md text-center">
                             Action
                           </Table.HeadCell>
                         </Table.Head>
@@ -267,29 +267,29 @@ const Employment = () => {
                                 </Table.Cell>
                                 <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
                                 <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
-                                <Table.Cell className="font-medium  text-teal-500 hover:underline text-2xl">
-                                  <button
-                                    className="flex justify-center items-center"
-                                    onClick={() => {
-                                      setWorkAllocationId(workAllocationID);
-                                      setInitialData({
-                                        totalWagePaid: "",
-                                        FundingDepttID: FundingDepttID,
-                                        FundingDeptname: FundingDeptname,
-                                        ExecutingDepttID: ExecutingDepttID,
-                                        ExecutingDeptName: ExecutingDeptName,
-                                        ImplementingAgencyID:
-                                          ImplementingAgencyID,
-                                        ImplementingAgencyName:
-                                          ImplementingAgencyName,
-                                      });
-                                    }}
-                                  >
-                                    <Icon
-                                      icon={"iconoir:open-in-window"}
-                                      className="cursor-pointer"
-                                    />
-                                  </button>
+                                <Table.Cell className="font-medium  text-white text-sm ">
+                                  <div className="w-[200px]">
+                                    <button
+                                      className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1 "
+                                      onClick={() => {
+                                        setWorkAllocationId(workAllocationID);
+                                        setInitialData({
+                                          totalWagePaid: "",
+                                          FundingDepttID: FundingDepttID,
+                                          FundingDeptname: FundingDeptname,
+                                          ExecutingDepttID: ExecutingDepttID,
+                                          ExecutingDeptName: ExecutingDeptName,
+                                          ImplementingAgencyID:
+                                            ImplementingAgencyID,
+                                          ImplementingAgencyName:
+                                            ImplementingAgencyName,
+                                        });
+                                      }}
+                                    >
+                                      <Icon icon={"mdi:rupee"} className="text-xl"/>
+                                      <span>employment generate</span>
+                                    </button>
+                                  </div>
                                 </Table.Cell>
                               </Table.Row>
                             )
@@ -381,7 +381,7 @@ const Employment = () => {
                           type="button"
                           className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                           onClick={() => {
-                            setWorkAllocationId("")
+                            setWorkAllocationId("");
                           }}
                         >
                           back
