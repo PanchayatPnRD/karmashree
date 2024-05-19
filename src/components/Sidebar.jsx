@@ -93,25 +93,25 @@ export const sideBarList = [
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: ContractorList,
     text: "contractor list",
     route: "/dashboard/contractor-list",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Scheme,
     text: "scheme",
     route: "/dashboard/scheme",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: SchemeList,
     text: "scheme List",
     route: "/dashboard/scheme-list",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Demand,
@@ -171,11 +171,9 @@ export const sideBarList = [
 ];
 
 export const Sidebar = () => {
-  const userMasterHidden = [17, 23, 29,30, 31, 32, 33, 34, 35];
+  const userMasterHidden = [17, 23, 29, 30, 31, 32, 33, 34, 35];
 
-  const { userIndex } = JSON.parse(
-    localStorage.getItem("karmashree_User")
-  );
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
@@ -190,7 +188,7 @@ export const Sidebar = () => {
     userDetails?.category,
     userDetails?.role_type,
     Boolean(parseInt(userDetails?.dno_status))
-  )?.uniqueId
+  )?.uniqueId;
   // console.log(userRoleIndex, "permission");
 
   return (

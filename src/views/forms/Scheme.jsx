@@ -18,7 +18,6 @@ import {
 } from "../../Service/Scheme/SchemeService";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import SuccessModal from "../../components/SuccessModal";
 
 
 const Scheme = () => {
@@ -45,7 +44,6 @@ const Scheme = () => {
   const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(
     new Date()
   );
-  const [openModal, setOpenModal] = useState(false);
   const [actualWorkStartDate, setActualWorkStartDate] = useState(new Date());
   const [expectedWorkDate, setExpectedWorkDate] = useState(new Date());
   const [projectCost, setProjectCost] = useState("");
@@ -187,7 +185,7 @@ const Scheme = () => {
   const onSchemeName = (e) => {
     const value = e.target.value;
     // Regular expression to allow only alphabets and white spaces
-    const regex = /^[A-Za-z\s]+$/;
+    const regex = /^[a-zA-Z0-9\s,\/\-]*$/;
     if (regex.test(value)) {
       setSchemeName(value);
       setIsValidSchemeName(true);
@@ -430,7 +428,8 @@ const Scheme = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            setOpenModal(true);
+            toast.success(r.message);
+            navigate("/dashboard/scheme-list");
           } else {
             toast.error(r.message);
           }
@@ -440,568 +439,558 @@ const Scheme = () => {
   };
 
   return (
-    <>
-      <SuccessModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        message={"Scheme Created Successfully"}
-        to="scheme-list"
-        // resetData={resetData}
-        isSuccess={true}
-      />
-      <div className="flex-grow">
-        <ToastContainer />
-        <div className="mx-auto mt-2">
-          <div className="bg-white rounded-lg p-12">
-            <div className="shadow-md" style={{ marginBottom: "-1rem" }}>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <nav aria-label="Breadcrumb">
-                    <ol className="flex items-center space-x-4 px-4 py-2">
-                      {" "}
-                      {/* Added padding */}{" "}
-                      <svg
-                        viewBox="0 0 1024 1024"
-                        fill="currentColor"
-                        height="1em"
-                        width="1em"
+    <div className="flex-grow">
+      <ToastContainer />
+      <div className="mx-auto mt-2">
+        <div className="bg-white rounded-lg p-12">
+          <div className="shadow-md" style={{ marginBottom: "-1rem" }}>
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <nav aria-label="Breadcrumb">
+                  <ol className="flex items-center space-x-4 px-4 py-2">
+                    {" "}
+                    {/* Added padding */}{" "}
+                    <svg
+                      viewBox="0 0 1024 1024"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                    >
+                      <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
+                    </svg>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-indigo-600 hover:text-indigo-800"
                       >
-                        <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
-                      </svg>
-                      <li>
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-800"
-                        >
-                          Home
-                        </a>
-                        /
-                      </li>
-                      <li className="text-gray-500 font-bold" aria-current="page">
-                        Scheme
-                      </li>
-                    </ol>
-                  </nav>
-                </div>
+                        Home
+                      </a>
+                      /
+                    </li>
+                    <li className="text-gray-500 font-bold" aria-current="page">
+                      Scheme
+                    </li>
+                  </ol>
+                </nav>
               </div>
-              <br />
+            </div>
+            <br />
+          </div>
+
+          <br></br>
+          <div className="bg-white shadow-md rounded-lg p-12">
+            <div className="flex w-full space-x-4 mb-6">
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Area Type
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
+                  onChange={onArea}
+                >
+                  <option value="" selected hidden>
+                    Select Scheme Name
+                  </option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onDistrict}
+                >
+                  <option value="" selected hidden>
+                    Select District List
+                  </option>
+                  {districtListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              {district?.length > 0 && area === "U" ? (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Municipality
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onClick={onMunicipality}
+                  >
+                    <option value="" selected hidden>
+                      Select Municipality List
+                    </option>
+                    {municipalityListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {district?.length > 0 && area === "R" ? (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option value="" selected hidden>
+                      Select Block List
+                    </option>
+                    {blockListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {block?.length > 0 && area === "R" ? (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Gram Panchayat
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onClick={onGP}
+                  >
+                    <option value="" selected hidden>
+                      Select GP List
+                    </option>
+                    {GpListDropdown}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
 
-            <br></br>
-            <div className="bg-white shadow-md rounded-lg p-12">
-              <div className="flex w-full space-x-4 mb-6">
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Area Type
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                    onChange={onArea}
-                  >
-                    <option value="" selected hidden>
-                      Select Scheme Name
-                    </option>
-                    <option value="R">Rural</option>
-                    <option value="U">Urban</option>
-
-                    {/* Add more options as needed */}
-                  </select>
-                </div>
-
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    District
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onDistrict}
-                  >
-                    <option value="" selected hidden>
-                      Select District List
-                    </option>
-                    {districtListDropdown}
-
-                    {/* Add more options as needed */}
-                  </select>
-                </div>
-                {district?.length > 0 && area === "U" ? (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Municipality
-                    </label>
-                    <select
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onClick={onMunicipality}
-                    >
-                      <option value="" selected hidden>
-                        Select Municipality List
-                      </option>
-                      {municipalityListDropdown}
-
-                      {/* Add more options as needed */}
-                    </select>
-                  </div>
-                ) : (
-                  ""
-                )}
-
-                {district?.length > 0 && area === "R" ? (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Block
-                    </label>
-                    <select
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onChange={onBlock}
-                    >
-                      <option value="" selected hidden>
-                        Select Block List
-                      </option>
-                      {blockListDropdown}
-
-                      {/* Add more options as needed */}
-                    </select>
-                  </div>
-                ) : (
-                  ""
-                )}
-
-                {block?.length > 0 && area === "R" ? (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Gram Panchayat
-                    </label>
-                    <select
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onClick={onGP}
-                    >
-                      <option value="" selected hidden>
-                        Select GP List
-                      </option>
-                      {GpListDropdown}
-
-                      {/* Add more options as needed */}
-                    </select>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-
-              <div className="flex flex-col w-full mb-4">
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Type of Sector
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onSector}
-                  >
-                    <option selected hidden>
-                      Select Sector
-                    </option>
-                    {sectorListDropdown}
-                  </select>
-                </div>
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Scheme Name
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Scheme Name..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                    onChange={onSchemeName}
-                    onKeyDown={handleKeyDown}
-                  />
-                  {!isValidSchemeName && (
-                    <div style={{ color: "red" }}>
-                      Please enter a valid Scheme Name
-                    </div>
-                  )}
-                </div>
-
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Worksite Location (Full Address)
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Worksite Location ..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onLocation}
-                  />
-                </div>
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Funding Department
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    onChange={onDepartment}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected hidden>
-                      Select a Department
-                    </option>
-                    {departmentListDropdown}
-                  </select>
-                </div>
-              </div>
-              <div className="flex w-full space-x-4 mb-6 px-4 ">
-                <div className="w-1/4 flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Status of Work
-                    <span className="text-red-500 ">*</span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="p-2 block w-full border border-gray-300 rounded-md mt-1"
-                    required
-                    onChange={onStatus}
-                  >
-                    <option value="" selected hidden>
-                      Select Status of Work
-                    </option>
-                    <option value="P">Proposed</option>
-                    <option value="S">Started</option>
-
-                    {/* Add more options as needed */}
-                  </select>
-                </div>
-
-                <div className="w-1/4 flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Tentative Work Start Date
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={tentativeWorkStartDate}
-                    onChange={(date) => setTentativeWorkStartDate(date)}
-                  />
-                </div>
-
-                <div className="w-1/4 flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Actual Work Start Date
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={actualWorkStartDate}
-                    onChange={(date) => setActualWorkStartDate(date)}
-                  />
-                </div>
-                <div className="w-fit flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700 w-fit"
-                  >
-                    Expected Work Completion Date
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={expectedWorkDate}
-                    onChange={(date) => setExpectedWorkDate(date)}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full mb-4 space-x-4">
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Project Cost (in Rs.)
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Project Cost..."
-                    value={projectCost}
-                    onChange={onProjectCost}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Total Wage Cost involved in the Work
-                    <span className="text-red-500 "> *</span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Total Wage Cost involved in the Work..."
-                    value={totalWages}
-                    onChange={onTotalWages}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div className="px-4 w-fit">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Persondays to be generated
-                    <span className="text-red-500 w-fit"> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="Persondays"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Persondays to be generated from the Work..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    value={persondaysWork}
-                    onChange={onPersondaysWork}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full space-x-4 mb-4 ">
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    No of Unskilled Workers to be engaged
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="No of Unskilled Workers to be  engaged..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    value={unskilled}
-                    onChange={onUnskilled}
-                  />
-                </div>
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    No of Semi-Skilled Workers to be engaged
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="No of Semi-Skilled Workers to be  engaged..."
-                    value={semiskilled}
-                    onChange={onSemiskilled}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    No of Skilled Workers to be engaged
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="No of Skilled Workers to be  engaged..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    value={skilled}
-                    onChange={onSkilled}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full space-x-4 mb-4 ">
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Work Order Number
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Work Order Number..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onWorkOrderNumber}
-                  />
-                  {!isValidWorkOrderNumber && (
-                    <div style={{ color: "red" }}>
-                      Please enter a Valid Work Order Number
-                    </div>
-                  )}
-                </div>
-                <div className="px-4 w-1/3 flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Work Order Date
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={workOrderDate}
-                    onChange={(date) => setWorkOrderDate(date)}
-                  />
-                </div>
-                <div className="px-4 w-1/3">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Contractor List
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onContractor}
-                  >
-                    <option value="" selected hidden>
-                      Select Contractor List
-                    </option>
-                    {contractorListDropdown}
-
-                    {/* Add more options as needed */}
-                  </select>
-                </div>
-              </div>
-              <div className="flex flex-col w-full mb-4">
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Remarks
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder=" Remarks..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onRemarks}
-                  />
-                  {!isValidRemark && (
-                    <div style={{ color: "red" }}>
-                      Please enter a Valid Remark
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="flex justify-center items-center">
-                <button
-                  type="button"
-                  className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSubmit}
+            <div className="flex flex-col w-full mb-4">
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  Submit
-                </button>
+                  Type of Sector
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                  onChange={onSector}
+                >
+                  <option selected hidden>
+                    Select Sector
+                  </option>
+                  {sectorListDropdown}
+                </select>
               </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Scheme Name
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Scheme Name..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
+                  onChange={onSchemeName}
+                  // onKeyDown={handleKeyDown}
+                />
+                {!isValidSchemeName && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Scheme Name
+                  </div>
+                )}
+              </div>
+
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Worksite Location (Full Address)
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Worksite Location ..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onLocation}
+                />
+              </div>
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Funding Department
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  onChange={onDepartment}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    Select a Department
+                  </option>
+                  {departmentListDropdown}
+                </select>
+              </div>
+            </div>
+            <div className="flex w-full space-x-4 mb-6 px-4 ">
+              <div className="w-1/4 flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Status of Work
+                  <span className="text-red-500 ">*</span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="p-2 block w-full border border-gray-300 rounded-md mt-1"
+                  required
+                  onChange={onStatus}
+                >
+                  <option value="" selected hidden>
+                    Select Status of Work
+                  </option>
+                  <option value="P">Proposed</option>
+                  <option value="S">Started</option>
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+
+              <div className="w-1/4 flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Tentative Work Start Date
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={tentativeWorkStartDate}
+                  onChange={(date) => setTentativeWorkStartDate(date)}
+                />
+              </div>
+
+              <div className="w-1/4 flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Actual Work Start Date
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={actualWorkStartDate}
+                  onChange={(date) => setActualWorkStartDate(date)}
+                />
+              </div>
+              <div className="w-fit flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700 w-fit"
+                >
+                  Expected Work Completion Date
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={expectedWorkDate}
+                  onChange={(date) => setExpectedWorkDate(date)}
+                />
+              </div>
+            </div>
+            <div className="flex w-full mb-4 space-x-4">
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Project Cost (in Rs.)
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Project Cost..."
+                  value={projectCost}
+                  onChange={onProjectCost}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Total Wage Cost involved in the Work
+                  <span className="text-red-500 "> *</span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Total Wage Cost involved in the Work..."
+                  value={totalWages}
+                  onChange={onTotalWages}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4 w-fit">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Persondays to be generated
+                  <span className="text-red-500 w-fit"> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="Persondays"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Persondays to be generated from the Work..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={persondaysWork}
+                  onChange={onPersondaysWork}
+                />
+              </div>
+            </div>
+            <div className="flex w-full space-x-4 mb-4 ">
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  No of Unskilled Workers to be engaged
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="No of Unskilled Workers to be  engaged..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={unskilled}
+                  onChange={onUnskilled}
+                />
+              </div>
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  No of Semi-Skilled Workers to be engaged
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="No of Semi-Skilled Workers to be  engaged..."
+                  value={semiskilled}
+                  onChange={onSemiskilled}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  No of Skilled Workers to be engaged
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="No of Skilled Workers to be  engaged..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={skilled}
+                  onChange={onSkilled}
+                />
+              </div>
+            </div>
+            <div className="flex w-full space-x-4 mb-4 ">
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Work Order Number
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Work Order Number..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onWorkOrderNumber}
+                />
+                {!isValidWorkOrderNumber && (
+                  <div style={{ color: "red" }}>
+                    Please enter a Valid Work Order Number
+                  </div>
+                )}
+              </div>
+              <div className="px-4 w-1/3 flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Work Order Date
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full border border-gray-300 rounded-md mt-1"
+                  selected={workOrderDate}
+                  onChange={(date) => setWorkOrderDate(date)}
+                />
+              </div>
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor List
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onContractor}
+                >
+                  <option value="" selected hidden>
+                    Select Contractor List
+                  </option>
+                  {contractorListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-col w-full mb-4">
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Remarks
+                </label>
+                <input
+                  id="scheme_name"
+                  name="scheme_name"
+                  type="text"
+                  autoComplete="off"
+                  placeholder=" Remarks..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onRemarks}
+                />
+                {!isValidRemark && (
+                  <div style={{ color: "red" }}>
+                    Please enter a Valid Remark
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-center items-center">
+              <button
+                type="button"
+                className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={onSubmit}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

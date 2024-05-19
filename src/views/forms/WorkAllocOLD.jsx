@@ -207,6 +207,90 @@ const WorkAlloc = () => {
     });
   };
 
+  const data = {
+    json: {
+      schemeArea: "R",
+      departmentNo: 1,
+      districtcode: 320,
+      municipalityCode: 0,
+      blockcode: 7115,
+      gpCode: 110777,
+      schemeId: "4",
+      schemeSector: "missing",
+      workAllocationID: "AL818958",
+      workerJobCardNo: "WB-3201001010-30-888",
+      workerName: "kalyani man",
+      workAllocationFromDate: "2024-05-30",
+      workAllocationToDate: "2024-06-11",
+      noOfDaysWorkAlloted: 12,
+      totalWagePaid: "input data",
+      workallocationsl: 5,
+      currentMonth: 5,
+      currentYear: 2024,
+      ooooooooooooooooooooooooooooooooooooooooooooooooooooooo: "----",
+
+      workallocationsl: 10,
+
+      schemeName: "S332551-bridge repair-[2024-2025]",
+      contractorID: "3",
+
+      dateOfApplicationForWork: "2024-05-20",
+      noOfDaysWorkDemanded: 14,
+
+      finYear: "2024-2025",
+      ex1: null,
+      ex2: null,
+      ex3: null,
+      ex4: null,
+      ex5: null,
+      userIndex: 3,
+      submitTime: "2024-05-19T07:19:04.000Z",
+      UpdateTime: null,
+
+      ooooooooooooooooooooooooooooooooooooooooooooooooooooooo: "----",
+
+      FundingDepttID: 13,
+      FundingDeptname: "FOOD AND SUPPLIES",
+      ExecutingDepttID: 1,
+      ExecutingDeptName: "AGRICULTURAL MARKETING",
+      ImplementingAgencyID: 1,
+      ImplementingAgencyName: "AGRICULTURAL MARKETING",
+    },
+  };
+
+  const data2 = {
+    json: {
+      submitTime: "2024-05-19",
+      noOfDaysWorkDemanded: 52,
+      noOfDaysWorkAlloted: 34,
+      districtcode: 320,
+      blockcode: 7115,
+      schemeId: "4",
+      workAllocationID: "AL818958",
+      schemeName: "saguna chicken",
+      FundingDepttID: 13,
+      FundingDeptname: "FOOD AND SUPPLIES",
+      ExecutingDepttID: 1,
+      ExecutingDeptName: "AGRICULTURAL MARKETING",
+      ImplementingAgencyID: 1,
+      ImplementingAgencyName: "AGRICULTURAL MARKETING",
+      StatusOfWork: "P",
+      tentativeStartDate: "2024-05-18",
+      ActualtartDate: "2024-05-18",
+      ExpectedCompletionDate: "2024-05-18",
+      totalprojectCost: 780000000,
+      totalWageCost: 780000000,
+      totalLabour: 0,
+      personDaysGenerated: 100,
+      totalUnskilledWorkers: 10,
+      totalSemiSkilledWorkers: 10,
+      totalSkilledWorkers: 10,
+      workorderNo: "786",
+      workOderDate: "2024-05-18",
+      ControctorID: 1,
+    },
+  };
+
   return (
     <>
       <SuccessModal
