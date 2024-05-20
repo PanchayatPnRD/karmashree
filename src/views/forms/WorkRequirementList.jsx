@@ -38,56 +38,54 @@ const WorkRequirementList = () => {
     const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
 
     const list = [
-        {
-            header: "Sl no",
-            accessorKey: "cont_sl",
-            className: "font-bold text-zinc-600 text-center cursor-pointer",
-            cell: ({ row }) => row.index + 1,
-            headclass: "cursor-pointer",
-            // sortingFn: "id",
-        },
-        {
-            header: "Financial Year",
-            accessorKey: "finYear",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Req ID",
-            accessorKey: "workerreqID",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Scheme ID",
-            accessorKey: "workCodeSchemeID",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Contractor",
-            accessorKey: "ContractorID",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Contact No",
-            accessorKey: "contactPersonPhoneNumber",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Start Date",
-            accessorKey: "fromDate",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "No of Days",
-            accessorKey: "noOfDays",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Funding Department",
-            accessorKey: "deptName",
-            headclass: "cursor-pointer",
-        },
-        
-
+      {
+        header: "Sl no",
+        accessorKey: "cont_sl",
+        className: "font-bold text-zinc-600 text-center cursor-pointer",
+        cell: ({ row }) => row.index + 1,
+        headclass: "cursor-pointer",
+        // sortingFn: "id",
+      },
+      {
+        header: "Financial Year",
+        accessorKey: "finYear",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Req ID",
+        accessorKey: "workerreqID",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Scheme",
+        accessorKey: "schName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Contractor",
+        accessorKey: "conName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Contact No",
+        accessorKey: "contactPersonPhoneNumber",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Start Date",
+        accessorKey: "fromDate",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "No of Days",
+        accessorKey: "noOfDays",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Funding Department",
+        accessorKey: "deptName",
+        headclass: "cursor-pointer",
+      },
     ];
 
     const [sorting, setSorting] = useState([]);
