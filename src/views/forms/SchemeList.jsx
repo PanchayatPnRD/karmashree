@@ -108,9 +108,9 @@ const SchemeList = () => {
 
                   <Table.Cell>{d?.finYear}</Table.Cell>
                   <Table.Cell>
-                    {d?.blockcode ? d?.blockcode : d?.municipalityCode}
+                    {d?.blockcode ? d?.blockname : d?.muniName}
                   </Table.Cell>
-                  <Table.Cell>{d?.gpCode}</Table.Cell>
+                  <Table.Cell>{d?.gpName == "" ? "-" : d?.gpName }</Table.Cell>
                   <Table.Cell>{d?.schemeName}</Table.Cell>
                   <Table.Cell>{d?.totalprojectCost}</Table.Cell>
 

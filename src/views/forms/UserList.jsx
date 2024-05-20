@@ -57,24 +57,33 @@ const UserList = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "User ID",
-      accessorKey: "userId",
+      header: "Username",
+      accessorKey: "userName",
       headclass: "cursor-pointer",
     },
     {
       header: "District",
-      accessorKey: "districtcode",
+      accessorKey: "districtName",
       headclass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
       header: "Sub Division",
-      accessorKey: "subDivision",
+      accessorKey: "subDivisionName",
       headclass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.subDivisionName == "" ? "-" : row.original.subDivisionName,
     },
     {
       header: "Block",
-      accessorKey: "blockCode",
+      accessorKey: "blockname",
       headclass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.blockname == "" ? "-" : row.original.blockname,
     },
 
     {

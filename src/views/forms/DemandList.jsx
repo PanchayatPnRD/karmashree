@@ -53,23 +53,36 @@ const DemandList = () => {
         },
         {
             header: "District",
-            accessorKey: "districtcode",
-            headclass: "cursor-pointer",
+            accessorKey: "districtName",
+            headClass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.districtName == "" ? "-" : row.original.districtName,
+
         },
         {
-            header: "Municipality",
-            accessorKey: "municipalityCode",
+            header: "Municapility",
+            accessorKey: "muniName",
             headclass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.muniName == "" ? "-" : row.original.muniName,
+
         },
         {
             header: "Block",
-            accessorKey: "blockcode",
-            headclass: "cursor-pointer",
+            accessorKey: "blockname",
+            headClass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.blockname == "" ? "-" : row.original.blockname,
         },
         {
             header: "GP",
-            accessorKey: "gpCode",
+            accessorKey: "gpName",
             headclass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) => row.original.gpName == "" ? "-" : row.original.gpName,
         },
         {
             header: "Worker JobCard No",
@@ -96,9 +109,9 @@ const DemandList = () => {
             accessorKey: "noOfDaysWorkDemanded",
             headclass: "cursor-pointer",
         },
-       
-       
-        
+
+
+
 
     ];
 

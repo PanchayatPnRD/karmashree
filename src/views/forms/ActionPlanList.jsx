@@ -65,16 +65,25 @@ const ActionPlanList = () => {
       header: "District",
       accessorKey: "districtName",
       headClass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
       header: "Block",
       accessorKey: "blockname",
       headClass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.blockname == "" ? "-" : row.original.blockname,
     },
     {
       header: "GP",
       accessorKey: "gpName",
       headClass: "cursor-pointer",
+      className: "text-center",
+      cell: ({ row }) =>
+        row.original.gpName == "" ? "-" : row.original.gpName,
     },
     {
       header: "Type of Schemes",

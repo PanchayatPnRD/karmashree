@@ -83,7 +83,7 @@ const WorkRequirementList = () => {
         },
         {
             header: "Funding Department",
-            accessorKey: "-",
+            accessorKey: "deptName",
             headclass: "cursor-pointer",
         },
         

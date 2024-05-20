@@ -366,13 +366,15 @@ const Scheme = () => {
       toast.error("Total Wage Cost cant greater than Project Cost ");
     } else if (persondaysWork === "") {
       toast.error("Please Type Persondays to be generated from the Work");
-    } else if (unskilled === "") {
-      toast.error("Please Type No of Unskilled Workers to be engaged");
-    } else if (semiskilled === "") {
-      toast.error("Please Type No of Semi-Skilled Workers to be engaged");
-    } else if (skilled === "") {
-      toast.error("Please Type No of Skilled Workers to be engaged");
-    } else if (workOrderNumber === "") {
+    }
+    // else if (unskilled === "") {
+    //   toast.error("Please Type No of Unskilled Workers to be engaged");
+    // } else if (semiskilled === "") {
+    //   toast.error("Please Type No of Semi-Skilled Workers to be engaged");
+    // } else if (skilled === "") {
+    //   toast.error("Please Type No of Skilled Workers to be engaged");
+    // }
+    else if (workOrderNumber === "") {
       toast.error("Please Type Work Order Number");
     } else if (!workOrderDate) {
       toast.error("Please Select Work Order Date");
@@ -400,12 +402,17 @@ const Scheme = () => {
           ?.departmentName,
 
         data?.departmentNo,
+
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
+        
         data?.departmentNo,
+
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
+        
         status,
+        
         format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
         format(new Date(actualWorkStartDate), "yyyy-MM-dd"),
         format(new Date(expectedWorkDate), "yyyy-MM-dd"),
@@ -413,9 +420,9 @@ const Scheme = () => {
         totalWages,
         0,
         persondaysWork,
-        unskilled,
-        semiskilled,
-        skilled,
+        +unskilled,
+        +semiskilled,
+        +skilled,
         workOrderNumber,
         format(new Date(workOrderDate), "yyyy-MM-dd"),
         contractor,
@@ -732,7 +739,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Tentative Work Start Date
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <DatePicker
                   dateFormat="dd/MM/yyyy"
@@ -748,7 +755,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Actual Work Start Date
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <DatePicker
                   dateFormat="dd/MM/yyyy"
@@ -763,7 +770,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700 w-fit"
                 >
                   Expected Work Completion Date
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <DatePicker
                   dateFormat="dd/MM/yyyy"
@@ -858,7 +865,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   No of Semi-Skilled Workers to be engaged
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <input
                   id="scheme_name"
@@ -877,7 +884,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   No of Skilled Workers to be engaged
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <input
                   id="scheme_name"

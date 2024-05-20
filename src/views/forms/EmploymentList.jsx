@@ -38,92 +38,102 @@ const EmploymentList = () => {
     const data = useMemo(() => employmentList ?? [], [employmentList]);
 
     const list = [
-        {
-            header: "Sl no",
-            accessorKey: "cont_sl",
-            className: "font-bold text-zinc-600 text-center cursor-pointer",
-            cell: ({ row }) => row.index + 1,
-            headclass: "cursor-pointer",
-            // sortingFn: "id",
-        },
-        {
-            header: "Financial Year",
-            accessorKey: "finYear",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "District",
-            accessorKey: "districtcode",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Municipality",
-            accessorKey: "municipalityCode",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Block",
-            accessorKey: "blockcode",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "GP",
-            accessorKey: "gpCode",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Scheme Sector",
-            accessorKey: "schemeSector",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Funding Department",
-            accessorKey: "FundingDeptname",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Executing Department",
-            accessorKey: "ExecutingDeptName",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Implementing Agency",
-            accessorKey: "ImplementingAgencyName",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "worker JobCard No",
-            accessorKey: "workerJobCardNo",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "worker Name ",
-            accessorKey: "workerName",
-            headclass: "cursor-pointer",
-        },
-      
-        {
-            header: "Allocation From Date",
-            accessorKey: "workAllocationFromDate",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "Allocation To Date",
-            accessorKey: "workAllocationToDate",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "no Of Days WorkAlloted",
-            accessorKey: "noOfDaysWorkAlloted",
-            headclass: "cursor-pointer",
-        },
-        {
-            header: "total Wage Paid",
-            accessorKey: "totalWagePaid",
-            headclass: "cursor-pointer",
-        },
-        
+      {
+        header: "Sl no",
+        accessorKey: "cont_sl",
+        className: "font-bold text-zinc-600 text-center cursor-pointer",
+        cell: ({ row }) => row.index + 1,
+        headclass: "cursor-pointer",
+        // sortingFn: "id",
+      },
+      {
+        header: "Financial Year",
+        accessorKey: "finYear",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "District",
+        accessorKey: "districtName",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.districtName == "" ? "-" : row.original.districtName,
+      },
+      {
+        header: "Municipality",
+        accessorKey: "muniName",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.muniName == "" ? "-" : row.original.muniName,
+      },
+      {
+        header: "Block",
+        accessorKey: "blockname",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.blockname == "" ? "-" : row.original.blockname,
+      },
+      {
+        header: "GP",
+        accessorKey: "gpName",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.gpName == "" ? "-" : row.original.gpName,
+      },
+      {
+        header: "Scheme Sector",
+        accessorKey: "sectorName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Funding Department",
+        accessorKey: "FundingDeptname",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Executing Department",
+        accessorKey: "ExecutingDeptName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Implementing Agency",
+        accessorKey: "ImplementingAgencyName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "worker JobCard No",
+        accessorKey: "workerJobCardNo",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "worker Name ",
+        accessorKey: "workerName",
+        headclass: "cursor-pointer",
+      },
 
+      {
+        header: "Allocation From Date",
+        accessorKey: "workAllocationFromDate",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Allocation To Date",
+        accessorKey: "workAllocationToDate",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "no Of Days WorkAlloted",
+        accessorKey: "noOfDaysWorkAlloted",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "total Wage Paid",
+        accessorKey: "totalWagePaid",
+        headclass: "cursor-pointer",
+      },
     ];
 
     const [sorting, setSorting] = useState([]);

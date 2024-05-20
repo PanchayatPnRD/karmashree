@@ -12,6 +12,8 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetch } from "../../functions/Fetchfunctions";
 import {
   getAllContractorList,
   getSchemeList,
@@ -51,14 +53,54 @@ const WorkRequirement = () => {
   const [isValidNearestLandmark, setIsValidNearestLandmark] = useState(true);
   const [allData, setAllData] = useState([]);
   const [schemeAllList, setAllSchemeAllList] = useState([]);
-  const [schemeList, setSchemeList] = useState([]);
+  const [schemeSl, setSchemeSl] = useState();
   const [unSkilled, setUnSkilled] = useState("");
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
   const [openModal, setOpenModal] = useState(false);
 
-  console.log(schemeList, "schemeList");
+  const queryclient = useQueryClient()
+
+  const { data: schemeAll_List } = useQuery({
+    queryKey: ["schemeAll_List"],
+    queryFn: async () => {
+      const data = await fetch.get(`/api/schememaster/getAllScheme`);
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+  });
+
+  const schemeData = useMemo(() => {
+    const data = schemeAllList?.filter(
+      (item) => item.scheme_sl == schemeSl
+    )[0];
+    // if (data === undefined)
+    //   return {
+    //   }
+    return data;
+  }, [schemeSl]);
+
+  const { data: contractorDetails } = useQuery({
+    queryKey: ["contractorDetails"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        `/api/contractor/getcontractorDetails/${schemeData.ControctorID}`
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+    enabled: schemeData !== undefined,
+    gcTime:0,
+  });
+
+  useEffect(() => {
+    if (schemeData !== undefined) 
+      queryclient.invalidateQueries({ queryKey: ["contractorDetails"] })
+    if (schemeData !== undefined)
+      queryclient.resetQueries({ queryKey: ["contractorDetails"] });
+    
+  }, [schemeData])
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -147,8 +189,8 @@ const WorkRequirement = () => {
   };
 
   const onScheme = (e) => {
-    setSchemeList(e.target.value);
-    console.log(e.target.value, "aniumesh")
+    setSchemeSl(e.target.value);
+    
   };
 
   let GpListDropdown = <option>Loading...</option>;
@@ -278,12 +320,13 @@ const WorkRequirement = () => {
     //   toast.error("Please Select Block");
     // } else if (area === "R" && gp === "") {
     //   toast.error("Please Select Gram Panchayat");
-    // } 
-    else if (villageName === "") {
-      toast.error("Please Type Village Name");
-    } else if (contractor === "") {
-      toast.error("Please Select Contractor List");
-    } else if (personName === "") {
+    // }
+    // else if (villageName === "") {
+    //   toast.error("Please Type Village Name");
+    // } else if (contractor === "") {
+    //   toast.error("Please Select Contractor List");
+    // }
+    else if (personName === "") {
       toast.error("Please Type Contact Person Name");
     } else if (phoneNumber === "") {
       toast.error("Please Type Contact Phone Number");
@@ -305,9 +348,9 @@ const WorkRequirement = () => {
         municipality,
         block,
         gp,
-        villageName,
-        schemeList,
-        contractor,
+        schemeData.village,
+        schemeSl,
+        contractorDetails?.cont_sl,
         personName,
         phoneNumber,
         reportingPlace,
@@ -372,441 +415,445 @@ const WorkRequirement = () => {
 
   return (
     <>
-    <SuccessModal
-      openModal={openModal}
-      setOpenModal={setOpenModal}
-      message={"Work Requisition Created Successfully"}
-      // resetData={resetData}
-      to="work-requirement-list"
-      isSuccess={true}
-      // isSuccess={true}
-      // userCreate={false}
-    />
-    <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
-      <ToastContainer />
-      <div className="p-4 shadow-md rounded">
-        <nav aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-4 px-4 py-1">
-            <svg
-              viewBox="0 0 1024 1024"
-              fill="currentColor"
-              height="1em"
-              width="1em"
-            >
-              <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
-            </svg>
-            <li>
-              <Link
-                to="/dashboard"
-                className="text-indigo-600 hover:text-indigo-800"
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        message={"Work Requisition Created Successfully"}
+        // resetData={resetData}
+        to="work-requirement-list"
+        isSuccess={true}
+        // isSuccess={true}
+        // userCreate={false}
+      />
+      <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
+        <ToastContainer />
+        <div className="p-4 shadow-md rounded">
+          <nav aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-4 px-4 py-1">
+              <svg
+                viewBox="0 0 1024 1024"
+                fill="currentColor"
+                height="1em"
+                width="1em"
               >
-                Home
-              </Link>
-              /
-            </li>
-            <li className="text-gray-500 font-bold" aria-current="page">
-              Work Requirement
-            </li>
-          </ol>
-        </nav>
-      </div>
-      <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-        <div className="flex w-full space-x-4 mb-6">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Area Type *
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-              onChange={onArea}
-            >
-              <option value="" selected hidden>
-                Select Scheme Name
-              </option>
-              <option value="R">Rural</option>
-              <option value="U">Urban</option>
-
-              {/* Add more options as needed */}
-            </select>
-          </div>
-
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              District
-              <span className="text-red-500 "> * </span>
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onDistrict}
-            >
-              <option value="" selected hidden>
-                Select District List
-              </option>
-              {districtListDropdown}
-
-              {/* Add more options as needed */}
-            </select>
-          </div>
-          {district?.length > 0 && area === "U" ? (
-            <div className="px-4">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Municipality
-              </label>
-              <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onClick={onMunicipality}
-              >
-                <option value="" selected hidden>
-                  Select Municipality List
-                </option>
-                {municipalityListDropdown}
-
-                {/* Add more options as needed */}
-              </select>
-            </div>
-          ) : (
-            ""
-          )}
-
-          {district?.length > 0 && area === "R" ? (
-            <div className="px-4">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Block
-              </label>
-              <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={onBlock}
-              >
-                <option value="" selected hidden>
-                  Select Block List
-                </option>
-                {blockListDropdown}
-
-                {/* Add more options as needed */}
-              </select>
-            </div>
-          ) : (
-            ""
-          )}
-
-          {block?.length > 0 && area === "R" ? (
-            <div className="px-4">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                GP
-              </label>
-              <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onClick={onGP}
-              >
-                <option value="" selected hidden>
-                  Select GP List
-                </option>
-                {GpListDropdown}
-
-                {/* Add more options as needed */}
-              </select>
-            </div>
-          ) : (
-            ""
-          )}
+                <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
+              </svg>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="text-indigo-600 hover:text-indigo-800"
+                >
+                  Home
+                </Link>
+                /
+              </li>
+              <li className="text-gray-500 font-bold" aria-current="page">
+                Work Requirement
+              </li>
+            </ol>
+          </nav>
         </div>
-
-        <div className="flex flex-col w-full mb-4 space-y-4">
-          <div className="flex w-full">
-            <div className="px-4 w-1/2">
+        <div className="bg-white shadow-md rounded-lg px-12 pb-12">
+          <div className="flex w-full space-x-4 mb-6">
+            <div className="px-4">
               <label
                 htmlFor="scheme_name"
                 className="block text-sm font-medium text-gray-700"
               >
-                Scheme List
+                Area Type
+                <span className="text-red-500 "> * </span>
               </label>
               <select
-                name=""
-                id=""
-                className="w-full rounded-md border-zinc-300"
-                onChange={onScheme}
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                required
+                onChange={onArea}
               >
-                <option value="" selected>
-                  -select scheme-
+                <option value="" selected hidden>
+                  Select Scheme Name
                 </option>
-                {schemeListDropdown}
+                <option value="R">Rural</option>
+                <option value="U">Urban</option>
+
+                {/* Add more options as needed */}
               </select>
             </div>
 
-            <div className="px-4 w-1/2">
+            <div className="px-4">
               <label
                 htmlFor="scheme_name"
                 className="block text-sm font-medium text-gray-700"
               >
-                Village Name
-              </label>
-              <input
-                type="text"
-                placeholder="Please Enter Village Name"
-                className="w-full rounded-md border-zinc-300"
-                onChange={onVillageName}
-              />
-              {!isValidVillageName && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Village Name
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex w-full">
-            <div className="px-4 w-1/3">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contractor List
+                District
+                <span className="text-red-500 "> * </span>
               </label>
               <select
-                name=""
-                id=""
-                className="w-full rounded-md border-zinc-300"
-                onChange={onContractor}
+                id="scheme_name"
+                name="scheme_name"
+                autoComplete="off"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onDistrict}
               >
-                <option value="">-select scheme-</option>
-                {contractorListDropdown}
+                <option value="" selected hidden>
+                  Select District List
+                </option>
+                {districtListDropdown}
+
+                {/* Add more options as needed */}
               </select>
             </div>
-
-            <div className="px-4 w-1/3">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contact Person Name
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-md border-zinc-300"
-                onChange={onPersonName}
-                onKeyDown={handleKeyDown}
-                placeholder="Please Enter Contact Person Name"
-              />
-              {!isValidContractorName && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Contact Person Name
-                </div>
-              )}
-            </div>
-            <div className="px-4 w-1/3">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contact Phone Number
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-md border-zinc-300"
-                onChange={onContactPhoneNumber}
-                maxLength={10}
-                placeholder="Please Enter Contact Phone Number"
-              />
-              {!isValidMobile && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Contact Phone Number
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex w-full">
-            <div className="px-4 w-1/2">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Reporting Place
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-md border-zinc-300"
-                onChange={onReportingPlace}
-                placeholder="Please Enter Reporting Place"
-              />
-              {!isValidReportingPlace && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Reporting Place
-                </div>
-              )}
-            </div>
-
-            <div className="px-4 w-1/2">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nearest Landmark
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-md border-zinc-300"
-                onChange={onNearestLandmark}
-                placeholder="Please Enter Nearest Landmark"
-              />
-              {!isValidNearestLandmark && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Nearest Landmark
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex w-full">
-            <div className="px-4 w-1/5 flex flex-col">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Start Date
-              </label>
-              <DatePicker
-                minDate={new Date()}
-                dateFormat="dd/MM/yyyy"
-                className="w-full border border-gray-300 rounded-md "
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-              />
-            </div>
-
-            <div className="px-4 w-1/6">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                No of Days
-              </label>
-              <div className="border rounded-md border-zinc-300 flex items-center h-10 justify-around">
-                <button
-                  className="text-3xl text-zinc-400 hover:text-zinc-600"
-                  onClick={() => {
-                    if (days >= 2) {
-                      setDays((e) => e - 1);
-                      setAllData((prev) => prev.slice(0, -1));
-                    }
-                  }}
+            {district?.length > 0 && area === "U" ? (
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  <Icon icon={"ic:round-minus"} />
-                </button>
-                <span className="text-md font-semibold text-zinc-800 w-4">
-                  {days}
-                </span>
-                <button
-                  className="text-3xl text-zinc-400 hover:text-zinc-600"
-                  onClick={() => {
-                    if (days <= 13) setDays((e) => e + 1);
-                  }}
+                  Municipality
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onClick={onMunicipality}
                 >
-                  <Icon icon={"ic:round-add"} />
-                </button>
+                  <option value="" selected hidden>
+                    Select Municipality List
+                  </option>
+                  {municipalityListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {district?.length > 0 && area === "R" ? (
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Block
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onBlock}
+                >
+                  <option value="" selected hidden>
+                    Select Block List
+                  </option>
+                  {blockListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {block?.length > 0 && area === "R" ? (
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  GP
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onClick={onGP}
+                >
+                  <option value="" selected hidden>
+                    Select GP List
+                  </option>
+                  {GpListDropdown}
+
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="flex flex-col w-full mb-4 space-y-4">
+            <div className="flex w-full">
+              <div className="px-4 w-1/2">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Scheme List
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  name=""
+                  id=""
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onScheme}
+                >
+                  <option value="" selected hidden>
+                    -select scheme-
+                  </option>
+                  {schemeAll_List?.map((e) => (
+                    <option value={e.scheme_sl}>{e.schemename}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="px-4 w-1/2">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Village Name
+                </label>
+                <input
+                  type="text"
+                  value={schemeData === undefined ? "" : schemeData.village}
+                  disabled
+                  placeholder="Please Enter Village Name"
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onVillageName}
+                />
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contractor Name
+                </label>
+                <input
+                  type="text"
+                  value={contractorDetails?.contractorName}
+                  disabled
+                  placeholder="Please Enter Village Name"
+                  className="w-full rounded-md border-zinc-300"
+                  // onChange={onVillageName}
+                />
+              </div>
+
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contact Person Name
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onPersonName}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Please Enter Contact Person Name"
+                />
+                {!isValidContractorName && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Contact Person Name
+                  </div>
+                )}
+              </div>
+              <div className="px-4 w-1/3">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Contact Phone Number
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onContactPhoneNumber}
+                  maxLength={10}
+                  placeholder="Please Enter Contact Phone Number"
+                />
+                {!isValidMobile && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Contact Phone Number
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="px-4 w-1/2">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Reporting Place
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onReportingPlace}
+                  placeholder="Please Enter Reporting Place"
+                />
+                {!isValidReportingPlace && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Reporting Place
+                  </div>
+                )}
+              </div>
+
+              <div className="px-4 w-1/2">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Nearest Landmark
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-md border-zinc-300"
+                  onChange={onNearestLandmark}
+                  placeholder="Please Enter Nearest Landmark"
+                />
+                {!isValidNearestLandmark && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Nearest Landmark
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="px-4 w-1/5 flex flex-col">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Start Date
+                </label>
+                <DatePicker
+                  minDate={new Date()}
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full border border-gray-300 rounded-md "
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </div>
+
+              <div className="px-4 w-1/6">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  No of Days
+                </label>
+                <div className="border rounded-md border-zinc-300 flex items-center h-10 justify-around">
+                  <button
+                    className="text-3xl text-zinc-400 hover:text-zinc-600"
+                    onClick={() => {
+                      if (days >= 2) {
+                        setDays((e) => e - 1);
+                        setAllData((prev) => prev.slice(0, -1));
+                      }
+                    }}
+                  >
+                    <Icon icon={"ic:round-minus"} />
+                  </button>
+                  <span className="text-md font-semibold text-zinc-800 w-4">
+                    {days}
+                  </span>
+                  <button
+                    className="text-3xl text-zinc-400 hover:text-zinc-600"
+                    onClick={() => {
+                      if (days <= 13) setDays((e) => e + 1);
+                    }}
+                  >
+                    <Icon icon={"ic:round-add"} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <Table className="w-full">
-            <Table.Head>
-              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-20">
-                #
-              </Table.HeadCell>
-              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                Date
-              </Table.HeadCell>
-              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case rounded-tr-lg">
-                Unskill
-              </Table.HeadCell>
-              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
-                Semi-Skill
-              </Table.HeadCell>
-              <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
-                Skill
-              </Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {dates.map((e, index) => (
-                <Table.Row>
-                  <Table.Cell>{index + 1}</Table.Cell>
-                  <Table.Cell className="text-zinc-800">
-                    {e.toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {" "}
-                    <input
-                      type="number"
-                      className="rounded-md border-zinc-300"
-                      placeholder="Please Enter Unskilled"
-                      onChange={(event) => {
-                        const new_array = allData.map((e) => {
-                          if (e.index === index) {
-                            return {
-                              ...e,
-                              unskilledWorkers: event.target.value,
-                            };
-                          }
-                          return e;
-                        });
-                        setAllData(new_array);
-                        // console.log(allData[index].unskilledWorkers);
-                      }}
-                    />
-                    {/* {console.log(allData[0].unskilledWorkers)} */}
-                  </Table.Cell>
-                  <Table.Cell className="hidden">0</Table.Cell>
-                  <Table.Cell className="hidden">0</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
+          <div className="flex justify-center">
+            <Table className="w-full">
+              <Table.Head>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-20">
+                  #
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                  Date
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case rounded-tr-lg">
+                  Unskill
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
+                  Semi-Skill
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
+                  Skill
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dates.map((e, index) => (
+                  <Table.Row>
+                    <Table.Cell>{index + 1}</Table.Cell>
+                    <Table.Cell className="text-zinc-800">
+                      {e.toLocaleDateString("en-IN", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {" "}
+                      <input
+                        type="number"
+                        className="rounded-md border-zinc-300"
+                        placeholder="Please Enter Unskilled"
+                        onChange={(event) => {
+                          const new_array = allData.map((e) => {
+                            if (e.index === index) {
+                              return {
+                                ...e,
+                                unskilledWorkers: event.target.value,
+                              };
+                            }
+                            return e;
+                          });
+                          setAllData(new_array);
+                          // console.log(allData[index].unskilledWorkers);
+                        }}
+                      />
+                      {/* {console.log(allData[0].unskilledWorkers)} */}
+                    </Table.Cell>
+                    <Table.Cell className="hidden">0</Table.Cell>
+                    <Table.Cell className="hidden">0</Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
 
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={onSubmit}
-          >
-            Submit
-          </button>
+          <div className="flex justify-center items-center">
+            <button
+              type="button"
+              className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
