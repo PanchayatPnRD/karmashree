@@ -57,6 +57,38 @@ const WorkRequirementList = () => {
         headclass: "cursor-pointer",
       },
       {
+        header: "District",
+        accessorKey: "districtName",
+        headClass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.districtName == "" ? "-" : row.original.districtName,
+      },
+      {
+        header: "Municapility",
+        accessorKey: "muniName",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.muniName == "" ? "-" : row.original.muniName,
+      },
+      {
+        header: "Block",
+        accessorKey: "blockName",
+        headClass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.blockName == "" ? "-" : row.original.blockName,
+      },
+      {
+        header: "GP",
+        accessorKey: "gpName",
+        headclass: "cursor-pointer",
+        className: "text-center",
+        cell: ({ row }) =>
+          row.original.gpName == "" ? "-" : row.original.gpName,
+      },
+      {
         header: "Scheme",
         accessorKey: "schName",
         headclass: "cursor-pointer",
@@ -82,8 +114,13 @@ const WorkRequirementList = () => {
         headclass: "cursor-pointer",
       },
       {
-        header: "Funding Department",
+        header: "Department",
         accessorKey: "deptName",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Funding Department",
+        accessorKey: "",
         headclass: "cursor-pointer",
       },
     ];

@@ -649,9 +649,9 @@ const WorkRequirement = () => {
               <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 capitalize"
                 >
-                  Contact Person Name
+                  reporting person name
                   <span className="text-red-500 "> * </span>
                 </label>
                 <input
@@ -670,9 +670,9 @@ const WorkRequirement = () => {
               <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 capitalize"
                 >
-                  Contact Phone Number
+                  reporting person contact number
                   <span className="text-red-500 "> * </span>
                 </label>
                 <input

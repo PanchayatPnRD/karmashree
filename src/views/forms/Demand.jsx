@@ -507,6 +507,7 @@ const WorkRequirement = () => {
                             ))}
                           </select>
                           <input
+                            maxLength={3}
                             value={familyId}
                             onChange={(e) =>
                               updateVal(e, index, allData, setAllData)
@@ -522,6 +523,7 @@ const WorkRequirement = () => {
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
                           type="text"
+                          placeholder="worker name"
                           name="workerName"
                           value={workerName}
                           onChange={(e) =>
@@ -542,6 +544,7 @@ const WorkRequirement = () => {
                           <option value="">-select gender-</option>
                           <option value="M">Male</option>
                           <option value="F">Female</option>
+                          <option value="T">Transgender</option>
                         </select>
                       </Table.Cell>
                       <Table.Cell>
@@ -586,6 +589,7 @@ const WorkRequirement = () => {
                           type="number"
                           name="mobileNo"
                           maxLength={10}
+                          placeholder="mobile number"
                           value={mobileNo}
                           onChange={(e) =>
                             updateVal(e, index, allData, setAllData)
@@ -597,6 +601,7 @@ const WorkRequirement = () => {
                           className="border cursor-pointer border-gray-300 rounded-md"
                           type="number"
                           name="aadhaarNo"
+                          placeholder="XXXX-XXXX-XXXX"
                           maxLength={16}
                           value={aadhaarNo}
                           onChange={(e) =>
