@@ -35,7 +35,7 @@ const Designation = () => {
   const designation = useRef(null);
   const queryClient = useQueryClient();
 
-  const { mutate: add, isPending: addPending } = useMutation({
+  const { mutate: addPed, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
       return axios.post(devApi + "/api/mastertable/createDesignation", newTodo);
     },
@@ -47,7 +47,7 @@ const Designation = () => {
     mutationKey:["adddesignation"]
   });
 
-  const { mutate: update, isPending: updatePending } = useMutation({
+  const { mutate: updatePed, isPending: updatePending } = useMutation({
     mutationFn: (newTodo) => {
       return axios.put(
         devApi + "/api/mastertable/UpdateDesigntion" + mutationId,
@@ -70,7 +70,7 @@ const Designation = () => {
       toast.error("Please Type Pedestal name");
     } else {
       if (mutationId === null)
-        add({
+        addPed({
           designationLevel: designationTier.current.value,
           designation: designation.current.value,
           designationstage: 0,
@@ -78,7 +78,7 @@ const Designation = () => {
           officeName: "",
         });
       else
-        update({
+        updatePed({
           designationLevel: designationTier.current.value,
           designation: designation.current.value,
         });

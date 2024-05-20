@@ -21,6 +21,7 @@ import { addCreatePedestal } from "../../Service/Pedestal/PedestalService";
 import { Loading } from "./Department";
 
 export const Pedestal = () => {
+  const [mutationId, setMutationId] = useState(null);
   const [department, setDepartment] = useState("");
   const [pedestal, setPedestal] = useState("");
   const { data: departmentList } = useQuery({
@@ -45,14 +46,28 @@ export const Pedestal = () => {
   const pedalstalRef = useRef(null);
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: add, isPending:addpending } = useMutation({
     mutationFn: (newTodo) => {
       return axios.post(devApi + "/api/mastertable/createPedestal", newTodo);
     },
+    mutationKey: ["padesAdd"],
     onSuccess: () => {
       queryClient.invalidateQueries("pedestalList");
       deptNameRef.current.value = "";
       pedalstalRef.current.value = "";
+    },
+  });
+
+  const { mutate: update, isPending:updatepending } = useMutation({
+    mutationFn: (newTodo) => {
+      return axios.post(devApi + "/api/mastertable/updatePedestal/"+mutationId, newTodo);
+    },
+    mutationKey: ["padesUpdate"],
+    onSuccess: () => {
+      queryClient.invalidateQueries("pedestalList");
+      deptNameRef.current.value = "";
+      pedalstalRef.current.value = "";
+      setMutationId(null);
     },
   });
 
@@ -120,7 +135,7 @@ export const Pedestal = () => {
       document.body.style.overflow = "auto";
     };
 
-    if (isPending) {
+    if (addpending || updatepending) {
       preventScroll();
     } else {
       allowScroll();
@@ -129,7 +144,7 @@ export const Pedestal = () => {
     return () => {
       allowScroll();
     };
-  }, [isPending]);
+  }, [addpending, updatepending]);
 
   const onDepartment = (e) => {
     console.log(e.target.value, "dept");
@@ -146,20 +161,31 @@ export const Pedestal = () => {
     } else if (pedestal === "") {
       toast.error("Please Type Parastatals name");
     } else {
-      mutate({
-        departmentNo: department,
-        departmentName: departmentList.find((c) => c.departmentNo == department)
-          ?.departmentName,
-        pedestalName: pedestal,
-        userIndex: dataUser?.userIndex,
-      });
+      if (mutationId === null)
+        mutate({
+          departmentNo: department,
+          departmentName: departmentList.find(
+            (c) => c.departmentNo == department
+          )?.departmentName,
+          pedestalName: pedestal,
+          userIndex: dataUser?.userIndex,
+        });
+      else
+        update({
+          departmentName: departmentList.find(
+            (c) => c.departmentNo == deptNameRef.current.value
+          )?.departmentName,
+          pedestalName: pedestal,
+        });
     }
   }
+
+  
 
   return (
     <>
       <ToastContainer />
-      {isPending && <Loading />}
+      {addpending || (updatepending && <Loading />)}
       <div className="overflow-hidden bg-white rounded-lg p-12 flex flex-col flex-grow">
         <div className="shadow-md">
           <div className="flex justify-between items-center">
@@ -186,7 +212,7 @@ export const Pedestal = () => {
                     /
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                  Parastatals Master
+                    Parastatals Master
                   </li>
                 </ol>
               </nav>
@@ -216,7 +242,7 @@ export const Pedestal = () => {
           </div>
           <div>
             <label className="capitalize text-black">
-            Parastatals Name
+              Parastatals Name
               <span className="text-red-500 "> * </span>
             </label>
             <input
@@ -229,14 +255,31 @@ export const Pedestal = () => {
               onChange={onPedestal}
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex space-x-4 justify-center items-center">
             <button
               type="button"
-              className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={classNames(
+                "w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all",
+                mutationId
+                  ? "bg-green-400 hover:bg-green-500"
+                  : "bg-indigo-600 hover:bg-indigo-700"
+              )}
               onClick={performPost}
             >
-              Submit
+              {!mutationId ? "Submit" : "Update"}
             </button>
+            {mutationId && (
+              <button
+                onClick={() => {
+                  setMutationId(null);
+                  designation.current.value = "";
+                  designationTier.current.value = "";
+                }}
+                className="w-1/8 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                reset
+              </button>
+            )}
           </div>
         </div>
         <div className=" flex justify-between px-12 items-center h-12">
@@ -307,10 +350,24 @@ export const Pedestal = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8">
-                    <Icon
-                      icon={"mingcute:edit-line"}
-                      className="font-medium text-cyan-600 hover:underline text-2xl"
-                    />
+                    <button
+                      onClick={() => {
+                        deptNameRef.current.value = row.original.departmentNo;
+                        pedalstalRef.current.value = row.original.pedestalName;
+                        setDepartment(deptNameRef.current.value);
+                        setPedestal(pedalstalRef.current.value);
+                        setMutationId(row.original.id);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                    >
+                      <Icon
+                        icon={"mingcute:edit-line"}
+                        className="font-medium text-cyan-600 hover:underline text-2xl cursor-pointer"
+                      />
+                    </button>
                   </Table.Cell>
                 </Table.Row>
               ))}
