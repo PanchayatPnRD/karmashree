@@ -204,13 +204,13 @@ const WorkAlloc = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "Scheme ID",
-      accessorKey: "workCodeSchemeID",
+      header: "Scheme",
+      accessorKey: "schName",
       headclass: "cursor-pointer",
     },
     {
       header: "Contractor",
-      accessorKey: "ContractorID",
+      accessorKey: "conName",
       headclass: "cursor-pointer",
     },
     {

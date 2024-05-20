@@ -58,6 +58,11 @@ const SchemeList = () => {
       headClass: "cursor-pointer normal-case",
     },
     {
+      header: "Scheme Id",
+      accessorKey: "schemeId",
+      headClass: "cursor-pointer normal-case",
+    },
+    {
       header: "Block/Municipality",
       accessorKey: "blockname",
       headClass: "cursor-pointer normal-case",

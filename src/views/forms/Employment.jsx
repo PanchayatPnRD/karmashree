@@ -118,7 +118,7 @@ const Employment = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Employment Allocation done"}
+        message={"Employment Generated Successfully"}
         to="employment-list"
         // resetData={resetData}
         isSuccess={submitStatus}
@@ -220,9 +220,9 @@ const Employment = () => {
                             (
                               {
                                 workAllocationID,
-                                districtcode,
-                                blockcode,
-                                schemeId,
+                                districtName,
+                                blockName,
+                                schemeName,
                                 ControctorID,
                                 FundingDeptname,
                                 workorderNo,
@@ -241,9 +241,9 @@ const Employment = () => {
                               <Table.Row>
                                 <Table.Cell>{index + 1}</Table.Cell>
                                 <Table.Cell>{workAllocationID}</Table.Cell>
-                                <Table.Cell>{districtcode}</Table.Cell>
-                                <Table.Cell>{blockcode}</Table.Cell>
-                                <Table.Cell>{schemeId}</Table.Cell>
+                                <Table.Cell>{districtName}</Table.Cell>
+                                <Table.Cell>{blockName}</Table.Cell>
+                                <Table.Cell>{schemeName}</Table.Cell>
                                 <Table.Cell>{ControctorID}</Table.Cell>
                                 <Table.Cell>{FundingDeptname}</Table.Cell>
                                 <Table.Cell>{workorderNo}</Table.Cell>
@@ -286,7 +286,10 @@ const Employment = () => {
                                         });
                                       }}
                                     >
-                                      <Icon icon={"mdi:rupee"} className="text-xl"/>
+                                      <Icon
+                                        icon={"mdi:rupee"}
+                                        className="text-xl"
+                                      />
                                       <span>employment generate</span>
                                     </button>
                                   </div>
@@ -319,10 +322,19 @@ const Employment = () => {
                               Allocation Date To
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                              Total Days work Provided
+                              Total Days work Demanded
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                              Total Wage Paid
+                              Employment Provided from
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Employment Provided To
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Total days provided
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                              Total Wage Paid (Cost in Rs.)
                             </Table.HeadCell>
                           </Table.Head>
                           <Table.Body>
