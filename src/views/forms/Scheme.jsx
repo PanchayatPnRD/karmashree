@@ -18,12 +18,14 @@ import {
 } from "../../Service/Scheme/SchemeService";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import SuccessModal from "../../components/SuccessModal";
 
 
 const Scheme = () => {
   const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
+  const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -435,8 +437,7 @@ const Scheme = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            toast.success(r.message);
-            navigate("/dashboard/scheme-list");
+            setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -446,6 +447,17 @@ const Scheme = () => {
   };
 
   return (
+    <>
+    <SuccessModal
+      openModal={openModal}
+      setOpenModal={setOpenModal}
+      message={"Scheme Created Successfully"}
+      // resetData={resetData}
+      to="scheme-list"
+      isSuccess={true}
+      // isSuccess={true}
+      // userCreate={false}
+    />
     <div className="flex-grow">
       <ToastContainer />
       <div className="mx-auto mt-2">
@@ -998,6 +1010,7 @@ const Scheme = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
