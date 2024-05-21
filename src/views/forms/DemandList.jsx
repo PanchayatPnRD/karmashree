@@ -38,96 +38,96 @@ const DemandList = () => {
     const data = useMemo(() => demandList ?? [], [demandList]);
 
     const list = [
-      {
-        header: "Sl no",
-        accessorKey: "cont_sl",
-        className: "font-bold text-zinc-600 text-center cursor-pointer",
-        cell: ({ row }) => row.index + 1,
-        headclass: "cursor-pointer",
-        // sortingFn: "id",
-      },
-      {
-        header: "Financial Year",
-        accessorKey: "finYear",
-        headclass: "cursor-pointer",
-        //demanduniqueID
-      },
-      {
-        header: "Demand Id",
-        accessorKey: "demanduniqueID",
-        headclass: "cursor-pointer",
-        //demanduniqueID
-      },
-      {
-        header: "District",
-        accessorKey: "districtName",
-        headClass: "cursor-pointer",
-        className: "text-center",
-        cell: ({ row }) =>
-          row.original.districtName == "" ? "-" : row.original.districtName,
-      },
-      {
-        header: "Municapility",
-        accessorKey: "muniName",
-        headclass: "cursor-pointer",
-        className: "text-center",
-        cell: ({ row }) =>
-          row.original.muniName == "" ? "-" : row.original.muniName,
-      },
-      {
-        header: "Block",
-        accessorKey: "blockname",
-        headClass: "cursor-pointer",
-        className: "text-center",
-        cell: ({ row }) =>
-          row.original.blockname == "" ? "-" : row.original.blockname,
-      },
-      {
-        header: "GP",
-        accessorKey: "gpName",
-        headclass: "cursor-pointer",
-        className: "text-center",
-        cell: ({ row }) =>
-          row.original.gpName == "" ? "-" : row.original.gpName,
-      },
-      {
-        header: "Worker JobCard No",
-        accessorKey: "workerJobCardNo",
-        headclass: "cursor-pointer",
-      },
-      {
-        header: "Worker Name",
-        accessorKey: "workerName",
-        headclass: "cursor-pointer",
-      },
-      {
-        header: "Mobile No",
-        accessorKey: "mobileNo",
-        headclass: "cursor-pointer",
-      },
-      {
-        header: "Worker Age",
-        accessorKey: "age",
-        headclass: "cursor-pointer",
-      },
-      
-      {
-        header: "Date Of Application For Work",
-        accessorKey: "dateOfApplicationForWork",
-        headclass: "cursor-pointer",
-      },
-      {
-        header: "No Of Days Work Demanded",
-        accessorKey: "noOfDaysWorkDemanded",
-        headclass: "cursor-pointer",
-      },
-      {
-        header: "Remarks",
-        accessorKey: "remark",
-        headclass: "cursor-pointer",
-        cell: ({ row }) =>
-            row.original.remark == "" ? "-" : row.original.remark,
-      },
+        {
+            header: "Sl no",
+            accessorKey: "cont_sl",
+            className: "font-bold text-zinc-600 text-center cursor-pointer",
+            cell: ({ row }) => row.index + 1,
+            headclass: "cursor-pointer",
+            // sortingFn: "id",
+        },
+        {
+            header: "Financial Year",
+            accessorKey: "finYear",
+            headclass: "cursor-pointer",
+            //demanduniqueID
+        },
+        {
+            header: "Demand Id",
+            accessorKey: "demanduniqueID",
+            headclass: "cursor-pointer",
+            //demanduniqueID
+        },
+        {
+            header: "District",
+            accessorKey: "districtName",
+            headClass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.districtName == "" ? "-" : row.original.districtName,
+        },
+        {
+            header: "Municapility",
+            accessorKey: "muniName",
+            headclass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.muniName == "" ? "-" : row.original.muniName,
+        },
+        {
+            header: "Block",
+            accessorKey: "blockname",
+            headClass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.blockname == "" ? "-" : row.original.blockname,
+        },
+        {
+            header: "GP",
+            accessorKey: "gpName",
+            headclass: "cursor-pointer",
+            className: "text-center",
+            cell: ({ row }) =>
+                row.original.gpName == "" ? "-" : row.original.gpName,
+        },
+        {
+            header: "Worker JobCard No",
+            accessorKey: "workerJobCardNo",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "Worker Name",
+            accessorKey: "workerName",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "Mobile No",
+            accessorKey: "mobileNo",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "Worker Age",
+            accessorKey: "age",
+            headclass: "cursor-pointer",
+        },
+
+        {
+            header: "Date Of Application For Work",
+            accessorKey: "dateOfApplicationForWork",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "No Of Days Work Demanded",
+            accessorKey: "noOfDaysWorkDemanded",
+            headclass: "cursor-pointer",
+        },
+        {
+            header: "Remarks",
+            accessorKey: "remark",
+            headclass: "cursor-pointer",
+            cell: ({ row }) =>
+                row.original.remark == "" || row.original.remark === null ? "-" : row.original.remark,
+        },
     ];
 
     const [sorting, setSorting] = useState([]);
