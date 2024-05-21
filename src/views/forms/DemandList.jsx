@@ -125,6 +125,8 @@ const DemandList = () => {
         header: "Remarks",
         accessorKey: "remark",
         headclass: "cursor-pointer",
+        cell: ({ row }) =>
+            row.original.remark == "" ? "-" : row.original.remark,
       },
     ];
 
