@@ -15,6 +15,8 @@ const Employment = () => {
   const queryClient = useQueryClient();
 
   const temp = {
+    empProvidedFrom: "",
+    empProvidedTo: "",
     totalWagePaid: "",
     FundingDepttID: undefined,
     FundingDeptname: "",
@@ -26,6 +28,17 @@ const Employment = () => {
 
   const [initialData, setInitialData] = useState(temp);
   const [empData, setEmpData] = useState([]);
+
+  const dateDifference = useMemo(() => {
+    return empData.map(({ empProvidedFrom, empProvidedTo }) => {
+      const timeDiff = Math.abs(
+        new Date(empProvidedTo).getTime() - new Date(empProvidedFrom).getTime()
+      ); // Absolute difference in milliseconds
+      const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+
+      return isNaN(daysDifference) ? 0 : daysDifference;
+    });
+  }, [empData]);
 
   const [workAllocationId, setWorkAllocationId] = useState("");
 
@@ -172,46 +185,48 @@ const Employment = () => {
                     <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                       <Table>
                         <Table.Head>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             #
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             work allocation id
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             District
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             Block
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             Scheme Id
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             Contrator Id
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            {/* <div className="whitespace-nowrap"> */}
                             Funding Department
+                            {/* </div> */}
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             work order no
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             tentative start date
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             expected completion date
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             total no of work days allcoated
                           </Table.HeadCell>
-                          <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md">
+                          <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                             total no of work days demanded
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md text-center">
+                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap text-center">
                             Action
                           </Table.HeadCell>
                         </Table.Head>
@@ -239,15 +254,15 @@ const Employment = () => {
                               index
                             ) => (
                               <Table.Row>
-                                <Table.Cell>{index + 1}</Table.Cell>
-                                <Table.Cell>{workAllocationID}</Table.Cell>
-                                <Table.Cell>{districtName}</Table.Cell>
-                                <Table.Cell>{blockName}</Table.Cell>
-                                <Table.Cell>{schemeName}</Table.Cell>
-                                <Table.Cell>{ControctorID}</Table.Cell>
-                                <Table.Cell>{FundingDeptname}</Table.Cell>
-                                <Table.Cell>{workorderNo}</Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{index + 1}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{workAllocationID}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{districtName}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{blockName}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{schemeName}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{ControctorID}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{FundingDeptname}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{workorderNo}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">
                                   {new Date(
                                     tentativeStartDate
                                   ).toLocaleDateString("en-IN", {
@@ -256,7 +271,7 @@ const Employment = () => {
                                     month: "2-digit",
                                   })}
                                 </Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">
                                   {new Date(
                                     ExpectedCompletionDate
                                   ).toLocaleDateString("en-IN", {
@@ -265,8 +280,8 @@ const Employment = () => {
                                     month: "2-digit",
                                   })}
                                 </Table.Cell>
-                                <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
-                                <Table.Cell>{noOfDaysWorkDemanded}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{noOfDaysWorkAlloted}</Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-2">{noOfDaysWorkDemanded}</Table.Cell>
                                 <Table.Cell className="font-medium  text-white text-sm ">
                                   <div className="w-[200px]">
                                     <button
@@ -306,56 +321,61 @@ const Employment = () => {
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                         <Table>
                           <Table.Head>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               #
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Work Jobcard No
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Job Card Holder Name
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Allocation Date From
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Allocation Date To
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                              Total Days work Demanded
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                              Total Days work Allocated
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                              Employment Provided from
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                              Employment Provided Date
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
-                              Employment Provided To
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Total days provided
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md">
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
                             </Table.HeadCell>
                           </Table.Head>
                           <Table.Body>
-                            {empList?.map(
+                            {empData?.map(
                               (
                                 {
-                                  workerJobCardNo,
-                                  workerName,
-                                  workAllocationFromDate,
-                                  workAllocationToDate,
-                                  noOfDaysWorkAlloted,
+                                  empProvidedFrom,
+                                  empProvidedTo,
+                                  totalWagePaid,
+                                  // workerJobCardNo,
+                                  // workerName,
+                                  // workAllocationFromDate,
+                                  // workAllocationToDate,
+                                  // noOfDaysWorkAlloted,
                                 },
                                 index
                               ) => (
                                 <Table.Row>
                                   <Table.Cell>{index + 1}</Table.Cell>
-                                  <Table.Cell>{workerJobCardNo}</Table.Cell>
-                                  <Table.Cell>{workerName}</Table.Cell>
+                                  <Table.Cell className="whitespace-nowrap">
+                                    {empList[index].workerJobCardNo}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    {empList[index].workerName}
+                                  </Table.Cell>
                                   <Table.Cell>
                                     {new Date(
-                                      workAllocationFromDate
+                                      empList[index].workAllocationFromDate
                                     ).toLocaleDateString("en-IN", {
                                       month: "2-digit",
                                       day: "numeric",
@@ -364,14 +384,86 @@ const Employment = () => {
                                   </Table.Cell>
                                   <Table.Cell>
                                     {new Date(
-                                      workAllocationToDate
+                                      empList[index].workAllocationToDate
                                     ).toLocaleDateString("en-IN", {
                                       month: "2-digit",
                                       day: "numeric",
                                       year: "numeric",
                                     })}
                                   </Table.Cell>
-                                  <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
+                                  <Table.Cell>
+                                    {empList[index].noOfDaysWorkAlloted}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    <div className="flex items-center space-x-2">
+                                      <DatePicker
+                                        selectsStart
+                                        minDate={
+                                          new Date(
+                                            empList[
+                                              index
+                                            ].workAllocationFromDate
+                                          )
+                                        }
+                                        dateFormat="dd/MM/yyyy"
+                                        selected={empProvidedFrom}
+                                        onChange={(e) => {
+                                          updateVal(
+                                            {
+                                              target: {
+                                                name: "empProvidedFrom",
+                                                value: e.toString(),
+                                              },
+                                            },
+                                            index,
+                                            empData,
+                                            setEmpData
+                                          );
+                                        }}
+                                        startDate={empProvidedFrom}
+                                        endDate={empProvidedTo}
+                                        portalId="root-portal"
+                                        placeholderText="dd/mm/yyyy"
+                                        className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                      />
+                                      <DatePicker
+                                        placeholderText="dd/mm/yyyy"
+                                        selectsStart
+                                        minDate={empProvidedFrom}
+                                        selectsEnd
+                                        dateFormat="dd/MM/yyyy"
+                                        selected={empProvidedTo}
+                                        onChange={(e) => {
+                                          updateVal(
+                                            {
+                                              target: {
+                                                name: "empProvidedTo",
+                                                value: e.toString(),
+                                              },
+                                            },
+                                            index,
+                                            empData,
+                                            setEmpData
+                                          );
+                                        }}
+                                        maxDate={
+                                          new Date(empProvidedFrom).getTime() +
+                                          empList[index]?.noOfDaysWorkAlloted *
+                                            24 *
+                                            60 *
+                                            60 *
+                                            1000
+                                        }
+                                        startDate={empProvidedFrom}
+                                        endDate={empProvidedTo}
+                                        portalId="root-portal"
+                                        className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                      />
+                                    </div>
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    {dateDifference[index]}
+                                  </Table.Cell>
                                   <Table.Cell>
                                     <input
                                       name="totalWagePaid"
@@ -394,6 +486,7 @@ const Employment = () => {
                           className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                           onClick={() => {
                             setWorkAllocationId("");
+                            setEmpData([]);
                           }}
                         >
                           back

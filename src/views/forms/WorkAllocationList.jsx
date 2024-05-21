@@ -40,29 +40,29 @@ const WorkAllocationList = () => {
     {
       header: "Sl no",
       accessorKey: "cont_sl",
-      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      className: "font-medium text-zinc-500 text-center cursor-pointer ",
       cell: ({ row }) => row.index + 1,
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
       // sortingFn: "id",
     },
     {
       header: "Financial Year",
       accessorKey: "finYear",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
     },
     {
       header: "District",
       accessorKey: "districtName",
       headclass: "cursor-pointer",
-      className: "text-center",
+      className: "text-center whitespace-nowrap",
       cell: ({ row }) =>
         row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
       header: "Municipality",
       accessorKey: "muniName",
-      headclass: "cursor-pointer",
-      className: "text-center",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "text-center whitespace-nowrap",
       cell: ({ row }) =>
         row.original.muniName == "" ? "-" : row.original.muniName,
     },
@@ -77,38 +77,45 @@ const WorkAllocationList = () => {
       header: "GP",
       accessorKey: "gpName",
       headclass: "cursor-pointer",
+      className: "whitespace-nowrap",
     },
     {
       header: "Worker JobCard No",
       accessorKey: "workerJobCardNo",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
     {
       header: "Worker Name",
       accessorKey: "workerName",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
     {
       header: "Scheme Name",
       accessorKey: "schemeName",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
 
     {
       header: "Date Of Application For Work",
       accessorKey: "dateOfApplicationForWork",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
     {
       header: "No Of Days Work Demanded",
       accessorKey: "noOfDaysWorkDemanded",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
 
     {
       header: "No Of Days Work Allocated",
       accessorKey: "noOfDaysWorkAlloted",
-      headclass: "cursor-pointer",
+      headclass: "cursor-pointer whitespace-nowrap",
+      className: "whitespace-nowrap",
     },
   ];
 
@@ -207,8 +214,9 @@ const WorkAllocationList = () => {
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
+                      "normal-case bg-cyan-400/40 hover:bg-cyan-200/80 text-blue-900 text-md",
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all"
+                      " transition-all"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -231,16 +239,15 @@ const WorkAllocationList = () => {
 
             <Table.Body className="divide-y">
               {table.getRowModel().rows.map((row) => (
-                <Table.Row key={row.id}>
+                <Table.Row key={row.id} className="divide-x">
                   {row.getVisibleCells().map((cell) => (
-                    <Table.Cell
-                      key={cell.id}
-                      className={cell.column.columnDef.className}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                    <Table.Cell key={cell.id} className="py-1 px-1 text-center">
+                      <div className={cell.column.columnDef.className}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </div>
                     </Table.Cell>
                   ))}
 

@@ -227,7 +227,7 @@ const DemandList = () => {
                                         key={header.id}
                                         className={classNames(
                                             header.column.columnDef.headclass,
-                                            "hover:bg-zinc-200/70 transition-all"
+                                            "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
                                         )}
                                         onClick={header.column.getToggleSortingHandler()}
                                     >
@@ -250,11 +250,11 @@ const DemandList = () => {
 
                         <Table.Body className="divide-y">
                             {table.getRowModel().rows.map((row) => (
-                                <Table.Row key={row.id}>
+                                <Table.Row key={row.id} className="divide-x">
                                     {row.getVisibleCells().map((cell) => (
                                         <Table.Cell
                                             key={cell.id}
-                                            className={cell.column.columnDef.className}
+                                            className={classNames(cell.column.columnDef.className,"whitespace-nowrap py-1 px-2")}
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,

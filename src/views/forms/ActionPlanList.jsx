@@ -118,7 +118,7 @@ const ActionPlanList = () => {
     {
       header: "Average Days of Employmengt to be Provided per Family",
       accessorKey: "averageDays",
-      headClass: "cursor-pointer text-[8px]",
+      headClass: "cursor-pointer",
     },
   ];
 
@@ -162,7 +162,7 @@ const ActionPlanList = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <div className="rounded-lg p-12">
         <div id="breadcrumb-starts-here" className="shadow-md -mb-4 ">
           <div className="flex justify-between items-center">
@@ -246,7 +246,7 @@ const ActionPlanList = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headClass,
-                      "hover:bg-zinc-200/70 transition-all"
+                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap normal-case"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -272,7 +272,7 @@ const ActionPlanList = () => {
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
-                      className={cell.column.columnDef.className}
+                      className={classNames(cell.column.columnDef.className,"whitespace-nowrap text-xs")}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -287,7 +287,7 @@ const ActionPlanList = () => {
         </div>
         <Pagination data={data} table={table} />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -18,7 +18,7 @@ export const addCreateWorkRequirement = async (area, departmentNo, district, mun
                 "departmentNo": departmentNo,
                 "districtcode": district ? district : 0,
                 "municipalityCode": municipality ? municipality : 0,
-                "blockCode": block ? block : 0,
+                "blockcode": block ? block : 0,
                 "gpCode": gp ? gp : 0,
                 "sansadID": 0,
                 "village": villageName,
