@@ -214,61 +214,68 @@ const UserList = () => {
             </button>
           </div>
         </div>
-
-        <Table>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Table.Head key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Table.HeadCell
-                  key={header.id}
-                  className={classNames(
-                    header.column.columnDef.headclass,
-                    "hover:bg-zinc-200/70 transition-all"
-                  )}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder ? null : (
-                    <div className="flex items-center space-x-2 justify-between">
-                      <span className="normal-case">
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </span>
-                      <SortIcon sort={header.column.getIsSorted()} />
-                    </div>
-                  )}
-                </Table.HeadCell>
-              ))}
-              <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
-            </Table.Head>
-          ))}
-
-          <Table.Body className="divide-y">
-            {table.getRowModel().rows.map((row) => (
-              <Table.Row key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <Table.Cell
-                    key={cell.id}
-                    className={cell.column.columnDef.className}
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headclass,
+                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Table.Cell>
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2 justify-between">
+                        <span className="normal-case">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
                 ))}
-
-                <Table.Cell className="flex items-center justify-center space-x-8">
-                  <Link
-                    to={"/dashboard/edit/" + row.original.userIndex}
-                    state={"dept-userlist"}
-                    className="font-medium text-cyan-600 hover:underline text-2xl"
-                  >
-                    <Icon icon={"mingcute:edit-line"} />
-                  </Link>
-                </Table.Cell>
-              </Table.Row>
+                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+              </Table.Head>
             ))}
-          </Table.Body>
-        </Table>
+
+            <Table.Body className="divide-y">
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className={classNames(
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap"
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
+
+                  <Table.Cell className="flex items-center justify-center space-x-8">
+                    <Link
+                      to={"/dashboard/edit/" + row.original.userIndex}
+                      state={"dept-userlist"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    >
+                      <Icon icon={"mingcute:edit-line"} />
+                    </Link>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
       </div>
       <Pagination data={data} table={table} />
     </>

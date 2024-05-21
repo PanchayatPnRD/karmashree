@@ -233,7 +233,7 @@ const EmploymentList = () => {
                                         key={header.id}
                                         className={classNames(
                                             header.column.columnDef.headclass,
-                                            "hover:bg-zinc-200/70 transition-all"
+                                            "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
                                         )}
                                         onClick={header.column.getToggleSortingHandler()}
                                     >
@@ -254,13 +254,13 @@ const EmploymentList = () => {
                             </Table.Head>
                         ))}
 
-                        <Table.Body className="divide-y">
+                        <Table.Body className="divide-y-2">
                             {table.getRowModel().rows.map((row) => (
                                 <Table.Row key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
                                         <Table.Cell
                                             key={cell.id}
-                                            className={cell.column.columnDef.className}
+                                            className={classNames(cell.column.columnDef.className, "whitespace-nowrap py-2 text-center")}
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,

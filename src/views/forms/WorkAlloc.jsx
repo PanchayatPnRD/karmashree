@@ -26,6 +26,8 @@ import { addAllocation } from "../../Service/workAllocation/workAllocationServic
 import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
   const [schemeId, setSchemeId] = useState();
+  const [reqId, setReqId] = useState();
+  const [reqDate, setReqDate] = useState();
   const [contractorId, setContractorId] = useState();
   const [allocData, setAllocData] = useState([]);
 
@@ -195,7 +197,7 @@ const WorkAlloc = () => {
     },
     {
       header: "Financial Year",
-      accessorKey: "finYear",
+      accessorKey: "finYearWork",
       headclass: "cursor-pointer",
     },
     {
@@ -220,19 +222,10 @@ const WorkAlloc = () => {
     },
     {
       header: "Start Date",
-      accessorKey: "fromDate",
+      accessorKey: "dateofwork",
       headclass: "cursor-pointer",
     },
-    {
-      header: "No of Days",
-      accessorKey: "noOfDays",
-      headclass: "cursor-pointer",
-    },
-    // {
-    //   header: "Funding Department",
-    //   headclass: "cursor-pointer",
-    //   // cell: ({ row }) => row.index + 1,
-    // },
+    
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -264,7 +257,7 @@ const WorkAlloc = () => {
   }, [items]);
 
   const onSubmit = () => {
-    addAllocation(AllocAPIData, (r) => {
+    addAllocation(AllocAPIData,reqDate,reqId, (r) => {
       console.log(r, "response");
       if (r.errorCode == 0) {
         setOpenModal(true);
@@ -316,7 +309,7 @@ const WorkAlloc = () => {
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
           {schemeId === undefined && 
             <>
-              <div className="flex flex-col pb-8 overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+              <div className="flex flex-col overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                 <Table>
                   {table.getHeaderGroups().map((headerGroup) => (
                     <Table.Head key={headerGroup.id}>
@@ -325,7 +318,7 @@ const WorkAlloc = () => {
                           key={header.id}
                           className={classNames(
                             header.column.columnDef.headclass,
-                            "hover:bg-zinc-200/70 transition-all"
+                            "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                         >
@@ -349,13 +342,13 @@ const WorkAlloc = () => {
                     </Table.Head>
                   ))}
 
-                  <Table.Body className="divide-y">
+                  <Table.Body className="divide-y-2">
                     {table.getRowModel().rows.map((row) => (
-                      <Table.Row key={row.id}>
+                      <Table.Row key={row.id} className="divide-x-2">
                         {row.getVisibleCells().map((cell) => (
                           <Table.Cell
                             key={cell.id}
-                            className={cell.column.columnDef.className}
+                            className={classNames(cell.column.columnDef.className, "whitespace-nowrap py-1 px-1")}
                           >
                             {flexRender(
                               cell.column.columnDef.cell,
@@ -364,12 +357,14 @@ const WorkAlloc = () => {
                           </Table.Cell>
                         ))}
                         
-                        <Table.Cell className="font-medium  text-white text-sm ">
+                        <Table.Cell className="font-medium  text-white text-sm py-1">
                           <button
                             className="flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
                             onClick={() => {
                               setSchemeId(row.original.workCodeSchemeID);
                               setContractorId(row.original.ContractorID);
+                              setReqId(row.original.workerreqID);
+                              setReqDate(row.original.dateofwork);
                             }}
                           >
                             Allocate

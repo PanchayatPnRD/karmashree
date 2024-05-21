@@ -28,7 +28,7 @@ const WorkRequirement = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date().toString());
   const [dates, setDates] = useState([]);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
@@ -355,7 +355,7 @@ const WorkRequirement = () => {
         phoneNumber,
         reportingPlace,
         nearestLandmark,
-        format(new Date(startDate), "yyyy-MM-dd"),
+        new Date(startDate).toLocaleDateString("fr-CA"),
         days,
         currentMonth,
         currentYear,
@@ -394,9 +394,9 @@ const WorkRequirement = () => {
           currentYear: new Date().toLocaleDateString("en-IN", {
             year: "numeric",
           }),
-          date: new Date().toLocaleDateString("en-IN", {
+          dateofwork: new Date().toLocaleDateString("fr-CA", {
             year: "numeric",
-            month: "long",
+            month: "2-digit",
             day: "numeric",
           }),
         },
