@@ -106,6 +106,12 @@ const DemandList = () => {
         headclass: "cursor-pointer",
       },
       {
+        header: "Worker Age",
+        accessorKey: "age",
+        headclass: "cursor-pointer",
+      },
+      
+      {
         header: "Date Of Application For Work",
         accessorKey: "dateOfApplicationForWork",
         headclass: "cursor-pointer",
@@ -113,6 +119,11 @@ const DemandList = () => {
       {
         header: "No Of Days Work Demanded",
         accessorKey: "noOfDaysWorkDemanded",
+        headclass: "cursor-pointer",
+      },
+      {
+        header: "Remarks",
+        accessorKey: "remark",
         headclass: "cursor-pointer",
       },
     ];

@@ -237,6 +237,13 @@ const WorkRequirement = () => {
     },
   });
 
+  const onAge=(e)=>{
+console.log(e,"age")
+if(e<18 || e>65){
+  toast.error("Age should be between 18-65 years")
+}
+  }
+
   return (
     <>
       <SuccessModal
@@ -432,7 +439,7 @@ const WorkRequirement = () => {
                   Worker name
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Age
+                  Worker Age                 
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                   Gender
@@ -548,8 +555,11 @@ const WorkRequirement = () => {
                           placeholder="worker age"
                           name="age"
                           value={age}
+                          maxLength={2}
                           onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
+                            {updateVal(e, index, allData, setAllData);
+                              onAge(e.target.value)
+                            }
                           }
                         />
                       </Table.Cell>
@@ -608,7 +618,7 @@ const WorkRequirement = () => {
                       <Table.Cell>
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
-                          type="number"
+                          type="text"
                           name="mobileNo"
                           maxLength={10}
                           placeholder="mobile number"
