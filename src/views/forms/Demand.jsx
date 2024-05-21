@@ -84,7 +84,7 @@ const WorkRequirement = () => {
     setDropdownData(newData);
   }
 
-  function resetData(){
+  function resetData() {
     updateDropdown(0, "")
     setAllData([initialData])
   }
@@ -109,6 +109,8 @@ const WorkRequirement = () => {
     typeOfWorkers: "",
     dateOfApplicationForWork: "",
     noOfDaysWorkDemanded: "",
+    remark:"",
+    age:"",
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data
@@ -147,10 +149,10 @@ const WorkRequirement = () => {
       return {
         ...rest,
         dateOfApplicationForWork: dateOfApplicationForWork.length > 5 ? new Date(dateOfApplicationForWork).toLocaleDateString("fr-CA", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-          }) : "",
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }) : "",
         whetherMinority: whetherMinority ? "Y" : "N",
         whetherMigrantWorker: whetherMigrantWorker ? "Y" : "N",
         workerJobCardNo: `${jobcardNo ?? ""}-${sansadId}-${familyId}`,
@@ -227,7 +229,7 @@ const WorkRequirement = () => {
 
   const { mutate, isSuccess: entryStatus } = useMutation({
     mutationFn: () => {
-      return fetch.post({ DemandMasterDto : demandData}, "/api/demand/createDemand", "");
+      return fetch.post({ DemandMasterDto: demandData }, "/api/demand/createDemand", "");
     },
     mutationKey: ["demandEntry"],
     onSuccess: () => {
@@ -244,8 +246,8 @@ const WorkRequirement = () => {
         resetData={resetData}
         to="demand-list"
         isSuccess={entryStatus}
-        // isSuccess={true}
-        // userCreate={false}
+      // isSuccess={true}
+      // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -429,6 +431,9 @@ const WorkRequirement = () => {
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
                   Worker name
                 </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                  Worker Age
+                </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                   Gender
                 </Table.HeadCell>
@@ -457,6 +462,9 @@ const WorkRequirement = () => {
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                   No of Days (Work Demanded)
                 </Table.HeadCell>
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                  Remarks
+                </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case "></Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
@@ -478,6 +486,8 @@ const WorkRequirement = () => {
                       currentMonth,
                       currentYear,
                       finYear,
+                      remark,
+                      age,
                     },
                     index
                   ) => (
@@ -526,6 +536,18 @@ const WorkRequirement = () => {
                           placeholder="worker name"
                           name="workerName"
                           value={workerName}
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <input
+                          className="border cursor-pointer border-gray-300 rounded-md"
+                          type="text"
+                          placeholder="worker age"
+                          name="age"
+                          value={age}
                           onChange={(e) =>
                             updateVal(e, index, allData, setAllData)
                           }
@@ -668,6 +690,20 @@ const WorkRequirement = () => {
                         </select>
                       </Table.Cell>
                       <Table.Cell>
+                        <input
+                          className="border cursor-pointer border-gray-300 rounded-md"
+                          type="text"
+                          name="remark"
+                          maxLength={10}
+                          placeholder="Remarks..."
+                          value={remark}
+                          onChange={(e) =>
+                            updateVal(e, index, allData, setAllData)
+                          }
+                        />
+                      </Table.Cell>
+
+                      <Table.Cell>
                         {index != 0 && (
                           <button
                             className="rounded-lg px-3 py-2 leading-tight bg-red-600 text-white hover:shadow-md transition-all hover:bg-opacity-90"
@@ -695,7 +731,7 @@ const WorkRequirement = () => {
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={mutate}
-              // onClick={() => setOpenModal(true)}
+            // onClick={() => setOpenModal(true)}
             >
               Submit
             </button>
