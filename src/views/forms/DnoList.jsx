@@ -244,13 +244,13 @@ const DnoList = () => {
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id}>
+              <Table.Head key={headerGroup.id} className="bg-cyan-400/40">
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
+                      "hover:bg-cyan-400/60 bg-transparent transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -267,7 +267,9 @@ const DnoList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 bg-transparent transition-all whitespace-nowrap">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 
@@ -279,7 +281,7 @@ const DnoList = () => {
                       key={cell.id}
                       className={classNames(
                         cell.column.columnDef.className,
-                        "whitespace-nowrap"
+                        "whitespace-nowrap py-1"
                       )}
                     >
                       {flexRender(
@@ -288,7 +290,7 @@ const DnoList = () => {
                       )}
                     </Table.Cell>
                   ))}
-                  <Table.Cell className="flex items-center justify-center space-x-8">
+                  <Table.Cell className="flex items-center justify-center space-x-8 py-1">
                     <Link
                       to={"/dashboard/edit/" + row.original.userIndex}
                       state={"dno-userlist"}

@@ -60,6 +60,8 @@ const WorkRequirement = () => {
   const currentYear = today.getFullYear();
   const [openModal, setOpenModal] = useState(false);
 
+  const [createdReq, setCreatedReq] = useState();
+
   const queryclient = useQueryClient()
 
   const { data: schemeAll_List } = useQuery({
@@ -366,6 +368,7 @@ const WorkRequirement = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
+            setCreatedReq(r.masterAllotment[0].workerreqID);
           } else {
             toast.error(r.message);
           }
@@ -394,7 +397,7 @@ const WorkRequirement = () => {
           currentYear: new Date().toLocaleDateString("en-IN", {
             year: "numeric",
           }),
-          dateofwork: new Date().toLocaleDateString("fr-CA", {
+          dateofwork: new Date(dates[dates.length -1]).toLocaleDateString("fr-CA", {
             year: "numeric",
             month: "2-digit",
             day: "numeric",
@@ -418,8 +421,9 @@ const WorkRequirement = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Work Requisition Created Successfully"}
+        message={`Work Requisition ID successfully created`}
         // resetData={resetData}
+        createdReq={createdReq}
         to="work-requirement-list"
         isSuccess={true}
         // isSuccess={true}

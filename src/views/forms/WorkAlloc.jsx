@@ -457,6 +457,9 @@ const WorkAlloc = () => {
                     <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap">
                       Worker Job Card No
                     </Table.HeadCell>
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap capitalize">
+                      Work Code/Scheme name
+                    </Table.HeadCell>
                     <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap">
                       Worker Name
                     </Table.HeadCell>
@@ -468,9 +471,7 @@ const WorkAlloc = () => {
                     <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       No of Days (Work Demanded)
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
-                      Work Code/SchemeID
-                    </Table.HeadCell>
+
                     <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       Work Allocation Date
                     </Table.HeadCell>
@@ -492,7 +493,9 @@ const WorkAlloc = () => {
                               {demandData[index]?.workerJobCardNo}
                             </div>
                           </Table.Cell>
-
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                            {schemeName}
+                          </Table.Cell>
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {demandData[index]?.workerName}
                           </Table.Cell>
@@ -508,9 +511,7 @@ const WorkAlloc = () => {
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {demandData[index]?.noOfDaysWorkDemanded}
                           </Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {schemeName}
-                          </Table.Cell>
+
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             <div className="flex items-center space-x-2">
                               <DatePicker

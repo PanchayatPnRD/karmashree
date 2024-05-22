@@ -217,13 +217,13 @@ const UserList = () => {
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id}>
+              <Table.Head key={headerGroup.id} className="bg-cyan-400/40">
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
+                      "hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -240,19 +240,19 @@ const UserList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent">Actions</Table.HeadCell>
               </Table.Head>
             ))}
 
             <Table.Body className="divide-y">
               {table.getRowModel().rows.map((row) => (
-                <Table.Row key={row.id}>
+                <Table.Row key={row.id} className="divide-x">
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
                       className={classNames(
                         cell.column.columnDef.className,
-                        "whitespace-nowrap"
+                        "whitespace-nowrap px-2 py-1"
                       )}
                     >
                       {flexRender(
@@ -262,7 +262,7 @@ const UserList = () => {
                     </Table.Cell>
                   ))}
 
-                  <Table.Cell className="flex items-center justify-center space-x-8">
+                  <Table.Cell className="flex items-center justify-center space-x-8 px-2 py-1">
                     <Link
                       to={"/dashboard/edit/" + row.original.userIndex}
                       state={"dept-userlist"}

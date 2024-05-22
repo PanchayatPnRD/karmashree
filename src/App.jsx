@@ -17,9 +17,10 @@ import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useNetworkState } from "@uidotdev/usehooks";
 
 function App() {
+  const network = useNetworkState();
   const homeRoutes = [
     { path: "/", Element: Home },
     { path: "/login", Element: Login },
@@ -37,7 +38,7 @@ function App() {
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-
+    
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);

@@ -245,11 +245,11 @@ const ActionPlan = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a Department");
     }
-    else if (userData?.category === "HQ" && !parastatals ||
-      userData?.category === "HD" && !parastatals
-    ) {
-      toast.error("Please select a Parastatal");
-    }
+    // else if (userData?.category === "HQ" && !parastatals ||
+    //   userData?.category === "HD" && !parastatals
+    // ) {
+    //   toast.error("Please select a Parastatal");
+    // }
     else if (schemeArea === "") {
       toast.error("Please Select Scheme Area");
     } else if (!district) {
@@ -421,7 +421,7 @@ const ActionPlan = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Parastatals
-                    <span className="text-red-500 "> * </span>
+                    {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <select
                     id="country"
