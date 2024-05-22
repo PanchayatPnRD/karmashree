@@ -42,10 +42,8 @@ function App() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-
-    
   }, []);
-  {isOnline?"":toast.error("No internet,Please Checking the network cables, modem, and router")}
+  { isOnline ? "" : toast.error("No internet,Please Checking the network cables, modem, and router") }
 
   return (
     <>

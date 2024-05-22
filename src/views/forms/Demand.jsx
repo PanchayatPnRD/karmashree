@@ -26,6 +26,10 @@ import "react-toastify/dist/ReactToastify.css";
 const WorkRequirement = () => {
   const [openModal, setOpenModal] = useState(false);
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [isValidMobile, setIsValidMobile] = useState(true);
+  const [adharNumber, setAdharNumber] = useState("");
+  const [isValidAdhar, setIsValidAdhar] = useState(true);
 
   const options = Array.from({ length: 30 }, (_, i) => i + 1);
   const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
@@ -109,12 +113,12 @@ const WorkRequirement = () => {
     typeOfWorkers: "",
     dateOfApplicationForWork: "",
     noOfDaysWorkDemanded: "",
-    remark:"",
-    age:"",
+    remark: "",
+    age: "",
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data
-
+  console.log(allData, "allData")
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -237,12 +241,42 @@ const WorkRequirement = () => {
     },
   });
 
-  const onAge=(e)=>{
-console.log(e,"age")
-if(e<18 || e>65){
-  toast.error("Age should be between 18-65 years")
-}
+  const onAge = (e) => {
+    console.log(e, "age")
+    if (e < 18 || e > 65) {
+      toast.error("Age should be between 18-65 years")
+    }
   }
+
+  //Validation of mobile number
+
+  const onMobile = (e) => {
+    console.log(e, "mobile")
+    const value = e;
+    const regex = /^[6-9]{1}[0-9]{9}$/;
+    if (regex.test(value) || value === '') {
+      setMobileNumber(value);
+      setIsValidMobile(true);
+    } else {
+      setIsValidMobile(false);
+    }
+
+  }
+
+  //Validation of aadhar card
+
+  const onAdhar = (e) => {
+    console.log(e, "mobile")
+    const value = e;
+    const regex = /^[0-9]{12}$/;
+    if (regex.test(value) || value === '') {
+      setAdharNumber(value);
+      setIsValidAdhar(true);
+    } else {
+      setIsValidAdhar(false);
+    }
+  }
+
 
   return (
     <>
@@ -439,7 +473,7 @@ if(e<18 || e>65){
                   Worker name
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Age                 
+                  Worker Age
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                   Gender
@@ -556,10 +590,10 @@ if(e<18 || e>65){
                           name="age"
                           value={age}
                           maxLength={2}
-                          onChange={(e) =>
-                            {updateVal(e, index, allData, setAllData);
-                              onAge(e.target.value)
-                            }
+                          onChange={(e) => {
+                            updateVal(e, index, allData, setAllData);
+                            onAge(e.target.value)
+                          }
                           }
                         />
                       </Table.Cell>
@@ -623,23 +657,34 @@ if(e<18 || e>65){
                           maxLength={10}
                           placeholder="mobile number"
                           value={mobileNo}
-                          onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
+                          onChange={(e) => {
+                            updateVal(e, index, allData, setAllData);
+                            onMobile(e.target.value)
+                          }
+
                           }
                         />
+                        {!isValidMobile && (
+                          <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+                        )}
                       </Table.Cell>
                       <Table.Cell>
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
-                          type="number"
+                          type="text"
                           name="aadhaarNo"
                           placeholder="XXXX-XXXX-XXXX"
-                          maxLength={16}
+                          maxLength={12}
                           value={aadhaarNo}
-                          onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
+                          onChange={(e) => {
+                            updateVal(e, index, allData, setAllData);
+                            onAdhar(e.target.value)
+                          }
                           }
                         />
+                        {!isValidAdhar && (
+                          <div style={{ color: 'red' }}>Please enter a valid Aadhar Number</div>
+                        )}
                       </Table.Cell>
 
                       <Table.Cell>
