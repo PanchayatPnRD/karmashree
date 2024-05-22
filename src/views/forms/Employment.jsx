@@ -77,6 +77,10 @@ const Employment = () => {
       filledArray = Array(empList?.length).fill(initialData);
     setEmpData(filledArray);
   }, [empList]);
+  const data = useMemo(() => allocationList ?? [], [allocationList]);
+  const filteredData = useMemo(() => {
+    return data.filter((e) => e.workAllocationID == workAllocationId);
+  }, [workAllocationId]);
 
   const empDataList = useMemo(() => {
     const array = empData.map((e, idx) => {
@@ -254,15 +258,31 @@ const Employment = () => {
                               index
                             ) => (
                               <Table.Row>
-                                <Table.Cell className="whitespace-nowrap py-2">{index + 1}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{workAllocationID}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{districtName}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{blockName}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{schemeName}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{ControctorID}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{FundingDeptname}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{workorderNo}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {index + 1}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {workAllocationID}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {districtName == "" ? "-" : districtName}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {blockName == "" ? "-" : blockName}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {schemeName}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {ControctorID}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {FundingDeptname}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {workorderNo}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
                                   {new Date(
                                     tentativeStartDate
                                   ).toLocaleDateString("en-IN", {
@@ -271,7 +291,7 @@ const Employment = () => {
                                     month: "2-digit",
                                   })}
                                 </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
                                   {new Date(
                                     ExpectedCompletionDate
                                   ).toLocaleDateString("en-IN", {
@@ -280,34 +300,36 @@ const Employment = () => {
                                     month: "2-digit",
                                   })}
                                 </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{noOfDaysWorkAlloted}</Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-2">{noOfDaysWorkDemanded}</Table.Cell>
-                                <Table.Cell className="font-medium  text-white text-sm ">
-                                  <div className="w-[200px]">
-                                    <button
-                                      className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1 "
-                                      onClick={() => {
-                                        setWorkAllocationId(workAllocationID);
-                                        setInitialData({
-                                          totalWagePaid: "",
-                                          FundingDepttID: FundingDepttID,
-                                          FundingDeptname: FundingDeptname,
-                                          ExecutingDepttID: ExecutingDepttID,
-                                          ExecutingDeptName: ExecutingDeptName,
-                                          ImplementingAgencyID:
-                                            ImplementingAgencyID,
-                                          ImplementingAgencyName:
-                                            ImplementingAgencyName,
-                                        });
-                                      }}
-                                    >
-                                      <Icon
-                                        icon={"mdi:rupee"}
-                                        className="text-xl"
-                                      />
-                                      <span>employment generate</span>
-                                    </button>
-                                  </div>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {noOfDaysWorkAlloted}
+                                </Table.Cell>
+                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
+                                  {noOfDaysWorkDemanded}
+                                </Table.Cell>
+                                <Table.Cell className="font-medium  text-white text-sm py-1 px-2  whitespace-nowrap">
+                                  <button
+                                    className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1"
+                                    onClick={() => {
+                                      setWorkAllocationId(workAllocationID);
+                                      setInitialData({
+                                        totalWagePaid: "",
+                                        FundingDepttID: FundingDepttID,
+                                        FundingDeptname: FundingDeptname,
+                                        ExecutingDepttID: ExecutingDepttID,
+                                        ExecutingDeptName: ExecutingDeptName,
+                                        ImplementingAgencyID:
+                                          ImplementingAgencyID,
+                                        ImplementingAgencyName:
+                                          ImplementingAgencyName,
+                                      });
+                                    }}
+                                  >
+                                    <Icon
+                                      icon={"mdi:rupee"}
+                                      className="text-xl"
+                                    />
+                                    <span>employment generate</span>
+                                  </button>
                                 </Table.Cell>
                               </Table.Row>
                             )
@@ -318,6 +340,93 @@ const Employment = () => {
                   )}
                   {workAllocationId.length > 0 && (
                     <>
+                      <div className="border-2 rounded-xl overflow-hidden shadow-md overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+                        <Table>
+                          <Table.Head>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              work allocation id
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              District
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              Block
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              Scheme Id
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              Contrator Id
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              Funding Department
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              work order no
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              tentative start date
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              expected completion date
+                            </Table.HeadCell>
+
+                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
+                              total no of work days allcoated
+                            </Table.HeadCell>
+                            <Table.HeadCell className="capitalize text-md whitespace-nowrap">
+                              total no of work days demanded
+                            </Table.HeadCell>
+                          </Table.Head>
+                          <Table.Body>
+                            {filteredData.map(
+                              ({
+                                workAllocationID,
+                                districtName,
+                                blockName,
+                                schemeName,
+                                ControctorID,
+                                FundingDeptname,
+                                workorderNo,
+                                tentativeStartDate,
+                                noOfDaysWorkAlloted,
+                                noOfDaysWorkDemanded,
+                                ExpectedCompletionDate
+                              }) => (
+                                <Table.Row>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {workAllocationID}
+                                  </Table.Cell>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {districtName}
+                                  </Table.Cell>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {blockName}
+                                  </Table.Cell>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {schemeName}
+                                  </Table.Cell>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {ControctorID}
+                                  </Table.Cell>
+                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                                    {FundingDeptname}
+                                  </Table.Cell>
+                                  <Table.Cell>{workorderNo}</Table.Cell>
+                                  <Table.Cell>{tentativeStartDate}</Table.Cell>
+                                  <Table.Cell>
+                                    {ExpectedCompletionDate}
+                                  </Table.Cell>
+                                  <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
+                                  <Table.Cell>
+                                    {noOfDaysWorkDemanded}
+                                  </Table.Cell>
+                                </Table.Row>
+                              )
+                            )}
+                          </Table.Body>
+                        </Table>
+                      </div>
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                         <Table>
                           <Table.Head>
@@ -357,23 +466,20 @@ const Employment = () => {
                                   empProvidedFrom,
                                   empProvidedTo,
                                   totalWagePaid,
-                                  // workerJobCardNo,
-                                  // workerName,
-                                  // workAllocationFromDate,
-                                  // workAllocationToDate,
-                                  // noOfDaysWorkAlloted,
                                 },
                                 index
                               ) => (
                                 <Table.Row>
-                                  <Table.Cell>{index + 1}</Table.Cell>
+                                  <Table.Cell className="py-1">
+                                    {index + 1}
+                                  </Table.Cell>
                                   <Table.Cell className="whitespace-nowrap">
                                     {empList[index].workerJobCardNo}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     {empList[index].workerName}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     {new Date(
                                       empList[index].workAllocationFromDate
                                     ).toLocaleDateString("en-IN", {
@@ -382,7 +488,7 @@ const Employment = () => {
                                       year: "numeric",
                                     })}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     {new Date(
                                       empList[index].workAllocationToDate
                                     ).toLocaleDateString("en-IN", {
@@ -391,10 +497,10 @@ const Employment = () => {
                                       year: "numeric",
                                     })}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     {empList[index].noOfDaysWorkAlloted}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     <div className="flex items-center space-x-2">
                                       <DatePicker
                                         selectsStart
@@ -461,10 +567,10 @@ const Employment = () => {
                                       />
                                     </div>
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     {dateDifference[index]}
                                   </Table.Cell>
-                                  <Table.Cell>
+                                  <Table.Cell className="py-1">
                                     <input
                                       name="totalWagePaid"
                                       type="text"

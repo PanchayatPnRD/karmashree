@@ -25,6 +25,7 @@ import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
+  const [workersl, setWorkersl] = useState();
   const [schemeId, setSchemeId] = useState();
   const [reqId, setReqId] = useState();
   const [reqDate, setReqDate] = useState();
@@ -116,7 +117,7 @@ const WorkAlloc = () => {
     schemeId: "",
     dateFrom: "",
     dateTo: "",
-    schemeArea:"R"
+    schemeArea: "R",
   };
 
   useEffect(() => {
@@ -130,6 +131,10 @@ const WorkAlloc = () => {
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
+
+  const filteredData = useMemo(() => {
+    return data?.filter((e) => e.workersl == workersl);
+  }, [reqId]);
 
   const AllocAPIData = useMemo(() => {
     const array = allocData.map((e, index) => {
@@ -157,7 +162,7 @@ const WorkAlloc = () => {
         return {
           schemeId: schemeDataId,
           schemeName: schemeName,
-          
+
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .schemeName,
           // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
@@ -228,7 +233,6 @@ const WorkAlloc = () => {
       accessorKey: "dateofwork",
       headclass: "cursor-pointer",
     },
-    
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -260,7 +264,7 @@ const WorkAlloc = () => {
   }, [items]);
 
   const onSubmit = () => {
-    addAllocation(AllocAPIData,reqDate,reqId, (r) => {
+    addAllocation(AllocAPIData, reqDate, reqId, (r) => {
       console.log(r, "response");
       if (r.errorCode == 0) {
         setOpenModal(true);
@@ -310,7 +314,7 @@ const WorkAlloc = () => {
         </div>
 
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-          {schemeId === undefined && 
+          {schemeId === undefined && (
             <>
               <div className="flex flex-col overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                 <Table>
@@ -338,7 +342,7 @@ const WorkAlloc = () => {
                           )}
                         </Table.HeadCell>
                       ))}
-                      
+
                       <Table.HeadCell className="normal-case">
                         Actions
                       </Table.HeadCell>
@@ -351,7 +355,10 @@ const WorkAlloc = () => {
                         {row.getVisibleCells().map((cell) => (
                           <Table.Cell
                             key={cell.id}
-                            className={classNames(cell.column.columnDef.className, "whitespace-nowrap py-1 px-1")}
+                            className={classNames(
+                              cell.column.columnDef.className,
+                              "whitespace-nowrap py-1 px-1"
+                            )}
                           >
                             {flexRender(
                               cell.column.columnDef.cell,
@@ -359,7 +366,7 @@ const WorkAlloc = () => {
                             )}
                           </Table.Cell>
                         ))}
-                        
+
                         <Table.Cell className="font-medium  text-white text-sm py-1">
                           <button
                             className="flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
@@ -368,6 +375,7 @@ const WorkAlloc = () => {
                               setContractorId(row.original.ContractorID);
                               setReqId(row.original.workerreqID);
                               setReqDate(row.original.dateofwork);
+                              setWorkersl(row.original.workersl);
                             }}
                           >
                             Allocate
@@ -380,36 +388,93 @@ const WorkAlloc = () => {
               </div>
               <Pagination data={data} table={table} />
             </>
-          }
+          )}
           {schemeId !== undefined && (
-            <>
+            <div className="flex flex-col space-y-8">
+              <div className="border-2 rounded-xl overflow-hidden shadow-md">
+                <Table>
+                  <Table.Head>
+                    <Table.HeadCell className="capitalize">
+                      Financial Year
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize">
+                      Requisition Id
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize">
+                      Scheme Name
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize">
+                      Contractor
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize">
+                      Contact
+                    </Table.HeadCell>
+                    <Table.HeadCell className="capitalize">
+                      Start Date
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body>
+                    {filteredData.map(
+                      ({
+                        workerreqID,
+                        finYearWork,
+                        schName,
+                        conName,
+                        contactPersonPhoneNumber,
+                        dateofwork,
+                      }) => (
+                        <Table.Row>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {finYearWork}
+                          </Table.Cell>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {workerreqID}
+                          </Table.Cell>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {schName}
+                          </Table.Cell>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {conName}
+                          </Table.Cell>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {contactPersonPhoneNumber}
+                          </Table.Cell>
+                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
+                            {dateofwork}
+                          </Table.Cell>
+                        </Table.Row>
+                      )
+                    )}
+                  </Table.Body>
+                </Table>
+              </div>
               <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                 <Table className="w-full">
                   <Table.Head>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap">
                       #
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap">
                       Worker Job Card No
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap">
                       Worker Name
                     </Table.HeadCell>
 
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       Work Application Date
                     </Table.HeadCell>
 
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       No of Days (Work Demanded)
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       Work Code/SchemeID
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       Work Allocation Date
                     </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
+                    <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case whitespace-nowrap ">
                       No of Days (Work Allocated)
                     </Table.HeadCell>
                   </Table.Head>
@@ -417,19 +482,21 @@ const WorkAlloc = () => {
                     {allocData?.map(
                       ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
                         <Table.Row key={index}>
-                          <Table.Cell>{index + 1}</Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                            {index + 1}
+                          </Table.Cell>
 
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {" "}
                             <div className="w-44">
                               {demandData[index]?.workerJobCardNo}
                             </div>
                           </Table.Cell>
 
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {demandData[index]?.workerName}
                           </Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {new Date(
                               demandData[index]?.dateOfApplicationForWork
                             ).toLocaleDateString("en-IN", {
@@ -438,11 +505,13 @@ const WorkAlloc = () => {
                               day: "2-digit",
                             })}
                           </Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {demandData[index]?.noOfDaysWorkDemanded}
                           </Table.Cell>
-                          <Table.Cell>{schemeName}</Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                            {schemeName}
+                          </Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             <div className="flex items-center space-x-2">
                               <DatePicker
                                 minDate={
@@ -470,7 +539,7 @@ const WorkAlloc = () => {
                                 startDate={dateFrom}
                                 endDate={dateTo}
                                 portalId="root-portal"
-                                className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
                               />
                               <DatePicker
                                 placeholderText="dd/mm/yyyy"
@@ -504,11 +573,11 @@ const WorkAlloc = () => {
                                 dateFormat="dd/MM/yyyy"
                                 // selected={dateOfApplicationForWork}
                                 portalId="root-portal"
-                                className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
                               />
                             </div>
                           </Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             <div className="w-36">
                               {isNaN(dateDifference[index])
                                 ? 0
@@ -525,7 +594,11 @@ const WorkAlloc = () => {
                 <button
                   type="button"
                   className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  onClick={() => setSchemeId(undefined)}
+                  onClick={() => {
+                    setSchemeId(undefined);
+                    setReqId(undefined);
+                    setWorkersl(undefined);
+                  }}
                 >
                   Back
                 </button>
@@ -537,7 +610,7 @@ const WorkAlloc = () => {
                   Submit
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

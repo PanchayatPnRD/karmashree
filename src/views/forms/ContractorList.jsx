@@ -200,13 +200,13 @@ const ContractorList = () => {
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id}>
+              <Table.Head key={headerGroup.id} className="bg-cyan-400">
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap"
+                      "hover:bg-cyan-200/70 transition-all whitespace-nowrap bg-transparent"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -229,11 +229,11 @@ const ContractorList = () => {
 
             <Table.Body className="divide-y">
               {table.getRowModel().rows.map((row) => (
-                <Table.Row key={row.id}>
+                <Table.Row key={row.id} className="divide-x">
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
-                      className={classNames(cell.column.columnDef.className, "whitespace-nowrap")}
+                      className={classNames(cell.column.columnDef.className, "whitespace-nowrap py-1 px-2 text-sm")}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
