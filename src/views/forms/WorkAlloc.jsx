@@ -116,6 +116,7 @@ const WorkAlloc = () => {
     schemeId: "",
     dateFrom: "",
     dateTo: "",
+    schemeArea:"R"
   };
 
   useEffect(() => {
@@ -135,6 +136,7 @@ const WorkAlloc = () => {
       const { schemeId, dateFrom, dateTo, ...rest } = e;
       const {
         demandsl,
+        schemeArea,
         demanduniqueID,
         ex1,
         ex2,
@@ -155,6 +157,7 @@ const WorkAlloc = () => {
         return {
           schemeId: schemeDataId,
           schemeName: schemeName,
+          
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .schemeName,
           // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
