@@ -376,13 +376,13 @@ const Scheme = () => {
     // } else if (skilled === "") {
     //   toast.error("Please Type No of Skilled Workers to be engaged");
     // }
-    else if (workOrderNumber === "") {
-      toast.error("Please Type Work Order Number");
-    } else if (!workOrderDate) {
-      toast.error("Please Select Work Order Date");
-    } else if (contractor === "") {
-      toast.error("Please Select Contractor List");
-    }
+    // else if (workOrderNumber === "") {
+    //   toast.error("Please Type Work Order Number");
+    // } else if (!workOrderDate) {
+    //   toast.error("Please Select Work Order Date");
+    // } else if (contractor === "") {
+    //   toast.error("Please Select Contractor List");
+    // }
     // else if (remark === "") {
     //   toast.error("Please Type Remarks");
     // } 
@@ -917,7 +917,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Work Order Number
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <input
                   id="scheme_name"
@@ -940,7 +940,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Work Order Date
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <DatePicker
                   dateFormat="dd/MM/yyyy"
@@ -955,7 +955,7 @@ const Scheme = () => {
                   className="block text-sm font-medium text-gray-700"
                 >
                   Contractor List
-                  <span className="text-red-500 "> * </span>
+                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <select
                   id="scheme_name"
