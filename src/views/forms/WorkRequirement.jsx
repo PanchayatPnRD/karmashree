@@ -93,15 +93,15 @@ const WorkRequirement = () => {
       return data.data.result;
     },
     enabled: schemeData !== undefined,
-    gcTime:0,
+    gcTime: 0,
   });
 
   useEffect(() => {
-    if (schemeData !== undefined) 
+    if (schemeData !== undefined)
       queryclient.invalidateQueries({ queryKey: ["contractorDetails"] })
     if (schemeData !== undefined)
       queryclient.resetQueries({ queryKey: ["contractorDetails"] });
-    
+
   }, [schemeData])
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const WorkRequirement = () => {
 
   const onScheme = (e) => {
     setSchemeSl(e.target.value);
-    
+
   };
 
   let GpListDropdown = <option>Loading...</option>;
@@ -397,7 +397,7 @@ const WorkRequirement = () => {
           currentYear: new Date().toLocaleDateString("en-IN", {
             year: "numeric",
           }),
-          dateofwork: new Date(dates[dates.length -1]).toLocaleDateString("fr-CA", {
+          dateofwork: new Date(dates[dates.length - 1]).toLocaleDateString("fr-CA", {
             year: "numeric",
             month: "2-digit",
             day: "numeric",
@@ -421,13 +421,13 @@ const WorkRequirement = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={`Work Requisition ID successfully created`}
+        message={`Worker Requisition ID successfully created`}
         // resetData={resetData}
         createdReq={createdReq}
         to="work-requirement-list"
         isSuccess={true}
-        // isSuccess={true}
-        // userCreate={false}
+      // isSuccess={true}
+      // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -452,7 +452,7 @@ const WorkRequirement = () => {
                 /
               </li>
               <li className="text-gray-500 font-bold" aria-current="page">
-                Work Requirement
+                Worker Requisition
               </li>
             </ol>
           </nav>
@@ -646,7 +646,7 @@ const WorkRequirement = () => {
                   disabled
                   placeholder="Please Enter Village Name"
                   className="w-full rounded-md border-zinc-300"
-                  // onChange={onVillageName}
+                // onChange={onVillageName}
                 />
               </div>
 
