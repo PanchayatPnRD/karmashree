@@ -110,7 +110,7 @@ const WorkRequirement = () => {
     whetherMigrantWorker: "",
     mobileNo: "",
     aadhaarNo: "",
-    typeOfWorkers: "",
+    typeOfWorkers: "U",
     dateOfApplicationForWork: "",
     noOfDaysWorkDemanded: "",
     remark: "",
@@ -697,8 +697,8 @@ const WorkRequirement = () => {
                             updateVal(e, index, allData, setAllData)
                           }
                         >
-                          <option value="">-select worker type-</option>
-                          <option value="U">Unskilled</option>
+                          {/* <option value="">-select worker type-</option> */}
+                          <option value="U" selected>Unskilled</option>
                           <option value="SS">Semi-Skilled</option>
                           <option value="S">Skilled</option>
                         </select>
