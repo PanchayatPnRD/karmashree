@@ -46,13 +46,13 @@ const Dashboard = ({ children }) => {
             >
               {isSidebarOpen ? (
                 <Icon
-                  className="text-4xl text-blue-600 rotate-180"
-                  icon={"lucide:sidebar-open"}
+                  className="text-2xl text-red-600 rotate-180"
+                  icon={"icon-park-outline:close"}
                 />
               ) : (
                 <Icon
-                  className="text-4xl text-blue-600 rotate-180"
-                  icon={"lucide:sidebar-close"}
+                  className="text-3xl text-blue-600 rotate-180"
+                  icon={"icon-park-outline:hamburger-button"}
                 />
               )}
             </button>
