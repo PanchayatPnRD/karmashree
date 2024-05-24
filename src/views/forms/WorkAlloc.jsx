@@ -313,7 +313,7 @@ const WorkAlloc = () => {
           </nav>
         </div>
 
-        <div className="bg-white shadow-md rounded-lg px-12 pb-12">
+        <div className="bg-white shadow-md rounded-lg pb-8">
           {schemeId === undefined && (
             <>
               <div className="flex flex-col overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">

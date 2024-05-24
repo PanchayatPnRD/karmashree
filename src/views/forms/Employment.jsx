@@ -182,7 +182,7 @@ const Employment = () => {
             </div>
 
             <br></br>
-            <div className="bg-white shadow-md rounded-lg p-12">
+            <div className="bg-white shadow-md rounded-lg pb-12">
               <div className="flex pb-8 flex-col space-y-4">
                 <div className="flex flex-col space-y-8">
                   {workAllocationId.length == 0 && (
