@@ -61,13 +61,13 @@ const Scheme = () => {
   const [contractor, setContractor] = useState("");
   const [remark, setRemark] = useState("");
   const [isValidRemark, setIsValidRemark] = useState(true);
-
+  const [userData, setUserData] = useState(null);
 
   console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
-    // setUserData(data);
+    setUserData(data);
 
     getAllDistrictActionList(data?.districtcode).then(function (result) {
       const response = result?.data?.result;
@@ -136,7 +136,7 @@ const Scheme = () => {
       setAllBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value).then(function (result) {
+    getAllMunicipalityList(e.target.value,0).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
@@ -793,7 +793,7 @@ const Scheme = () => {
               </div>
             </div>
             <div className="flex w-full mb-4 space-x-4">
-              <div className="px-4 w-1/3">
+              <div className="px-4 w-1/5">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -812,12 +812,12 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4 w-1/3">
+              <div className="px-4 w-1/5">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Total Wage Cost involved in the Work
+                  Total Wage Cost 
                   <span className="text-red-500 "> *</span>
                 </label>
                 <input
@@ -831,7 +831,7 @@ const Scheme = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
               </div>
-              <div className="px-4 w-fit">
+              <div className="px-4 w-1/4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -850,8 +850,6 @@ const Scheme = () => {
                   onChange={onPersondaysWork}
                 />
               </div>
-            </div>
-            <div className="flex w-full space-x-4 mb-4 ">
               <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
@@ -871,13 +869,15 @@ const Scheme = () => {
                   onChange={onUnskilled}
                 />
               </div>
-              <div className="px-4 w-1/3">
+            </div>
+            <div className="flex w-full space-x-4 mb-4 ">
+              
+              {/* <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   No of Semi-Skilled Workers to be engaged
-                  {/* <span className="text-red-500 "> * </span> */}
                 </label>
                 <input
                   id="scheme_name"
@@ -889,14 +889,14 @@ const Scheme = () => {
                   onChange={onSemiskilled}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 />
-              </div>
-              <div className="px-4 w-1/3">
+              </div> */}
+              {/* <div className="px-4 w-1/3">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   No of Skilled Workers to be engaged
-                  {/* <span className="text-red-500 "> * </span> */}
+              
                 </label>
                 <input
                   id="scheme_name"
@@ -908,7 +908,7 @@ const Scheme = () => {
                   value={skilled}
                   onChange={onSkilled}
                 />
-              </div>
+              </div> */}
             </div>
             <div className="flex w-full space-x-4 mb-4 ">
               <div className="px-4 w-1/3">

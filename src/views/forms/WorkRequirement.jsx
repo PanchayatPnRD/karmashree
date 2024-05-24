@@ -154,7 +154,7 @@ const WorkRequirement = () => {
       setAllBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value).then(function (result) {
+    getAllMunicipalityList(e.target.value,0).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });

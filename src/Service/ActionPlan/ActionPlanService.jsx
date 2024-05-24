@@ -13,9 +13,9 @@ export const getAllBlockList = async (districtCode) => {
     );
 }
 
-export const getAllMunicipalityList = async (districtCode) => {
+export const getAllMunicipalityList = async (districtCode,urbanCode) => {
     console.log(districtCode, "districtCode")
-    return await webApi.get(`/api/mastertable/getMunicipality/${parseInt(districtCode)}`,
+    return await webApi.get(`/api/mastertable/getMunicipality/${parseInt(districtCode)}/${parseInt(urbanCode)}`,
     );
 }
 

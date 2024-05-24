@@ -73,6 +73,11 @@ const NewUser = () => {
       const response = result?.data?.result;
       setAllDepartmentList(response);
     });
+
+    getAllMunicipalityList(data?.districtcode, data?.municipalityCode).then(function (result) {
+      const response = result?.data?.result;
+      setAllMunicipalityList(response);
+    });
     //Pedastal list
     getAllPedastalList(data?.departmentNo, data?.deptWing).then(function (result) {
       const response = result?.data?.result;
@@ -180,7 +185,7 @@ const NewUser = () => {
       setAllAreaBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value).then(function (result) {
+    getAllMunicipalityList(e.target.value, userData?.municipalityCode).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
@@ -312,16 +317,18 @@ const NewUser = () => {
       // (userData?.category === "BLOCK" && district === "")
     ) {
       toast.error("Please select a district");
-    } else if (
+    }
+    // else if (
 
-      (userData?.category === "HQ" && !parastatals)
-      // (userData?.category === "DEPT" && district === "")
-      // (userData?.category === "DIST" && district === "") ||
-      // (userData?.category === "SUB" && district === "") ||
-      // (userData?.category === "BLOCK" && district === "")
-    ) {
-      toast.error("Please select a Parastatals");
-    } else if (
+    //   (userData?.category === "HQ" && !parastatals)
+    // (userData?.category === "DEPT" && district === "")
+    // (userData?.category === "DIST" && district === "") ||
+    // (userData?.category === "SUB" && district === "") ||
+    // (userData?.category === "BLOCK" && district === "")
+    // ) {
+    //   toast.error("Please select a Parastatals");
+    // } 
+    else if (
       !userData?.category === "HQ"
       // (userData?.category === "DIST" && subDivision === "")
       // (userData?.category === "SUB" && subDivision === "") ||
@@ -525,7 +532,7 @@ const NewUser = () => {
                 className="block text-sm font-medium text-gray-700"
               >
                 Parastatals
-                <span className="text-red-500 "> * </span>
+                {/* <span className="text-red-500 "> * </span> */}
               </label>
               <select
                 id="country"
@@ -540,7 +547,7 @@ const NewUser = () => {
                     : pedastralDropdown}
 
                 </option>
-                {userData?.category === "HQ"? pedastralDropdown:""}
+                {userData?.category === "HQ" ? pedastralDropdown : ""}
 
               </select>
             </div>
@@ -609,7 +616,7 @@ const NewUser = () => {
                 </select>
               </div>
             )}
-            {userData?.category === "HD" && userData?.category === "DIST" && area === "U" || userData?.area === "U" ? (
+            {userData?.category === "HD" && district && area === "U" || userData?.category === "DIST" && district && area === "U" ? (
 
               <div>
                 <label
@@ -625,10 +632,17 @@ const NewUser = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onClick={onMunicipality}
                 >
-                  <option value="" selected hidden>Select Municipality List</option>
-                  {municipalityListDropdown}
+                  <option value="" >Select Municipality List</option>
+                  <option value="" selected hidden>
 
-                  {/* Add more options as needed */}
+                    {userData?.category === "DEPT" ||
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
+                      ? municipalityListDropdown
+                      : "Select a Municipality"}
+                  </option>
+                  {municipalityListDropdown}
                 </select>
               </div>
             ) : (
