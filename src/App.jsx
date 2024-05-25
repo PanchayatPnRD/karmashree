@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNetworkState } from "@uidotdev/usehooks";
 
 function App() {
-  const network = useNetworkState();
+  // const network = useNetworkState();
   const homeRoutes = [
     { path: "/", Element: Home },
     { path: "/login", Element: Login },
@@ -30,21 +30,7 @@ function App() {
     { path: "/reset", Element: ResetPassword },
   ];
 
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-  { isOnline ? "" : toast.error("No internet,Please Checking the network cables, modem, and router") }
+  
 
   return (
     <>

@@ -4,11 +4,13 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState, useMemo } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import classNames from "classnames";
+import { useNetworkState } from "@uidotdev/usehooks";
 // import { Avatar, Dropdown, Navbar } from "flowbite-react";
 
 import { Footer } from "../components/Footer";
 
 const Dashboard = ({ children }) => {
+  const { online } = useNetworkState();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const visibility = useDebounce(isSidebarOpen, 250);
 
@@ -25,7 +27,8 @@ const Dashboard = ({ children }) => {
         <div
           className={classNames(
             isSidebarOpen ? "w-1/4 xl:w-1/5" : "w-[1px]",
-            "hide inset-y-0 top-[98px] min-h-remaining bg-blue-950 fixed overflow-y-auto transition-all duration-300"
+            "hide inset-y-0  bg-blue-950 fixed overflow-y-auto transition-all duration-300",
+            online ? "top-[96px] min-h-remaining" : "top-[128px] min-h-offline"
           )}
         >
           {actualVis && <Sidebar />}
@@ -36,7 +39,8 @@ const Dashboard = ({ children }) => {
             isSidebarOpen
               ? "w-[75vw] xl:w-[80vw] ml-[25vw] xl:ml-[20vw]"
               : "w-screen ml-0",
-            " min-h-remaining mt-[98px]  flex flex-col shadow-xl bg-white transition-all duration-300"
+            " flex flex-col shadow-xl bg-white transition-all duration-300",
+            online ? "mt-[96px] min-h-remaining" : "mt-[128px] min-h-offline"
           )}
         >
           <div className="flex">
@@ -46,7 +50,7 @@ const Dashboard = ({ children }) => {
             >
               {isSidebarOpen ? (
                 <Icon
-                  className="text-2xl text-red-600 rotate-180"
+                  className="text-2xl text-zinc-400 rotate-180"
                   icon={"icon-park-outline:close"}
                 />
               ) : (

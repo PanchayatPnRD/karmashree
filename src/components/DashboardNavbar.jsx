@@ -8,9 +8,12 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
-import { fetch } from "../functions/Fetchfunctions";
+import { fetch } from "../functions/Fetchfunctions";  
+import classNames from "classnames";
+import { useNetworkState } from "@uidotdev/usehooks";
 
 export const DashboardNavbar = () => {
+  const { online } = useNetworkState();
   const [permission, setPermission] = useState();
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
@@ -131,72 +134,82 @@ export const DashboardNavbar = () => {
 
   return (
     <>
-      <div className="p-1 px-16 flex w-screen justify-between border items-center fixed top-0 left-0 z-50 bg-white shadow-lg">
-        <Link to={"/dashboard"} className="flex items-center space-x-2 w-fit">
-          <div className="flex">
-            <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
-            <img src={emblem} alt="" className="h-16" />
-          </div>
-          <div className="flex flex-col -space-y-1">
-            <h1 className="capitalize font-semibold text-2xl tracking-tight">
-              department of panchayats & rural development
-            </h1>
-            <h3 className="capitalize text-zinc-500">
-              government of west bengal
-            </h3>
-          </div>
-        </Link>
-
-        <Dropdown
-          Button={
-            <div className="flex justify-center items-center">
-              <div className="flex flex-col px-2">
-                <div className="text-lg font-bold text-end text-black">
-                  {userDetails?.category}&nbsp;
-                  {userDetails?.userName} 
-                </div>
-                <span className="text-sm text-end">
-                  {userTitle}
-
-                  {" #"}
-                  {userIndex}
-                </span>
-              </div>
-
-              <Icon
-                className="text-7xl"
-                icon="lets-icons:user-cicrle-duotone"
-              />
+      <div className="w-screen fixed top-0 left-0 z-30 bg-white shadow-lg">
+        <div className="p-1 px-16 flex justify-between">
+          <Link to={"/dashboard"} className="flex items-center space-x-2 w-fit">
+            <div className="flex">
+              <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
+              <img src={emblem} alt="" className="h-16" />
             </div>
-          }
+            <div className="flex flex-col -space-y-1">
+              <h1 className="capitalize font-semibold text-2xl tracking-tight">
+                department of panchayats & rural development
+              </h1>
+              <h3 className="capitalize text-zinc-500">
+                government of west bengal
+              </h3>
+            </div>
+          </Link>
+
+          <Dropdown
+            Button={
+              <div className="flex justify-center items-center">
+                <div className="flex flex-col px-2">
+                  <div className="text-lg font-bold text-end text-black">
+                    {userDetails?.category}&nbsp;
+                    {userDetails?.userName}
+                  </div>
+                  <span className="text-sm text-end">
+                    {userTitle}
+
+                    {" #"}
+                    {userIndex}
+                  </span>
+                </div>
+
+                <Icon
+                  className="text-7xl"
+                  icon="lets-icons:user-cicrle-duotone"
+                />
+              </div>
+            }
+          >
+            <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
+              <label>{userDetails?.userId}</label>
+            </div>
+            <DropdownItem
+              className="space-x-2"
+              onClick={() => navigate("/dashboard/profile")}
+            >
+              <Icon
+                className="text-2xl text-zinc-400"
+                icon="material-symbols:settings"
+              ></Icon>
+              <span>Profile</span>
+            </DropdownItem>
+            <DropdownItem
+              className="space-x-2"
+              onClick={() => {
+                navigate("/login", { state: "signout" });
+                localStorage.removeItem("karmashree_User");
+              }}
+            >
+              <Icon
+                className="text-2xl text-zinc-400"
+                icon="material-symbols:logout"
+              ></Icon>
+              <span>Sign out</span>
+            </DropdownItem>
+          </Dropdown>
+        </div>
+        <div
+          className={classNames(
+            online ? "h-0" : "h-8",
+            " bg-red-600 flex justify-center items-center text-white font-semibold transition-all duration-300"
+          )}
         >
-          <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
-            <label>{userDetails?.userId}</label>
-          </div>
-          <DropdownItem
-            className="space-x-2"
-            onClick={() => navigate("/dashboard/profile")}
-          >
-            <Icon
-              className="text-2xl text-zinc-400"
-              icon="material-symbols:settings"
-            ></Icon>
-            <span>Profile</span>
-          </DropdownItem>
-          <DropdownItem
-            className="space-x-2"
-            onClick={() => {
-              navigate("/login", { state: "signout" });
-              localStorage.removeItem("karmashree_User");
-            }}
-          >
-            <Icon
-              className="text-2xl text-zinc-400"
-              icon="material-symbols:logout"
-            ></Icon>
-            <span>Sign out</span>
-          </DropdownItem>
-        </Dropdown>
+          {!online && "Your are offline"}
+        </div>
       </div>
     </>
   );

@@ -15,19 +15,20 @@ export default {
         curve: "url('/assets/img/curve_border2.png')",
       },
       height: {
-        remaining: "calc(100vh - 98px)", // Adjust the '4rem' value to match your navbar height
+        remaining: "calc(100vh - 96px)",
+        offline: "calc(100vh - 128px)", // Adjust the '4rem' value to match your navbar height
       },
       minHeight: {
-        remaining: "calc(100vh - 98px)", // Adjust the '4rem' value
+        remaining: "calc(100vh - 96px)", // Adjust the '4rem' value
+        offline: "calc(100vh - 128px)",
       },
       keyframes: {
         pulse2: {
           "0%, 100%": { opacity: 1 },
-          "50%": { opacity: .7 },
+          "50%": { opacity: 0.7 },
         },
       },
     },
   },
   plugins: [require("flowbite/plugin")],
 };
-
