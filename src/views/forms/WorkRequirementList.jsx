@@ -48,7 +48,7 @@ const WorkRequirementList = () => {
     },
     {
       header: "Financial Year",
-      accessorKey: "finYearWork",
+      accessorKey: "finYear",
       headclass: "cursor-pointer",
     },
     {
@@ -119,7 +119,7 @@ const WorkRequirementList = () => {
     },
     {
       header: "Total Unskilled Workers",
-      accessorKey: "unskilledWorkers",
+      accessorKey: "totalUnskilledWorkers",
       className: "text-center",
       headclass: "cursor-pointer",
     },
@@ -130,7 +130,7 @@ const WorkRequirementList = () => {
     },
     {
       header: "Funding Department",
-      accessorKey: "",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
   ];

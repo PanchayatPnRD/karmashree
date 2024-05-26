@@ -205,7 +205,7 @@ const WorkAlloc = () => {
     },
     {
       header: "Financial Year",
-      accessorKey: "finYearWork",
+      accessorKey: "finYear",
       headclass: "cursor-pointer",
     },
     {
@@ -417,7 +417,7 @@ const WorkAlloc = () => {
                     {filteredData.map(
                       ({
                         workerreqID,
-                        finYearWork,
+                        finYear,
                         schName,
                         conName,
                         contactPersonPhoneNumber,
@@ -425,7 +425,7 @@ const WorkAlloc = () => {
                       }) => (
                         <Table.Row>
                           <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {finYearWork}
+                            {finYear}
                           </Table.Cell>
                           <Table.Cell className="normal-case py-1 whitespace-nowrap">
                             {workerreqID}
