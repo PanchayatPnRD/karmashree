@@ -446,14 +446,17 @@ const Employment = () => {
                               Allocation Date To
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
-                              Total Days work Allocated
+                              Total Days Work Allocated
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Employment Provided Date
                             </Table.HeadCell>
 
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
-                              Total days provided
+                              Total Days Provided
+                            </Table.HeadCell>
+                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                              Paymemt Date
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
@@ -569,6 +572,41 @@ const Employment = () => {
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
                                     {dateDifference[index]}
+                                  </Table.Cell>
+                                  <Table.Cell className="py-1">
+                                    <div className="flex items-center space-x-2">
+                                      <DatePicker
+                                        selectsStart
+                                        minDate={
+                                          new Date(
+                                            empList[
+                                              index
+                                            ].workAllocationFromDate
+                                          )
+                                        }
+                                        dateFormat="dd/MM/yyyy"
+                                        selected={empProvidedFrom}
+                                        onChange={(e) => {
+                                          updateVal(
+                                            {
+                                              target: {
+                                                name: "empProvidedFrom",
+                                                value: e.toString(),
+                                              },
+                                            },
+                                            index,
+                                            empData,
+                                            setEmpData
+                                          );
+                                        }}
+                                        startDate={empProvidedFrom}
+                                        endDate={empProvidedTo}
+                                        portalId="root-portal"
+                                        placeholderText="dd/mm/yyyy"
+                                        className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                      />
+                                     
+                                    </div>
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
                                     <input
