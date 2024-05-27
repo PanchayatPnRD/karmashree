@@ -24,6 +24,7 @@ const Employment = () => {
     ExecutingDeptName: "",
     ImplementingAgencyID: undefined,
     ImplementingAgencyName: "",
+    dateOfPayment:"",
   };
 
   const [initialData, setInitialData] = useState(temp);
@@ -108,7 +109,7 @@ const Employment = () => {
           ...emp,
           schemeSector: 23,
           userIndex: userIndex,
-          dateOfPayment: new Date().toLocaleDateString("fr-CA"),
+          // dateOfPayment: new Date().toLocaleDateString("fr-CA"),
           finYear: getCurrentFinancialYear().financialYear,
           totalWagePaid: +totalWagePaid,
         };
@@ -391,7 +392,7 @@ const Employment = () => {
                                 tentativeStartDate,
                                 noOfDaysWorkAlloted,
                                 noOfDaysWorkDemanded,
-                                ExpectedCompletionDate
+                                ExpectedCompletionDate,
                               }) => (
                                 <Table.Row>
                                   <Table.Cell className="normal-case py-1 whitespace-nowrap">
@@ -468,6 +469,7 @@ const Employment = () => {
                                 {
                                   empProvidedFrom,
                                   empProvidedTo,
+                                  dateOfPayment,
                                   totalWagePaid,
                                 },
                                 index
@@ -521,7 +523,7 @@ const Employment = () => {
                                             {
                                               target: {
                                                 name: "empProvidedFrom",
-                                                value: e.toString(),
+                                                value: e.toLocaleDateString('fr-CA'),
                                               },
                                             },
                                             index,
@@ -547,7 +549,7 @@ const Employment = () => {
                                             {
                                               target: {
                                                 name: "empProvidedTo",
-                                                value: e.toString(),
+                                                value: e.toLocaleDateString('fr-CA'),
                                               },
                                             },
                                             index,
@@ -576,22 +578,15 @@ const Employment = () => {
                                   <Table.Cell className="py-1">
                                     <div className="flex items-center space-x-2">
                                       <DatePicker
-                                        selectsStart
-                                        minDate={
-                                          new Date(
-                                            empList[
-                                              index
-                                            ].workAllocationFromDate
-                                          )
-                                        }
+                                        minDate={new Date()}
                                         dateFormat="dd/MM/yyyy"
-                                        selected={empProvidedFrom}
+                                        selected={dateOfPayment}
                                         onChange={(e) => {
                                           updateVal(
                                             {
                                               target: {
-                                                name: "empProvidedFrom",
-                                                value: e.toString(),
+                                                name: "dateOfPayment",
+                                                value: e.toLocaleDateString('fr-CA'),
                                               },
                                             },
                                             index,
@@ -599,13 +594,11 @@ const Employment = () => {
                                             setEmpData
                                           );
                                         }}
-                                        startDate={empProvidedFrom}
-                                        endDate={empProvidedTo}
+                                        
                                         portalId="root-portal"
                                         placeholderText="dd/mm/yyyy"
                                         className="w-32 cursor-pointer border-gray-300 rounded-md"
                                       />
-                                     
                                     </div>
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
