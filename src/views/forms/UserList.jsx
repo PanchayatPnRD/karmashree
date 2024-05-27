@@ -57,8 +57,13 @@ const UserList = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "Username",
+      header: "User name",
       accessorKey: "userName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "User ID",
+      accessorKey: "userId",
       headclass: "cursor-pointer",
     },
     {
