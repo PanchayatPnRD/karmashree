@@ -421,9 +421,9 @@ const WorkRequirement = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={`Worker Requisition ID successfully created`}
+        message={`Worker Requisition ID ${createdReq} successfully created`}
         // resetData={resetData}
-        createdReq={createdReq}
+        
         to="work-requirement-list"
         isSuccess={true}
       // isSuccess={true}
