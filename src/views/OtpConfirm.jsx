@@ -70,10 +70,10 @@ const OTPConfirm = () => {
         localStorage.setItem("karmashree_User", JSON.stringify(userdata));
         localStorage.setItem("karmashree_AuthToken", res?.newPayload?.token);
 
-        navigate("/dashboard");
+        // navigate("/dashboard");
 
         toast.success(res.message);
-        window.location.reload();
+        // window.location.reload();
       } else if (res.errorCode == 1) {
         console.log("nononononono");
         toast.error(res.message);
