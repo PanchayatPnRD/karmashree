@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { getVerifyOtp } from "../Service/Otp/otpService";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useStack } from "../functions/Stack";
+import SuccessModal from "../components/SuccessModal";
 
 const OTPConfirm = () => {
   const { stack } = useStack();
@@ -17,6 +18,7 @@ const OTPConfirm = () => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [openModal, setOpenModal] = useState();
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -54,8 +56,11 @@ const OTPConfirm = () => {
 
   const validateOTP = () => {
     getVerifyOtp(otp.join(""), userData?.UserID, (res) => {
-      console.log(res, "response");
-      if (res.errorCode == 0) {
+      console.log(res?.newPayload?.is_passwordreset, "response");
+      if (res?.newPayload?.is_passwordreset == 0) {
+        setOpenModal(true);
+      }
+      else if (res?.errorCode == 0) {
         const userdata = {
           category: res?.newPayload?.category,
           departmentNo: res?.newPayload?.departmentNo,
@@ -70,7 +75,7 @@ const OTPConfirm = () => {
         localStorage.setItem("karmashree_User", JSON.stringify(userdata));
         localStorage.setItem("karmashree_AuthToken", res?.newPayload?.token);
 
-        // navigate("/dashboard");
+        navigate("/dashboard");
 
         toast.success(res.message);
         // window.location.reload();
@@ -104,6 +109,14 @@ const OTPConfirm = () => {
 
   return (
     <>
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        message={"You Need to change your password first"}
+        toverify="verify"
+        // resetData={resetData}
+        isSuccess={true}
+      />
       <ToastContainer />
       <div className="rounded-sm bg-zinc-50 py-20 px-60 flex-grow">
         <div className="flex items-center rounded-xl shadow-2xl bg-white p-8">

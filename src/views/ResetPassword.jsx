@@ -59,7 +59,7 @@ export const ConfirmUser = () => {
     else setShowOtp(true);
   }
   if (state != "login") return <Navigate to={stack[0]} />;
-console.log(userId,"userId")
+  console.log(userId, "userId")
   const onVerifyUser = () => {
     if (userId === "") {
       toast.error("Please type your user id")

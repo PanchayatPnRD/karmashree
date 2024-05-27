@@ -804,7 +804,7 @@ const NewUser = () => {
                 id="tel"
                 name="username"
                 maxLength={10}
-                type="number"
+                type="text"
                 value={contactNumber}
                 autoComplete="username"
                 onChange={onContactNumber}
@@ -1041,7 +1041,7 @@ const NewUser = () => {
                   <input
                     id="tel"
                     name="username"
-                    type="number"
+                    type="text"
                     maxLength={10}
                     value={technicalOfficerContactNumber}
                     autoComplete="username"

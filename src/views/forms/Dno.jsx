@@ -491,7 +491,7 @@ const Dno = () => {
                 id="tel"
                 name="username"
                 maxLength={10}
-                type="number"
+                type="text"
                 value={contactNumber}
                 autoComplete="username"
                 onChange={onContactNumber}

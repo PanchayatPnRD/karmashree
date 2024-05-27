@@ -6,6 +6,7 @@ const SuccessModal = ({
   createdReq,
   resetData,
   to,
+  toverify,
   userCreate,
   setOpenModal,
   openModal,
@@ -66,6 +67,7 @@ const SuccessModal = ({
               if (isSuccess && userCreate)
                 navigate("/dashboard/dept-userlist", { state: "dept-user" });
               if (isSuccess && to) navigate("/dashboard/" + to);
+              if (isSuccess && toverify) navigate("/"+toverify);
               if (resetData) resetData();
             }}
           >
