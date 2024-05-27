@@ -268,7 +268,7 @@ const ActionPlan = () => {
       toast.error("Please Type Tentative Total Cost of Schemes");
     } else if (totalWages === "") {
       toast.error("Please Type Tentative Total Wage to be paid in the Schemes");
-    } else if (totalWages > costOfSCheme) {
+    } else if (parseInt(totalWages) > parseInt(costOfSCheme)) {
       toast.error("Total Wage cant greater than Total Cost");
     } else if (totalPersonDays === "") {
       toast.error("Please Type Total Persondays to be Generated");

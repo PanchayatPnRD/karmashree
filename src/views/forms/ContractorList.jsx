@@ -48,45 +48,45 @@ const ContractorList = () => {
       accessorKey: "finYear",
       headclass: "cursor-pointer",
     },
-    {
-      header: "Area",
-      accessorKey: "area",
-      headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        row.original.area == "R" ? "Rural" : "Urban",
-    },
-    {
-      header: "District",
-      accessorKey: "districtName",
-      headclass: "cursor-pointer",
-      className: "text-center",
-      cell: ({ row }) =>
-        row.original.districtName == "" ? "-" : row.original.districtName,
-    },
-    {
-      header: "Municapility",
-      accessorKey: "muniName",
-      headclass: "cursor-pointer",
-      className: "text-center",
-      cell: ({ row }) =>
-        row.original.muniName == "" ? "-" : row.original.muniName,
-    },
-    {
-      header: "Block",
-      accessorKey: "blockname",
-      headclass: "cursor-pointer",
-      className: "text-center",
-      cell: ({ row }) =>
-        row.original.blockname == "" ? "-" : row.original.blockname,
-    },
-    {
-      header: "GP",
-      accessorKey: "gpName",
-      headclass: "cursor-pointer",
-      className: "text-center",
-      cell: ({ row }) =>
-        row.original.gpName == "" ? "-" : row.original.gpName,
-    },
+    // {
+    //   header: "Area",
+    //   accessorKey: "area",
+    //   headclass: "cursor-pointer",
+    //   cell: ({ row }) =>
+    //     row.original.area == "R" ? "Rural" : "Urban",
+    // },
+    // {
+    //   header: "District",
+    //   accessorKey: "districtName",
+    //   headclass: "cursor-pointer",
+    //   className: "text-center",
+    //   cell: ({ row }) =>
+    //     row.original.districtName == "" ? "-" : row.original.districtName,
+    // },
+    // {
+    //   header: "Municapility",
+    //   accessorKey: "muniName",
+    //   headclass: "cursor-pointer",
+    //   className: "text-center",
+    //   cell: ({ row }) =>
+    //     row.original.muniName == "" ? "-" : row.original.muniName,
+    // },
+    // {
+    //   header: "Block",
+    //   accessorKey: "blockname",
+    //   headclass: "cursor-pointer",
+    //   className: "text-center",
+    //   cell: ({ row }) =>
+    //     row.original.blockname == "" ? "-" : row.original.blockname,
+    // },
+    // {
+    //   header: "GP",
+    //   accessorKey: "gpName",
+    //   headclass: "cursor-pointer",
+    //   className: "text-center",
+    //   cell: ({ row }) =>
+    //     row.original.gpName == "" ? "-" : row.original.gpName,
+    // },
     {
       header: "Contractor Name",
       accessorKey: "contractorName",

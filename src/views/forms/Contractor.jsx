@@ -271,10 +271,10 @@ const Contractor = () => {
   console.log(currentYear, "currentYear")
 
   const onSubmit = () => {
-    if (area === "") {
-      toast.error("Please Select Area Type")
-    } else if (!district) {
-      toast.error("Please Select District")
+    // if (area === "") {
+    //   toast.error("Please Select Area Type")
+    // } else if (!district) {
+    //   toast.error("Please Select District")
       // }
       //  else if (area === "U" && municipality === "") {
       //   toast.error("Please Select Municipality")
@@ -282,7 +282,9 @@ const Contractor = () => {
       //   toast.error("Please Select Block")
       // } else if (area === "R" && gp === "") {
       //   toast.error("Please Select Gram Panchayat")
-    } else if (contractorName === "") {
+    // } 
+    // else 
+    if (contractorName === "") {
       toast.error("Please Type Contractor Name")
     } else if (gstin === "") {
       toast.error("Please Type Contractor GSTIN")
@@ -347,7 +349,7 @@ const Contractor = () => {
         </nav>
       </div>
       <div className="bg-white shadow-md rounded-lg p-12">
-        <div className="flex w-full space-x-4 mb-6">
+        {/* <div className="flex w-full space-x-4 mb-6">
 
           <div className="px-4">
             <label
@@ -370,7 +372,7 @@ const Contractor = () => {
               <option value="R">Rural</option>
               <option value="U">Urban</option>
 
-              {/* Add more options as needed */}
+             
             </select>
           </div>
 
@@ -395,7 +397,6 @@ const Contractor = () => {
               {districtListDropdown}
 
 
-              {/* Add more options as needed */}
             </select>
           </div>
           {district?.length > 0 && area === "U" ? (
@@ -417,7 +418,7 @@ const Contractor = () => {
                 <option value="" selected hidden>Select Municipality List</option>
                 {municipalityListDropdown}
 
-                {/* Add more options as needed */}
+
               </select>
             </div>
           ) : (
@@ -444,7 +445,6 @@ const Contractor = () => {
                 <option value="" selected hidden>Select Block List</option>
                 {blockListDropdown}
 
-                {/* Add more options as needed */}
               </select>
             </div>
           ) : (
@@ -469,14 +469,13 @@ const Contractor = () => {
                 <option value="" selected hidden>Select GP List</option>
                 {GpListDropdown}
 
-                {/* Add more options as needed */}
               </select>
             </div>
           ) : (
             ""
           )}
 
-        </div>
+        </div> */}
 
         <div className="flex flex-col w-full mb-4">
           <div className="px-4">
