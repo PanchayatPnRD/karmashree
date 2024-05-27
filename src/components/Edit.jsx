@@ -77,7 +77,7 @@ const Edit = () => {
         setOpenModal={setOpenModal}
         to={state}
         isSuccess={editStatus}
-        userCreate={false}
+        message={"User updated successfully"}
       />
       <button
         onClick={() => {

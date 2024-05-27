@@ -24,7 +24,7 @@ const Employment = () => {
     ExecutingDeptName: "",
     ImplementingAgencyID: undefined,
     ImplementingAgencyName: "",
-    dateOfPayment:"",
+    dateOfPayment: "",
   };
 
   const [initialData, setInitialData] = useState(temp);
@@ -118,12 +118,17 @@ const Employment = () => {
     return array?.filter((value) => value !== undefined);
   }, [empData]);
 
-  const { mutate, isSuccess: submitStatus } = useMutation({
-    mutationFn: () => {
-      return fetch.post(
+  const {
+    data: employment,
+    mutate,
+    isSuccess: submitStatus,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.post(
         { CreateEmploymentDtos: empDataList },
         "/api/employment/allocation"
       );
+      return data.employment;
     },
     mutationKey: ["empSubmit"],
     onSuccess: () => {
@@ -136,7 +141,7 @@ const Employment = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Employment Generated Successfully"}
+        message={`Employment Id ${employment} Generated Successfully`}
         to="employment-list"
         // resetData={resetData}
         isSuccess={submitStatus}
@@ -523,7 +528,8 @@ const Employment = () => {
                                             {
                                               target: {
                                                 name: "empProvidedFrom",
-                                                value: e.toLocaleDateString('fr-CA'),
+                                                value:
+                                                  e.toLocaleDateString("fr-CA"),
                                               },
                                             },
                                             index,
@@ -549,7 +555,8 @@ const Employment = () => {
                                             {
                                               target: {
                                                 name: "empProvidedTo",
-                                                value: e.toLocaleDateString('fr-CA'),
+                                                value:
+                                                  e.toLocaleDateString("fr-CA"),
                                               },
                                             },
                                             index,
@@ -586,7 +593,8 @@ const Employment = () => {
                                             {
                                               target: {
                                                 name: "dateOfPayment",
-                                                value: e.toLocaleDateString('fr-CA'),
+                                                value:
+                                                  e.toLocaleDateString("fr-CA"),
                                               },
                                             },
                                             index,
@@ -594,7 +602,6 @@ const Employment = () => {
                                             setEmpData
                                           );
                                         }}
-                                        
                                         portalId="root-portal"
                                         placeholderText="dd/mm/yyyy"
                                         className="w-32 cursor-pointer border-gray-300 rounded-md"

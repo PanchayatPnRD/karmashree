@@ -89,8 +89,8 @@ const WorkRequirement = () => {
   }
 
   function resetData() {
-    updateDropdown(0, "")
-    setAllData([initialData])
+    updateDropdown(0, "");
+    setAllData([initialData]);
   }
 
   useEffect(() => {
@@ -118,7 +118,7 @@ const WorkRequirement = () => {
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data
-  console.log(allData, "allData")
+  console.log(allData, "allData");
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -152,11 +152,14 @@ const WorkRequirement = () => {
       } = e;
       return {
         ...rest,
-        dateOfApplicationForWork: dateOfApplicationForWork.length > 5 ? new Date(dateOfApplicationForWork).toLocaleDateString("fr-CA", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-        }) : "",
+        dateOfApplicationForWork:
+          dateOfApplicationForWork.length > 5
+            ? new Date(dateOfApplicationForWork).toLocaleDateString("fr-CA", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })
+            : "",
         whetherMinority: whetherMinority ? "Y" : "N",
         whetherMigrantWorker: whetherMigrantWorker ? "Y" : "N",
         workerJobCardNo: `${jobcardNo ?? ""}-${sansadId}-${familyId}`,
@@ -231,9 +234,17 @@ const WorkRequirement = () => {
     ));
   }
 
-  const { mutate, isSuccess: entryStatus } = useMutation({
-    mutationFn: () => {
-      return fetch.post({ DemandMasterDto: demandData }, "/api/demand/createDemand", "");
+  const {
+    data: demand,
+    mutate,
+    isSuccess: entryStatus,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.post(
+        { DemandMasterDto: demandData },
+        "/api/demand/createDemand"
+      );
+      return data.demand;
     },
     mutationKey: ["demandEntry"],
     onSuccess: () => {
@@ -242,53 +253,51 @@ const WorkRequirement = () => {
   });
 
   const onAge = (e) => {
-    console.log(e, "age")
+    console.log(e, "age");
     if (e < 18 || e > 65) {
-      toast.error("Age should be between 18-65 years")
+      toast.error("Age should be between 18-65 years");
     }
-  }
+  };
 
   //Validation of mobile number
 
   const onMobile = (e) => {
-    console.log(e, "mobile")
+    console.log(e, "mobile");
     const value = e;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setMobileNumber(value);
       setIsValidMobile(true);
     } else {
       setIsValidMobile(false);
     }
-
-  }
+  };
 
   //Validation of aadhar card
 
   const onAdhar = (e) => {
-    console.log(e, "mobile")
+    console.log(e, "mobile");
     const value = e;
     const regex = /^[0-9]{12}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setAdharNumber(value);
       setIsValidAdhar(true);
     } else {
       setIsValidAdhar(false);
     }
-  }
-
+  };
 
   return (
     <>
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Demand Created Successfully"}
+        message={`Demand Id ${demand} Created Successfully`}
         resetData={resetData}
         to="demand-list"
         isSuccess={entryStatus}
-      // isSuccess={true}
-      // userCreate={false}
+        // isSuccess={true}
+        // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -592,9 +601,8 @@ const WorkRequirement = () => {
                           maxLength={2}
                           onChange={(e) => {
                             updateVal(e, index, allData, setAllData);
-                            onAge(e.target.value)
-                          }
-                          }
+                            onAge(e.target.value);
+                          }}
                         />
                       </Table.Cell>
                       <Table.Cell>
@@ -659,13 +667,13 @@ const WorkRequirement = () => {
                           value={mobileNo}
                           onChange={(e) => {
                             updateVal(e, index, allData, setAllData);
-                            onMobile(e.target.value)
-                          }
-
-                          }
+                            onMobile(e.target.value);
+                          }}
                         />
                         {!isValidMobile && (
-                          <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+                          <div style={{ color: "red" }}>
+                            Please enter a valid Mobile Number
+                          </div>
                         )}
                       </Table.Cell>
                       <Table.Cell>
@@ -678,12 +686,13 @@ const WorkRequirement = () => {
                           value={aadhaarNo}
                           onChange={(e) => {
                             updateVal(e, index, allData, setAllData);
-                            onAdhar(e.target.value)
-                          }
-                          }
+                            onAdhar(e.target.value);
+                          }}
                         />
                         {!isValidAdhar && (
-                          <div style={{ color: 'red' }}>Please enter a valid Aadhar Number</div>
+                          <div style={{ color: "red" }}>
+                            Please enter a valid Aadhar Number
+                          </div>
                         )}
                       </Table.Cell>
 
@@ -698,7 +707,9 @@ const WorkRequirement = () => {
                           }
                         >
                           {/* <option value="">-select worker type-</option> */}
-                          <option value="U" selected>Unskilled</option>
+                          <option value="U" selected>
+                            Unskilled
+                          </option>
                           <option value="SS">Semi-Skilled</option>
                           <option value="S">Skilled</option>
                         </select>
@@ -786,7 +797,7 @@ const WorkRequirement = () => {
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={mutate}
-            // onClick={() => setOpenModal(true)}
+              // onClick={() => setOpenModal(true)}
             >
               Submit
             </button>

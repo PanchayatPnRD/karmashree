@@ -311,12 +311,12 @@ const Dno = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={errorMessage?.result}
-        userCreate={true}
+        message={errorMessage?.message}
+        
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         to="dno-userlist"
         isSuccess={!Boolean(errorMessage?.errorCode)}
-        errorMsg={errorMessage?.message}
+        
       />
       <ToastContainer />
       <div className="mx-auto mt-2">

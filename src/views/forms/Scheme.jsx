@@ -62,6 +62,7 @@ const Scheme = () => {
   const [remark, setRemark] = useState("");
   const [isValidRemark, setIsValidRemark] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [schemeId, setSchemeId] = useState();
 
   console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
@@ -438,6 +439,7 @@ const Scheme = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
+            setSchemeId(r.schemeid)
           } else {
             toast.error(r.message);
           }
@@ -451,7 +453,7 @@ const Scheme = () => {
     <SuccessModal
       openModal={openModal}
       setOpenModal={setOpenModal}
-      message={"Scheme Created Successfully"}
+      message={`Scheme Id ${schemeId} created Successfully`}
       // resetData={resetData}
       to="scheme-list"
       isSuccess={true}

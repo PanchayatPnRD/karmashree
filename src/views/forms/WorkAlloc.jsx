@@ -274,15 +274,37 @@ const WorkAlloc = () => {
     });
   };
 
+  const {
+    data: allocationId,
+    mutate,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.post(
+        {
+          workAllocations: AllocAPIData,
+          reqDate: reqDate,
+          reqId: reqId,
+        },
+        "/api/allocation/allocation"
+      );
+      return data.allocation
+    },
+    mutationKey: ["allocationCreate"],
+    onSuccess: () => {
+      setOpenModal(true);
+    },
+  });
+
   return (
     <>
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={"Allocation Created Successfully"}
+        message={`Allocation ${allocationId} Created Successfully`}
         to="work-allocation-list"
         // resetData={resetData}
-        isSuccess={true}
+        isSuccess={isSuccess}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -349,9 +371,9 @@ const WorkAlloc = () => {
                     </Table.Head>
                   ))}
 
-                  <Table.Body className="divide-y-2">
+                  <Table.Body className="divide-y">
                     {table.getRowModel().rows.map((row) => (
-                      <Table.Row key={row.id} className="divide-x-2">
+                      <Table.Row key={row.id} className="divide-x">
                         {row.getVisibleCells().map((cell) => (
                           <Table.Cell
                             key={cell.id}
@@ -606,7 +628,7 @@ const WorkAlloc = () => {
                 <button
                   type="button"
                   className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSubmit}
+                  onClick={mutate}
                 >
                   Submit
                 </button>
