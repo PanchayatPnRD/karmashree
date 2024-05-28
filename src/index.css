@@ -10,10 +10,13 @@
     @apply p-4 px-6 text-sm flex text-sm
   }
   .div-even{
-    @apply p-4 px-6 bg-gray-100/80 text-sm flex text-sm
+    @apply p-4 px-6 bg-gray-100/80 text-sm flex 
   }
   .label-style{
     @apply w-[48%] text-slate-500/90 font-semibold capitalize
+  }
+  .disabled-input {
+    @apply disabled:text-zinc-500 disabled:bg-zinc-100
   }
 }
 

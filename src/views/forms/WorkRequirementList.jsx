@@ -90,7 +90,7 @@ const WorkRequirementList = () => {
         row.original.gpName == "" ? "-" : row.original.gpName,
     },
     {
-      header: "Scheme",
+      header: "Scheme Name",
       accessorKey: "schName",
       headclass: "cursor-pointer",
     },

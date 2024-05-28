@@ -62,7 +62,7 @@ const WorkRequirement = () => {
 
   const [createdReq, setCreatedReq] = useState();
 
-  const queryclient = useQueryClient()
+  const queryclient = useQueryClient();
 
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
@@ -74,12 +74,8 @@ const WorkRequirement = () => {
   });
 
   const schemeData = useMemo(() => {
-    const data = schemeAllList?.filter(
-      (item) => item.scheme_sl == schemeSl
-    )[0];
-    // if (data === undefined)
-    //   return {
-    //   }
+    const data = schemeAllList?.filter((item) => item.scheme_sl == schemeSl)[0];
+
     return data;
   }, [schemeSl]);
 
@@ -98,11 +94,10 @@ const WorkRequirement = () => {
 
   useEffect(() => {
     if (schemeData !== undefined)
-      queryclient.invalidateQueries({ queryKey: ["contractorDetails"] })
+      queryclient.invalidateQueries({ queryKey: ["contractorDetails"] });
     if (schemeData !== undefined)
       queryclient.resetQueries({ queryKey: ["contractorDetails"] });
-
-  }, [schemeData])
+  }, [schemeData]);
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -154,7 +149,7 @@ const WorkRequirement = () => {
       setAllBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value,0).then(function (result) {
+    getAllMunicipalityList(e.target.value, 0).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
@@ -192,7 +187,6 @@ const WorkRequirement = () => {
 
   const onScheme = (e) => {
     setSchemeSl(e.target.value);
-
   };
 
   let GpListDropdown = <option>Loading...</option>;
@@ -397,19 +391,22 @@ const WorkRequirement = () => {
           currentYear: new Date().toLocaleDateString("en-IN", {
             year: "numeric",
           }),
-          dateofwork: new Date(dates[dates.length - 1]).toLocaleDateString("fr-CA", {
-            year: "numeric",
-            month: "2-digit",
-            day: "numeric",
-          }),
+          dateofwork: new Date(dates[dates.length - 1]).toLocaleDateString(
+            "fr-CA",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "numeric",
+            }
+          ),
         },
       ]);
   }, [dates]);
 
-  // useEffect(() => {
-  //   if (dates.length - 1 === allData.length)
-  //     setAllData(prev=>prev.slice(0,-1))
-  // }, [dates])
+  const sum = useMemo(() => {
+    const arr = allData.map((e) => +e.unskilledWorkers);
+    return arr.reduce((a, b) => a + b, 0);
+  }, [allData]);
 
   const boolean_value = useMemo(() => {
     const arr = allData.map((e) => e.unskilledWorkers);
@@ -423,11 +420,11 @@ const WorkRequirement = () => {
         setOpenModal={setOpenModal}
         message={`Worker Requisition ID ${createdReq} successfully created`}
         // resetData={resetData}
-        
+
         to="work-requirement-list"
         isSuccess={true}
-      // isSuccess={true}
-      // userCreate={false}
+        // isSuccess={true}
+        // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -592,7 +589,7 @@ const WorkRequirement = () => {
 
           <div className="flex flex-col w-full mb-4 space-y-4">
             <div className="flex w-full">
-              <div className="px-4 w-1/2">
+              <div className="px-4 w-full">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -614,8 +611,25 @@ const WorkRequirement = () => {
                   ))}
                 </select>
               </div>
-
-              <div className="px-4 w-1/2">
+            </div>
+            <div className="flex w-full">
+              <div className="px-4 w-1/4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700 "
+                >
+                  Contractor Name
+                </label>
+                <input
+                  type="text"
+                  value={contractorDetails?.contractorName}
+                  disabled
+                  placeholder="Please Enter Village Name"
+                  className="w-full rounded-md border-zinc-300 disabled-input"
+                  // onChange={onVillageName}
+                />
+              </div>
+              <div className="px-4 w-1/4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
@@ -627,30 +641,12 @@ const WorkRequirement = () => {
                   value={schemeData === undefined ? "" : schemeData.village}
                   disabled
                   placeholder="Please Enter Village Name"
-                  className="w-full rounded-md border-zinc-300"
+                  className="w-full rounded-md border-zinc-300 disabled-input"
                   onChange={onVillageName}
                 />
               </div>
-            </div>
-            <div className="flex w-full">
-              <div className="px-4 w-1/3">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Contractor Name
-                </label>
-                <input
-                  type="text"
-                  value={contractorDetails?.contractorName}
-                  disabled
-                  placeholder="Please Enter Village Name"
-                  className="w-full rounded-md border-zinc-300"
-                // onChange={onVillageName}
-                />
-              </div>
 
-              <div className="px-4 w-1/3">
+              <div className="px-4 w-1/4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700 capitalize"
@@ -671,7 +667,7 @@ const WorkRequirement = () => {
                   </div>
                 )}
               </div>
-              <div className="px-4 w-1/3">
+              <div className="px-4 w-1/4">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700 capitalize"
@@ -784,6 +780,20 @@ const WorkRequirement = () => {
                     <Icon icon={"ic:round-add"} />
                   </button>
                 </div>
+              </div>
+              <div className="px-4 w-1/6">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Total Unskilled Workers
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={sum}
+                  className="w-36 border-gray-300 rounded-md disabled-input"
+                />
               </div>
             </div>
           </div>

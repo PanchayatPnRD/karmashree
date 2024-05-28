@@ -52,6 +52,22 @@ const WorkAllocationList = () => {
       headclass: "cursor-pointer whitespace-nowrap",
     },
     {
+      header: "Allocation Id",
+      accessorKey: "workAllocationID",
+      headclass: "cursor-pointer whitespace-nowrap",
+    },
+    {
+      header: "Allocation Date",
+      accessorKey: "submitTime",
+      headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.submitTime).toLocaleDateString("en-IN", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
       header: "District",
       accessorKey: "districtName",
       headclass: "cursor-pointer",

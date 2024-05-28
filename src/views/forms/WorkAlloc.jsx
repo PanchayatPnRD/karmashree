@@ -215,9 +215,15 @@ const WorkAlloc = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "Scheme",
+      header: "Scheme Id/Name",
       accessorKey: "schName",
       headclass: "cursor-pointer",
+    },
+    {
+      header: "Scheme Sector",
+      accessorKey: "",
+      headclass: "cursor-pointer",
+      cell: () => "API tey nai",
     },
     {
       header: "Contractor",
@@ -232,6 +238,17 @@ const WorkAlloc = () => {
     {
       header: "Start Date",
       accessorKey: "fromDate",
+      headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.fromDate).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
+      header: "Total No of Days",
+      accessorKey: "noOfDays",
       headclass: "cursor-pointer",
     },
     {
@@ -248,7 +265,7 @@ const WorkAlloc = () => {
       header: "PIA",
       accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
-      cell : () => "P&RD"
+      cell: () => "P&RD",
     },
   ];
 
@@ -474,8 +491,16 @@ const WorkAlloc = () => {
                     {finYear}
                   </div>
                   <div className="div-odd">
-                    <div className="label-style">Scheme Name</div>
+                    <div className="label-style">Scheme Id/Name</div>
                     {schName}
+                  </div>
+                  <div className="div-even">
+                    <div className="label-style">Scheme Sector</div>
+                    {"! Not Available"}
+                  </div>
+                  <div className="div-odd">
+                    <div className="label-style">Funding Department</div>
+                    {"! Not Available"}
                   </div>
                   <div className="div-even">
                     <div className="label-style">Contractor Name</div>
@@ -485,13 +510,21 @@ const WorkAlloc = () => {
                     <div className="label-style">Contact Person Number</div>
                     {contactPersonPhoneNumber}
                   </div>
-                  {/* <div className="div-even">
-                    <div className="label-style">Work Date</div>
-                    {dateofwork}
-                  </div> */}
                   <div className="div-even">
+                    <div className="label-style">Scheme Location</div>
+                    {"! Not available"}
+                  </div>
+                  <div className="div-odd">
                     <div className="label-style">Total Unskilled Workers</div>
                     {totalUnskilledWorkers}
+                  </div>
+                  <div className="div-even">
+                    <div className="label-style">Total No of Days</div>
+                    {"! Not available"}
+                  </div>
+                  <div className="div-odd">
+                    <div className="label-style">Total Persandays</div>
+                    {"! Not available"}
                   </div>
                 </div>
               </div>
@@ -509,6 +542,15 @@ const WorkAlloc = () => {
                     </Table.HeadCell>
                     <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
                       Worker Name
+                    </Table.HeadCell>
+                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      District
+                    </Table.HeadCell>
+                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      Block
+                    </Table.HeadCell>
+                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      GP
                     </Table.HeadCell>
 
                     <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
@@ -528,7 +570,18 @@ const WorkAlloc = () => {
                   </Table.Head>
                   <Table.Body className="divide-y">
                     {allocData?.map(
-                      ({ schemeId, dateFrom, dateTo, noOfDays }, index) => (
+                      (
+                        {
+                          schemeId,
+                          dateFrom,
+                          dateTo,
+                          noOfDays,
+                          districtcode,
+                          blockcode,
+                          gpCode,
+                        },
+                        index
+                      ) => (
                         <Table.Row key={index}>
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {index + 1}
@@ -546,6 +599,13 @@ const WorkAlloc = () => {
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {demandData[index]?.workerName}
                           </Table.Cell>
+                          <Table.Cell>
+                            {demandData[index]?.districtcode}
+                          </Table.Cell>
+                          <Table.Cell>
+                            {demandData[index]?.blockcodex}
+                          </Table.Cell>
+                          <Table.Cell>{demandData[index]?.gpCode}</Table.Cell>
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                             {new Date(
                               demandData[index]?.dateOfApplicationForWork
