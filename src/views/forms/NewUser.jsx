@@ -64,6 +64,9 @@ const NewUser = () => {
   const [areaGp, setAreaGP] = useState("");
   const [pedastal, setAllPedastalList] = useState([]);
   const [parastatals, setParastatals] = useState();
+  const [isValidMobile, setIsValidMobile] = useState(true);
+  const [isValidTechnicalMobile, setIsValidTechnicalMobile] = useState(true);
+
 
   console.log(pedastal, "pedastal");
   useEffect(() => {
@@ -254,8 +257,13 @@ const NewUser = () => {
   };
 
   const onContactNumber = (e) => {
-    if (e.target.value.length <= 10) {
-      setContactNumber(e.target.value);
+    const value = e.target.value;
+    const regex = /^[6-9]{1}[0-9]{9}$/;
+    if (regex.test(value) || value === '') {
+      setContactNumber(value);
+      setIsValidMobile(true);
+    } else {
+      setIsValidMobile(false);
     }
   };
 
@@ -298,8 +306,13 @@ const NewUser = () => {
   };
 
   const onTechnicalOfficerContactNumber = (e) => {
-    if (e.target.value.length <= 10) {
-      setTechnicalOfficerContactNumber(e.target.value);
+    const value = e.target.value;
+    const regex = /^[6-9]{1}[0-9]{9}$/;
+    if (regex.test(value) || value === '') {
+      setTechnicalOfficerContactNumber(value);
+      setIsValidTechnicalMobile(true);
+    } else {
+      setIsValidTechnicalMobile(false);
     }
   };
 
@@ -375,20 +388,20 @@ const NewUser = () => {
         userData?.category === "HD"
           ? district
           : userData?.districtcode
-          ? userData?.districtcode
-          : district,
+            ? userData?.districtcode
+            : district,
 
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-          ? userData?.subDivision
-          : subDivision,
+            ? userData?.subDivision
+            : subDivision,
 
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-          ? userData?.blockCode
-          : block,
+            ? userData?.blockCode
+            : block,
 
         officeName,
         nodalOfficerName,
@@ -400,19 +413,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-          ? "DIST"
-          : userData?.category === "DEPT"
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision === "" && block === ""
-          ? "DIST"
-          : userData?.category === "DIST" && subDivision && block === ""
-          ? "SUB"
-          : (userData?.category === "DIST" && subDivision && block) ||
-            (userData?.category === "DIST" && subDivision === "" && block)
-          ? "BLOCK"
-          : userData?.category === "SUB"
-          ? "BLOCK"
-          : "BLOCK",
+            ? "DIST"
+            : userData?.category === "DEPT"
+              ? "DIST"
+              : userData?.category === "DIST" && subDivision === "" && block === ""
+                ? "DIST"
+                : userData?.category === "DIST" && subDivision && block === ""
+                  ? "SUB"
+                  : (userData?.category === "DIST" && subDivision && block) ||
+                    (userData?.category === "DIST" && subDivision === "" && block)
+                    ? "BLOCK"
+                    : userData?.category === "SUB"
+                      ? "BLOCK"
+                      : "BLOCK",
 
         parastatals ? parastatals : userData?.deptWing,
         "A",
@@ -552,10 +565,10 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-            userData?.category === "DIST" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "DIST" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -602,9 +615,9 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" ||
-                    userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
@@ -613,7 +626,7 @@ const NewUser = () => {
               </div>
             )}
             {(userData?.category === "HD" && district && area === "U") ||
-            (userData?.category === "DIST" && district && area === "U") ? (
+              (userData?.category === "DIST" && district && area === "U") ? (
               <div>
                 <label
                   htmlFor="scheme_name"
@@ -631,9 +644,9 @@ const NewUser = () => {
                   <option value="">Select Municipality List</option>
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                    userData?.category === "DIST" ||
-                    userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "DIST" ||
+                      userData?.category === "SUB" ||
+                      userData?.category === "BLOCK"
                       ? municipalityListDropdown
                       : "Select a Municipality"}
                   </option>
@@ -695,9 +708,9 @@ const NewUser = () => {
             )} */}
 
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -717,7 +730,7 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -726,8 +739,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -805,12 +818,15 @@ const NewUser = () => {
                 name="username"
                 maxLength={10}
                 type="text"
-                value={contactNumber}
+                // value={contactNumber}
                 autoComplete="username"
                 onChange={onContactNumber}
                 placeholder="type your Contact number"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               />
+              {!isValidMobile && (
+                <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+              )}
             </div>
             <div>
               <label
@@ -832,11 +848,11 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -863,11 +879,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -1043,12 +1059,15 @@ const NewUser = () => {
                     name="username"
                     type="text"
                     maxLength={10}
-                    value={technicalOfficerContactNumber}
+                    // value={technicalOfficerContactNumber}
                     autoComplete="username"
                     onChange={onTechnicalOfficerContactNumber}
                     placeholder="type your Contact number"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   />
+                  {!isValidTechnicalMobile && (
+                <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+              )}
                 </div>
                 <div>
                   <label

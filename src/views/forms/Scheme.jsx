@@ -969,6 +969,9 @@ const Scheme = () => {
                   <option value="" selected hidden>
                     Select Contractor List
                   </option>
+                  {/* <option value="1">
+                    Department Itself
+                  </option> */}
                   {contractorListDropdown}
 
                   {/* Add more options as needed */}
