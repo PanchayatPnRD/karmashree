@@ -316,7 +316,7 @@ const WorkAlloc = () => {
         // resetData={resetData}
         isSuccess={isSuccess}
       />
-      <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
+      <div className="flex flex-grow flex-col space-y-4 p-1 px-12">
         <ToastContainer />
         <div className="p-4 shadow-md rounded">
           <nav aria-label="Breadcrumb">
@@ -348,6 +348,29 @@ const WorkAlloc = () => {
         <div className="bg-white shadow-md rounded-lg pb-8">
           {schemeId === undefined && (
             <>
+              <div className=" flex justify-between px-2 items-center h-12">
+                <select
+                  className="rounded-lg"
+                  name=""
+                  id=""
+                  value={items}
+                  onChange={(e) => setItems(e.target.value)}
+                >
+                  {ListOptions.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="text"
+                  value={filtering}
+                  placeholder="search..."
+                  className="border-2 rounded-lg border-zinc-400"
+                  onChange={(e) => setFiltering(e.target.value)}
+                />
+              </div>
               <div className="flex flex-col overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                 <Table>
                   {table.getHeaderGroups().map((headerGroup) => (

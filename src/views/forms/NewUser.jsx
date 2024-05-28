@@ -298,7 +298,10 @@ const NewUser = () => {
   };
 
   const onTechnicalOfficerContactNumber = (e) => {
-    if (e.target.value.length <= 10) {
+    if (
+      (e.target.value.length <= 10 && phoneNumberPattern.test(input)) ||
+      input === ""
+    ) {
       setTechnicalOfficerContactNumber(e.target.value);
     }
   };

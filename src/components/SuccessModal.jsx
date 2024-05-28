@@ -13,7 +13,7 @@ const SuccessModal = ({
   message,
 }) => {
   const navigate = useNavigate();
-  const idRegex = /\b\w*\d\w*\b/;
+  const idRegex = /\b[-\w&/_]*\d[-\w&/_]*\b/;
   const parts = message?.split(idRegex);
   const id = message?.match(idRegex);
   return (
