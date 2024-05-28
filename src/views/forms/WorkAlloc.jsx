@@ -522,7 +522,7 @@ const WorkAlloc = () => {
                   </div>
                   <div className="div-odd">
                     <div className="label-style">Scheme Id/Name</div>
-                    {schName}
+                    {workerreqID}-{schName}
                   </div>
                   <div className="div-even">
                     <div className="label-style">Scheme Sector</div>
