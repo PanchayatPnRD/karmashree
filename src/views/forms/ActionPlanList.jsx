@@ -246,7 +246,7 @@ const ActionPlanList = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headClass,
-                      "hover:bg-zinc-200/70 transition-all whitespace-nowrap normal-case"
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -272,7 +272,10 @@ const ActionPlanList = () => {
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
-                      className={classNames(cell.column.columnDef.className,"whitespace-nowrap text-xs")}
+                      className={classNames(
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap text-xs"
+                      )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

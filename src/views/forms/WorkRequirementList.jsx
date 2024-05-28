@@ -12,6 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import classNames from "classnames";
 
 const WorkRequirementList = () => {
@@ -163,6 +164,17 @@ const WorkRequirementList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
+
+    return array;
+  }
+
   return (
     <>
       <div className="bg-white rounded-lg p-12">
@@ -214,13 +226,31 @@ const WorkRequirementList = () => {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={filtering}
-            placeholder="search..."
-            className="border-2 rounded-lg border-zinc-400"
-            onChange={(e) => setFiltering(e.target.value)}
-          />
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "worker_requisitionList")
+              }
+              // onClick={rowToArray}
+            >
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "worker_requisitionList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table className="">
@@ -231,7 +261,8 @@ const WorkRequirementList = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "normal-case bg-cyan-400/90 hover:bg-cyan-400/60 text-blue-900 text-md",
+                      // "normal-case bg-cyan-400/90 hover:bg-cyan-400/60 text-blue-900 text-md",
+                      "bg-cyan-400/90 btn-blue",
                       " transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}

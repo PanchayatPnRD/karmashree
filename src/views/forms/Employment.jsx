@@ -195,48 +195,48 @@ const Employment = () => {
                     <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                       <Table>
                         <Table.Head>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             #
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             work allocation id
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             District
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             Block
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             Scheme Id
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             Contrator Id
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             {/* <div className="whitespace-nowrap"> */}
                             Funding Department
                             {/* </div> */}
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             work order no
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             tentative start date
                           </Table.HeadCell>
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             expected completion date
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             total no of work days allcoated
                           </Table.HeadCell>
-                          <Table.HeadCell className="capitalize bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                          <Table.HeadCell className="capitalize  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                             total no of work days demanded
                           </Table.HeadCell>
 
-                          <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap text-center">
+                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap text-center">
                             Action
                           </Table.HeadCell>
                         </Table.Head>
@@ -436,35 +436,35 @@ const Employment = () => {
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                         <Table>
                           <Table.Head>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               #
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Work Jobcard No
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Job Card Holder Name
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Allocation Date From
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Allocation Date To
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Days Work Allocated
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Employment Provided Date
                             </Table.HeadCell>
 
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Days Provided
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Paymemt Date
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case bg-cyan-400/40 text-blue-900 text-md whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
                             </Table.HeadCell>
                           </Table.Head>

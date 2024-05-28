@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const ContractorList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -137,6 +138,16 @@ const ContractorList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
+
+    return array;
+  }
 
   return (
     <>
@@ -175,7 +186,7 @@ const ContractorList = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow p-8 px-12">
-        <div className=" flex justify-between px-2 items-center h-12">
+        <div className="flex justify-between items-center px-4 w-full">
           <select
             className="rounded-lg"
             name=""
@@ -189,24 +200,41 @@ const ContractorList = () => {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={filtering}
-            placeholder="search..."
-            className="border-2 rounded-lg border-zinc-400"
-            onChange={(e) => setFiltering(e.target.value)}
-          />
+
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() => exportToExcel(rowToArray(), table, "contractorList")}
+              // onClick={rowToArray}
+            >
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "contractorList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id} className="bg-cyan-400">
+              <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-cyan-200/70 transition-all whitespace-nowrap bg-transparent"
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -233,7 +261,10 @@ const ContractorList = () => {
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
-                      className={classNames(cell.column.columnDef.className, "whitespace-nowrap py-1 px-2 text-sm")}
+                      className={classNames(
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap py-1 px-2 text-sm"
+                      )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
