@@ -231,8 +231,24 @@ const WorkAlloc = () => {
     },
     {
       header: "Start Date",
-      accessorKey: "dateofwork",
+      accessorKey: "fromDate",
       headclass: "cursor-pointer",
+    },
+    {
+      header: "Total Unskilled Workers",
+      accessorKey: "totalUnskilledWorkers",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Funding Department",
+      accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "PIA",
+      accessorKey: "FundingDeptname",
+      headclass: "cursor-pointer",
+      cell : () => "P&RD"
     },
   ];
 
@@ -304,6 +320,7 @@ const WorkAlloc = () => {
     conName,
     contactPersonPhoneNumber,
     dateofwork,
+    totalUnskilledWorkers,
   } = filteredData ?? {};
 
   return (
@@ -468,9 +485,13 @@ const WorkAlloc = () => {
                     <div className="label-style">Contact Person Number</div>
                     {contactPersonPhoneNumber}
                   </div>
-                  <div className="div-even">
+                  {/* <div className="div-even">
                     <div className="label-style">Work Date</div>
                     {dateofwork}
+                  </div> */}
+                  <div className="div-even">
+                    <div className="label-style">Total Unskilled Workers</div>
+                    {totalUnskilledWorkers}
                   </div>
                 </div>
               </div>

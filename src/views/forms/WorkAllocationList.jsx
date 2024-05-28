@@ -104,6 +104,11 @@ const WorkAllocationList = () => {
       accessorKey: "dateOfApplicationForWork",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
+      cell: ({ row }) =>
+        new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
+          "en-IN",
+          { month: "2-digit", day: "2-digit", year: "numeric" }
+        ),
     },
     {
       header: "No Of Days Work Demanded",
