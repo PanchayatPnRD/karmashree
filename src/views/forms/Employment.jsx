@@ -374,7 +374,7 @@ const Employment = () => {
                                 >
                                   {header.isPlaceholder ? null : (
                                     <div className="flex items-center space-x-2 justify-between">
-                                      <span className="normal-case">
+                                      <span className="capitalize">
                                         {flexRender(
                                           header.column.columnDef.header,
                                           header.getContext()
@@ -387,7 +387,7 @@ const Employment = () => {
                                   )}
                                 </Table.HeadCell>
                               ))}
-                              <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                              <Table.HeadCell className="capitalize bg-cyan-400/90 btn-blue">
                                 Actions
                               </Table.HeadCell>
                             </Table.Head>
@@ -404,7 +404,7 @@ const Employment = () => {
                                     <div
                                       className={classNames(
                                         cell.column.columnDef.className,
-                                        "whitespace-nowrap"
+                                        "whitespace-nowrap "
                                       )}
                                     >
                                       {flexRender(
