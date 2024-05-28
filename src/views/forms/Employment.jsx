@@ -10,6 +10,18 @@ import { Table } from "flowbite-react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SortIcon } from "../../components/SortIcon";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Pagination } from "../../components/Pagination";
+import classNames from "classnames";
+
 const Employment = () => {
   const [openModal, setOpenModal] = useState();
   const queryClient = useQueryClient();
@@ -80,7 +92,8 @@ const Employment = () => {
   }, [empList]);
   const data = useMemo(() => allocationList ?? [], [allocationList]);
   const filteredData = useMemo(() => {
-    return data.filter((e) => e.workAllocationID == workAllocationId);
+    const arr = data.filter((e) => e.workAllocationID == workAllocationId);
+    if (arr) return arr[0];
   }, [workAllocationId]);
 
   const empDataList = useMemo(() => {
@@ -136,6 +149,135 @@ const Employment = () => {
     },
   });
 
+  const {
+    workAllocationID,
+    districtName,
+    blockName,
+    schemeName,
+    ControctorID,
+    deptName,
+    FundingDeptname,
+    workorderNo,
+    tentativeStartDate,
+    noOfDaysWorkAlloted,
+    noOfDaysWorkDemanded,
+    ExpectedCompletionDate,
+  } = filteredData ?? {};
+
+  const ListOptions = [5, 10, 15, "all"];
+  const [items, setItems] = useState(ListOptions[0]);
+
+  const tableData = useMemo(() => allocationList ?? [], [allocationList]);
+
+  const list = [
+    {
+      header: "#",
+      accessorKey: "",
+      headclass: "cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "District",
+      accessorKey: "districtName",
+      cell: ({ row }) =>
+        row.original.districtName ? row.original.districtName : "-",
+    },
+    {
+      header: "Block",
+      accessorKey: "blockName",
+      cell: ({ row }) =>
+        row.original.blockName ? row.original.blockName : "-",
+    },
+    {
+      header: "Scheme Name",
+      accessorKey: "schemeName",
+      cell: ({ row }) =>
+        row.original.schemeName ? row.original.schemeName : "-",
+    },
+    {
+      header: "Contractor ID",
+      accessorKey: "ControctorID",
+      cell: ({ row }) =>
+        row.original.ControctorID ? row.original.ControctorID : "-",
+    },
+    {
+      header: "Funding Department",
+      accessorKey: "FundingDeptname",
+    },
+    {
+      header: "Work Order No",
+      accessorKey: "workorderNo",
+    },
+    {
+      header: "tentative start date",
+      accessorKey: "tentativeStartDate",
+      cell: ({ row }) =>
+        new Date(row.original.tentativeStartDate).toLocaleDateString("en-IN", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
+      header: "no of days work alloted",
+      accessorKey: "noOfDaysWorkAlloted",
+    },
+    {
+      header: "no of days work demanded",
+      accessorKey: "noOfDaysWorkDemanded",
+    },
+    {
+      header: "expected completion date",
+      accessorKey: "ExpectedCompletionDate",
+      cell: ({ row }) =>
+        new Date(row.original.ExpectedCompletionDate).toLocaleDateString(
+          "en-IN",
+          {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+          }
+        ),
+    },
+
+    {
+      header: "execution department",
+      accessorKey: "ExecutingDeptName",
+    },
+    {
+      header: "implementing agency",
+      accessorKey: "ImplementingAgencyName",
+    },
+  ];
+
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
+
+  const table = useReactTable({
+    data,
+    columns: list,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering,
+    },
+    initialState: {
+      pagination: {
+        pageSize: parseInt(items),
+      },
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
+
+  useEffect(() => {
+    if (items == "all") table.setPageSize(9999);
+    else table.setPageSize(parseInt(items));
+  }, [items]);
+
   return (
     <>
       <SuccessModal
@@ -190,143 +332,110 @@ const Employment = () => {
             <br></br>
             <div className="bg-white shadow-md rounded-lg pb-12">
               <div className="flex pb-8 flex-col space-y-4">
-                <div className="flex flex-col space-y-8">
+                <div className="flex flex-col">
                   {workAllocationId.length == 0 && (
-                    <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-                      <Table>
-                        <Table.Head>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            #
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            work allocation id
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            District
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            Block
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            Scheme Id
-                          </Table.HeadCell>
+                    <>
+                      <div className=" flex justify-between px-2 items-center h-12">
+                        <select
+                          className="rounded-lg"
+                          name=""
+                          id=""
+                          value={items}
+                          onChange={(e) => setItems(e.target.value)}
+                        >
+                          {ListOptions.map((e) => (
+                            <option key={e} value={e}>
+                              {e}
+                            </option>
+                          ))}
+                        </select>
 
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            Contrator Id
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            {/* <div className="whitespace-nowrap"> */}
-                            Funding Department
-                            {/* </div> */}
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            work order no
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            tentative start date
-                          </Table.HeadCell>
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            expected completion date
-                          </Table.HeadCell>
+                        <input
+                          type="text"
+                          value={filtering}
+                          placeholder="search..."
+                          className="border-2 rounded-lg border-zinc-400"
+                          onChange={(e) => setFiltering(e.target.value)}
+                        />
+                      </div>
+                      <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+                        <Table>
+                          {table.getHeaderGroups().map((headerGroup) => (
+                            <Table.Head key={headerGroup.id}>
+                              {headerGroup.headers.map((header) => (
+                                <Table.HeadCell
+                                  key={header.id}
+                                  className={classNames(
+                                    "bg-cyan-400/90 btn-blue whitespace-nowrap",
+                                    header.column.columnDef.headclass,
+                                    " transition-all"
+                                  )}
+                                  onClick={header.column.getToggleSortingHandler()}
+                                >
+                                  {header.isPlaceholder ? null : (
+                                    <div className="flex items-center space-x-2 justify-between">
+                                      <span className="normal-case">
+                                        {flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext()
+                                        )}
+                                      </span>
+                                      <SortIcon
+                                        sort={header.column.getIsSorted()}
+                                      />
+                                    </div>
+                                  )}
+                                </Table.HeadCell>
+                              ))}
+                              <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                                Actions
+                              </Table.HeadCell>
+                            </Table.Head>
+                          ))}
 
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            total no of work days allcoated
-                          </Table.HeadCell>
-                          <Table.HeadCell className="capitalize  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                            total no of work days demanded
-                          </Table.HeadCell>
+                          <Table.Body className="divide-y">
+                            {table.getRowModel().rows.map((row) => (
+                              <Table.Row key={row.id} className="divide-x">
+                                {row.getVisibleCells().map((cell) => (
+                                  <Table.Cell
+                                    key={cell.id}
+                                    className="py-1 px-2 text-center"
+                                  >
+                                    <div
+                                      className={classNames(
+                                        cell.column.columnDef.className,
+                                        "whitespace-nowrap"
+                                      )}
+                                    >
+                                      {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                      )}
+                                    </div>
+                                  </Table.Cell>
+                                ))}
 
-                          <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap text-center">
-                            Action
-                          </Table.HeadCell>
-                        </Table.Head>
-                        <Table.Body>
-                          {allocationList?.map(
-                            (
-                              {
-                                workAllocationID,
-                                districtName,
-                                blockName,
-                                schemeName,
-                                ControctorID,
-                                FundingDeptname,
-                                workorderNo,
-                                tentativeStartDate,
-                                noOfDaysWorkAlloted,
-                                noOfDaysWorkDemanded,
-                                ExpectedCompletionDate,
-                                FundingDepttID,
-                                ExecutingDepttID,
-                                ImplementingAgencyID,
-                                ExecutingDeptName,
-                                ImplementingAgencyName,
-                              },
-                              index
-                            ) => (
-                              <Table.Row>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {index + 1}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {workAllocationID}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {districtName == "" ? "-" : districtName}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {blockName == "" ? "-" : blockName}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {schemeName}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {ControctorID}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {FundingDeptname}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {workorderNo}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {new Date(
-                                    tentativeStartDate
-                                  ).toLocaleDateString("en-IN", {
-                                    year: "numeric",
-                                    day: "numeric",
-                                    month: "2-digit",
-                                  })}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {new Date(
-                                    ExpectedCompletionDate
-                                  ).toLocaleDateString("en-IN", {
-                                    year: "numeric",
-                                    day: "numeric",
-                                    month: "2-digit",
-                                  })}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {noOfDaysWorkAlloted}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap py-1 px-2 ">
-                                  {noOfDaysWorkDemanded}
-                                </Table.Cell>
-                                <Table.Cell className="font-medium  text-white text-sm py-1 px-2  whitespace-nowrap">
+                                <Table.Cell className="font-medium  text-white text-sm py-1 px-4  whitespace-nowrap">
                                   <button
                                     className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1"
                                     onClick={() => {
-                                      setWorkAllocationId(workAllocationID);
+                                      setWorkAllocationId(
+                                        row.original.workAllocationID
+                                      );
                                       setInitialData({
                                         totalWagePaid: "",
-                                        FundingDepttID: FundingDepttID,
-                                        FundingDeptname: FundingDeptname,
-                                        ExecutingDepttID: ExecutingDepttID,
-                                        ExecutingDeptName: ExecutingDeptName,
+                                        FundingDepttID:
+                                          row.original.FundingDepttID,
+                                        FundingDeptname:
+                                          row.original.FundingDeptname,
+                                        ExecutingDepttID:
+                                          row.original.ExecutingDepttID,
+                                        ExecutingDeptName:
+                                          row.original.ExecutingDeptName,
                                         ImplementingAgencyID:
-                                          ImplementingAgencyID,
+                                          row.original.ImplementingAgencyID,
                                         ImplementingAgencyName:
-                                          ImplementingAgencyName,
+                                          row.original.ImplementingAgencyName,
                                       });
                                     }}
                                   >
@@ -338,100 +447,95 @@ const Employment = () => {
                                   </button>
                                 </Table.Cell>
                               </Table.Row>
-                            )
-                          )}
-                        </Table.Body>
-                      </Table>
-                    </div>
+                            ))}
+                          </Table.Body>
+                        </Table>
+                      </div>
+                      <Pagination data={data} table={table} />
+                    </>
                   )}
                   {workAllocationId.length > 0 && (
                     <>
-                      <div className="border-2 rounded-xl overflow-hidden shadow-md overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-                        <Table>
-                          <Table.Head>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              work allocation id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              District
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Block
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Scheme Id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Contrator Id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Funding Department
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              work order no
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              tentative start date
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              expected completion date
-                            </Table.HeadCell>
-
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              total no of work days allcoated
-                            </Table.HeadCell>
-                            <Table.HeadCell className="capitalize text-md whitespace-nowrap">
-                              total no of work days demanded
-                            </Table.HeadCell>
-                          </Table.Head>
-                          <Table.Body>
-                            {filteredData.map(
-                              ({
-                                workAllocationID,
-                                districtName,
-                                blockName,
-                                schemeName,
-                                ControctorID,
-                                FundingDeptname,
-                                workorderNo,
-                                tentativeStartDate,
-                                noOfDaysWorkAlloted,
-                                noOfDaysWorkDemanded,
-                                ExpectedCompletionDate,
-                              }) => (
-                                <Table.Row>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {workAllocationID}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {districtName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {blockName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {schemeName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {ControctorID}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {FundingDeptname}
-                                  </Table.Cell>
-                                  <Table.Cell>{workorderNo}</Table.Cell>
-                                  <Table.Cell>{tentativeStartDate}</Table.Cell>
-                                  <Table.Cell>
-                                    {ExpectedCompletionDate}
-                                  </Table.Cell>
-                                  <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
-                                  <Table.Cell>
-                                    {noOfDaysWorkDemanded}
-                                  </Table.Cell>
-                                </Table.Row>
-                              )
-                            )}
-                          </Table.Body>
-                        </Table>
+                      <div className="">
+                        <div className=" mb-12 mx-2 flex rounded-xl shadow-md">
+                          <div className="w-1/2 flex flex-col rounded-l-xl">
+                            <div className="div-odd">
+                              <div className="label-style">
+                                work allocation id
+                              </div>
+                              <div>{workAllocationID}</div>
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">District</div>
+                              {districtName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">Block</div>
+                              {blockName}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">Scheme Name</div>
+                              {schemeName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">Contrator Id</div>
+                              {ControctorID}
+                            </div>
+                            <div className="div-even text-xs">
+                              <div className="label-style text-sm">
+                                Funding Department
+                              </div>
+                              {FundingDeptname}
+                            </div>
+                          </div>
+                          <div className="w-1/2 flex flex-col rounded-r-xl">
+                            <div className="div-odd">
+                              <div className="label-style">work order no</div>
+                              {workorderNo}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">
+                                tentative start date
+                              </div>
+                              {new Date(tentativeStartDate).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  day: "2-digit",
+                                }
+                              )}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">
+                                expected completion date
+                              </div>
+                              {new Date(
+                                ExpectedCompletionDate
+                              ).toLocaleDateString("en-IN", {
+                                month: "2-digit",
+                                year: "numeric",
+                                day: "2-digit",
+                              })}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">
+                                total no of work days allcoated
+                              </div>
+                              {noOfDaysWorkAlloted}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">
+                                total no of work days demanded
+                              </div>
+                              {noOfDaysWorkDemanded}
+                            </div>
+                            <div className="div-even text-xs">
+                              <div className="label-style text-sm">Department</div>
+                              {deptName}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                         <Table>

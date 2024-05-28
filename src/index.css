@@ -6,6 +6,15 @@
   .btn-blue {
     @apply capitalize hover:bg-cyan-400/60 text-blue-900;
   }
+  .div-odd{
+    @apply p-4 px-6 text-sm flex text-sm
+  }
+  .div-even{
+    @apply p-4 px-6 bg-gray-100/80 text-sm flex text-sm
+  }
+  .label-style{
+    @apply w-[48%] text-slate-500/90 font-semibold capitalize
+  }
 }
 
 
