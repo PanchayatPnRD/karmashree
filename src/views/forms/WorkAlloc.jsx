@@ -603,7 +603,7 @@ const WorkAlloc = () => {
                             {demandData[index]?.districtcode}
                           </Table.Cell>
                           <Table.Cell>
-                            {demandData[index]?.blockcodex}
+                            {demandData[index]?.blockcode}
                           </Table.Cell>
                           <Table.Cell>{demandData[index]?.gpCode}</Table.Cell>
                           <Table.Cell className=" whitespace-nowrap text-xs py-1 ">

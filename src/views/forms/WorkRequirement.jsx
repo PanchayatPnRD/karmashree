@@ -781,7 +781,7 @@ const WorkRequirement = () => {
                   </button>
                 </div>
               </div>
-              <div className="px-4 w-1/6">
+              <div className="px-4 w-1/5">
                 <label
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
