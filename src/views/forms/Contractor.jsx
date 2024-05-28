@@ -320,11 +320,11 @@ const Contractor = () => {
     // resetData={resetData}
     isSuccess={true}
   />
-    <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
+    <div className="flex flex-grow flex-col space-y-16 px-12">
       <ToastContainer />
       <div className="p-4 px-8 shadow-md rounded">
         <nav aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-4 px-4 py-2">
+          <ol className="flex items-center space-x-4 px-4 ">
             <svg
               viewBox="0 0 1024 1024"
               fill="currentColor"
@@ -348,7 +348,7 @@ const Contractor = () => {
           </ol>
         </nav>
       </div>
-      <div className="bg-white shadow-md rounded-lg p-12">
+      <div className="bg-white shadow-md rounded-lg px-12 pb-12">
         {/* <div className="flex w-full space-x-4 mb-6">
 
           <div className="px-4">
