@@ -80,7 +80,9 @@ const Employment = () => {
   }, [empList]);
   const data = useMemo(() => allocationList ?? [], [allocationList]);
   const filteredData = useMemo(() => {
-    return data.filter((e) => e.workAllocationID == workAllocationId);
+    const arr = data.filter((e) => e.workAllocationID == workAllocationId);
+    if (arr)
+      return arr[0]
   }, [workAllocationId]);
 
   const empDataList = useMemo(() => {
@@ -135,6 +137,20 @@ const Employment = () => {
       setOpenModal(true);
     },
   });
+
+  const {
+    workAllocationID,
+    districtName,
+    blockName,
+    schemeName,
+    ControctorID,
+    FundingDeptname,
+    workorderNo,
+    tentativeStartDate,
+    noOfDaysWorkAlloted,
+    noOfDaysWorkDemanded,
+    ExpectedCompletionDate,
+  } = filteredData ?? {};
 
   return (
     <>
@@ -346,92 +362,67 @@ const Employment = () => {
                   )}
                   {workAllocationId.length > 0 && (
                     <>
-                      <div className="border-2 rounded-xl overflow-hidden shadow-md overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-                        <Table>
-                          <Table.Head>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              work allocation id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              District
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Block
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Scheme Id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Contrator Id
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              Funding Department
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              work order no
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              tentative start date
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              expected completion date
-                            </Table.HeadCell>
-
-                            <Table.HeadCell className="normal-case text-md whitespace-nowrap">
-                              total no of work days allcoated
-                            </Table.HeadCell>
-                            <Table.HeadCell className="capitalize text-md whitespace-nowrap">
-                              total no of work days demanded
-                            </Table.HeadCell>
-                          </Table.Head>
-                          <Table.Body>
-                            {filteredData.map(
-                              ({
-                                workAllocationID,
-                                districtName,
-                                blockName,
-                                schemeName,
-                                ControctorID,
-                                FundingDeptname,
-                                workorderNo,
-                                tentativeStartDate,
-                                noOfDaysWorkAlloted,
-                                noOfDaysWorkDemanded,
-                                ExpectedCompletionDate,
-                              }) => (
-                                <Table.Row>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {workAllocationID}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {districtName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {blockName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {schemeName}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {ControctorID}
-                                  </Table.Cell>
-                                  <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                                    {FundingDeptname}
-                                  </Table.Cell>
-                                  <Table.Cell>{workorderNo}</Table.Cell>
-                                  <Table.Cell>{tentativeStartDate}</Table.Cell>
-                                  <Table.Cell>
-                                    {ExpectedCompletionDate}
-                                  </Table.Cell>
-                                  <Table.Cell>{noOfDaysWorkAlloted}</Table.Cell>
-                                  <Table.Cell>
-                                    {noOfDaysWorkDemanded}
-                                  </Table.Cell>
-                                </Table.Row>
-                              )
-                            )}
-                          </Table.Body>
-                        </Table>
+                      <div className="">
+                        <div className="px-24">
+                          <div className="flex flex-col border-2 rounded-xl overflow-hidden shadow-md">
+                            <div className="div-odd">
+                              <div className="label-style">
+                                work allocation id
+                              </div>
+                              <div>{workAllocationID}</div>
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">District</div>
+                              {districtName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">Block</div>
+                              {blockName}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">Scheme Name</div>
+                              {schemeName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">Contrator Id</div>
+                              {ControctorID}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">
+                                Funding Department
+                              </div>
+                              {FundingDeptname}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">work order no</div>
+                              {workorderNo}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">
+                                tentative start date
+                              </div>
+                              {tentativeStartDate}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">
+                                expected completion date
+                              </div>
+                              {ExpectedCompletionDate}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">
+                                total no of work days allcoated
+                              </div>
+                              {noOfDaysWorkAlloted}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">
+                                total no of work days demanded
+                              </div>
+                              {noOfDaysWorkDemanded}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
                         <Table>

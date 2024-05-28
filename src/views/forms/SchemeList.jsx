@@ -5,7 +5,7 @@ import { fetch } from "../../functions/Fetchfunctions";
 import { SortIcon } from "../../components/SortIcon";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
-import { exportToCSV, exportToExcel } from "../../functions/exportData";schemeList
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import {
   flexRender,
   getCoreRowModel,

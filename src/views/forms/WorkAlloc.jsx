@@ -133,7 +133,8 @@ const WorkAlloc = () => {
   const data = useMemo(() => workRequirementList ?? [], [workRequirementList]);
 
   const filteredData = useMemo(() => {
-    return data?.filter((e) => e.workersl == workersl);
+    const arr = data?.filter((e) => e.workersl == workersl);
+    if (arr) return arr[0];
   }, [reqId]);
 
   const AllocAPIData = useMemo(() => {
@@ -288,13 +289,22 @@ const WorkAlloc = () => {
         },
         "/api/allocation/allocation"
       );
-      return data.allocation
+      return data.allocation;
     },
     mutationKey: ["allocationCreate"],
     onSuccess: () => {
       setOpenModal(true);
     },
   });
+
+  const {
+    workerreqID,
+    finYear,
+    schName,
+    conName,
+    contactPersonPhoneNumber,
+    dateofwork,
+  } = filteredData ?? {};
 
   return (
     <>
@@ -413,62 +423,33 @@ const WorkAlloc = () => {
           )}
           {schemeId !== undefined && (
             <div className="flex flex-col space-y-8 px-4">
-              <div className="border-2 rounded-xl overflow-hidden shadow-md">
-                <Table>
-                  <Table.Head>
-                    <Table.HeadCell className="capitalize">
-                      Financial Year
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize">
-                      Requisition Id
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize">
-                      Scheme Name
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize">
-                      Contractor
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize">
-                      Contact
-                    </Table.HeadCell>
-                    <Table.HeadCell className="capitalize">
-                      Start Date
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body>
-                    {filteredData.map(
-                      ({
-                        workerreqID,
-                        finYear,
-                        schName,
-                        conName,
-                        contactPersonPhoneNumber,
-                        dateofwork,
-                      }) => (
-                        <Table.Row>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {finYear}
-                          </Table.Cell>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {workerreqID}
-                          </Table.Cell>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {schName}
-                          </Table.Cell>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {conName}
-                          </Table.Cell>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {contactPersonPhoneNumber}
-                          </Table.Cell>
-                          <Table.Cell className="normal-case py-1 whitespace-nowrap">
-                            {dateofwork}
-                          </Table.Cell>
-                        </Table.Row>
-                      )
-                    )}
-                  </Table.Body>
-                </Table>
+              <div className="px-24">
+                <div className="flex flex-col border-2 rounded-xl overflow-hidden shadow-md">
+                  <div className="div-odd">
+                    <div className="label-style">Worker Requisition Id</div>
+                    <div>{workerreqID}</div>
+                  </div>
+                  <div className="div-even">
+                    <div className="label-style">Financial Year</div>
+                    {finYear}
+                  </div>
+                  <div className="div-odd">
+                    <div className="label-style">Scheme Name</div>
+                    {schName}
+                  </div>
+                  <div className="div-even">
+                    <div className="label-style">Contractor Name</div>
+                    {conName}
+                  </div>
+                  <div className="div-odd">
+                    <div className="label-style">Contact Person Number</div>
+                    {contactPersonPhoneNumber}
+                  </div>
+                  <div className="div-even">
+                    <div className="label-style">Work Date</div>
+                    {dateofwork}
+                  </div>
+                </div>
               </div>
               <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar shadow-md">
                 <Table className="">
