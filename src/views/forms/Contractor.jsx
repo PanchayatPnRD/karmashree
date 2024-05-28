@@ -80,7 +80,7 @@ const Contractor = () => {
       setAllBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value,0).then(function (result) {
+    getAllMunicipalityList(e.target.value, 0).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
@@ -269,19 +269,20 @@ const Contractor = () => {
   console.log(financialYear, "financialYear")
   console.log(currentMonth, "currentMonth")
   console.log(currentYear, "currentYear")
+  console.log(data?.category === "HD" ? 0 : data?.category === "Dist" ? data?.districtcode : "", "dadadada")
 
   const onSubmit = () => {
     // if (area === "") {
     //   toast.error("Please Select Area Type")
     // } else if (!district) {
     //   toast.error("Please Select District")
-      // }
-      //  else if (area === "U" && municipality === "") {
-      //   toast.error("Please Select Municipality")
-      // } else if (area === "R" && block === "") {
-      //   toast.error("Please Select Block")
-      // } else if (area === "R" && gp === "") {
-      //   toast.error("Please Select Gram Panchayat")
+    // }
+    //  else if (area === "U" && municipality === "") {
+    //   toast.error("Please Select Municipality")
+    // } else if (area === "R" && block === "") {
+    //   toast.error("Please Select Block")
+    // } else if (area === "R" && gp === "") {
+    //   toast.error("Please Select Gram Panchayat")
     // } 
     // else 
     if (contractorName === "") {
@@ -297,7 +298,7 @@ const Contractor = () => {
     } else {
       addCreateContractor(
         contractorName, gstin, panNumber, mobileNumber, address, "A", data?.userIndex,
-        currentMonth, currentYear, financialYear, data?.departmentNo, district, municipality,
+        currentMonth, currentYear, financialYear, data?.departmentNo, data?.category === "HD" ? 0 : data?.category === "DIST" ? data?.districtcode : "", municipality,
         block, gp, area,
         (r) => {
           console.log(r, "response");
@@ -312,6 +313,44 @@ const Contractor = () => {
   }
   return (
     <>
+      <SuccessModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        message={"Contractor Created Successfully"}
+        to="contractor-list"
+        // resetData={resetData}
+        isSuccess={true}
+      />
+      <div className="flex flex-grow flex-col space-y-16 p-6 px-12">
+        <ToastContainer />
+        <div className="p-4 px-8 shadow-md rounded">
+          <nav aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-4 px-4 py-2">
+              <svg
+                viewBox="0 0 1024 1024"
+                fill="currentColor"
+                height="1em"
+                width="1em"
+              >
+                <path d="M946.5 505L534.6 93.4a31.93 31.93 0 00-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z" />
+              </svg>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="text-indigo-600 hover:text-indigo-800"
+                >
+                  Home
+                </Link>
+                /
+              </li>
+              <li className="text-gray-500 font-bold" aria-current="page">
+                Contractor Master
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <div className="bg-white shadow-md rounded-lg p-12">
+          {/* <div className="flex w-full space-x-4 mb-6">
      <SuccessModal
     openModal={openModal}
     setOpenModal={setOpenModal}
@@ -477,125 +516,123 @@ const Contractor = () => {
 
         </div> */}
 
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Name <span className="text-red-500 "> * </span>
+          <div className="flex flex-col w-full mb-4">
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor Name <span className="text-red-500 "> * </span>
 
-              (Please use only Alphabet Characters)
-            </label>
-            <input
-              id="contractor_name"
-              name="contractor_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onContractorName}
-              onKeyDown={handleKeyDown}
-            />
-            {!isValidContractorName && (
-              <div style={{ color: 'red' }}>Please enter a valid Contractor Name</div>
-            )}
+                (Please use only Alphabet Characters)
+              </label>
+              <input
+                id="contractor_name"
+                name="contractor_name"
+                type="text"
+                autoComplete="off"
+                placeholder="Please Enter Contractor Name"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onContractorName}
+                onKeyDown={handleKeyDown}
+              />
+              {!isValidContractorName && (
+                <div style={{ color: 'red' }}>Please enter a valid Contractor Name</div>
+              )}
+            </div>
+
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor GSTIN <span className="text-red-500 "> * </span>
+
+              </label>
+              <input
+                id="scheme_name"
+                name="scheme_name"
+                type="text"
+                autoComplete="off"
+                placeholder="Please enter Contractor GSTIN Number"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onGstIn}
+
+              />
+              {!isValid && (
+                <div style={{ color: 'red' }}>Please enter a valid GSTIN</div>
+              )}
+            </div>
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor PAN
+                <span className="text-red-500 "> * </span>
+
+              </label>
+              <input
+                id="scheme_name"
+                name="scheme_name"
+                type="text"
+                autoComplete="off"
+                placeholder="Please Enter Contractor Pan Number"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                onChange={onPanCard}
+              />
+              {!isValidPan && (
+                <div style={{ color: 'red' }}>Please enter a valid PAN Number</div>
+              )}
+            </div>
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor Mobile
+                <span className="text-red-500 "> * </span>
+
+              </label>
+              <input
+                id="scheme_name"
+                name="scheme_name"
+                type="text"
+                autoComplete="off"
+                placeholder="Please Enter Contractor Mobile Number"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
+                onChange={onMobile}
+                maxLength={10}
+              />
+              {!isValidMobile && (
+                <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
+              )}
+            </div>
           </div>
+          <div className="flex flex-col w-full mb-4">
+            <div className="px-4">
+              <label
+                htmlFor="scheme_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contractor Address
+                <span className="text-red-500 "> * </span>
 
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor GSTIN <span className="text-red-500 "> * </span>
-
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please enter Contractor GSTIN Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onGstIn}
-
-            />
-            {!isValid && (
-              <div style={{ color: 'red' }}>Please enter a valid GSTIN</div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor PAN
-              <span className="text-red-500 "> * </span>
-
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Pan Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
-              onChange={onPanCard}
-            />
-            {!isValidPan && (
-              <div style={{ color: 'red' }}>Please enter a valid PAN Number</div>
-            )}
-          </div>
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Mobile
-              <span className="text-red-500 "> * </span>
-
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Mobile Number"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
-              onChange={onMobile}
-              maxLength={10}
-
-            // value={mobileNumber}
-            />
-            {!isValidMobile && (
-              <div style={{ color: 'red' }}>Please enter a valid Mobile Number</div>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col w-full mb-4">
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contractor Address
-              <span className="text-red-500 "> * </span>
-
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Contractor Address"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onAddress}
-            />
-            {!isValidAddress && (
-              <div style={{ color: 'red' }}>Please enter a valid Address</div>
-            )}
-          </div>
-          {/* <div className="px-4">
+              </label>
+              <input
+                id="scheme_name"
+                name="scheme_name"
+                type="text"
+                autoComplete="off"
+                placeholder="Please Enter Contractor Address"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                onChange={onAddress}
+              />
+              {!isValidAddress && (
+                <div style={{ color: 'red' }}>Please enter a valid Address</div>
+              )}
+            </div>
+            {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -615,7 +652,7 @@ const Contractor = () => {
               <div style={{ color: 'red' }}>Please enter a valid Village Name/Word no</div>
             )}
           </div> */}
-          {/* <div className="px-4">
+            {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -635,7 +672,7 @@ const Contractor = () => {
               <div style={{ color: 'red' }}>Please enter a valid Police station Name</div>
             )}
           </div> */}
-          {/* <div className="px-4">
+            {/* <div className="px-4">
             <label
               htmlFor="scheme_name"
               className="block text-sm font-medium text-gray-700"
@@ -655,8 +692,8 @@ const Contractor = () => {
               <div style={{ color: 'red' }}>Please enter a valid Post Office Name</div>
             )}
           </div> */}
-        </div>
-        {/* <div className="flex w-full space-x-4 flex-col mb-4 ">
+          </div>
+          {/* <div className="flex w-full space-x-4 flex-col mb-4 ">
 
           <div className="px-4">
             <label
@@ -682,17 +719,17 @@ const Contractor = () => {
 
         </div> */}
 
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={onSubmit}
-          >
-            Submit
-          </button>
+          <div className="flex justify-center items-center">
+            <button
+              type="button"
+              className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

@@ -14,11 +14,21 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { getAllSchemeList } from "../../Service/Scheme/SchemeService";
+import { getAllContractorList } from "../../Service/Scheme/SchemeService";
 
 const SchemeList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const [allContractorList, setAllContractorList] = useState([]);
 
+
+  useEffect(() => {
+    getAllContractorList().then(function (result) {
+      const response = result?.data?.result;
+      setAllContractorList(response);
+    });
+  }, []);
+// console.log(allContractorList,"allContractorList")
+  console.log(allContractorList.find(c => c.cont_sl === 1)?.contractorNameGst)
   const { data: schemeList } = useQuery({
     queryKey: ["schemeList"],
     queryFn: async () => {
@@ -52,6 +62,12 @@ const SchemeList = () => {
       headClass: "cursor-pointer normal-case",
     },
     {
+      header: "District",
+      accessorKey: "districtName",
+      headClass: "cursor-pointer normal-case",
+      // sortingFn: "id",
+    },
+    {
       header: "Block/Municipality",
       accessorKey: "blockname",
       headClass: "cursor-pointer normal-case",
@@ -74,6 +90,14 @@ const SchemeList = () => {
       header: "Scheme Name",
       accessorKey: "schemeName",
       headClass: "cursor-pointer normal-case",
+      // sortingFn: "id",
+    },
+    {
+      header: "Contractor Name",
+      accessorKey: "ControctorID",
+      headClass: "cursor-pointer normal-case",
+      cell:({ row }) =>
+        allContractorList.find(c => c.cont_sl === row.original.ControctorID)?.contractorNameGst
       // sortingFn: "id",
     },
     {

@@ -179,27 +179,58 @@ const ActionPlan = () => {
   };
 
   const onSchemeProposed = (e) => {
-    setSchemeProposed(e.target.value);
+    // setSchemeProposed(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setSchemeProposed(value);
+    }
+    
   };
 
   const onCostOfSCheme = (e) => {
-    setCostOfSCheme(e.target.value);
+    // setCostOfSCheme(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setCostOfSCheme(value);
+    }
   };
 
   const onTotalWages = (e) => {
-    setTotalWages(e.target.value);
+    // setTotalWages(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setTotalWages(value);
+    }
   };
 
   const onTotalPersonDays = (e) => {
-    setTotalPersonDays(e.target.value);
+    // setTotalPersonDays(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setTotalPersonDays(value);
+    }
   };
 
   const onTotalJobCard = (e) => {
-    setTotalJobCard(e.target.value);
+    // setTotalJobCard(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setTotalJobCard(value);
+    }
   };
 
   const onTotalAverageDays = (e) => {
-    setTotalAverageDays(e.target.value);
+    // setTotalAverageDays(e.target.value);
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value) || value === "") {
+      setTotalAverageDays(value);
+    }
   };
 
   const onDepartment = (e) => {
@@ -604,6 +635,7 @@ const ActionPlan = () => {
                     placeholder="Enter No of Schemes Proposed"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onSchemeProposed}
+                    value={schemeProposed}
                   />
                 </div>
 
@@ -625,6 +657,7 @@ const ActionPlan = () => {
                     placeholder="Enter Tentative Total Cost of Schemes in Rupees..."
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onCostOfSCheme}
+                    value={costOfSCheme}
                   />
                 </div>
 
@@ -646,6 +679,7 @@ const ActionPlan = () => {
                     placeholder="Enter Tentative Total Wage to be paid in the Schemes in Rupess..."
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onTotalWages}
+                    value={totalWages}
                   />
                 </div>
                 <div className="px-4">
@@ -664,6 +698,7 @@ const ActionPlan = () => {
                     placeholder="Enter Total Persondays to be Generated"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onTotalPersonDays}
+                    value={totalPersonDays}
                   />
                 </div>
                 <div className="px-4">
@@ -682,6 +717,7 @@ const ActionPlan = () => {
                     placeholder="Enter Total no. of Job Card Holders to be engaged"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onTotalJobCard}
+                    value={totalJobCard}
                   />
                 </div>
 
@@ -701,6 +737,7 @@ const ActionPlan = () => {
                     placeholder="Enter Average Days of Employment to be provided per family"
                     className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
                     onChange={onTotalAverageDays}
+                    value={totalAverageDays}
                   />
                 </div>
               </div>
