@@ -8,7 +8,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
-import { fetch } from "../functions/Fetchfunctions";  
+import { fetch } from "../functions/Fetchfunctions";
 import classNames from "classnames";
 import { useNetworkState } from "@uidotdev/usehooks";
 
@@ -26,83 +26,6 @@ export const DashboardNavbar = () => {
 
       return data.data.result;
     },
-  });
-
-  const districtCode = userDetails?.districtcode;
-
-  const { data: getDistrict } = useQuery({
-    queryKey: ["getDistrict"],
-    queryFn: async () => {
-      const data = await fetch.get(
-        "/api/mastertable/GetAllDistricts/",
-        userDetails?.districtcode?.length == 1
-          ? `0${userDetails?.districtcode}`
-          : userDetails?.districtcode
-      );
-
-      return data.data.result[0];
-    },
-    enabled: Boolean(districtCode),
-  });
-
-  const { data: getSubDivision } = useQuery({
-    queryKey: ["getSubDivision"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/mastertable/getSubdivison/" +
-          (userDetails?.districtcode?.length == 1
-            ? `0${userDetails?.districtcode}`
-            : userDetails?.districtcode) +
-          "/" +
-          userDetails?.subDivision
-      );
-
-      return data.data.result[0];
-    },
-    enabled: Boolean(userDetails?.subDivision),
-  });
-
-  const { data: getBlock } = useQuery({
-    queryKey: ["getBlock"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi +
-          "/api/mastertable/getBlock/" +
-          (userDetails?.districtcode?.length == 1
-            ? `0${userDetails?.districtcode}`
-            : userDetails?.districtcode) +
-          "/" +
-          userDetails?.blockCode
-      );
-
-      return data.data.result[0];
-    },
-    enabled: Boolean(userDetails?.blockCode),
-  });
-
-  const { data: getGp } = useQuery({
-    queryKey: ["getGp"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getonlyGp/" + userDetails?.gpCode
-      );
-
-      return data.data.result[0];
-    },
-    enabled: Boolean(userDetails?.gpCode),
-  });
-
-  const { data: departmentList } = useQuery({
-    queryKey: ["departmentList"],
-    queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/getDepatmentlist"
-      );
-
-      return data.data.result;
-    },
-    enabled: Boolean(districtCode),
   });
 
   const navigate = useNavigate();
@@ -129,7 +52,13 @@ export const DashboardNavbar = () => {
     if (permission >= 24 && permission <= 29)
       return userDetails?.districtName + " " + userDetails?.blockname;
     if (permission >= 30 && permission <= 35)
-      return userDetails?.districtName + " " + userDetails?.blockname + " " + userDetails?.gpName;
+      return (
+        userDetails?.districtName +
+        " " +
+        userDetails?.blockname +
+        " " +
+        userDetails?.gpName
+      );
   }, [permission]);
 
   return (
@@ -156,8 +85,11 @@ export const DashboardNavbar = () => {
               <div className="flex justify-center items-center">
                 <div className="flex flex-col px-2">
                   <div className="text-lg font-bold text-end text-black">
-                    {userDetails?.category}&nbsp;
                     {userDetails?.userName}
+                    <UserDetails
+                      category={userDetails?.category}
+                      role={userDetails?.role_type}
+                    />
                   </div>
                   <span className="text-sm text-end">
                     {userTitle}
@@ -213,4 +145,18 @@ export const DashboardNavbar = () => {
       </div>
     </>
   );
+};
+
+const UserDetails = ({ role, category }) => {
+  const cat = {
+    HQ: "State",
+    HD: "Department",
+    DIST: "District",
+    SUB: "Subdivision",
+    BLOCK: "Block",
+    GP: "Gram Panchayat",
+  };
+  const type = [ "Admin", "Operator", "PIA"]
+
+  return <span className="text-zinc-700 text-base font-semibold">{` ( ${cat[category]}/${type[role-1]} ) `}</span>;
 };
