@@ -215,6 +215,35 @@ const WorkAlloc = () => {
       headclass: "cursor-pointer",
     },
     {
+      header: "Req Date",
+      accessorKey: "SubmitTime",
+      headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.SubmitTime).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
+      header: "District",
+      accessorKey: "districtName",
+      headclass: "cursor-pointer",
+      
+    },
+    {
+      header: "Block/Municipality",
+      accessorKey: "blockName",
+      headclass: "cursor-pointer",
+      
+    },
+    {
+      header: "GP",
+      accessorKey: "gpName",
+      headclass: "cursor-pointer",
+      
+    },
+    {
       header: "Scheme Id/Name",
       accessorKey: "schName",
       headclass: "cursor-pointer",
@@ -223,8 +252,9 @@ const WorkAlloc = () => {
       header: "Scheme Sector",
       accessorKey: "",
       headclass: "cursor-pointer",
-      cell: () => "API tey nai",
+      cell: () => "API tey nai 1",
     },
+    
     {
       header: "Contractor",
       accessorKey: "conName",
