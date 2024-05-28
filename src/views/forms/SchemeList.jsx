@@ -5,6 +5,7 @@ import { fetch } from "../../functions/Fetchfunctions";
 import { SortIcon } from "../../components/SortIcon";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";schemeList
 import {
   flexRender,
   getCoreRowModel,
@@ -18,18 +19,6 @@ import { getAllSchemeList } from "../../Service/Scheme/SchemeService";
 const SchemeList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
-  const HeadData = [
-    "Financial Year",
-    "Block/Municipality",
-    "GP",
-    "Scheme Name",
-    "Project Cost",
-    "Total Wages Paid till date",
-    "No of labours",
-    "Engaged for no. of Days(MGNREGA WORKERS)",
-    "Funding Department",
-    "Action",
-  ];
   const { data: schemeList } = useQuery({
     queryKey: ["schemeList"],
     queryFn: async () => {
@@ -153,7 +142,16 @@ const SchemeList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-  console.log(schemeList, "scehemeList");
+    function rowToArray() {
+      let array = [];
+      table.getFilteredRowModel().rows.forEach((row) => {
+        const cells = row.getVisibleCells();
+        const values = cells.map((cell) => cell.getValue());
+        array.push(values);
+      });
+
+      return array;
+    }
 
   return (
     <>
@@ -206,60 +204,42 @@ const SchemeList = () => {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={filtering}
-            placeholder="search..."
-            className="border-2 rounded-lg border-zinc-400"
-            onChange={(e) => setFiltering(e.target.value)}
-          />
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "schemeList")
+              }
+              // onClick={rowToArray}
+            >
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "schemeList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          {/* <Table className="">
-            <Table.Head>
-              <Table.HeadCell className="capitalize">sl no</Table.HeadCell>
-              {HeadData?.map((e) => (
-                <Table.HeadCell key={e} className="capitalize">
-                  {e}
-                </Table.HeadCell>
-              ))}
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {schemeList?.map((d, index) => (
-                <Table.Row
-                  key={userIndex}
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {index + 1}
-                  </Table.Cell>
-
-                  <Table.Cell>{d?.finYear}</Table.Cell>
-                  <Table.Cell>
-                    {d?.blockcode ? d?.blockname : d?.muniName}
-                  </Table.Cell>
-                  <Table.Cell>{d?.gpName == "" ? "-" : d?.gpName}</Table.Cell>
-                  <Table.Cell>{d?.schemeName}</Table.Cell>
-                  <Table.Cell>{d?.totalprojectCost}</Table.Cell>
-
-                  <Table.Cell>{d?.totalWageCost}</Table.Cell>
-                  <Table.Cell>{d?.totalLabour}</Table.Cell>
-                  <Table.Cell>----</Table.Cell>
-                  <Table.Cell>{d?.departmentNo}</Table.Cell>
-                  <Table.Cell>*</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table> */}
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id} className="bg-cyan-400/70">
+              <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headClass,
-                      "hover:bg-zinc-200/40 transition-all whitespace-nowrap bg-transparent"
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -285,7 +265,10 @@ const SchemeList = () => {
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell
                       key={cell.id}
-                      className={classNames(cell.column.columnDef.className,"whitespace-nowrap py-1 px-1")}
+                      className={classNames(
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap py-1 px-1"
+                      )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

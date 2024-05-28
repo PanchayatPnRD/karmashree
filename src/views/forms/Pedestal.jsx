@@ -313,7 +313,7 @@ export const Pedestal = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all"
+                      "bg-cyan-400/90 btn-blue transition-all"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -330,7 +330,9 @@ export const Pedestal = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 

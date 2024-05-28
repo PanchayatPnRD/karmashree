@@ -222,13 +222,13 @@ const UserList = () => {
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id} className="bg-cyan-400/40">
+              <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent"
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -245,7 +245,9 @@ const UserList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 

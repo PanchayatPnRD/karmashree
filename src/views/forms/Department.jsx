@@ -232,7 +232,9 @@ const Department = () => {
               type="button"
               className={classNames(
                 "w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all",
-                (mutationId ? "bg-green-400 hover:bg-green-500" : "bg-indigo-600 hover:bg-indigo-700")
+                mutationId
+                  ? "bg-green-400 hover:bg-green-500"
+                  : "bg-indigo-600 hover:bg-indigo-700"
               )}
               onClick={perfromMutation}
             >
@@ -283,7 +285,7 @@ const Department = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-zinc-200/70 transition-all"
+                      "bg-cyan-400/90 btn-blue transition-all"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -300,7 +302,9 @@ const Department = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 

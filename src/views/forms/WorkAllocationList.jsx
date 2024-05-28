@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
+import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const WorkAllocationList = () => {
   const jsonString = localStorage.getItem("karmashree_User");
@@ -147,6 +148,17 @@ const WorkAllocationList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
+
+    return array;
+  }
+
   return (
     <>
       <div className="bg-white rounded-lg p-12">
@@ -198,13 +210,31 @@ const WorkAllocationList = () => {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={filtering}
-            placeholder="search..."
-            className="border-2 rounded-lg border-zinc-400"
-            onChange={(e) => setFiltering(e.target.value)}
-          />
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "workAllocationList")
+              }
+              // onClick={rowToArray}
+            >
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "workAllocationList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
@@ -214,7 +244,7 @@ const WorkAllocationList = () => {
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
-                      "normal-case bg-cyan-400/40 hover:bg-cyan-200/80 text-blue-900 text-md",
+                      "bg-cyan-400/90 btn-blue whitespace-nowrap",
                       header.column.columnDef.headclass,
                       " transition-all"
                     )}

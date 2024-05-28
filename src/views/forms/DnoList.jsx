@@ -35,7 +35,7 @@ const DnoList = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() =>{
+  const data = useMemo(() => {
     const sortedDnoUserList = [...(dnoUserList ?? [])];
     sortedDnoUserList.sort((a, b) => b.userIndex - a.userIndex);
     return sortedDnoUserList;
@@ -244,13 +244,13 @@ const DnoList = () => {
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id} className="bg-cyan-400/40">
+              <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "hover:bg-cyan-400/60 bg-transparent transition-all whitespace-nowrap"
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -267,7 +267,7 @@ const DnoList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 bg-transparent transition-all whitespace-nowrap">
+                <Table.HeadCell className="bg-cyan-400/90 btn-blue transition-all whitespace-nowrap">
                   Actions
                 </Table.HeadCell>
               </Table.Head>
