@@ -797,7 +797,7 @@ const WorkRequirement = () => {
                   Date
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case rounded-tr-lg">
-                  Unskill
+                  Unskilled Workers
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case hidden">
                   Semi-Skill
