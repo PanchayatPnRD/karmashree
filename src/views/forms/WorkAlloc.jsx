@@ -143,7 +143,6 @@ const WorkAlloc = () => {
       const {
         demandsl,
         schemeArea,
-        demanduniqueID,
         ex1,
         ex2,
         ex3,
@@ -229,19 +228,16 @@ const WorkAlloc = () => {
       header: "District",
       accessorKey: "districtName",
       headclass: "cursor-pointer",
-      
     },
     {
       header: "Block/Municipality",
       accessorKey: "blockName",
       headclass: "cursor-pointer",
-      
     },
     {
       header: "GP",
       accessorKey: "gpName",
       headclass: "cursor-pointer",
-      
     },
     {
       header: "Scheme Id/Name",
@@ -254,7 +250,7 @@ const WorkAlloc = () => {
       headclass: "cursor-pointer",
       cell: () => "API tey nai 1",
     },
-    
+
     {
       header: "Contractor",
       accessorKey: "conName",
@@ -288,14 +284,14 @@ const WorkAlloc = () => {
     },
     {
       header: "Funding Department",
-      accessorKey: "deptName",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
+      cell: () => "API tey null",
     },
     {
       header: "PIA",
-      accessorKey: "FundingDeptname",
+      accessorKey: "deptName",
       headclass: "cursor-pointer",
-      cell: () => "P&RD",
     },
   ];
 
@@ -367,7 +363,11 @@ const WorkAlloc = () => {
     conName,
     contactPersonPhoneNumber,
     dateofwork,
+    noOfDays,
     totalUnskilledWorkers,
+    districtName,
+    blockName,
+    gpName,
   } = filteredData ?? {};
 
   return (
@@ -542,7 +542,11 @@ const WorkAlloc = () => {
                   </div>
                   <div className="div-even">
                     <div className="label-style">Scheme Location</div>
-                    {"! Not available"}
+                    {districtName.length > 0 && districtName}
+                    {districtName.length > 0 && blockName.length > 0 && "/"}
+                    {blockName.length > 0 && blockName}
+                    {blockName.length > 0 && gpName.length > 0 && "/"}
+                    {gpName.length > 0 && gpName}
                   </div>
                   <div className="div-odd">
                     <div className="label-style">Total Unskilled Workers</div>
@@ -550,7 +554,7 @@ const WorkAlloc = () => {
                   </div>
                   <div className="div-even">
                     <div className="label-style">Total No of Days</div>
-                    {"! Not available"}
+                    {noOfDays}
                   </div>
                   <div className="div-odd">
                     <div className="label-style">Total Persandays</div>

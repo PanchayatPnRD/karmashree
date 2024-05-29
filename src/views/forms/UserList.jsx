@@ -245,7 +245,7 @@ const UserList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case hover:bg-cyan-400/60 transition-all whitespace-nowrap bg-transparent">
+                <Table.HeadCell className="normal-case bg-cyan-400/90 transition-all btn-blue whitespace-nowrap">
                   Actions
                 </Table.HeadCell>
               </Table.Head>

@@ -59,8 +59,9 @@ export const ConfirmUser = () => {
     else setShowOtp(true);
   }
   if (state != "login") return <Navigate to={stack[0]} />;
+  if (state != "reset") return <Navigate to={stack[0]} />;
   console.log(userId, "userId")
-  const onVerifyUser = () => {
+  function onVerifyUser (){
     if (userId === "") {
       toast.error("Please type your user id")
     } else if (phoneNumber.length != 10) {

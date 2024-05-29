@@ -21,6 +21,7 @@ import {
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
+import { renderToStaticMarkup } from "react-dom/server";
 
 const Employment = () => {
   const [openModal, setOpenModal] = useState();
@@ -37,12 +38,12 @@ const Employment = () => {
     ImplementingAgencyID: undefined,
     ImplementingAgencyName: "",
     dateOfPayment: "",
-    workerAttendence:"Present",
+    workerAttendence: "Present",
   };
 
   const [initialData, setInitialData] = useState(temp);
   const [empData, setEmpData] = useState([]);
-console.log(empData,"empData")
+
   const dateDifference = useMemo(() => {
     return empData.map(({ empProvidedFrom, empProvidedTo }) => {
       const timeDiff = Math.abs(
@@ -423,20 +424,49 @@ console.log(empData,"empData")
                                       setWorkAllocationId(
                                         row.original.workAllocationID
                                       );
-                                      setInitialData({
-                                        totalWagePaid: "",
-                                        FundingDepttID:
-                                          row.original.FundingDepttID,
-                                        FundingDeptname:
-                                          row.original.FundingDeptname,
-                                        ExecutingDepttID:
-                                          row.original.ExecutingDepttID,
-                                        ExecutingDeptName:
-                                          row.original.ExecutingDeptName,
-                                        ImplementingAgencyID:
-                                          row.original.ImplementingAgencyID,
-                                        ImplementingAgencyName:
-                                          row.original.ImplementingAgencyName,
+                                      // setInitialData({
+                                      //   totalWagePaid: "",
+                                      //   FundingDepttID:
+                                      //     row.original.FundingDepttID,
+                                      //   FundingDeptname:
+                                      //     row.original.FundingDeptname,
+                                      //   ExecutingDepttID:
+                                      //     row.original.ExecutingDepttID,
+                                      //   ExecutingDeptName:
+                                      //     row.original.ExecutingDeptName,
+                                      //   ImplementingAgencyID:
+                                      //     row.original.ImplementingAgencyID,
+                                      //   ImplementingAgencyName:
+                                      //     row.original.ImplementingAgencyName,
+                                      // });
+                                      setInitialData((e) => {
+                                        const {
+                                          
+                                          FundingDepttID,
+                                          FundingDeptname,
+                                          ExecutingDepttID,
+                                          ExecutingDeptName,
+                                          ImplementingAgencyID,
+                                          ImplementingAgencyName,
+                                          ...rest
+                                        } = e;
+
+                                        return {
+                                          FundingDepttID:
+                                            row.original.FundingDepttID,
+                                          FundingDeptname:
+                                            row.original.FundingDeptname,
+                                          ExecutingDepttID:
+                                            row.original.ExecutingDepttID,
+                                          ExecutingDeptName:
+                                            row.original.ExecutingDeptName,
+                                          ImplementingAgencyID:
+                                            row.original.ImplementingAgencyID,
+                                          ImplementingAgencyName:
+                                            row.original.ImplementingAgencyName,
+                                          ...rest
+                                        };
+
                                       });
                                     }}
                                   >
@@ -532,7 +562,9 @@ console.log(empData,"empData")
                               {noOfDaysWorkDemanded}
                             </div>
                             <div className="div-even text-xs">
-                              <div className="label-style text-sm">Department</div>
+                              <div className="label-style text-sm">
+                                Department
+                              </div>
                               {deptName}
                             </div>
                           </div>
@@ -676,10 +708,10 @@ console.log(empData,"empData")
                                         maxDate={
                                           new Date(empProvidedFrom).getTime() +
                                           empList[index]?.noOfDaysWorkAlloted *
-                                          24 *
-                                          60 *
-                                          60 *
-                                          1000
+                                            24 *
+                                            60 *
+                                            60 *
+                                            1000
                                         }
                                         startDate={empProvidedFrom}
                                         endDate={empProvidedTo}
@@ -739,8 +771,9 @@ console.log(empData,"empData")
                                         updateVal(e, index, empData, setEmpData)
                                       }
                                     >
-
-                                      <option value="Present" selected>Present</option>
+                                      <option value="Present" selected>
+                                        Present
+                                      </option>
                                       <option value="Absent">Absent</option>
                                     </select>
                                   </Table.Cell>

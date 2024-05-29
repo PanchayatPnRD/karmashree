@@ -39,7 +39,7 @@ const SuccessModal = ({
               </>
             ) : (
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                {errorMsg}
+                {message}
               </p>
             )}
           </div>
@@ -49,13 +49,13 @@ const SuccessModal = ({
             className="relative animate-pulse2 bg-blue-600 p-2 px-6 rounded-lg text-white font-semibold hover:shadow-md transition-all"
             onClick={() => {
               setOpenModal((prev) => !prev);
-              
+
               if (isSuccess && to) navigate("/dashboard/" + to);
-              if (isSuccess && toverify) navigate("/"+toverify);
+              if (isSuccess && toverify)
+                navigate("/" + toverify, { state: "reset" });
               if (resetData) resetData();
             }}
           >
-            
             Okay
           </button>
         </Modal.Footer>

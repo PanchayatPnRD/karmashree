@@ -39,22 +39,6 @@ const WorkRequirement = () => {
     localStorage.getItem("karmashree_User")
   );
 
-  // const { data: allDistList } = useQuery({
-  //   queryKey: ["allDistList"],
-  //   queryFn: async () => {
-  //     const data = await getAllDistrictActionList();
-  //     return data.data.result;
-  //   },
-  // });
-
-  // const { data: blockList } = useQuery({
-  //   queryKey: ["blockList"],
-  //   queryFn: async () => {
-  //     const data = await getAllBlockList();
-  //     return data.data.result;
-  //   },
-  // });
-
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
@@ -115,6 +99,7 @@ const WorkRequirement = () => {
     noOfDaysWorkDemanded: "",
     remark: "",
     age: "",
+    total_pending: 0,
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data

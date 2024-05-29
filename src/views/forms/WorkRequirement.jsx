@@ -26,7 +26,7 @@ import SuccessModal from "../../components/SuccessModal";
 const WorkRequirement = () => {
   const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
-  const data = JSON.parse(jsonString);
+  const { userIndex } = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
   const [startDate, setStartDate] = useState(new Date().toString());
   const [dates, setDates] = useState([]);
@@ -68,14 +68,14 @@ const WorkRequirement = () => {
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
     queryFn: async () => {
-      const data = await fetch.get(`/api/schememaster/getAllScheme/` + userIndex);
+      const data = await fetch.get(`/api/schememaster/getAllScheme/${userIndex}`);
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
 
   const schemeData = useMemo(() => {
-    const data = schemeAllList?.filter((item) => item.scheme_sl == schemeSl)[0];
+    const data = schemeAll_List?.filter((item) => item.scheme_sl == schemeSl)[0];
 
     return data;
   }, [schemeSl]);
@@ -672,7 +672,7 @@ const WorkRequirement = () => {
               <div className="px-4 w-1/4">
                 <label
                   htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700 capitalize"
+                  className="block text-xs pb-1 font-medium text-gray-700 capitalize"
                 >
                   reporting person contact number
                   <span className="text-red-500 "> * </span>
