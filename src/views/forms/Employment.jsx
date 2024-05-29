@@ -37,11 +37,12 @@ const Employment = () => {
     ImplementingAgencyID: undefined,
     ImplementingAgencyName: "",
     dateOfPayment: "",
+    workerAttendence:"Present",
   };
 
   const [initialData, setInitialData] = useState(temp);
   const [empData, setEmpData] = useState([]);
-
+console.log(empData,"empData")
   const dateDifference = useMemo(() => {
     return empData.map(({ empProvidedFrom, empProvidedTo }) => {
       const timeDiff = Math.abs(
@@ -571,6 +572,9 @@ const Employment = () => {
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
                             </Table.HeadCell>
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                              Worker Attendence
+                            </Table.HeadCell>
                           </Table.Head>
                           <Table.Body>
                             {empData?.map(
@@ -580,6 +584,7 @@ const Employment = () => {
                                   empProvidedTo,
                                   dateOfPayment,
                                   totalWagePaid,
+                                  workerAttendence,
                                 },
                                 index
                               ) => (
@@ -671,10 +676,10 @@ const Employment = () => {
                                         maxDate={
                                           new Date(empProvidedFrom).getTime() +
                                           empList[index]?.noOfDaysWorkAlloted *
-                                            24 *
-                                            60 *
-                                            60 *
-                                            1000
+                                          24 *
+                                          60 *
+                                          60 *
+                                          1000
                                         }
                                         startDate={empProvidedFrom}
                                         endDate={empProvidedTo}
@@ -721,6 +726,23 @@ const Employment = () => {
                                         updateVal(e, index, empData, setEmpData)
                                       }
                                     />
+                                  </Table.Cell>
+
+                                  <Table.Cell className="py-1">
+                                    <select
+                                      id="scheme_name"
+                                      value={workerAttendence}
+                                      name="workerAttendence"
+                                      autoComplete="off"
+                                      className="rounded-lg border-zinc-300"
+                                      onChange={(e) =>
+                                        updateVal(e, index, empData, setEmpData)
+                                      }
+                                    >
+
+                                      <option value="Present" selected>Present</option>
+                                      <option value="Absent">Absent</option>
+                                    </select>
                                   </Table.Cell>
                                 </Table.Row>
                               )
