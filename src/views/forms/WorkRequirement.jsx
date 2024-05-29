@@ -350,6 +350,7 @@ const WorkRequirement = () => {
         schemeData.village,
         schemeSl,
         contractorDetails?.cont_sl,
+        schemeData?.FundingDeptname,
         personName,
         phoneNumber,
         reportingPlace,

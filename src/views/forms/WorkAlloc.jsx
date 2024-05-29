@@ -240,16 +240,21 @@ const WorkAlloc = () => {
       headclass: "cursor-pointer",
     },
     {
-      header: "Scheme Id/Name",
+      header: "Scheme Name",
       accessorKey: "schName",
       headclass: "cursor-pointer",
     },
     {
-      header: "Scheme Sector",
-      accessorKey: "",
+      header: "Scheme Id",
+      accessorKey: "schemeId",
       headclass: "cursor-pointer",
-      cell: () => "API tey nai 1",
     },
+    // {
+    //   header: "Scheme Sector",
+    //   accessorKey: "",
+    //   headclass: "cursor-pointer",
+    //   cell: () => "API tey nai 1",
+    // },
 
     {
       header: "Contractor",
@@ -286,7 +291,6 @@ const WorkAlloc = () => {
       header: "Funding Department",
       accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
-      cell: () => "API tey null",
     },
     {
       header: "PIA",
@@ -368,6 +372,8 @@ const WorkAlloc = () => {
     districtName,
     blockName,
     gpName,
+    personDaysGenerated,
+    FundingDeptname,
   } = filteredData ?? {};
 
   return (
@@ -509,250 +515,254 @@ const WorkAlloc = () => {
             </>
           )}
           {schemeId !== undefined && (
-            <div className="flex flex-col space-y-8 px-4">
-              <div className="px-24">
-                <div className="flex flex-col border-2 rounded-xl overflow-hidden shadow-md">
-                  <div className="div-odd">
-                    <div className="label-style">Worker Requisition Id</div>
-                    <div>{workerreqID}</div>
-                  </div>
-                  <div className="div-even">
-                    <div className="label-style">Financial Year</div>
-                    {finYear}
-                  </div>
-                  <div className="div-odd">
-                    <div className="label-style">Scheme Id/Name</div>
-                    {workerreqID}-{schName}
-                  </div>
-                  <div className="div-even">
-                    <div className="label-style">Scheme Sector</div>
-                    {"! Not Available"}
-                  </div>
-                  <div className="div-odd">
-                    <div className="label-style">Funding Department</div>
-                    {"! Not Available"}
-                  </div>
-                  <div className="div-even">
-                    <div className="label-style">Contractor Name</div>
-                    {conName}
-                  </div>
-                  <div className="div-odd">
-                    <div className="label-style">Contact Person Number</div>
-                    {contactPersonPhoneNumber}
-                  </div>
-                  <div className="div-even">
-                    <div className="label-style">Scheme Location</div>
-                    {districtName.length > 0 && districtName}
-                    {districtName.length > 0 && blockName.length > 0 && "/"}
-                    {blockName.length > 0 && blockName}
-                    {blockName.length > 0 && gpName.length > 0 && "/"}
-                    {gpName.length > 0 && gpName}
-                  </div>
-                  <div className="div-odd">
-                    <div className="label-style">Total Unskilled Workers</div>
-                    {totalUnskilledWorkers}
-                  </div>
-                  <div className="div-even">
-                    <div className="label-style">Total No of Days</div>
-                    {noOfDays}
-                  </div>
-                  <div className="div-odd">
-                    <div className="label-style">Total Persandays</div>
-                    {"! Not available"}
+            <>
+              <div className="flex flex-col space-y-8 px-4">
+                <div className="px-24">
+                  <div className="flex flex-col border-2 rounded-xl overflow-hidden shadow-md">
+                    <div className="div-odd">
+                      <div className="label-style">Worker Requisition Id</div>
+                      <div>{workerreqID}</div>
+                    </div>
+                    <div className="div-even">
+                      <div className="label-style">Financial Year</div>
+                      {finYear}
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Scheme Id/Name</div>
+                      {workerreqID}-{schName}
+                    </div>
+                    {/* <div className="div-even">
+                      <div className="label-style">Scheme Sector</div>
+                      {"! Not Available"}
+                    </div> */}
+                    <div className="div-odd">
+                      <div className="label-style">Funding Department</div>
+                      {FundingDeptname}
+                    </div>
+                    <div className="div-even">
+                      <div className="label-style">Contractor Name</div>
+                      {conName}
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Contact Person Number</div>
+                      {contactPersonPhoneNumber}
+                    </div>
+                    <div className="div-even">
+                      <div className="label-style">Scheme Location</div>
+                      {districtName.length > 0 && districtName}
+                      {districtName.length > 0 && blockName.length > 0 && "/"}
+                      {blockName.length > 0 && blockName}
+                      {blockName.length > 0 && gpName.length > 0 && "/"}
+                      {gpName.length > 0 && gpName}
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Total Unskilled Workers</div>
+                      {totalUnskilledWorkers}
+                    </div>
+                    <div className="div-even">
+                      <div className="label-style">Total No of Days</div>
+                      {noOfDays}
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Total Persandays</div>
+                      {personDaysGenerated}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar shadow-md">
-                <Table className="">
-                  <Table.Head>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      #
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      Worker Job Card No
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue whitespace-nowrap capitalize">
-                      Work Code/Scheme name
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      Worker Name
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      District
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      Block
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                      GP
-                    </Table.HeadCell>
+                <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar shadow-md">
+                  <Table className="">
+                    <Table.Head>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        #
+                      </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        Worker Job Card No
+                      </Table.HeadCell>
+                      {/* <Table.HeadCell className="bg-cyan-400/90 btn-blue whitespace-nowrap capitalize">
+                        Work Code/Scheme name
+                      </Table.HeadCell> */}
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        Worker Name
+                      </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        District
+                      </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        Block
+                      </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        GP
+                      </Table.HeadCell>
 
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                      Work Application Date
-                    </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        Work Application Date
+                      </Table.HeadCell>
 
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                      No of Days (Work Demanded)
-                    </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        No of Days (Work Demanded)
+                      </Table.HeadCell>
 
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                      Work Allocation Date
-                    </Table.HeadCell>
-                    <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                      No of Days (Work Allocated)
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {allocData?.map(
-                      (
-                        {
-                          schemeId,
-                          dateFrom,
-                          dateTo,
-                          noOfDays,
-                          districtcode,
-                          blockcode,
-                          gpCode,
-                        },
-                        index
-                      ) => (
-                        <Table.Row key={index}>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {index + 1}
-                          </Table.Cell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        Work Allocation Date
+                      </Table.HeadCell>
+                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        No of Days (Work Allocated)
+                      </Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body className="divide-y">
+                      {allocData?.map(
+                        (
+                          {
+                            schemeId,
+                            dateFrom,
+                            dateTo,
+                            noOfDays,
+                            districtcode,
+                            blockcode,
+                            gpCode,
+                          },
+                          index
+                        ) => (
+                          <Table.Row key={index}>
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {index + 1}
+                            </Table.Cell>
 
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {" "}
-                            <div className="w-44">
-                              {demandData[index]?.workerJobCardNo}
-                            </div>
-                          </Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {schemeName}
-                          </Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {demandData[index]?.workerName}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {demandData[index]?.districtcode}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {demandData[index]?.blockcode}
-                          </Table.Cell>
-                          <Table.Cell>{demandData[index]?.gpCode}</Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {new Date(
-                              demandData[index]?.dateOfApplicationForWork
-                            ).toLocaleDateString("en-IN", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })}
-                          </Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            {demandData[index]?.noOfDaysWorkDemanded}
-                          </Table.Cell>
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {" "}
+                              <div className="w-44">
+                                {demandData[index]?.workerJobCardNo}
+                              </div>
+                            </Table.Cell>
+                            {/* <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {schemeName}
+                            </Table.Cell> */}
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {demandData[index]?.workerName}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {demandData[index]?.districtcode}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {demandData[index]?.blockcode}
+                            </Table.Cell>
+                            <Table.Cell>{demandData[index]?.gpCode}</Table.Cell>
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {new Date(
+                                demandData[index]?.dateOfApplicationForWork
+                              ).toLocaleDateString("en-IN", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })}
+                            </Table.Cell>
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              {demandData[index]?.noOfDaysWorkDemanded}
+                            </Table.Cell>
 
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            <div className="flex items-center space-x-2">
-                              <DatePicker
-                                minDate={
-                                  new Date(
-                                    demandData[index]?.dateOfApplicationForWork
-                                  )
-                                }
-                                dateFormat="dd/MM/yyyy"
-                                selected={dateFrom}
-                                onChange={(date) =>
-                                  updateVal(
-                                    {
-                                      target: {
-                                        name: "dateFrom",
-                                        value: date.toString(),
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              <div className="flex items-center space-x-2">
+                                <DatePicker
+                                  minDate={
+                                    new Date(
+                                      demandData[
+                                        index
+                                      ]?.dateOfApplicationForWork
+                                    )
+                                  }
+                                  dateFormat="dd/MM/yyyy"
+                                  selected={dateFrom}
+                                  onChange={(date) =>
+                                    updateVal(
+                                      {
+                                        target: {
+                                          name: "dateFrom",
+                                          value: date.toString(),
+                                        },
                                       },
-                                    },
-                                    index,
-                                    allocData,
-                                    setAllocData
-                                  )
-                                }
-                                placeholderText="dd/mm/yyyy"
-                                selectsStart
-                                startDate={dateFrom}
-                                endDate={dateTo}
-                                portalId="root-portal"
-                                className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
-                              />
-                              <DatePicker
-                                placeholderText="dd/mm/yyyy"
-                                selected={dateTo}
-                                onChange={(date) =>
-                                  updateVal(
-                                    {
-                                      target: {
-                                        name: "dateTo",
-                                        value: date.toString(),
+                                      index,
+                                      allocData,
+                                      setAllocData
+                                    )
+                                  }
+                                  placeholderText="dd/mm/yyyy"
+                                  selectsStart
+                                  startDate={dateFrom}
+                                  endDate={dateTo}
+                                  portalId="root-portal"
+                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
+                                />
+                                <DatePicker
+                                  placeholderText="dd/mm/yyyy"
+                                  selected={dateTo}
+                                  onChange={(date) =>
+                                    updateVal(
+                                      {
+                                        target: {
+                                          name: "dateTo",
+                                          value: date.toString(),
+                                        },
                                       },
-                                    },
-                                    index,
-                                    allocData,
-                                    setAllocData
-                                  )
-                                }
-                                selectsEnd
-                                startDate={dateFrom}
-                                endDate={dateTo}
-                                minDate={dateFrom}
-                                maxDate={
-                                  new Date(dateFrom).getTime() +
-                                  demandData[index]?.noOfDaysWorkDemanded *
-                                    24 *
-                                    60 *
-                                    60 *
-                                    1000
-                                }
-                                // minDate={new Date()}
-                                dateFormat="dd/MM/yyyy"
-                                // selected={dateOfApplicationForWork}
-                                portalId="root-portal"
-                                className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
-                              />
-                            </div>
-                          </Table.Cell>
-                          <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                            <div className="w-36">
-                              {isNaN(dateDifference[index])
-                                ? 0
-                                : dateDifference[index]}
-                            </div>
-                          </Table.Cell>
-                        </Table.Row>
-                      )
-                    )}
-                  </Table.Body>
-                </Table>
+                                      index,
+                                      allocData,
+                                      setAllocData
+                                    )
+                                  }
+                                  selectsEnd
+                                  startDate={dateFrom}
+                                  endDate={dateTo}
+                                  minDate={dateFrom}
+                                  maxDate={
+                                    new Date(dateFrom).getTime() +
+                                    demandData[index]?.noOfDaysWorkDemanded *
+                                      24 *
+                                      60 *
+                                      60 *
+                                      1000
+                                  }
+                                  // minDate={new Date()}
+                                  dateFormat="dd/MM/yyyy"
+                                  // selected={dateOfApplicationForWork}
+                                  portalId="root-portal"
+                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
+                                />
+                              </div>
+                            </Table.Cell>
+                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                              <div className="w-36">
+                                {isNaN(dateDifference[index])
+                                  ? 0
+                                  : dateDifference[index]}
+                              </div>
+                            </Table.Cell>
+                          </Table.Row>
+                        )
+                      )}
+                    </Table.Body>
+                  </Table>
+                </div>
+                <div className="flex space-x-4 justify-center items-center">
+                  <button
+                    type="button"
+                    className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    onClick={() => {
+                      setSchemeId(undefined);
+                      setReqId(undefined);
+                      setWorkersl(undefined);
+                    }}
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={mutate}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
-              <div className="flex space-x-4 justify-center items-center">
-                <button
-                  type="button"
-                  className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  onClick={() => {
-                    setSchemeId(undefined);
-                    setReqId(undefined);
-                    setWorkersl(undefined);
-                  }}
-                >
-                  Back
-                </button>
-                <button
-                  type="button"
-                  className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={mutate}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
+            </>
           )}
         </div>
       </div>
