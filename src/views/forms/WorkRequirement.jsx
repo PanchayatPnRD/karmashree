@@ -26,7 +26,7 @@ import SuccessModal from "../../components/SuccessModal";
 const WorkRequirement = () => {
   const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
-  const { userIndex } = JSON.parse(jsonString);
+  // const { userIndex } = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
   const [startDate, setStartDate] = useState(new Date().toString());
   const [dates, setDates] = useState([]);
