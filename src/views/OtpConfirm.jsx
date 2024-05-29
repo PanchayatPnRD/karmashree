@@ -113,7 +113,7 @@ const OTPConfirm = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         message={"You Need to change your password first"}
-        toverify="verify"
+        toverify="login"
         // resetData={resetData}
         isSuccess={true}
       />
