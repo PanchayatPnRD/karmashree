@@ -59,6 +59,7 @@ const WorkRequirement = () => {
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
   const [openModal, setOpenModal] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const [createdReq, setCreatedReq] = useState();
 
@@ -103,7 +104,7 @@ const WorkRequirement = () => {
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
-    // setUserData(data);
+    setUserData(data);
 
     getAllDistrictActionList(data?.districtcode).then(function (result) {
       const response = result?.data?.result;
@@ -124,13 +125,13 @@ const WorkRequirement = () => {
 
   //Scheme list
 
-//   let schemeListDropdown = <option>Loading...</option>;
-//   if (schemeAllList && schemeAllList.length > 0) {
-//     schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
-//       <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
-//     ));
-//   }
-// console.log(schemeListDropdown,"schemeListDropdown")
+  //   let schemeListDropdown = <option>Loading...</option>;
+  //   if (schemeAllList && schemeAllList.length > 0) {
+  //     schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
+  //       <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
+  //     ));
+  //   }
+  // console.log(schemeListDropdown,"schemeListDropdown")
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -341,7 +342,7 @@ const WorkRequirement = () => {
 
       addCreateWorkRequirement(
         area,
-        data?.departmentNo,
+        userData?.departmentNo,
         district,
         municipality,
         block,
@@ -358,13 +359,13 @@ const WorkRequirement = () => {
         currentMonth,
         currentYear,
         financialYear,
-        data?.userIndex,
+        userData?.userIndex,
         allData,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
-            setCreatedReq(r.masterAllotment[0].workerreqID);
+            setCreatedReq(r?.requireid);
           } else {
             toast.error(r.message);
           }
@@ -425,8 +426,8 @@ const WorkRequirement = () => {
 
         to="work-requirement-list"
         isSuccess={true}
-        // isSuccess={true}
-        // userCreate={false}
+      // isSuccess={true}
+      // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -628,7 +629,7 @@ const WorkRequirement = () => {
                   disabled
                   placeholder="Please Enter Village Name"
                   className="w-full rounded-md border-zinc-300 disabled-input"
-                  // onChange={onVillageName}
+                // onChange={onVillageName}
                 />
               </div>
               <div className="px-4 w-1/4">
