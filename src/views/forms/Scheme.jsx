@@ -365,7 +365,7 @@ const Scheme = () => {
       toast.error("Please Type Project Cost");
     } else if (totalWages === "") {
       toast.error("Please Type Total Wage Cost involved in the Work");
-    } else if (totalWages > projectCost) {
+    } else if (parseInt(totalWages) > parseInt(projectCost)) {
       toast.error("Total Wage Cost cant greater than Project Cost ");
     } else if (persondaysWork === "") {
       toast.error("Please Type Persondays to be generated from the Work");

@@ -6,8 +6,9 @@ export const getAllContractorList = async () => {
 }
 
 
-export const getSchemeList = async () => {
-    return await webApi.get(`/api/schememaster/getAllScheme`,
+export const getSchemeList = async (userId) => {
+    console.log(userId, "hashashhas")
+    return await webApi.get(`/api/schememaster/getAllScheme/${userId}`,
     );
 }
 
@@ -71,8 +72,8 @@ export const addCreateScheme = async (
         FundingDepttID,
         FundingDeptname,
         ExecutingDepttID,
-        ExecutingDeptName,"saaaaaaaaaaaaaaaaaaaaaaaa"
-,        ImplementingAgencyID,
+        ExecutingDeptName, "saaaaaaaaaaaaaaaaaaaaaaaa"
+        , ImplementingAgencyID,
         ImplementingAgencyName,
         StatusOfWork,
         tentativeStartDate,
@@ -85,9 +86,9 @@ export const addCreateScheme = async (
         totalUnskilledWorkers,
         totalSemiSkilledWorkers,
         totalSkilledWorkers,
-        workorderNo,
+        workorderNo === "" ? 0 : workorderNo, "workorderNo",
         workOderDate,
-        ControctorID,
+        ControctorID, "ControctorID",
         schemeStatus,
         CurrentMonth,
         CurrentYear,
@@ -126,9 +127,9 @@ export const addCreateScheme = async (
                 "totalUnskilledWorkers": totalUnskilledWorkers,
                 "totalSemiSkilledWorkers": totalSemiSkilledWorkers,
                 "totalSkilledWorkers": totalSkilledWorkers,
-                "workorderNo": workorderNo,
+                "workorderNo": workorderNo === "" ? 0 : workorderNo,
                 "workOderDate": workOderDate,
-                "ControctorID": ControctorID,
+                "ControctorID": ControctorID === "" ? 0 : ControctorID,
                 "schemeStatus": schemeStatus,
                 "CurrentMonth": CurrentMonth,
                 "CurrentYear": CurrentYear,

@@ -63,11 +63,12 @@ const WorkRequirement = () => {
   const [createdReq, setCreatedReq] = useState();
 
   const queryclient = useQueryClient();
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
     queryFn: async () => {
-      const data = await fetch.get(`/api/schememaster/getAllScheme`);
+      const data = await fetch.get(`/api/schememaster/getAllScheme/` + userIndex);
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
@@ -114,21 +115,22 @@ const WorkRequirement = () => {
       setAllContractorList(response);
     });
 
-    getSchemeList().then(function (result) {
-      const response = result?.data?.result;
-      setAllSchemeAllList(response);
-    });
+    // getSchemeList(data?.userIndex).then(function (result) {
+    //   const response = result?.data?.result;
+    //   console.log(response,"response")
+    //   setAllSchemeAllList(response);
+    // });
   }, []);
 
   //Scheme list
 
-  let schemeListDropdown = <option>Loading...</option>;
-  if (schemeAllList && schemeAllList.length > 0) {
-    schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
-      <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
-    ));
-  }
-
+//   let schemeListDropdown = <option>Loading...</option>;
+//   if (schemeAllList && schemeAllList.length > 0) {
+//     schemeListDropdown = schemeAllList.map((SchemeRow, index) => (
+//       <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
+//     ));
+//   }
+// console.log(schemeListDropdown,"schemeListDropdown")
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
