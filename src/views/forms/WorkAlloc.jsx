@@ -161,7 +161,8 @@ const WorkAlloc = () => {
       if (dateFrom.length > 0 && dateTo.length > 0)
         return {
           schemeId: schemeDataId,
-          schemeName: schemeName,
+          schemeName: "asdfdsf",
+          
 
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .schemeName,
@@ -225,6 +226,27 @@ const WorkAlloc = () => {
         }),
     },
     {
+      header: "PIA",
+      accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Funding Department",
+      accessorKey: "FundingDeptname",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Scheme Id",
+      accessorKey: "schemeId",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Scheme Name",
+      accessorKey: "schName",
+      headclass: "cursor-pointer",
+    },
+
+    {
       header: "District",
       accessorKey: "districtName",
       headclass: "cursor-pointer",
@@ -239,16 +261,6 @@ const WorkAlloc = () => {
       accessorKey: "gpName",
       headclass: "cursor-pointer",
     },
-    {
-      header: "Scheme Name",
-      accessorKey: "schName",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Scheme Id",
-      accessorKey: "schemeId",
-      headclass: "cursor-pointer",
-    },
     // {
     //   header: "Scheme Sector",
     //   accessorKey: "",
@@ -257,13 +269,18 @@ const WorkAlloc = () => {
     // },
 
     {
-      header: "Contractor",
-      accessorKey: "conName",
+      header: "Contact Person",
+      accessorKey: "",
       headclass: "cursor-pointer",
     },
     {
-      header: "Contact No",
+      header: "Contact Person Number",
       accessorKey: "contactPersonPhoneNumber",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Reporting Place",
+      accessorKey: "",
       headclass: "cursor-pointer",
     },
     {
@@ -285,16 +302,6 @@ const WorkAlloc = () => {
     {
       header: "Total Unskilled Workers",
       accessorKey: "totalUnskilledWorkers",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Funding Department",
-      accessorKey: "FundingDeptname",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "PIA",
-      accessorKey: "deptName",
       headclass: "cursor-pointer",
     },
   ];

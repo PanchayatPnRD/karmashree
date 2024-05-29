@@ -38,7 +38,7 @@ const Employment = () => {
     ImplementingAgencyID: undefined,
     ImplementingAgencyName: "",
     dateOfPayment: "",
-    workerAttendence: "Present",
+    attandance: "Present",
   };
 
   const [initialData, setInitialData] = useState(temp);
@@ -221,35 +221,36 @@ const Employment = () => {
         }),
     },
     {
-      header: "no of days work alloted",
-      accessorKey: "noOfDaysWorkAlloted",
-    },
-    {
-      header: "no of days work demanded",
+      header: "no of days as per requisition ",
       accessorKey: "noOfDaysWorkDemanded",
     },
     {
-      header: "expected completion date",
-      accessorKey: "ExpectedCompletionDate",
-      cell: ({ row }) =>
-        new Date(row.original.ExpectedCompletionDate).toLocaleDateString(
-          "en-IN",
-          {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-          }
-        ),
+      header: "no of days as per allocation",
+      accessorKey: "noOfDaysWorkAlloted",
     },
+    
+    // {
+    //   header: "expected completion date",
+    //   accessorKey: "ExpectedCompletionDate",
+    //   cell: ({ row }) =>
+    //     new Date(row.original.ExpectedCompletionDate).toLocaleDateString(
+    //       "en-IN",
+    //       {
+    //         month: "2-digit",
+    //         day: "2-digit",
+    //         year: "numeric",
+    //       }
+    //     ),
+    // },
 
-    {
-      header: "execution department",
-      accessorKey: "ExecutingDeptName",
-    },
-    {
-      header: "implementing agency",
-      accessorKey: "ImplementingAgencyName",
-    },
+    // {
+    //   header: "execution department",
+    //   accessorKey: "ExecutingDeptName",
+    // },
+    // {
+    //   header: "implementing agency",
+    //   accessorKey: "ImplementingAgencyName",
+    // },
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -441,7 +442,6 @@ const Employment = () => {
                                       // });
                                       setInitialData((e) => {
                                         const {
-                                          
                                           FundingDepttID,
                                           FundingDeptname,
                                           ExecutingDepttID,
@@ -464,9 +464,8 @@ const Employment = () => {
                                             row.original.ImplementingAgencyID,
                                           ImplementingAgencyName:
                                             row.original.ImplementingAgencyName,
-                                          ...rest
+                                          ...rest,
                                         };
-
                                       });
                                     }}
                                   >
@@ -490,11 +489,31 @@ const Employment = () => {
                       <div className="">
                         <div className=" mb-12 mx-2 flex rounded-xl shadow-md">
                           <div className="w-1/2 flex flex-col rounded-l-xl">
+                            <div className="div-even">
+                              <div className="label-style">Scheme Name</div>
+                              {schemeName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">allocation id</div>
+                              <div>{workAllocationID}</div>
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">District</div>
+                              {districtName}
+                            </div>
+                            <div className="div-odd">
+                              <div className="label-style">Allocation Date</div>
+                              {""}
+                            </div>
+                            <div className="div-even">
+                              <div className="label-style">Requistion Id </div>
+                              {""}
+                            </div>
                             <div className="div-odd">
                               <div className="label-style">
-                                work allocation id
+                                Requisition Date
                               </div>
-                              <div>{workAllocationID}</div>
+                              {""}
                             </div>
                             <div className="div-even">
                               <div className="label-style">District</div>
@@ -503,20 +522,6 @@ const Employment = () => {
                             <div className="div-odd">
                               <div className="label-style">Block</div>
                               {blockName}
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">Scheme Name</div>
-                              {schemeName}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">Contrator Id</div>
-                              {ControctorID}
-                            </div>
-                            <div className="div-even text-xs">
-                              <div className="label-style text-sm">
-                                Funding Department
-                              </div>
-                              {FundingDeptname}
                             </div>
                           </div>
                           <div className="w-1/2 flex flex-col rounded-r-xl">
@@ -566,6 +571,12 @@ const Employment = () => {
                                 Department
                               </div>
                               {deptName}
+                            </div>
+                            <div className="div-even text-xs">
+                              <div className="label-style text-sm">
+                                Funding Department
+                              </div>
+                              {FundingDeptname}
                             </div>
                           </div>
                         </div>

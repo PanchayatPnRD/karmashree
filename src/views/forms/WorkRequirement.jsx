@@ -427,8 +427,8 @@ const WorkRequirement = () => {
 
         to="work-requirement-list"
         isSuccess={true}
-      // isSuccess={true}
-      // userCreate={false}
+        // isSuccess={true}
+        // userCreate={false}
       />
       <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
         <ToastContainer />
@@ -458,6 +458,7 @@ const WorkRequirement = () => {
             </ol>
           </nav>
         </div>
+        <div className="flex text-red-500">Requisition for workers shall be made atleast 7 days prior to start of work</div>
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
           <div className="flex w-full space-x-4 mb-6">
             <div className="px-4">
@@ -600,6 +601,10 @@ const WorkRequirement = () => {
                 >
                   Scheme List
                   <span className="text-red-500 "> * </span>
+                  <span className="text-green-500 font-bold">
+                    (List of Schemes for which Work Order details have been
+                    provided)
+                  </span>
                 </label>
                 <select
                   name=""
@@ -630,7 +635,7 @@ const WorkRequirement = () => {
                   disabled
                   placeholder="Please Enter Village Name"
                   className="w-full rounded-md border-zinc-300 disabled-input"
-                // onChange={onVillageName}
+                  // onChange={onVillageName}
                 />
               </div>
               <div className="px-4 w-1/4">
@@ -699,7 +704,7 @@ const WorkRequirement = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Reporting Place
+                  Reporting Place of Workers
                   <span className="text-red-500 "> * </span>
                 </label>
                 <input

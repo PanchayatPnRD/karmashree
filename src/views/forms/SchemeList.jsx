@@ -62,6 +62,19 @@ const SchemeList = () => {
       headClass: "cursor-pointer normal-case",
     },
     {
+      header: "Scheme Name",
+      accessorKey: "schemeName",
+      headClass: "cursor-pointer normal-case",
+      // sortingFn: "id",
+    },
+    {
+      header: "Funding Department",
+      accessorKey: "FundingDeptname",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
       header: "District",
       accessorKey: "districtName",
       headClass: "cursor-pointer normal-case",
@@ -87,22 +100,59 @@ const SchemeList = () => {
       // sortingFn: "id",
     },
     {
-      header: "Scheme Name",
-      accessorKey: "schemeName",
-      headClass: "cursor-pointer normal-case",
-      // sortingFn: "id",
-    },
-    {
       header: "Contractor Name",
       accessorKey: "ControctorID",
       headClass: "cursor-pointer normal-case",
-      cell:({ row }) =>
-        allContractorList.find(c => c.cont_sl === row.original.ControctorID)?.contractorNameGst
+      cell: ({ row }) =>
+        allContractorList.find((c) => c.cont_sl === row.original.ControctorID)
+          ?.contractorNameGst,
       // sortingFn: "id",
     },
     {
       header: "Project Cost",
       accessorKey: "totalprojectCost",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    // {
+    //   header: "Total Unskilled workers",
+    //   // accessorKey: "totalprojectCost",
+    //   headClass: "cursor-pointer normal-case",
+    //   // cell: ({ row }) => row.index + 1,
+    //   // sortingFn: "id",
+    // },
+    {
+      header: "Estimated No of Workers",
+      // accessorKey: "totalprojectCost",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "Estimated No of Mandays",
+      // accessorKey: "totalprojectCost",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "Estimated Wage Cost",
+      // accessorKey: "totalprojectCost",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "No of Workers Engaged",
+      // accessorKey: "totalprojectCost",
+      headClass: "cursor-pointer normal-case",
+      // cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+    },
+    {
+      header: "No of Mandays Provided",
+      // accessorKey: "totalprojectCost",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
@@ -114,21 +164,15 @@ const SchemeList = () => {
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
-    
+
     {
-      header: "Engaged For No. Of Days(MGNREGA WORKERS)",
-      headClass: "cursor-pointer normal-case",
+      header: "Avg. Mandays provided per household",
+      headClass: "cursor-pointer capitalize",
       className: "text-center",
       cell: ({ row }) => "---",
       // sortingFn: "id",
     },
-    {
-      header: "Funding Department",
-      accessorKey: "FundingDeptname",
-      headClass: "cursor-pointer normal-case",
-      // cell: ({ row }) => row.index + 1,
-      // sortingFn: "id",
-    },
+
     {
       header: "Action",
       headClass: "cursor-pointer normal-case",

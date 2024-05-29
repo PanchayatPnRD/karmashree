@@ -59,6 +59,16 @@ const DemandList = () => {
       //demanduniqueID
     },
     {
+      header: "Worker Job-Card No",
+      accessorKey: "workerJobCardNo",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Worker Name",
+      accessorKey: "workerName",
+      headclass: "cursor-pointer",
+    },
+    {
       header: "District",
       accessorKey: "districtName",
       headClass: "cursor-pointer",
@@ -90,34 +100,25 @@ const DemandList = () => {
       cell: ({ row }) =>
         row.original.gpName == "" ? "-" : row.original.gpName,
     },
-    {
-      header: "Worker JobCard No",
-      accessorKey: "workerJobCardNo",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Worker Name",
-      accessorKey: "workerName",
-      headclass: "cursor-pointer",
-    },
+
     {
       header: "Mobile No",
       accessorKey: "mobileNo",
       headclass: "cursor-pointer",
     },
     {
-      header: "Worker Age",
+      header: "Age",
       accessorKey: "age",
       headclass: "cursor-pointer",
     },
 
     {
-      header: "Date Of Application For Work",
+      header: "Date of Application for Work",
       accessorKey: "dateOfApplicationForWork",
       headclass: "cursor-pointer",
     },
     {
-      header: "No Of Days Work Demanded",
+      header: "No of Days Demanded",
       accessorKey: "noOfDaysWorkDemanded",
       headclass: "cursor-pointer",
     },

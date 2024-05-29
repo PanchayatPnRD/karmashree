@@ -306,7 +306,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !demandHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Worker Demand"}>
+        <SidebarExpand text={"Demand Register"}>
           {sideBarList
             .slice(14, 16)
             .filter((e) => e.permissions.includes(userRoleIndex))
