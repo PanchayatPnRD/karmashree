@@ -172,6 +172,18 @@ export const sideBarList = [
 
 export const Sidebar = () => {
   const userMasterHidden = [17, 23, 29, 30, 31, 32, 33, 34, 35];
+  const MasterHidden = [
+    7, 12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
+  ];
+  const actionPlanHidden = [
+    12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
+  ];
+  const contractorHidden = [ 7, 30, 31, 32, 33, 34, 35];
+  const schemeHidden = [1, 7, 30, 31, 32, 33, 34, 35];
+  const demandHidden = [1, 7];
+  const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
+  const allocationHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
+  const employmentHidden = [1, 7, 30, 31, 32, 33, 34, 35];
 
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
@@ -193,12 +205,12 @@ export const Sidebar = () => {
 
   return (
     <div className="z-20 flex flex-col p-3">
-      <SidebarElement to="/dashboard" customCss={"flex justify-center "}>
-        <div className=" items-center py-2 capitalize">Home</div>
+      <SidebarElement to="/dashboard" customCss={"flex justify-start pl-10 "}>
+        <div className=" items-start py-2 capitalize">Home</div>
       </SidebarElement>
       <div className="h-2"></div>
       {isSuccess && !userMasterHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"User Master"}>
+        <SidebarExpand text={"User Creation"}>
           {sideBarList
             .slice(1, 5)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -217,9 +229,161 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
 
-      {isSuccess &&
+      {isSuccess && !MasterHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Master Entry"}>
+          {sideBarList
+            .slice(5, 8)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !actionPlanHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Action Plan Master"}>
+          {sideBarList
+            .slice(8, 10)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !contractorHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Contractor Master"}>
+          {sideBarList
+            .slice(10, 12)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !schemeHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Scheme Master"}>
+          {sideBarList
+            .slice(12, 14)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !demandHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Worker Demand"}>
+          {sideBarList
+            .slice(14, 16)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !requirementHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Worker Requisition"}>
+          {sideBarList
+            .slice(16, 18)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !allocationHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Allocation"}>
+          {sideBarList
+            .slice(18, 20)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {isSuccess && !employmentHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Employment"}>
+          {sideBarList
+            .slice(20, 22)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
+      {/* {isSuccess &&
         sideBarList
-          .slice(5, sideBarList.length)
+          .slice(18, sideBarList.length)
           .filter((e) => e.permissions.includes(userRoleIndex))
           .map((e) => {
             return (
@@ -231,7 +395,7 @@ export const Sidebar = () => {
                 <div className=" items-center capitalize">{e.text}</div>
               </SidebarElement>
             );
-          })}
+          })} */}
     </div>
   );
 };
