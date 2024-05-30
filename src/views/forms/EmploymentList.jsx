@@ -118,11 +118,21 @@ const EmploymentList = () => {
       header: "Allocation From Date",
       accessorKey: "workAllocationFromDate",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.workAllocationFromDate).toLocaleDateString(
+          "en-IN",
+          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
+        ),
     },
     {
       header: "Allocation To Date",
       accessorKey: "workAllocationToDate",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.workAllocationToDate).toLocaleDateString(
+          "en-IN",
+          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
+        ),
     },
     {
       header: "no Of Days WorkAlloted",
