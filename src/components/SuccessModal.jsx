@@ -9,7 +9,7 @@ const SuccessModal = ({
   setOpenModal,
   openModal,
   isSuccess,
-  errorMsg,
+  error,
   message,
 }) => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const SuccessModal = ({
               isSuccess ? "bg-green-400" : "bg-red-400"
             )}
           >
-            {isSuccess ? "Success" : "Error"}
+            {isSuccess ? "Success" : error ?? "Error"}
           </h1>
           <div className="space-y-6 px-12 p-6">
             {isSuccess && message !== undefined ? (

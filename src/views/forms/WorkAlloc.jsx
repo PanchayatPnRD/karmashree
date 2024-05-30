@@ -5,7 +5,7 @@ import { devApi } from "../../WebApi/WebApi";
 import { updateVal } from "../../functions/updateVal";
 import SuccessModal from "../../components/SuccessModal";
 import { useState, useEffect, useMemo } from "react";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation, QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,6 +25,8 @@ import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
+  const queryClient = useQueryClient()
+  const [isDemand, setIsDemand] = useState(false);
   const [workersl, setWorkersl] = useState();
   const [schemeId, setSchemeId] = useState();
   const [reqId, setReqId] = useState();
@@ -136,6 +138,18 @@ const WorkAlloc = () => {
     const arr = data?.filter((e) => e.workersl == workersl);
     if (arr) return arr[0];
   }, [reqId]);
+
+  const is_demand = useMemo(() => {
+    if (schemeId == undefined)
+      return schemeId
+
+    return filteredData?.totalUnskilledWorkers != demandData?.length;
+
+  }, [filteredData, schemeId]);
+
+  useEffect(() => {
+    setIsDemand(is_demand)
+  }, [is_demand])
 
   const AllocAPIData = useMemo(() => {
     const array = allocData.map((e, index) => {
@@ -270,7 +284,7 @@ const WorkAlloc = () => {
 
     {
       header: "Contact Person",
-      accessorKey: "",
+      accessorKey: "contactPersonName",
       headclass: "cursor-pointer",
     },
     {
@@ -280,7 +294,7 @@ const WorkAlloc = () => {
     },
     {
       header: "Reporting Place",
-      accessorKey: "",
+      accessorKey: "reportingPlace",
       headclass: "cursor-pointer",
     },
     {
@@ -345,6 +359,12 @@ const WorkAlloc = () => {
     });
   };
 
+  const daysSum = useMemo(() => {
+    const arr = AllocAPIData.map((e) => e.noOfDaysWorkAlloted);
+    return arr.reduce((a, b) => a + b, 0);
+    
+  }, [AllocAPIData]);
+
   const {
     data: allocationId,
     mutate,
@@ -382,6 +402,8 @@ const WorkAlloc = () => {
     personDaysGenerated,
     FundingDeptname,
   } = filteredData ?? {};
+
+
 
   return (
     <>
@@ -523,6 +545,14 @@ const WorkAlloc = () => {
           )}
           {schemeId !== undefined && (
             <>
+              <SuccessModal
+                openModal={isDemand}
+                setOpenModal={setIsDemand}
+                message={`Not Enough Required Unskilled workers`}
+                error={"message"}
+                // resetData={resetData}
+                isSuccess={false}
+              />
               <div className="flex flex-col space-y-8 px-4">
                 <div className="px-24">
                   <div className="flex flex-col border-2 rounded-xl overflow-hidden shadow-md">
@@ -564,11 +594,13 @@ const WorkAlloc = () => {
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Total Unskilled Workers</div>
-                      {totalUnskilledWorkers}
+                      {totalUnskilledWorkers} <span className="w-12" />
+                      {AllocAPIData.length}
                     </div>
                     <div className="div-even">
                       <div className="label-style">Total No of Days</div>
                       {noOfDays}
+                      <span className="w-12" />{daysSum}
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Total Persandays</div>
@@ -756,14 +788,16 @@ const WorkAlloc = () => {
                       setSchemeId(undefined);
                       setReqId(undefined);
                       setWorkersl(undefined);
+                      queryClient.resetQueries({ queryKey: ["demandData"] });
                     }}
                   >
                     Back
                   </button>
                   <button
                     type="button"
-                    className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
                     onClick={mutate}
+                    disabled={!isDemand}
                   >
                     Submit
                   </button>

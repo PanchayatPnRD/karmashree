@@ -430,7 +430,7 @@ const WorkRequirement = () => {
         // isSuccess={true}
         // userCreate={false}
       />
-      <div className="flex flex-grow flex-col space-y-16 p-1 px-12">
+      <div className="flex flex-grow flex-col space-y-8 p-1 px-12">
         <ToastContainer />
         <div className="p-4 shadow-md rounded">
           <nav aria-label="Breadcrumb">
@@ -458,7 +458,12 @@ const WorkRequirement = () => {
             </ol>
           </nav>
         </div>
-        <div className="flex text-red-500">Requisition for workers shall be made atleast 7 days prior to start of work</div>
+        <div className="flex justify-center">
+          <span className="rounded-full px-2 animate-pulse text-sm  text-white bg-red-600">
+            Requisition for workers shall be made atleast 7 days prior to start
+            of work
+          </span>
+        </div>
         <div className="bg-white shadow-md rounded-lg px-12 pb-12">
           <div className="flex w-full space-x-4 mb-6">
             <div className="px-4">
@@ -601,7 +606,7 @@ const WorkRequirement = () => {
                 >
                   Scheme List
                   <span className="text-red-500 "> * </span>
-                  <span className="text-green-500 font-bold">
+                  <span className="text-green-500 font-bold animate-pulse">
                     (List of Schemes for which Work Order details have been
                     provided)
                   </span>
