@@ -121,7 +121,7 @@ export const addCreateScheme = async (
                 "ActualtartDate": ActualtartDate,
                 "ExpectedCompletionDate": ExpectedCompletionDate,
                 "totalprojectCost": totalprojectCost,
-                "totalWageCost": totalWageCost,
+                "totalwagescostinvoled": totalWageCost,
                 "totalLabour": totalLabour,
                 "personDaysGenerated": personDaysGenerated,
                 "totalUnskilledWorkers": totalUnskilledWorkers,
