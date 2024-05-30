@@ -27,6 +27,11 @@ export const getAllBlockList = async (districtId, blockCode) => {
     );
 }
 
+export const getAllBlockListbySub = async (districtId, subdivId) => {
+    console.log(districtId, subdivId,"districtId, subdivId")
+    return await webApi.get(`/api/mastertable/getBlockbydistandsub/${parseInt(districtId)}/${parseInt(subdivId)}`,
+    );
+}
 export const getAllDesignationList = async (category) => {
     return await webApi.get(`/api/mastertable/Getdesignation/${"HQ"}`,
     );
