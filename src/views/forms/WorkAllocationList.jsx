@@ -58,10 +58,10 @@ const WorkAllocationList = () => {
     },
     {
       header: "Allocation Date",
-      accessorKey: "submitTime",
+      accessorKey: "workAllocationToDate",
       headclass: "cursor-pointer",
       cell: ({ row }) =>
-        new Date(row.original.submitTime).toLocaleDateString("en-IN", {
+        new Date(row.original.workAllocationToDate).toLocaleDateString("en-IN", {
           month: "2-digit",
           day: "2-digit",
           year: "numeric",
@@ -85,10 +85,10 @@ const WorkAllocationList = () => {
     },
     {
       header: "Block",
-      accessorKey: "blockname",
+      accessorKey: "blockName",
       headclass: "cursor-pointer",
       cell: ({ row }) =>
-        row.original.blockname == "" ? "-" : row.original.blockname,
+        row.original.blockName == "" ? "-" : row.original.blockName,
     },
     {
       header: "GP",
@@ -96,36 +96,36 @@ const WorkAllocationList = () => {
       headclass: "cursor-pointer",
       className: "whitespace-nowrap",
     },
-    {
-      header: "Worker JobCard No",
-      accessorKey: "workerJobCardNo",
-      headclass: "cursor-pointer whitespace-nowrap",
-      className: "whitespace-nowrap",
-    },
-    {
-      header: "Worker Name",
-      accessorKey: "workerName",
-      headclass: "cursor-pointer whitespace-nowrap",
-      className: "whitespace-nowrap",
-    },
+    // {
+    //   header: "Worker JobCard No",
+    //   accessorKey: "workerJobCardNo",
+    //   headclass: "cursor-pointer whitespace-nowrap",
+    //   className: "whitespace-nowrap",
+    // },
+    // {
+    //   header: "Worker Name",
+    //   accessorKey: "workerName",
+    //   headclass: "cursor-pointer whitespace-nowrap",
+    //   className: "whitespace-nowrap",
+    // },
     {
       header: "Scheme Name",
-      accessorKey: "schemeName",
+      accessorKey: "schName",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
     },
 
-    {
-      header: "Date Of Application For Work",
-      accessorKey: "dateOfApplicationForWork",
-      headclass: "cursor-pointer whitespace-nowrap",
-      className: "whitespace-nowrap",
-      cell: ({ row }) =>
-        new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
-          "en-IN",
-          { month: "2-digit", day: "2-digit", year: "numeric" }
-        ),
-    },
+    // {
+    //   header: "Date Of Application For Work",
+    //   accessorKey: "dateOfApplicationForWork",
+    //   headclass: "cursor-pointer whitespace-nowrap",
+    //   className: "whitespace-nowrap",
+    //   cell: ({ row }) =>
+    //     new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
+    //       "en-IN",
+    //       { month: "2-digit", day: "2-digit", year: "numeric" }
+    //     ),
+    // },
     {
       header: "No Of Days Work Demanded",
       accessorKey: "noOfDaysWorkDemanded",

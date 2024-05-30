@@ -5,7 +5,12 @@ import { devApi } from "../../WebApi/WebApi";
 import { updateVal } from "../../functions/updateVal";
 import SuccessModal from "../../components/SuccessModal";
 import { useState, useEffect, useMemo } from "react";
-import { useQuery, useQueryClient, useMutation, QueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useMutation,
+  QueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,7 +30,7 @@ import classNames from "classnames";
 import { addAllocation } from "../../Service/workAllocation/workAllocationService";
 import { getSchemeList } from "../../Service/Scheme/SchemeService";
 const WorkAlloc = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const [isDemand, setIsDemand] = useState(false);
   const [workersl, setWorkersl] = useState();
   const [schemeId, setSchemeId] = useState();
@@ -78,7 +83,7 @@ const WorkAlloc = () => {
       const data = await fetch.get(
         "/api/allocation/demandslistforallocation/" + schemeId
       );
-      console.log(Array.isArray(data.data.result), "array");
+      // console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
     },
     staleTime: 0,
@@ -140,16 +145,14 @@ const WorkAlloc = () => {
   }, [reqId]);
 
   const is_demand = useMemo(() => {
-    if (schemeId == undefined)
-      return schemeId
-
+    if (schemeId == undefined) return false;
+    // console.log(filteredData?.totalUnskilledWorkers,demandData?.length,"is_demand");
     return filteredData?.totalUnskilledWorkers != demandData?.length;
-
   }, [filteredData, schemeId]);
 
   useEffect(() => {
-    setIsDemand(is_demand)
-  }, [is_demand])
+    setIsDemand(is_demand);
+  }, [is_demand]);
 
   const AllocAPIData = useMemo(() => {
     const array = allocData.map((e, index) => {
@@ -176,7 +179,6 @@ const WorkAlloc = () => {
         return {
           schemeId: schemeDataId,
           schemeName: "asdfdsf",
-          
 
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .schemeName,
@@ -362,7 +364,6 @@ const WorkAlloc = () => {
   const daysSum = useMemo(() => {
     const arr = AllocAPIData.map((e) => e.noOfDaysWorkAlloted);
     return arr.reduce((a, b) => a + b, 0);
-    
   }, [AllocAPIData]);
 
   const {
@@ -402,8 +403,6 @@ const WorkAlloc = () => {
     personDaysGenerated,
     FundingDeptname,
   } = filteredData ?? {};
-
-
 
   return (
     <>
@@ -594,13 +593,19 @@ const WorkAlloc = () => {
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Total Unskilled Workers</div>
-                      {totalUnskilledWorkers} <span className="w-12" />
+                      {totalUnskilledWorkers}{" "}
+                      <span className="w-fit mx-32 mr-6">
+                        Total Unskilled Workers Provided
+                      </span>
                       {AllocAPIData.length}
                     </div>
                     <div className="div-even">
                       <div className="label-style">Total No of Days</div>
                       {noOfDays}
-                      <span className="w-12" />{daysSum}
+                      <span className="w-fit mx-32 mr-6">
+                        Total No of Days Provided
+                      </span>
+                      {daysSum}
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Total Persandays</div>
@@ -608,9 +613,9 @@ const WorkAlloc = () => {
                     </div>
                   </div>
                 </div>
-                <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar shadow-md">
+                <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                   <Table className="">
-                    <Table.Head>
+                    <Table.Head className="sticky top-0">
                       <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
                         #
                       </Table.HeadCell>
@@ -648,7 +653,8 @@ const WorkAlloc = () => {
                         No of Days (Work Allocated)
                       </Table.HeadCell>
                     </Table.Head>
-                    <Table.Body className="divide-y">
+
+                    <Table.Body className="divide-y ">
                       {allocData?.map(
                         (
                           {

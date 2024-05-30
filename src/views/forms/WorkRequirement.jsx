@@ -459,7 +459,7 @@ const WorkRequirement = () => {
           </nav>
         </div>
         <div className="flex justify-center">
-          <span className="rounded-full px-2 animate-pulse text-sm  text-white bg-red-600">
+          <span className="rounded-full px-3 py-[2px] bg-red-200/80 animate-bounce font-bold text-sm text-red-700">
             Requisition for workers shall be made atleast 7 days prior to start
             of work
           </span>
