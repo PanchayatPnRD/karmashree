@@ -487,96 +487,104 @@ const Employment = () => {
                   {workAllocationId.length > 0 && (
                     <>
                       <div className="">
-                        <div className=" mb-12 mx-2 flex rounded-xl shadow-md">
-                          <div className="w-1/2 flex flex-col rounded-l-xl">
+                        <div className=" mb-12 mx-2 flex-col rounded-xl shadow-md">
+                          <div>
                             <div className="div-even">
                               <div className="label-style">Scheme Name</div>
                               {schemeName}
                             </div>
-                            <div className="div-odd">
-                              <div className="label-style">allocation id</div>
-                              <div>{workAllocationID}</div>
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">District</div>
-                              {districtName}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">Allocation Date</div>
-                              {""}
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">Requistion Id </div>
-                              {""}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">
-                                Requisition Date
-                              </div>
-                              {""}
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">District</div>
-                              {districtName}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">Block</div>
-                              {blockName}
-                            </div>
                           </div>
-                          <div className="w-1/2 flex flex-col rounded-r-xl">
-                            <div className="div-odd">
-                              <div className="label-style">work order no</div>
-                              {workorderNo}
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">
-                                tentative start date
+                          <div className="flex w-full">
+                            <div className="w-1/2 flex flex-col rounded-l-xl">
+                              <div className="div-odd">
+                                <div className="label-style">allocation id</div>
+                                <div>{workAllocationID}</div>
                               </div>
-                              {new Date(tentativeStartDate).toLocaleDateString(
-                                "en-IN",
-                                {
+                              <div className="div-even">
+                                <div className="label-style">District</div>
+                                {districtName}
+                              </div>
+                              <div className="div-odd">
+                                <div className="label-style">
+                                  Allocation Date
+                                </div>
+                                {""}
+                              </div>
+                              <div className="div-even">
+                                <div className="label-style">
+                                  Requistion Id{" "}
+                                </div>
+                                {""}
+                              </div>
+                              <div className="div-odd">
+                                <div className="label-style">
+                                  Requisition Date
+                                </div>
+                                {""}
+                              </div>
+                              <div className="div-even">
+                                <div className="label-style">District</div>
+                                {districtName}
+                              </div>
+                              <div className="div-odd">
+                                <div className="label-style">Block</div>
+                                {blockName}
+                              </div>
+                            </div>
+
+                            <div className="w-1/2 flex flex-col rounded-r-xl">
+                              <div className="div-odd">
+                                <div className="label-style">work order no</div>
+                                {workorderNo}
+                              </div>
+                              <div className="div-even">
+                                <div className="label-style">
+                                  tentative start date
+                                </div>
+                                {new Date(
+                                  tentativeStartDate
+                                ).toLocaleDateString("en-IN", {
                                   month: "2-digit",
                                   year: "numeric",
                                   day: "2-digit",
-                                }
-                              )}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">
-                                expected completion date
+                                })}
                               </div>
-                              {new Date(
-                                ExpectedCompletionDate
-                              ).toLocaleDateString("en-IN", {
-                                month: "2-digit",
-                                year: "numeric",
-                                day: "2-digit",
-                              })}
-                            </div>
-                            <div className="div-even">
-                              <div className="label-style">
-                                total no of work days allcoated
+                              <div className="div-odd">
+                                <div className="label-style">
+                                  expected completion date
+                                </div>
+                                {new Date(
+                                  ExpectedCompletionDate
+                                ).toLocaleDateString("en-IN", {
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  day: "2-digit",
+                                })}
                               </div>
-                              {noOfDaysWorkAlloted}
-                            </div>
-                            <div className="div-odd">
-                              <div className="label-style">
-                                total no of work days demanded
+                              <div className="div-even">
+                                <div className="label-style">
+                                  total no of work days allcoated
+                                </div>
+                                {noOfDaysWorkAlloted}
                               </div>
-                              {noOfDaysWorkDemanded}
-                            </div>
-                            <div className="div-even text-xs">
-                              <div className="label-style text-sm">
-                                Department
+                              <div className="div-odd">
+                                <div className="label-style">
+                                  total no of work days demanded
+                                </div>
+                                {noOfDaysWorkDemanded}
                               </div>
-                              {deptName}
-                            </div>
-                            <div className="div-even text-xs">
-                              <div className="label-style text-sm">
-                                Funding Department
+                              <div className="div-even text-xs">
+                                <div className="label-style text-sm">
+                                  Department
+                                </div>
+                                {deptName}
                               </div>
-                              {FundingDeptname}
+                              <div className="div-odd text-xs">
+                                <div className="label-style text-sm">
+                                  Funding Department
+                                </div>
+                                {FundingDeptname}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -603,20 +611,23 @@ const Employment = () => {
                               Total Days Work Allocated
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                              Employment Provided Date
+                              Worker Attendence
                             </Table.HeadCell>
-
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                              Employment Provided Date
+                              <span className="text-red-600"> *</span>
+                            </Table.HeadCell>
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Days Provided
+                              <span className="text-red-600"> *</span>
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Paymemt Date
+                              <span className="text-red-600"> *</span>
                             </Table.HeadCell>
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
-                            </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
-                              Worker Attendence
+                              <span className="text-red-600"> *</span>
                             </Table.HeadCell>
                           </Table.Head>
                           <Table.Body>
@@ -627,7 +638,7 @@ const Employment = () => {
                                   empProvidedTo,
                                   dateOfPayment,
                                   totalWagePaid,
-                                  workerAttendence,
+                                  attandance,
                                 },
                                 index
                               ) => (
@@ -661,6 +672,23 @@ const Employment = () => {
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
                                     {empList[index].noOfDaysWorkAlloted}
+                                  </Table.Cell>
+                                  <Table.Cell className="py-1">
+                                    <select
+                                      id="scheme_name"
+                                      value={attandance}
+                                      name="attandance"
+                                      autoComplete="off"
+                                      className="rounded-lg border-zinc-300"
+                                      onChange={(e) =>
+                                        updateVal(e, index, empData, setEmpData)
+                                      }
+                                    >
+                                      <option value="Present" selected>
+                                        Present
+                                      </option>
+                                      <option value="Absent">Absent</option>
+                                    </select>
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
                                     <div className="flex items-center space-x-2">
@@ -762,31 +790,16 @@ const Employment = () => {
                                   </Table.Cell>
                                   <Table.Cell className="py-1">
                                     <input
+                                      disabled={
+                                        attandance === "Absent" ?? false
+                                      }
                                       name="totalWagePaid"
                                       type="text"
-                                      className="rounded-lg border-zinc-300"
+                                      className="rounded-lg border-zinc-300 disabled:bg-red-100 disabled:cursor-not-allowed"
                                       onChange={(e) =>
                                         updateVal(e, index, empData, setEmpData)
                                       }
                                     />
-                                  </Table.Cell>
-
-                                  <Table.Cell className="py-1">
-                                    <select
-                                      id="scheme_name"
-                                      value={workerAttendence}
-                                      name="workerAttendence"
-                                      autoComplete="off"
-                                      className="rounded-lg border-zinc-300"
-                                      onChange={(e) =>
-                                        updateVal(e, index, empData, setEmpData)
-                                      }
-                                    >
-                                      <option value="Present" selected>
-                                        Present
-                                      </option>
-                                      <option value="Absent">Absent</option>
-                                    </select>
                                   </Table.Cell>
                                 </Table.Row>
                               )
