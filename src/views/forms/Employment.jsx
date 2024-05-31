@@ -165,6 +165,8 @@ const Employment = () => {
     noOfDaysWorkDemanded,
     ExpectedCompletionDate,
     demanduniqueID,
+    totalprojectCost,
+    submitTime,
   } = filteredData ?? {};
 
   const ListOptions = [5, 10, 15, "all"];
@@ -192,17 +194,37 @@ const Employment = () => {
         row.original.blockName ? row.original.blockName : "-",
     },
     {
-      header: "Scheme Name",
+      header: "Scheme Name/Id",
       accessorKey: "schemeName",
       cell: ({ row }) =>
         row.original.schemeName ? row.original.schemeName : "-",
     },
     {
-      header: "Contractor ID",
-      accessorKey: "ControctorID",
-      cell: ({ row }) =>
-        row.original.ControctorID ? row.original.ControctorID : "-",
+      header: "Requistion Id",
     },
+    {
+      header: "Requistion Date",
+    },
+    {
+      header: "Allocation Id",
+      accessorKey: "workAllocationID",
+    },
+    {
+      header: "Allocation Date",
+      accessorKey: "submitTime",
+      cell: ({ row }) =>
+        new Date(row.original.submitTime).toLocaleDateString("en-IN", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }),
+    },
+    // {
+    //   header: "Contractor ID",
+    //   accessorKey: "ControctorID",
+    //   cell: ({ row }) =>
+    //     row.original.ControctorID ? row.original.ControctorID : "-",
+    // },
     {
       header: "Funding Department",
       accessorKey: "FundingDeptname",
@@ -229,7 +251,7 @@ const Employment = () => {
       header: "no of days as per allocation",
       accessorKey: "noOfDaysWorkAlloted",
     },
-    
+
     // {
     //   header: "expected completion date",
     //   accessorKey: "ExpectedCompletionDate",
@@ -490,9 +512,11 @@ const Employment = () => {
                       <div className="">
                         <div className=" mb-12 mx-2 flex-col rounded-xl shadow-md">
                           <div>
-                            <div className="div-even">
-                              <div className="label-style">Scheme Name</div>
-                              {schemeName}
+                            <div className="div-even ">
+                              <div className="label-style w-[30%]">
+                                Scheme Id and Name
+                              </div>
+                              [schemeCode]-{schemeName}
                             </div>
                           </div>
                           <div className="flex w-full">
@@ -502,18 +526,25 @@ const Employment = () => {
                                 <div>{workAllocationID}</div>
                               </div>
                               <div className="div-even">
-                                <div className="label-style">District</div>
-                                {districtName}
+                                <div className="label-style">Project Cost</div>
+                                {totalprojectCost}
                               </div>
                               <div className="div-odd">
                                 <div className="label-style">
                                   Allocation Date
                                 </div>
-                                {""}
+                                {new Date(submitTime).toLocaleDateString(
+                                  "en-IN",
+                                  {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  }
+                                )}
                               </div>
                               <div className="div-even">
                                 <div className="label-style">
-                                  Requistion Id{" "}
+                                  Requistion Id
                                 </div>
                                 {""}
                               </div>
@@ -817,7 +848,7 @@ const Employment = () => {
                             setEmpData([]);
                           }}
                         >
-                          back
+                          Back
                         </button>
                         <button
                           type="button"

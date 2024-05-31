@@ -147,7 +147,7 @@ const WorkAlloc = () => {
   const is_demand = useMemo(() => {
     if (schemeId == undefined) return false;
     // console.log(filteredData?.totalUnskilledWorkers,demandData?.length,"is_demand");
-    return filteredData?.totalUnskilledWorkers != demandData?.length;
+    return filteredData?.totalUnskilledWorkers > demandData?.length;
   }, [filteredData, schemeId]);
 
   useEffect(() => {
@@ -803,7 +803,7 @@ const WorkAlloc = () => {
                     type="button"
                     className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
                     onClick={mutate}
-                    disabled={!isDemand}
+                    disabled={is_demand}
                   >
                     Submit
                   </button>
