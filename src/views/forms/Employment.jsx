@@ -116,6 +116,7 @@ const Employment = () => {
         userIndex,
         submitTime,
         UpdateTime,
+        demanduniqueID,
         ...rest
       } = empList[idx];
       if (totalWagePaid.length > 0)
@@ -124,6 +125,7 @@ const Employment = () => {
           ...emp,
           schemeSector: 23,
           userIndex: userIndex,
+          demandid: demanduniqueID,
           // dateOfPayment: new Date().toLocaleDateString("fr-CA"),
           finYear: getCurrentFinancialYear().financialYear,
           totalWagePaid: +totalWagePaid,
@@ -543,9 +545,7 @@ const Employment = () => {
                                 )}
                               </div>
                               <div className="div-even">
-                                <div className="label-style">
-                                  Requistion Id
-                                </div>
+                                <div className="label-style">Requistion Id</div>
                                 {""}
                               </div>
                               <div className="div-odd">

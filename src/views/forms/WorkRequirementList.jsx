@@ -106,13 +106,11 @@ const WorkRequirementList = () => {
     },
     {
       header: "Start Date",
-      accessorKey: "dateofwork",
+      accessorKey: "fromDate",
       className: "text-center",
       headclass: "cursor-pointer",
       cell: ({ row }) =>
-        row.original.dateofwork == null
-          ? "-"
-          : new Date(row.original.dateofwork).toLocaleDateString("en-IN", {
+         new Date(row.original.fromDate).toLocaleDateString("en-IN", {
               month: "2-digit",
               day: "2-digit",
               year: "numeric",
