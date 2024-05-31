@@ -164,6 +164,7 @@ const Employment = () => {
     noOfDaysWorkAlloted,
     noOfDaysWorkDemanded,
     ExpectedCompletionDate,
+    demanduniqueID,
   } = filteredData ?? {};
 
   const ListOptions = [5, 10, 15, "all"];
