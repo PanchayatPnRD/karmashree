@@ -159,7 +159,7 @@ const WorkAlloc = () => {
       const {
         demandsl,
         schemeArea,
-        schemeId  ,
+        schemeId,
         ex1,
         ex2,
         ex3,
@@ -221,6 +221,21 @@ const WorkAlloc = () => {
       // sortingFn: "id",
     },
     {
+      header: "Status",
+      cell: ({ row }) => (
+        <span
+          className={classNames(
+            "rounded-full px-2 py-[2px]  animate-pulse font-bold text-sm",
+            row.original.allocationID
+              ? "text-green-700 bg-green-200/80"
+              : "text-red-700 bg-red-200/80"
+          )}
+        >
+          {row.original.allocationID ? "Allocated" : "Not Allocated"}
+        </span>
+      ),
+    },
+    {
       header: "Financial Year",
       accessorKey: "finYear",
       headclass: "cursor-pointer",
@@ -246,6 +261,7 @@ const WorkAlloc = () => {
       accessorKey: "deptName",
       headclass: "cursor-pointer",
     },
+
     {
       header: "Funding Department",
       accessorKey: "FundingDeptname",
@@ -253,7 +269,7 @@ const WorkAlloc = () => {
     },
     {
       header: "Scheme Id",
-      accessorKey: "schemeId",
+      accessorKey: "scheme_Id",
       headclass: "cursor-pointer",
     },
     {
@@ -392,6 +408,7 @@ const WorkAlloc = () => {
     gpName,
     personDaysGenerated,
     FundingDeptname,
+    SubmitTime,
   } = filteredData ?? {};
 
   return (
@@ -512,14 +529,23 @@ const WorkAlloc = () => {
 
                         <Table.Cell className="font-medium  text-white text-sm py-1">
                           <button
-                            className="flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
+                            className="disabled:cursor-not-allowed disabled:bg-slate-400 flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
                             onClick={() => {
                               setScheme_Sl(row.original.workCodeSchemeID);
                               setContractorId(row.original.ContractorID);
                               setReqId(row.original.workerreqID);
-                              setReqDate(row.original.dateofwork);
+                              setReqDate(
+                                new Date(
+                                  row.original.SubmitTime
+                                ).toLocaleDateString("fr-CA", {
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                })
+                              );
                               setWorkersl(row.original.workersl);
                             }}
+                            disabled={row.original.allocationID}
                           >
                             Allocate
                           </button>
@@ -786,6 +812,7 @@ const WorkAlloc = () => {
                       setScheme_Sl(undefined);
                       setReqId(undefined);
                       setWorkersl(undefined);
+                      setReqDate(undefined);
                       queryClient.resetQueries({ queryKey: ["demandData"] });
                     }}
                   >

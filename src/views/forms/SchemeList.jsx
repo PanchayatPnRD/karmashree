@@ -124,45 +124,67 @@ const SchemeList = () => {
     // },
     {
       header: "Estimated No of Workers",
-      // accessorKey: "totalprojectCost",
+      accessorKey: "totalUnskilledWorkers",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
     {
       header: "Estimated No of Mandays",
-      // accessorKey: "totalprojectCost",
+      accessorKey: "personDaysGenerated",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
     {
       header: "Estimated Wage Cost",
-      // accessorKey: "totalprojectCost",
+      accessorKey: "totalwagescostinvoled",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
     {
       header: "No of Workers Engaged",
-      // accessorKey: "totalprojectCost",
+      accessorKey: "totalLabourprovided",
       headClass: "cursor-pointer normal-case",
+      className: "text-center",
       // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
+      cell: ({ row }) =>
+        row.original.totalLabourprovided == "" ||
+        row.original.totalLabourprovided == null
+          ? "-"
+          : row.original.totalLabourprovided,
     },
     {
       header: "No of Mandays Provided",
-      // accessorKey: "totalprojectCost",
+      accessorKey: "personDaysGeneratedprovided",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
+
+      className: "text-center",
+      // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
+      cell: ({ row }) =>
+        row.original.personDaysGeneratedprovided == "" ||
+        row.original.personDaysGeneratedprovided == null
+          ? "-"
+          : row.original.personDaysGeneratedprovided,
     },
     {
       header: "Total Wages Paid till date",
-      accessorKey: "totalWageCost",
+      accessorKey: "totalCostprovided",
       headClass: "cursor-pointer normal-case",
       // cell: ({ row }) => row.index + 1,
+
+      className: "text-center",
+      // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
+      cell: ({ row }) =>
+        row.original.totalCostprovided == "" ||
+        row.original.totalCostprovided == null
+          ? "-"
+          : row.original.totalCostprovided,
     },
 
     {

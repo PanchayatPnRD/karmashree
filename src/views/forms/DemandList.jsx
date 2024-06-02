@@ -86,11 +86,11 @@ const DemandList = () => {
     },
     {
       header: "Block",
-      accessorKey: "blockname",
+      accessorKey: "blockName",
       headClass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.blockname == "" ? "-" : row.original.blockname,
+        row.original.blockName == "" ? "-" : row.original.blockName,
     },
     {
       header: "GP",
