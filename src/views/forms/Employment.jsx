@@ -155,6 +155,8 @@ const Employment = () => {
 
   const {
     workAllocationID,
+    workerreqID,
+    submitTimereq,
     districtName,
     blockName,
     schemeName,
@@ -203,10 +205,27 @@ const Employment = () => {
     },
     {
       header: "Requistion Id",
+      accessorKey: "workerreqID",
+      cell: ({ row }) =>
+        row.original.workerreqID ? row.original.workerreqID : "-",
     },
     {
-      header: "Requistion Date",
+      header: "Requisition Date",
+      accessorKey: "submitTimereq",
+      cell: ({ row }) => {
+        const submitTimereq = row.original.submitTimereq;
+        return submitTimereq
+          ? new Date(submitTimereq).toLocaleDateString("en-IN", {
+              month: "2-digit",
+              day: "2-digit",
+              year: "numeric",
+            })
+          : "--";
+      },
     },
+    
+      
+    
     {
       header: "Allocation Id",
       accessorKey: "workAllocationID",
@@ -546,13 +565,20 @@ const Employment = () => {
                               </div>
                               <div className="div-even">
                                 <div className="label-style">Requistion Id</div>
-                                {""}
+                                {workerreqID}
                               </div>
                               <div className="div-odd">
                                 <div className="label-style">
                                   Requisition Date
                                 </div>
-                                {""}
+                                {new Date(
+                                  submitTimereq
+                                ).toLocaleDateString("en-IN", {
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  day: "2-digit",
+                                })}
+                              
                               </div>
                               <div className="div-even">
                                 <div className="label-style">District</div>
