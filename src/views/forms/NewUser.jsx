@@ -504,7 +504,7 @@ const NewUser = () => {
         message={errorMessage?.message}
         isSuccess={errorMessage?.errorCode === 0 ? true : false}
         to="dept-userlist"
-      // isSuccess={true}
+        // isSuccess={true}
       />
       <ToastContainer />
       <div className="mx-auto mt-2">
@@ -593,10 +593,10 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-              userData?.category === "DIST" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "DIST" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -643,9 +643,9 @@ const NewUser = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                      userData?.category === "DIST" ||
-                      userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
                       ? districtListDropdown
                       : "Select a District"}
                   </option>
@@ -654,7 +654,7 @@ const NewUser = () => {
               </div>
             )}
             {(userData?.category === "HD" && district && area === "U") ||
-              (userData?.category === "DIST" && district && area === "U") ? (
+            (userData?.category === "DIST" && district && area === "U") ? (
               <div>
                 <label
                   htmlFor="scheme_name"
@@ -672,9 +672,9 @@ const NewUser = () => {
                   <option value="">Select Municipality List</option>
                   <option value="" selected hidden>
                     {userData?.category === "DEPT" ||
-                      userData?.category === "DIST" ||
-                      userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
                       ? municipalityListDropdown
                       : "Select a Municipality"}
                   </option>
@@ -736,9 +736,9 @@ const NewUser = () => {
             )} */}
 
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -756,11 +756,14 @@ const NewUser = () => {
                   onChange={onSubDivision}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 >
-                  {userData?.category === "DIST" ?
-                    <option value="">Select a sub-division</option> : ""}
+                  {userData?.category === "DIST" ? (
+                    <option value="">Select a sub-division</option>
+                  ) : (
+                    ""
+                  )}
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                      userData?.category === "BLOCK"
+                    userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -769,8 +772,8 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -788,8 +791,11 @@ const NewUser = () => {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onBlock}
                 >
-                  {userData?.category === "DIST" ?
-                    <option value="">Select a Block</option> : ""}
+                  {userData?.category === "DIST" ? (
+                    <option value="">Select a Block</option>
+                  ) : (
+                    ""
+                  )}
                   <option value="" selected hidden>
                     {userData?.category === "BLOCK"
                       ? blockDropdown
@@ -882,11 +888,11 @@ const NewUser = () => {
             </div>
 
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -913,11 +919,11 @@ const NewUser = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-              userData?.category === "HD" ||
-              userData?.category === "DEPT" ||
-              userData?.category === "DIST" ||
-              userData?.category === "SUB" ||
-              userData?.category === "BLOCK" ? (
+            userData?.category === "HD" ||
+            userData?.category === "DEPT" ||
+            userData?.category === "DIST" ||
+            userData?.category === "SUB" ||
+            userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -980,7 +986,13 @@ const NewUser = () => {
                 <option value="" selected hidden>
                   Select a role
                 </option>
-                {roleListDropdown}
+                <option value="1" selected={userData?.category == "HQ"} >Admin</option>
+                <option hidden={userData?.category == "HQ"} value="2">
+                  Operator
+                </option>
+                <option hidden={userData?.category == "HQ"} value="3">
+                  Project Implementing Agency(PIA)
+                </option>
               </select>
             </div>
             <div>
