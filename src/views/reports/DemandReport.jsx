@@ -12,10 +12,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
+
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
-const EmploymentList = () => {
+const DemandReport = () => {
+
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -46,13 +48,18 @@ const EmploymentList = () => {
       headclass: "cursor-pointer",
       // sortingFn: "id",
     },
+    // {
+    //   header: "Name of the Department",
+    //   accessorKey: "finYear",
+    //   headclass: "cursor-pointer",
+    // },
     {
-      header: "Financial Year",
+      header: "Total Districts",
       accessorKey: "finYear",
       headclass: "cursor-pointer",
     },
     {
-      header: "District",
+      header: "Total Blocks",
       accessorKey: "districtName",
       headclass: "cursor-pointer",
       className: "text-center",
@@ -60,7 +67,7 @@ const EmploymentList = () => {
         row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
-      header: "Municipality",
+      header: "Total Gps",
       accessorKey: "muniName",
       headclass: "cursor-pointer",
       className: "text-center",
@@ -68,7 +75,7 @@ const EmploymentList = () => {
         row.original.muniName == "" ? "-" : row.original.muniName,
     },
     {
-      header: "Block",
+      header: "Cumulative No of Job Card Holders Demand for Work",
       accessorKey: "blockname",
       headclass: "cursor-pointer",
       className: "text-center",
@@ -76,7 +83,7 @@ const EmploymentList = () => {
         row.original.blockname == "" ? "-" : row.original.blockname,
     },
     {
-      header: "GP",
+      header: "Cumulative No of Unskilled Workers demand for work",
       accessorKey: "gpName",
       headclass: "cursor-pointer",
       className: "text-center",
@@ -84,64 +91,43 @@ const EmploymentList = () => {
         row.original.gpName == "" ? "-" : row.original.gpName,
     },
     {
-      header: "Scheme Sector",
+      header: "Male",
       accessorKey: "sectorName",
       headclass: "cursor-pointer",
     },
     {
-      header: "Funding Department",
+      header: "Female",
+      accessorKey: "sectorName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "SC",
       accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
     {
-      header: "Executing Department",
-      accessorKey: "ExecutingDeptName",
+      header: "ST",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
     {
-      header: "Implementing Agency",
-      accessorKey: "ImplementingAgencyName",
+      header: "Minority",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
     {
-      header: "worker JobCard No",
-      accessorKey: "workerJobCardNo",
+      header: "Cumulative No of Mandays Demanded",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
     {
-      header: "worker Name ",
-      accessorKey: "workerName",
-      headclass: "cursor-pointer",
-    },
-
-    {
-      header: "Allocation From Date",
-      accessorKey: "workAllocationFromDate",
-      headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        new Date(row.original.workAllocationFromDate).toLocaleDateString(
-          "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
-        ),
-    },
-    {
-      header: "Allocation To Date",
-      accessorKey: "workAllocationToDate",
-      headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        new Date(row.original.workAllocationToDate).toLocaleDateString(
-          "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
-        ),
-    },
-    {
-      header: "no Of Days WorkAlloted",
-      accessorKey: "noOfDaysWorkAlloted",
+      header: "Cumulative No of Mandays Provided",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
     {
-      header: "total Wage Paid",
-      accessorKey: "totalWagePaid",
+      header: "Avg days of Employment provided / household",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
   ];
@@ -185,6 +171,7 @@ const EmploymentList = () => {
     return array;
   }
 
+
   return (
     <>
       <div className="bg-white rounded-lg p-12">
@@ -212,7 +199,7 @@ const EmploymentList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Employment List
+                    Demand Report
                   </li>
                 </ol>
               </nav>
@@ -222,109 +209,112 @@ const EmploymentList = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow p-8 px-12">
-          <div className=" flex justify-between px-2 items-center h-12">
-            <select
-              className="rounded-lg"
-              name=""
-              id=""
-              value={items}
-              onChange={(e) => setItems(e.target.value)}
+        <div className=" flex justify-between px-2 items-center h-12">
+          <select
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+          >
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "contractorList")
+              }
+              // onClick={rowToArray}
             >
-              {ListOptions.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-            <div className="h-full py-1">
-              <input
-                type="text"
-                value={filtering}
-                placeholder="search..."
-                className="border-2 rounded-lg border-zinc-400"
-                onChange={(e) => setFiltering(e.target.value)}
-              />
-              <button
-                className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-                onClick={() =>
-                  exportToExcel(rowToArray(), table, "contractorList")
-                }
-                // onClick={rowToArray}
-              >
-                XLSX
-              </button>
-              <button
-                className="border px-4 h-[42px] text-black rounded border-black"
-                onClick={() => exportToCSV(table, "contractorList")}
-                // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
-              >
-                CSV
-              </button>
-            </div>
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "contractorList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
           </div>
-          <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Table.Head key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.HeadCell
-                      key={header.id}
-                      className={classNames(
-                        header.column.columnDef.headclass,
-                        "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
-                      )}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div className="flex items-center space-x-2 justify-between">
-                          <span className="normal-case">
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </span>
-                          <SortIcon sort={header.column.getIsSorted()} />
-                        </div>
-                      )}
-                    </Table.HeadCell>
-                  ))}
-                  {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
-                </Table.Head>
-              ))}
-
-              <Table.Body className="divide-y">
-                {table.getRowModel().rows.map((row) => (
-                  <Table.Row key={row.id} className="divide-x">
-                    {row.getVisibleCells().map((cell) => (
-                      <Table.Cell
-                        key={cell.id}
-                        className={classNames(
-                          cell.column.columnDef.className,
-                          "whitespace-nowrap py-2 text-center"
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Table.Cell>
-                    ))}
-
-                    {/* <Table.Cell className="flex items-center justify-center space-x-8">
-                      <Icon
-                        icon={"mingcute:edit-line"}
-                        className="font-medium text-cyan-600 hover:underline text-2xl"
-                      />
-                    </Table.Cell> */}
-                  </Table.Row>
+        </div>
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headclass,
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2 justify-between">
+                        <span className="normal-case">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
                 ))}
-              </Table.Body>
-            </Table>
-          </div>
-          <Pagination data={data} table={table} />
+                {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
+              </Table.Head>
+            ))}
+
+            <Table.Body className="divide-y">
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id} className="divide-x">
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className={classNames(
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap py-2 text-center"
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
+
+                  {/* <Table.Cell className="flex items-center justify-center space-x-8">
+                    <Icon
+                      icon={"mingcute:edit-line"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    />
+                  </Table.Cell> */}
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+        <div className="text-md font-semibold opacity-70 text-center">
+          No data available
+        </div>
+        <Pagination data={data} table={table} />
       </div>
     </>
   );
 };
 
-export default EmploymentList;
+export default DemandReport;

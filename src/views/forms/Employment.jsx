@@ -21,7 +21,6 @@ import {
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
-import { renderToStaticMarkup } from "react-dom/server";
 
 const Employment = () => {
   const [openModal, setOpenModal] = useState();
@@ -51,7 +50,7 @@ const Employment = () => {
       ); // Absolute difference in milliseconds
       const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
 
-      return isNaN(daysDifference) ? 0 : daysDifference;
+      return isNaN(daysDifference) ? 0 : daysDifference + 1;
     });
   }, [empData]);
 
@@ -186,6 +185,23 @@ const Employment = () => {
       cell: ({ row }) => row.index + 1,
     },
     {
+      header: "Employment Status",
+      accessorKey: "empStatus",
+      headclass: "cursor-pointer",
+      cell: ({ row }) => (
+        <span
+          className={classNames(
+            "rounded-full px-2 py-[2px]  animate-pulse font-bold text-sm",
+            row.original.empStatus
+              ? "text-green-700 bg-green-200/80"
+              : "text-red-700 bg-red-200/80"
+          )}
+        >
+          {row.original.empStatus ? "Done" : "Pending"}
+        </span>
+      ),
+    },
+    {
       header: "District",
       accessorKey: "districtName",
       cell: ({ row }) =>
@@ -223,9 +239,7 @@ const Employment = () => {
           : "--";
       },
     },
-    
-      
-    
+
     {
       header: "Allocation Id",
       accessorKey: "workAllocationID",
@@ -464,25 +478,13 @@ const Employment = () => {
 
                                 <Table.Cell className="font-medium  text-white text-sm py-1 px-4  whitespace-nowrap">
                                   <button
-                                    className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1"
+                                    className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1 disabled:cursor-not-allowed disabled:bg-slate-400 "
+                                    disabled={row.original.allocationID}
                                     onClick={() => {
                                       setWorkAllocationId(
                                         row.original.workAllocationID
                                       );
-                                      // setInitialData({
-                                      //   totalWagePaid: "",
-                                      //   FundingDepttID:
-                                      //     row.original.FundingDepttID,
-                                      //   FundingDeptname:
-                                      //     row.original.FundingDeptname,
-                                      //   ExecutingDepttID:
-                                      //     row.original.ExecutingDepttID,
-                                      //   ExecutingDeptName:
-                                      //     row.original.ExecutingDeptName,
-                                      //   ImplementingAgencyID:
-                                      //     row.original.ImplementingAgencyID,
-                                      //   ImplementingAgencyName:
-                                      //     row.original.ImplementingAgencyName,
+
                                       // });
                                       setInitialData((e) => {
                                         const {
@@ -571,14 +573,14 @@ const Employment = () => {
                                 <div className="label-style">
                                   Requisition Date
                                 </div>
-                                {new Date(
-                                  submitTimereq
-                                ).toLocaleDateString("en-IN", {
-                                  month: "2-digit",
-                                  year: "numeric",
-                                  day: "2-digit",
-                                })}
-                              
+                                {new Date(submitTimereq).toLocaleDateString(
+                                  "en-IN",
+                                  {
+                                    month: "2-digit",
+                                    year: "numeric",
+                                    day: "2-digit",
+                                  }
+                                )}
                               </div>
                               <div className="div-even">
                                 <div className="label-style">District</div>

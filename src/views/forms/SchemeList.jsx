@@ -5,6 +5,7 @@ import { fetch } from "../../functions/Fetchfunctions";
 import { SortIcon } from "../../components/SortIcon";
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import {
   flexRender,
@@ -20,15 +21,16 @@ const SchemeList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   const [allContractorList, setAllContractorList] = useState([]);
 
-
   useEffect(() => {
     getAllContractorList().then(function (result) {
       const response = result?.data?.result;
       setAllContractorList(response);
     });
   }, []);
-// console.log(allContractorList,"allContractorList")
-  console.log(allContractorList.find(c => c.cont_sl === 1)?.contractorNameGst)
+  // console.log(allContractorList,"allContractorList")
+  console.log(
+    allContractorList.find((c) => c.cont_sl === 1)?.contractorNameGst
+  );
   const { data: schemeList } = useQuery({
     queryKey: ["schemeList"],
     queryFn: async () => {
@@ -194,14 +196,6 @@ const SchemeList = () => {
       cell: ({ row }) => "---",
       // sortingFn: "id",
     },
-
-    {
-      header: "Action",
-      headClass: "cursor-pointer normal-case",
-      className: "text-center",
-      cell: ({ row }) => "*",
-      // sortingFn: "id",
-    },
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -232,16 +226,16 @@ const SchemeList = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-    function rowToArray() {
-      let array = [];
-      table.getFilteredRowModel().rows.forEach((row) => {
-        const cells = row.getVisibleCells();
-        const values = cells.map((cell) => cell.getValue());
-        array.push(values);
-      });
+  function rowToArray() {
+    let array = [];
+    table.getFilteredRowModel().rows.forEach((row) => {
+      const cells = row.getVisibleCells();
+      const values = cells.map((cell) => cell.getValue());
+      array.push(values);
+    });
 
-      return array;
-    }
+    return array;
+  }
 
   return (
     <>
@@ -304,9 +298,7 @@ const SchemeList = () => {
             />
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-              onClick={() =>
-                exportToExcel(rowToArray(), table, "schemeList")
-              }
+              onClick={() => exportToExcel(rowToArray(), table, "schemeList")}
               // onClick={rowToArray}
             >
               XLSX
@@ -346,6 +338,9 @@ const SchemeList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
+                <Table.HeadCell className="bg-cyan-400/90 btm-blue normal-case">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 
@@ -357,7 +352,7 @@ const SchemeList = () => {
                       key={cell.id}
                       className={classNames(
                         cell.column.columnDef.className,
-                        "whitespace-nowrap py-1 px-1"
+                        "whitespace-nowrap py-1 px-3"
                       )}
                     >
                       {flexRender(
@@ -366,6 +361,11 @@ const SchemeList = () => {
                       )}
                     </Table.Cell>
                   ))}
+                  <Table.Cell className="px-1 py-1 flex justify-center">
+                    <button className="text-3xl text-cyan-600">
+                      <Icon icon={"icon-park-solid:preview-open"} />
+                    </button>
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

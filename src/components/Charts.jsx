@@ -6,7 +6,7 @@ const Charts = ({className}) => {
   const [state, setState] = useState({
     series: [
       {
-        name: "Work Engated",
+        name: "Work Engaged",
         data: [168, 385, 201, 298, 187, 195, 291],
       },
       {
