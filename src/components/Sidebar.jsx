@@ -13,6 +13,14 @@ import DashboardHome from "../views/forms/DashboardHome";
 import DnoList from "../views/forms/DnoList";
 import Dno from "../views/forms/Dno";
 import WorkRequirement from "../views/forms/WorkRequirement";
+
+import ActionPlanReport from "../views/reports/ActionPlanReport";
+import SchemeReport from "../views/reports/SchemeReport"
+import DemandReport from "../views/reports/DemandReport";
+import AllocationReport from "../views/reports/AllocationReport"
+import EmploymentReport from "../views/reports/EmploymentReport"
+
+
 import { Pedestal } from "../views/forms/Pedestal";
 import { Calc_permission } from "../functions/Permissions";
 import { useQuery } from "@tanstack/react-query";
@@ -27,6 +35,7 @@ import WorkRequirementList from "../views/forms/WorkRequirementList";
 import EmploymentList from "../views/forms/EmploymentList";
 import DemandList from "../views/forms/DemandList";
 import WorkAllocationList from "../views/forms/WorkAllocationList";
+
 
 export const sideBarList = [
   {
@@ -168,6 +177,37 @@ export const sideBarList = [
     route: "/dashboard/employment-list",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
+  {
+    Component: ActionPlanReport,
+    text: "action plan Report",
+    route: "/dashboard/actionplan-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: SchemeReport,
+    text: "scheme Report",
+    route: "/dashboard/scheme-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: DemandReport,
+    text: "demand Report",
+    route: "/dashboard/demand-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: AllocationReport,
+    text: "allocation & requisition Report",
+    route: "/dashboard/alloc-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+
+  {
+    Component: EmploymentReport,
+    text: "employment Report",
+    route: "/dashboard/employment-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
 ];
 
 export const Sidebar = () => {
@@ -178,7 +218,7 @@ export const Sidebar = () => {
   const actionPlanHidden = [
     12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [ 7, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [1, 7, 30, 31, 32, 33, 34, 35];
   const demandHidden = [1, 7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
@@ -381,6 +421,23 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
+      <SidebarExpand text={"Reports"}>
+        {sideBarList
+          .slice(22, sideBarList.length)
+          // .filter((e) => e.permissions.includes(userRoleIndex))
+          .map((e) => {
+            return (
+              <SidebarElement
+                key={e.route}
+                to={e.route}
+                customCss={"py-2 pl-8 text-sm"}
+                isWrapped
+              >
+                <div className=" items-center capitalize">{e.text}</div>
+              </SidebarElement>
+            );
+          })}
+      </SidebarExpand>
       {/* {isSuccess &&
         sideBarList
           .slice(18, sideBarList.length)

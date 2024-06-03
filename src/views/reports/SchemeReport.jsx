@@ -3,7 +3,6 @@ import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
 import { SortIcon } from "../../components/SortIcon";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import {
   flexRender,
   getCoreRowModel,
@@ -13,33 +12,32 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Pagination } from "../../components/Pagination";
+
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
-const DemandList = () => {
+const SchemeReport = () => {
+
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: demandList, isLoading: loading } = useQuery({
-    queryKey: ["demandList"],
+  const { data: employmentList } = useQuery({
+    queryKey: ["employmentList"],
     queryFn: async () => {
       const data = await fetch.get(
-        `/api/demand/getdemandList/${karmashree_data?.userIndex}`
+        `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
-
-  console.log(demandList, "demandList");
+  console.log(employmentList, "employmentList");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => demandList ?? [], [demandList]);
+  const data = useMemo(() => employmentList ?? [], [employmentList]);
 
   const list = [
     {
@@ -50,38 +48,26 @@ const DemandList = () => {
       headclass: "cursor-pointer",
       // sortingFn: "id",
     },
+    // {
+    //   header: "Name of the Department",
+    //   accessorKey: "finYear",
+    //   headclass: "cursor-pointer",
+    // },
     {
-      header: "Financial Year",
+      header: "Total Implementating Departments",
       accessorKey: "finYear",
       headclass: "cursor-pointer",
-      //demanduniqueID
     },
     {
-      header: "Demand Id",
-      accessorKey: "demanduniqueID",
-      headclass: "cursor-pointer",
-      //demanduniqueID
-    },
-    {
-      header: "Worker Job-Card No",
-      accessorKey: "workerJobCardNo",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Worker Name",
-      accessorKey: "workerName",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "District",
+      header: "Total No of PIAs",
       accessorKey: "districtName",
-      headClass: "cursor-pointer",
+      headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
         row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
-      header: "Municapility",
+      header: "Total Blocks involved",
       accessorKey: "muniName",
       headclass: "cursor-pointer",
       className: "text-center",
@@ -89,84 +75,54 @@ const DemandList = () => {
         row.original.muniName == "" ? "-" : row.original.muniName,
     },
     {
-      header: "Block",
-      accessorKey: "blockName",
-      headClass: "cursor-pointer",
+      header: "Total no of Sectors",
+      accessorKey: "blockname",
+      headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.blockName == "" ? "-" : row.original.blockName,
+        row.original.blockname == "" ? "-" : row.original.blockname,
     },
     {
-      header: "GP",
+      header: "Total Project Cost (in Cr.)",
       accessorKey: "gpName",
       headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
         row.original.gpName == "" ? "-" : row.original.gpName,
     },
-
     {
-      header: "Mobile No",
-      accessorKey: "mobileNo",
+      header: "Total no of Schemes entered",
+      accessorKey: "sectorName",
       headclass: "cursor-pointer",
     },
     {
-      header: "Age",
-      accessorKey: "age",
-      headclass: "cursor-pointer",
-    },
-
-    {
-      header: "Date of Application for Work",
-      accessorKey: "dateOfApplicationForWork",
-      headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
-          "en-IN",
-          { year: "numeric", month: "2-digit", day: "2-digit" }
-        ),
-    },
-    {
-      header: "No of Days Demanded",
-      accessorKey: "noOfDaysWorkDemanded",
+      header: "Total Schemes with Work Order Issued",
+      accessorKey: "sectorName",
       headclass: "cursor-pointer",
     },
     {
-      header: "Remarks",
-      accessorKey: "remark",
+      header: "Total Project Cost for Work Order issued",
+      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        row.original.remark == "" || row.original.remark === null
-          ? "-"
-          : row.original.remark,
+    },
+    {
+      header: "Total Unskilled workers for Work Order issued",
+      accessorKey: "FundingDeptname",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Avg days Employment to be provided / household",
+      accessorKey: "FundingDeptname",
+      headclass: "cursor-pointer",
     },
   ];
-
-  const loadingData = useMemo(
-    () => (loading ? Array(30).fill({}) : data),
-    [loading, data]
-  );
-
-  const loadingColumns = useMemo(
-    () =>
-      loading
-        ? list.map((e) => {
-          const { cell, ...rest } = e
-            return ({
-              ...rest,
-              cell: <Skeleton/>,
-            });
-          })
-        : list,
-    [loading, list]
-  );
 
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
 
   const table = useReactTable({
-    data: loadingData,
-    columns: loadingColumns,
+    data,
+    columns: list,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -227,7 +183,7 @@ const DemandList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Demand List
+                    Scheme & Projects Report
                   </li>
                 </ol>
               </nav>
@@ -261,14 +217,16 @@ const DemandList = () => {
             />
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-              onClick={() => exportToExcel(rowToArray(), table, "demandList")}
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "contractorList")
+              }
               // onClick={rowToArray}
             >
               XLSX
             </button>
             <button
               className="border px-4 h-[42px] text-black rounded border-black"
-              onClick={() => exportToCSV(table, "demandList")}
+              onClick={() => exportToCSV(table, "contractorList")}
               // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
             >
               CSV
@@ -313,7 +271,7 @@ const DemandList = () => {
                       key={cell.id}
                       className={classNames(
                         cell.column.columnDef.className,
-                        "whitespace-nowrap py-1 px-2"
+                        "whitespace-nowrap py-2 text-center"
                       )}
                     >
                       {flexRender(
@@ -324,12 +282,18 @@ const DemandList = () => {
                   ))}
 
                   {/* <Table.Cell className="flex items-center justify-center space-x-8">
-                    <Skeleton/>
+                    <Icon
+                      icon={"mingcute:edit-line"}
+                      className="font-medium text-cyan-600 hover:underline text-2xl"
+                    />
                   </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
+        </div>
+        <div className="text-md font-semibold opacity-70 text-center">
+          No data available
         </div>
         <Pagination data={data} table={table} />
       </div>
@@ -337,4 +301,4 @@ const DemandList = () => {
   );
 };
 
-export default DemandList;
+export default SchemeReport;

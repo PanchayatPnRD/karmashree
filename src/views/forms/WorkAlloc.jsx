@@ -73,7 +73,7 @@ const WorkAlloc = () => {
       ); // Absolute difference in milliseconds
       const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
 
-      return isNaN(daysDifference) ? 0 : daysDifference;
+      return isNaN(daysDifference) ? 0 : daysDifference+1;
     });
   }, [allocData]);
 
