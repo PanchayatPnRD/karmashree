@@ -15,6 +15,7 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useNavigate } from "react-router-dom";
 
 const WorkAllocationList = () => {
   const [workAllocationId, setWorkAllocationId] = useState("");
@@ -23,6 +24,7 @@ const WorkAllocationList = () => {
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
+  const navigate = useNavigate();
 
   const { data: workAllocationList } = useQuery({
     queryKey: ["workAllocationList"],
@@ -34,7 +36,7 @@ const WorkAllocationList = () => {
       return data.data.result;
     },
   });
-  console.log(workAllocationList, "workAllocationList");
+  console.log(workAllocationId, "workAllocationId");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
@@ -290,7 +292,7 @@ const WorkAllocationList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue" >
                   Actions
                 </Table.HeadCell>
               </Table.Head>
@@ -311,7 +313,7 @@ const WorkAllocationList = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8 py-1">
-                    <button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
+                    <button onClick={()=>{navigate(`/dashboard/workallocationview/${row.original.workAllocationID}`),setWorkAllocationId(row.original.workAllocationID)}}>
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl"

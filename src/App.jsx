@@ -18,7 +18,7 @@ import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNetworkState } from "@uidotdev/usehooks";
-
+import WorkAllocationView from "./views/forms/WorkAllocationView";
 function App() {
   // const network = useNetworkState();
   const homeRoutes = [
@@ -117,6 +117,13 @@ function App() {
           }
         />
 
+        <Route path="/dashboard/workallocationview/:allocationID" 
+        element={<Auth>
+        <Dashboard>
+        <WorkAllocationView />
+        </Dashboard>
+      </Auth>} 
+        />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
