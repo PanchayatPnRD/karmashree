@@ -15,22 +15,21 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const WorkAllocationView = () => {
+    const { allocationID } = useParams()
     const [workAllocationId, setWorkAllocationId] = useState("");
-
     const jsonString = localStorage.getItem("karmashree_User");
     const karmashree_data = JSON.parse(jsonString);
     const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-    console.log(karmashree_data, "userIndex");
-    const navigate = useNavigate();
+
 
     const { data: workAllocationList } = useQuery({
         queryKey: ["workAllocationList"],
         queryFn: async () => {
             const data = await fetch.get(
-                `/api/allocation/getallocationdemandview/${"MAME77792446"}`
+                `/api/allocation/getallocationdemandview/${allocationID}`
             );
             // console.log(Array.isArray(data.data.result));
             return data.data.result;
@@ -90,8 +89,8 @@ const WorkAllocationView = () => {
             accessorKey: "gender",
             headclass: "cursor-pointer",
             className: "text-center whitespace-nowrap",
-            //   cell: ({ row }) =>
-            //     row.original.districtName == "" ? "-" : row.original.districtName,
+            cell: ({ row }) =>
+                row.original.gender == "M" ? "Male" : row.original.gender == "F" ? "Female" : "Transgender",
         },
         {
             header: "Caste",

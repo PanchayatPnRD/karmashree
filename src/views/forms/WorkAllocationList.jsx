@@ -15,7 +15,7 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 const WorkAllocationList = () => {
   const [workAllocationId, setWorkAllocationId] = useState("");
@@ -313,12 +313,12 @@ const WorkAllocationList = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8 py-1">
-                    <button onClick={()=>{navigate(`/dashboard/workallocationview/${row.original.workAllocationID}`),setWorkAllocationId(row.original.workAllocationID)}}>
+                  <Link to={`/dashboard/workallocationview/${row.original.workAllocationID}`}><button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl"
                       />
-                    </button>
+                    </button></Link>
                   </Table.Cell>
                 </Table.Row>
               ))}
