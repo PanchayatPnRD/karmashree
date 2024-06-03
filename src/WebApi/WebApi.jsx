@@ -18,13 +18,21 @@ let instance = axios.create({
 const authToken = localStorage.getItem("karmashree_AuthToken");
 console.log(authToken, "authToken")
 
-// if (authToken) {
-//   instance.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
-// }
 
-instance.defaults.headers.common["Headers"] = `Bearer ${localStorage.getItem(
-  "karmashree_AuthToken"
-)}`;
-
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("karmashree_AuthToken");
+    if (token) {
+      config.headers["token"] = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default instance;
+
+
+
