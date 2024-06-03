@@ -16,14 +16,14 @@ let instance = axios.create({
 });
 
 const authToken = localStorage.getItem("karmashree_AuthToken");
-console.log(authToken, "authToken");
+console.log(authToken, "authToken")
 
-// Use an interceptor to attach the token to every request
+
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("karmashree_AuthToken");
     if (token) {
-      config.headers["token"] = `Bearer ${token}`;
+      config.headers["token"] = token;
     }
     return config;
   },
@@ -33,3 +33,6 @@ instance.interceptors.request.use(
 );
 
 export default instance;
+
+
+
