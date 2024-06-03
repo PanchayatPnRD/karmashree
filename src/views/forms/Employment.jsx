@@ -479,7 +479,7 @@ const Employment = () => {
                                 <Table.Cell className="font-medium  text-white text-sm py-1 px-4  whitespace-nowrap">
                                   <button
                                     className="flex justify-center items-center capitalize bg-teal-500 hover:bg-teal-500/90 hover:shadow-md rounded-lg px-2 pr-3 py-1 disabled:cursor-not-allowed disabled:bg-slate-400 "
-                                    disabled={row.original.allocationID}
+                                    //disabled={row.original.empStatus}
                                     onClick={() => {
                                       setWorkAllocationId(
                                         row.original.workAllocationID
@@ -851,7 +851,7 @@ const Employment = () => {
                                   <Table.Cell className="py-1">
                                     <input
                                       disabled={
-                                        attandance === "Absent" ?? false
+                                        attandance == "Absent" ? true : false
                                       }
                                       name="totalWagePaid"
                                       type="text"
