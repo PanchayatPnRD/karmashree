@@ -142,6 +142,14 @@ const Contractor = () => {
     }
   }
 
+   // Function to extract PAN from GST number
+   function extractPANFromGST(gstNumber) {
+    if (gstNumber.length === 15) {
+      return gstNumber.substring(2, 12);
+    }
+    return '';
+  }
+
 
   const onGstIn = (event) => {
     const value = event.target.value;
@@ -152,6 +160,13 @@ const Contractor = () => {
       setIsValid(true);
     } else {
       setIsValid(false);
+    }
+
+     if (value.length === 15) {
+      const extractedPan = extractPANFromGST(value);
+      setPanNumber(extractedPan);
+    } else {
+      setPanNumber('');
     }
   };
 
@@ -557,7 +572,7 @@ const Contractor = () => {
                 placeholder="Please enter Contractor GSTIN Number"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 onChange={onGstIn}
-
+                maxLength={15}
               />
               {!isValid && (
                 <div style={{ color: 'red' }}>Please enter a valid GSTIN</div>
@@ -579,7 +594,8 @@ const Contractor = () => {
                 autoComplete="off"
                 placeholder="Please Enter Contractor Pan Number"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md" required
-                onChange={onPanCard}
+                // onChange={onPanCard}
+                value={panNumber}
               />
               {!isValidPan && (
                 <div style={{ color: 'red' }}>Please enter a valid PAN Number</div>
