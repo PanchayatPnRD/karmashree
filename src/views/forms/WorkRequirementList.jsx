@@ -58,6 +58,37 @@ const WorkRequirementList = () => {
       headclass: "cursor-pointer",
     },
     {
+      header: "Req Date",
+      accessorKey: "SubmitTime",
+      headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.SubmitTime).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
+      header: "PIA",
+      accessorKey: "deptName",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Funding Department",
+      accessorKey: "FundingDeptname",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Scheme Id",
+      accessorKey: "scheme_Id",
+      headclass: "cursor-pointer",
+    },
+    {
+      header: "Scheme Name",
+      accessorKey: "schName",
+      headclass: "cursor-pointer",
+    },
+    {
       header: "District",
       accessorKey: "districtName",
       headClass: "cursor-pointer",
@@ -106,32 +137,25 @@ const WorkRequirementList = () => {
     },
     {
       header: "Start Date",
-      accessorKey: "dateofwork",
+      accessorKey: "fromDate",
       className: "text-center",
       headclass: "cursor-pointer",
       cell: ({ row }) =>
-        row.original.dateofwork == null
-          ? "-"
-          : new Date(row.original.dateofwork).toLocaleDateString("en-IN", {
-              month: "2-digit",
-              day: "2-digit",
-              year: "numeric",
-            }),
+        new Date(row.original.fromDate).toLocaleDateString("en-IN", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }),
+    },
+    {
+      header: "Total No of Days",
+      accessorKey: "noOfDays",
+      headclass: "cursor-pointer",
     },
     {
       header: "Total Unskilled Workers",
       accessorKey: "totalUnskilledWorkers",
       className: "text-center",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Department",
-      accessorKey: "deptName",
-      headclass: "cursor-pointer",
-    },
-    {
-      header: "Funding Department",
-      accessorKey: "FundingDeptname",
       headclass: "cursor-pointer",
     },
   ];

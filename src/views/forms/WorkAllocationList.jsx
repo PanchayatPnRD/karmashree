@@ -14,8 +14,11 @@ import {
 import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const WorkAllocationList = () => {
+  const [workAllocationId, setWorkAllocationId] = useState("");
+
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -61,11 +64,14 @@ const WorkAllocationList = () => {
       accessorKey: "workAllocationToDate",
       headclass: "cursor-pointer",
       cell: ({ row }) =>
-        new Date(row.original.workAllocationToDate).toLocaleDateString("en-IN", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-        }),
+        new Date(row.original.workAllocationToDate).toLocaleDateString(
+          "en-IN",
+          {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+          }
+        ),
     },
     {
       header: "District",
@@ -284,7 +290,9 @@ const WorkAllocationList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 
@@ -302,12 +310,14 @@ const WorkAllocationList = () => {
                     </Table.Cell>
                   ))}
 
-                  {/* <Table.Cell className="flex items-center justify-center space-x-8">
-                    <Icon
-                      icon={"mingcute:edit-line"}
-                      className="font-medium text-cyan-600 hover:underline text-2xl"
-                    />
-                  </Table.Cell> */}
+                  <Table.Cell className="flex items-center justify-center space-x-8 py-1">
+                    <button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
+                      <Icon
+                        icon={"mingcute:edit-line"}
+                        className="font-medium text-cyan-600 hover:underline text-2xl"
+                      />
+                    </button>
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

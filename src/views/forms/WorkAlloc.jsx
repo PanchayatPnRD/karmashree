@@ -33,7 +33,7 @@ const WorkAlloc = () => {
   const queryClient = useQueryClient();
   const [isDemand, setIsDemand] = useState(false);
   const [workersl, setWorkersl] = useState();
-  const [schemeId, setSchemeId] = useState();
+  const [scheme_sl, setScheme_Sl] = useState();
   const [reqId, setReqId] = useState();
   const [reqDate, setReqDate] = useState();
   const [contractorId, setContractorId] = useState();
@@ -61,10 +61,10 @@ const WorkAlloc = () => {
   }
 
   const schemeName = schemeAllList.find(
-    (c) => c.scheme_sl == schemeId
+    (c) => c.scheme_sl == scheme_sl
   )?.schemename;
 
-  const schemeDataId = schemeId;
+  const schemeDataId = scheme_sl;
   console.log(schemeName, "schemeName");
   const dateDifference = useMemo(() => {
     return allocData.map(({ dateFrom, dateTo }) => {
@@ -81,13 +81,13 @@ const WorkAlloc = () => {
     queryKey: ["demandData"],
     queryFn: async () => {
       const data = await fetch.get(
-        "/api/allocation/demandslistforallocation/" + schemeId
+        "/api/allocation/demandslistforallocation/" + scheme_sl
       );
       // console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
     },
     staleTime: 0,
-    enabled: !(schemeId === undefined),
+    enabled: !(scheme_sl === undefined),
   });
 
   console.log(demandData, "demandData");
@@ -121,7 +121,6 @@ const WorkAlloc = () => {
   });
 
   const initialData = {
-    schemeId: "",
     dateFrom: "",
     dateTo: "",
     schemeArea: "R",
@@ -145,10 +144,10 @@ const WorkAlloc = () => {
   }, [reqId]);
 
   const is_demand = useMemo(() => {
-    if (schemeId == undefined) return false;
+    if (scheme_sl == undefined) return false;
     // console.log(filteredData?.totalUnskilledWorkers,demandData?.length,"is_demand");
-    return filteredData?.totalUnskilledWorkers != demandData?.length;
-  }, [filteredData, schemeId]);
+    return filteredData?.totalUnskilledWorkers > demandData?.length;
+  }, [filteredData, scheme_sl]);
 
   useEffect(() => {
     setIsDemand(is_demand);
@@ -156,10 +155,11 @@ const WorkAlloc = () => {
 
   const AllocAPIData = useMemo(() => {
     const array = allocData.map((e, index) => {
-      const { schemeId, dateFrom, dateTo, ...rest } = e;
+      const { dateFrom, dateTo, ...rest } = e;
       const {
         demandsl,
         schemeArea,
+        schemeId,
         ex1,
         ex2,
         ex3,
@@ -177,7 +177,7 @@ const WorkAlloc = () => {
 
       if (dateFrom.length > 0 && dateTo.length > 0)
         return {
-          schemeId: schemeDataId,
+          schemeId: scheme_sl,
           schemeName: "asdfdsf",
 
           // schemeName: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
@@ -221,6 +221,21 @@ const WorkAlloc = () => {
       // sortingFn: "id",
     },
     {
+      header: "Status",
+      cell: ({ row }) => (
+        <span
+          className={classNames(
+            "rounded-full px-2 py-[2px]  animate-pulse font-bold text-sm",
+            row.original.allocationID
+              ? "text-green-700 bg-green-200/80"
+              : "text-red-700 bg-red-200/80"
+          )}
+        >
+          {row.original.allocationID ? "Allocated" : "Not Allocated"}
+        </span>
+      ),
+    },
+    {
       header: "Financial Year",
       accessorKey: "finYear",
       headclass: "cursor-pointer",
@@ -246,6 +261,7 @@ const WorkAlloc = () => {
       accessorKey: "deptName",
       headclass: "cursor-pointer",
     },
+
     {
       header: "Funding Department",
       accessorKey: "FundingDeptname",
@@ -253,7 +269,7 @@ const WorkAlloc = () => {
     },
     {
       header: "Scheme Id",
-      accessorKey: "schemeId",
+      accessorKey: "scheme_Id",
       headclass: "cursor-pointer",
     },
     {
@@ -350,17 +366,6 @@ const WorkAlloc = () => {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-  const onSubmit = () => {
-    addAllocation(AllocAPIData, reqDate, reqId, (r) => {
-      console.log(r, "response");
-      if (r.errorCode == 0) {
-        setOpenModal(true);
-      } else {
-        toast.error(r.message);
-      }
-    });
-  };
-
   const daysSum = useMemo(() => {
     const arr = AllocAPIData.map((e) => e.noOfDaysWorkAlloted);
     return arr.reduce((a, b) => a + b, 0);
@@ -395,6 +400,7 @@ const WorkAlloc = () => {
     conName,
     contactPersonPhoneNumber,
     dateofwork,
+    scheme_Id,
     noOfDays,
     totalUnskilledWorkers,
     districtName,
@@ -402,6 +408,7 @@ const WorkAlloc = () => {
     gpName,
     personDaysGenerated,
     FundingDeptname,
+    SubmitTime,
   } = filteredData ?? {};
 
   return (
@@ -444,7 +451,7 @@ const WorkAlloc = () => {
         </div>
 
         <div className="bg-white shadow-md rounded-lg pb-8">
-          {schemeId === undefined && (
+          {scheme_sl === undefined && (
             <>
               <div className=" flex justify-between px-2 items-center h-12">
                 <select
@@ -522,14 +529,23 @@ const WorkAlloc = () => {
 
                         <Table.Cell className="font-medium  text-white text-sm py-1">
                           <button
-                            className="flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
+                            className="disabled:cursor-not-allowed disabled:bg-slate-400 flex justify-center items-center bg-teal-500 px-2 py-1 rounded-lg hover:bg-teal-500/90 transition-all hover:shadow-md"
                             onClick={() => {
-                              setSchemeId(row.original.workCodeSchemeID);
+                              setScheme_Sl(row.original.workCodeSchemeID);
                               setContractorId(row.original.ContractorID);
                               setReqId(row.original.workerreqID);
-                              setReqDate(row.original.dateofwork);
+                              setReqDate(
+                                new Date(
+                                  row.original.SubmitTime
+                                ).toLocaleDateString("fr-CA", {
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                })
+                              );
                               setWorkersl(row.original.workersl);
                             }}
+                            disabled={row.original.allocationID}
                           >
                             Allocate
                           </button>
@@ -542,7 +558,7 @@ const WorkAlloc = () => {
               <Pagination data={data} table={table} />
             </>
           )}
-          {schemeId !== undefined && (
+          {scheme_sl !== undefined && (
             <>
               <SuccessModal
                 openModal={isDemand}
@@ -565,7 +581,7 @@ const WorkAlloc = () => {
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Scheme Id/Name</div>
-                      {workerreqID}-{schName}
+                      {scheme_Id}-{schName}
                     </div>
                     {/* <div className="div-even">
                       <div className="label-style">Scheme Sector</div>
@@ -685,13 +701,15 @@ const WorkAlloc = () => {
                             <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                               {demandData[index]?.workerName}
                             </Table.Cell>
-                            <Table.Cell>
-                              {demandData[index]?.districtcode}
+                            <Table.Cell className="whitespace-nowrap text-xs">
+                              {demandData[index]?.districtName}
                             </Table.Cell>
-                            <Table.Cell>
-                              {demandData[index]?.blockcode}
+                            <Table.Cell className="whitespace-nowrap text-xs">
+                              {demandData[index]?.blockName}
                             </Table.Cell>
-                            <Table.Cell>{demandData[index]?.gpCode}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap text-xs">
+                              {demandData[index]?.gpName}
+                            </Table.Cell>
                             <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
                               {new Date(
                                 demandData[index]?.dateOfApplicationForWork
@@ -791,9 +809,10 @@ const WorkAlloc = () => {
                     type="button"
                     className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     onClick={() => {
-                      setSchemeId(undefined);
+                      setScheme_Sl(undefined);
                       setReqId(undefined);
                       setWorkersl(undefined);
+                      setReqDate(undefined);
                       queryClient.resetQueries({ queryKey: ["demandData"] });
                     }}
                   >
@@ -803,7 +822,7 @@ const WorkAlloc = () => {
                     type="button"
                     className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
                     onClick={mutate}
-                    disabled={!isDemand}
+                    disabled={is_demand}
                   >
                     Submit
                   </button>

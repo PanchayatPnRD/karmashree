@@ -86,11 +86,11 @@ const DemandList = () => {
     },
     {
       header: "Block",
-      accessorKey: "blockname",
+      accessorKey: "blockName",
       headClass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.blockname == "" ? "-" : row.original.blockname,
+        row.original.blockName == "" ? "-" : row.original.blockName,
     },
     {
       header: "GP",
@@ -116,6 +116,11 @@ const DemandList = () => {
       header: "Date of Application for Work",
       accessorKey: "dateOfApplicationForWork",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
+          "en-IN",
+          { year: "numeric", month: "2-digit", day: "2-digit" }
+        ),
     },
     {
       header: "No of Days Demanded",
@@ -233,9 +238,7 @@ const DemandList = () => {
             />
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-              onClick={() =>
-                exportToExcel(rowToArray(), table, "demandList")
-              }
+              onClick={() => exportToExcel(rowToArray(), table, "demandList")}
               // onClick={rowToArray}
             >
               XLSX
