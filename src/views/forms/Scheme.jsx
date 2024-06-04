@@ -518,7 +518,7 @@ const Scheme = () => {
                   onChange={onArea}
                 >
                   <option value="" selected hidden>
-                    Select Scheme Name
+                    Select Area
                   </option>
                   <option value="R">Rural</option>
                   <option value="U">Urban</option>

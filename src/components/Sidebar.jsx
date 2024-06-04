@@ -19,7 +19,7 @@ import SchemeReport from "../views/reports/SchemeReport"
 import DemandReport from "../views/reports/DemandReport";
 import AllocationReport from "../views/reports/AllocationReport"
 import EmploymentReport from "../views/reports/EmploymentReport"
-
+import DirectEmployment from "../views/forms/DirectEmployment";
 
 import { Pedestal } from "../views/forms/Pedestal";
 import { Calc_permission } from "../functions/Permissions";
@@ -171,6 +171,13 @@ export const sideBarList = [
     route: "/dashboard/employment",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
+
+  {
+    Component: DirectEmployment,
+    text: "direct employment",
+    route: "/dashboard/direct-employment",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
   {
     Component: EmploymentList,
     text: "employment list",
@@ -219,7 +226,7 @@ export const Sidebar = () => {
     12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
   ];
   const contractorHidden = [7, 30, 31, 32, 33, 34, 35];
-  const schemeHidden = [1, 7, 30, 31, 32, 33, 34, 35];
+  const schemeHidden = [ 7, 30, 31, 32, 33, 34, 35];
   const demandHidden = [1, 7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
@@ -405,7 +412,7 @@ export const Sidebar = () => {
       {isSuccess && !employmentHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Employment"}>
           {sideBarList
-            .slice(20, 22)
+            .slice(20, 23)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -421,9 +428,9 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
-      <SidebarExpand text={"Direct Employment"}>
+      {/* <SidebarExpand text={"Direct Employment"}>
         {sideBarList
-          .slice(22, 24)
+          .slice(22, 23)
           .filter((e) => e.permissions.includes(userRoleIndex))
           .map((e) => {
             return (
@@ -437,10 +444,10 @@ export const Sidebar = () => {
               </SidebarElement>
             );
           })}
-      </SidebarExpand>
+      </SidebarExpand> */}
       <SidebarExpand text={"Reports"}>
         {sideBarList
-          .slice(24, sideBarList.length)
+          .slice(23, sideBarList.length)
           // .filter((e) => e.permissions.includes(userRoleIndex))
           .map((e) => {
             return (
