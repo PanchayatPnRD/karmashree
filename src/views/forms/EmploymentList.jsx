@@ -121,7 +121,7 @@ const EmploymentList = () => {
       cell: ({ row }) =>
         new Date(row.original.workAllocationFromDate).toLocaleDateString(
           "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
+          { day: "2-digit", month: "2-digit", year: "2-digit"}
         ),
     },
     {
@@ -131,7 +131,7 @@ const EmploymentList = () => {
       cell: ({ row }) =>
         new Date(row.original.workAllocationToDate).toLocaleDateString(
           "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit", year: "numeric" }
+          { day: "2-digit", month: "2-digit", year: "2-digit"}
         ),
     },
     {

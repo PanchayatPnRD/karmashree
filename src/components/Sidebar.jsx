@@ -421,9 +421,26 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
+      <SidebarExpand text={"Direct Employment"}>
+        {sideBarList
+          .slice(22, 24)
+          .filter((e) => e.permissions.includes(userRoleIndex))
+          .map((e) => {
+            return (
+              <SidebarElement
+                key={e.route}
+                to={e.route}
+                customCss={"py-2 pl-8 text-sm"}
+                isWrapped
+              >
+                <div className=" items-center capitalize">{e.text}</div>
+              </SidebarElement>
+            );
+          })}
+      </SidebarExpand>
       <SidebarExpand text={"Reports"}>
         {sideBarList
-          .slice(22, sideBarList.length)
+          .slice(24, sideBarList.length)
           // .filter((e) => e.permissions.includes(userRoleIndex))
           .map((e) => {
             return (
