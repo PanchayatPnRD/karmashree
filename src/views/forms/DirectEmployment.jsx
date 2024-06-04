@@ -384,13 +384,13 @@ const DirectEmployment = () => {
     return data;
   }, [allocInputData]);
   // useEffect(() => {
-  useEffect(() => {
+  // useEffect(() => {
 
-    setAllocInputData(e => {
-      if (e.toString() != new_data.toString())
-        return new_data
-    })
-  }, [new_data]);
+  //   setAllocInputData(e => {
+  //     if (e.toString() != new_data.toString())
+  //       return new_data
+  //   })
+  // }, [new_data]);
 
   return (
     <>
