@@ -355,42 +355,68 @@ const DirectEmployment = () => {
     );
   }, [allocInputData]);
 
-  function RocketScience(date, index) {
-    // console.log(date);
-    updateVal(
-      {
-        target: {
-          name: "workAllocationDateFrom",
-          value: date.toString(),
-        },
-      },
-      index,
-      allocInputData,
-      setAllocInputData
-    );
-  }
+  const allocDisplayData = useMemo(() => {
+    const arr = allocInputData.map((e, idx) => {
+      const { workAllocationDateFrom, workProvidedDateFrom, ...rest } = e;
 
-  const new_data = useMemo(() => {
-    const data = allocInputData.map((e) => {
-      if (
-        e.workAllocationDateFrom.length > 0 &&
-        e.workProvidedDateFrom.length == 0
+      const date1 = new Date(workAllocationDateFrom);
+      const date2 = new Date(workProvidedDateFrom);
+
+      if (workAllocationDateFrom.length > 0 && workProvidedDateFrom.length == 0)
+        return {
+          workAllocationDateFrom: workAllocationDateFrom,
+          workProvidedDateFrom: workAllocationDateFrom,
+          ...rest,
+        };
+      else if (
+        workAllocationDateFrom.length > 0 &&
+        workProvidedDateFrom.length > 0 &&
+        date1 > date2
       ) {
-        const { workProvidedDateFrom, ...rest } = e;
-        return { ...rest, workProvidedDateFrom: e.workAllocationDateFrom };
+        return {
+          workAllocationDateFrom: workAllocationDateFrom,
+          workProvidedDateFrom: workAllocationDateFrom,
+          ...rest,
+        };
       } else return e;
     });
-
-    return data;
+    return arr;
   }, [allocInputData]);
-  // useEffect(() => {
-  // useEffect(() => {
 
-  //   setAllocInputData(e => {
-  //     if (e.toString() != new_data.toString())
-  //       return new_data
-  //   })
-  // }, [new_data]);
+  
+
+  const handleChange = (index, key, value) => {
+    const newData = [...allocInputData];
+    const obj = newData[index];
+
+    const date1 = new Date(value);
+    const date2 = new Date(obj.workProvidedDateFrom);
+    // If key 'a' is not empty and key 'b' is empty, replace the value of 'b' with the value of 'a'
+    if (
+      key == "workAllocationDateFrom" &&
+      value.length > 0 &&
+      obj.workProvidedDateFrom.length == 0
+    ) {
+      obj.workProvidedDateFrom = value;
+    }
+
+    if (
+      key == "workAllocationDateFrom" &&
+      value.length > 0 &&
+      obj.workProvidedDateFrom.length > 0 && date1 > date2
+    ) {
+
+      obj.workProvidedDateFrom = value;
+    }
+
+    // If the user types a value, update the corresponding key
+    newData[index] = {
+      ...newData[index],
+      [key]: value,
+    };
+
+    setAllocInputData(newData);
+  };
 
   return (
     <>
@@ -790,7 +816,11 @@ const DirectEmployment = () => {
                                   dateFormat="dd/MM/yyyy"
                                   selected={workAllocationDateFrom}
                                   onChange={(date) =>
-                                    RocketScience(date, index)
+                                    handleChange(
+                                      index,
+                                      "workAllocationDateFrom",
+                                      date.toString()
+                                    )
                                   }
                                   placeholderText="dd/mm/yyyy"
                                   selectsStart
@@ -804,16 +834,10 @@ const DirectEmployment = () => {
                                   placeholderText="dd/mm/yyyy"
                                   selected={workAllocationDateTo}
                                   onChange={(date) =>
-                                    updateVal(
-                                      {
-                                        target: {
-                                          name: "workAllocationDateTo",
-                                          value: date.toString(),
-                                        },
-                                      },
+                                    handleChange(
                                       index,
-                                      allocInputData,
-                                      setAllocInputData
+                                      "workAllocationDateTo",
+                                      date.toString()
                                     )
                                   }
                                   selectsEnd
@@ -850,19 +874,13 @@ const DirectEmployment = () => {
                                   minDate={new Date(workAllocationDateFrom)}
                                   dateFormat="dd/MM/yyyy"
                                   selected={workProvidedDateFrom}
-                                  onChange={(date) =>
-                                    updateVal(
-                                      {
-                                        target: {
-                                          name: "workProvidedDateFrom",
-                                          value: date.toString(),
-                                        },
-                                      },
+                                  onChange={(date) => {
+                                    handleChange(
                                       index,
-                                      allocInputData,
-                                      setAllocInputData
-                                    )
-                                  }
+                                      "workProvidedDateFrom",
+                                      date.toString()
+                                    );
+                                  }}
                                   placeholderText="dd/mm/yyyy"
                                   selectsStart
                                   startDate={workProvidedDateFrom}
@@ -878,16 +896,10 @@ const DirectEmployment = () => {
                                   placeholderText="dd/mm/yyyy"
                                   selected={workProvidedDateTo}
                                   onChange={(date) =>
-                                    updateVal(
-                                      {
-                                        target: {
-                                          name: "workProvidedDateTo",
-                                          value: date.toString(),
-                                        },
-                                      },
+                                    handleChange(
                                       index,
-                                      allocInputData,
-                                      setAllocInputData
+                                      "workProvidedDateTo",
+                                      date.toString()
                                     )
                                   }
                                   selectsEnd
@@ -920,11 +932,10 @@ const DirectEmployment = () => {
                                 type="text"
                                 className="rounded-lg border-zinc-300 disabled:bg-red-100 disabled:cursor-not-allowed"
                                 onChange={(e) =>
-                                  updateVal(
-                                    e,
+                                  handleChange(
                                     index,
-                                    allocInputData,
-                                    setAllocInputData
+                                    "totalWagePaid",
+                                    e.target.value
                                   )
                                 }
                               />
@@ -936,16 +947,10 @@ const DirectEmployment = () => {
                                   dateFormat="dd/MM/yyyy"
                                   selected={paymentDate}
                                   onChange={(e) => {
-                                    updateVal(
-                                      {
-                                        target: {
-                                          name: "paymentDate",
-                                          value: e.toLocaleDateString("fr-CA"),
-                                        },
-                                      },
+                                    handleChange(
                                       index,
-                                      allocInputData,
-                                      setAllocInputData
+                                      "paymentDate",
+                                      date.toString()
                                     );
                                   }}
                                   portalId="root-portal"
