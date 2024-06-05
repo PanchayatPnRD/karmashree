@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addCreatePedestal } from "../../Service/Pedestal/PedestalService";
 import { Loading } from "./Department";
+import { fetch } from "../../functions/Fetchfunctions";
 
 export const Pedestal = () => {
   const [mutationId, setMutationId] = useState(null);
@@ -27,7 +28,7 @@ export const Pedestal = () => {
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/DepartmentList");
+      const data = await fetch.get("/api/mastertable/DepartmentList");
       return data.data.result;
     },
   });
@@ -37,7 +38,7 @@ export const Pedestal = () => {
   const { data: pedestalList } = useQuery({
     queryKey: ["pedestalList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/PedestalList");
+      const data = await fetch.get("/api/mastertable/PedestalList");
       return data.data.result;
     },
   });
@@ -48,7 +49,7 @@ export const Pedestal = () => {
 
   const { mutate: add, isPending:addpending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/createPedestal", newTodo);
+      return fetch.post(newTodo,"/api/mastertable/createPedestal" );
     },
     mutationKey: ["padesAdd"],
     onSuccess: () => {
@@ -60,7 +61,7 @@ export const Pedestal = () => {
 
   const { mutate: update, isPending:updatepending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/updatePedestal/"+mutationId, newTodo);
+      return fetch.post(newTodo,"/api/mastertable/updatePedestal/"+mutationId);
     },
     mutationKey: ["padesUpdate"],
     onSuccess: () => {

@@ -50,8 +50,8 @@ const WorkRequirement = () => {
   const { data: jobcardNo, isLoading } = useQuery({
     queryKey: ["jobcardNo"],
     queryFn: async () => {
-      const data = await axios.get(
-        devApi + "/api/mastertable/NrgsCode/" + dropdownData[2]
+      const data = await fetch.get(
+        "/api/mastertable/NrgsCode/" + dropdownData[2]
       );
       return data.data.result[0].nregaPanchCode;
     },

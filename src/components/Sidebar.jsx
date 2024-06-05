@@ -25,6 +25,7 @@ import { Pedestal } from "../views/forms/Pedestal";
 import { Calc_permission } from "../functions/Permissions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { fetch } from "../functions/Fetchfunctions";
 import { devApi } from "../WebApi/WebApi";
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
@@ -237,7 +238,7 @@ export const Sidebar = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/user/viewuser/" + userIndex);
+      const data = await fetch.get("/api/user/viewuser/" + userIndex);
 
       return data.data.result;
     },

@@ -5,6 +5,7 @@ import { Table } from "flowbite-react";
 import { devApi } from "../../WebApi/WebApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { fetch } from "../../functions/Fetchfunctions";
 import { Loading } from "./Department";
 import {
   flexRender,
@@ -25,7 +26,7 @@ const Designation = () => {
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/DesignationList");
+      const data = await fetch.get("/api/mastertable/DesignationList");
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
@@ -37,30 +38,30 @@ const Designation = () => {
 
   const { mutate: addPed, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/createDesignation", newTodo);
+      return fetch.post(newTodo, "/api/mastertable/createDesignation");
     },
     onSuccess: () => {
       queryClient.invalidateQueries("designationList");
       designation.current.value = "";
       designationTier.current.value = "";
     },
-    mutationKey:["adddesignation"]
+    mutationKey: ["adddesignation"],
   });
 
   const { mutate: updatePed, isPending: updatePending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.put(
-        devApi + "/api/mastertable/UpdateDesigntion" + mutationId,
-        newTodo
+      return fetch.put(
+        newTodo,
+        "/api/mastertable/UpdateDesigntion" + mutationId
       );
     },
     onSuccess: () => {
       queryClient.invalidateQueries("designationList");
       designation.current.value = "";
       designationTier.current.value = "";
-      setMutationId(null)
+      setMutationId(null);
     },
-    mutationKey:["updatedesignation"]
+    mutationKey: ["updatedesignation"],
   });
 
   function performMutation() {
@@ -305,7 +306,9 @@ const Designation = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">Actions</Table.HeadCell>
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                  Actions
+                </Table.HeadCell>
               </Table.Head>
             ))}
 

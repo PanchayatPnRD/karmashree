@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { devApi } from "../../WebApi/WebApi";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import axios from "axios";
+import { fetch } from "../../functions/Fetchfunctions";
 const ViewProfile = () => {
   const { userIndex, category } = JSON.parse(
     localStorage.getItem("karmashree_User")
@@ -11,7 +11,7 @@ const ViewProfile = () => {
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/user/viewuser/" + userIndex);
+      const data = await fetch.get("/api/user/viewuser/" + userIndex);
 
       return data.data.result;
     },
@@ -22,7 +22,7 @@ const ViewProfile = () => {
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/DesignationList");
+      const data = await fetch.get("/api/mastertable/DesignationList");
       console.log(data);
       return data.data.result;
     },

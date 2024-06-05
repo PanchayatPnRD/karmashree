@@ -3,7 +3,7 @@ import { Table } from "flowbite-react";
 import { SortIcon } from "../../components/SortIcon";
 import { devApi } from "../../WebApi/WebApi";
 import { Icon } from "@iconify/react";
-import axios from "axios";
+import { fetch } from "../../functions/Fetchfunctions";
 import {
   flexRender,
   getCoreRowModel,
@@ -23,7 +23,7 @@ const Department = () => {
   const { data: departmentList } = useQuery({
     queryKey: ["departmentList"],
     queryFn: async () => {
-      const data = await axios.get(devApi + "/api/mastertable/DepartmentList");
+      const data = await fetch.get("/api/mastertable/DepartmentList");
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
@@ -35,7 +35,7 @@ const Department = () => {
 
   const { mutate: add, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(devApi + "/api/mastertable/createDepartment", newTodo);
+      return fetch.post(newTodo,"/api/mastertable/createDepartment");
     },
     onSuccess: () => {
       queryClient.invalidateQueries("designationList");
@@ -47,9 +47,8 @@ const Department = () => {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationFn: (newTodo) => {
-      return axios.post(
-        devApi + "/api/mastertable/UpdateDepartment/" + mutationId,
-        newTodo
+      return fetch.post(newTodo,
+        "/api/mastertable/UpdateDepartment/" + mutationId,
       );
     },
     onSuccess: () => {
