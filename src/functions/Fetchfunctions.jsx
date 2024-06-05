@@ -12,20 +12,6 @@ const axiosInstance = axios.create({
 });
 
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-    
-//     if (authToken) {
-//       config.headers["token"] = authToken;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-
 export const fetch = {
   get: async (route, extenstion) => {
     return extenstion
