@@ -124,6 +124,7 @@ export const DashboardNavbar = () => {
               onClick={() => {
                 navigate("/login", { state: "signout" });
                 localStorage.removeItem("karmashree_User");
+                localStorage.removeItem("karmashree_AuthToken");
               }}
             >
               <Icon
