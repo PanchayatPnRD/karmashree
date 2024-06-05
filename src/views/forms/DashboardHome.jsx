@@ -2,13 +2,46 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Charts from '../../components/Charts';
-import { useState, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { fetch} from "../../functions/Fetchfunctions"
+import { useEffect, useMemo, useState } from "react";
 import CountUp from "react-countup";
-
+import { getAllDashboardList } from "../../Service/DashboardService";
 const DashboardHome = () => {
   // const countUpRef = useRef(null);
-  
-  
+  const [allDashboardList, setAllDashboardList] = useState([]);
+
+
+const { data:DashboardData, isLoading, isSuccess } = useQuery({
+
+  queryKey:["dashboardData"],
+  queryFn: async () => {
+    const data = await fetch.get("/api/schememaster/dashboard")
+    return data.data.result;
+  }
+}
+
+)
+
+  useEffect(() => {
+    getAllDashboardList().then(function (result) {
+      const response = result?.data?.result;
+      setAllDashboardList(response);
+
+    });
+
+  }, []);
+  console.log(allDashboardList, "allDashboardList")
+  //Dashboard list
+  // let dashboardListDropdown = <option>Loading...</option>;
+  // if (allDashboardList && allDashboardList.length > 0) {
+  //   dashboardListDropdown = allDashboardList?.charts[0]?.map((DashRow, index) => (
+  //     <option>{DashRow.month}</option>
+  //   ));
+  // }
+  // console.log(dashboardListDropdown,"dashboardListDropdown")
+
+
   return (
     <div className="flex-grow">
       {/* <ToastContainer /> */}
@@ -20,7 +53,7 @@ const DashboardHome = () => {
               <h3 className="text-lg font-semibold mb-2">
                 Implementing Departments
               </h3>
-              <p className="text-xl font-bold">1</p>
+              <p className="text-xl font-bold">{DashboardData?.DepartmentNoCount}</p>
             </div>
 
             {/* Mini Card 2 */}
@@ -28,10 +61,10 @@ const DashboardHome = () => {
               <h3 className="text-lg font-semibold mb-2">No of PIA</h3>
               <p className="text-xl font-semibold">
                 <CountUp
-                  start={-875.039}
-                  end={160527}
+                  start={0}
+                  end={DashboardData?.ExecutingDepttIDCount}
                   duration={2.75}
-                  // delay={0}
+                // delay={0}
                 />
               </p>
             </div>
@@ -41,13 +74,13 @@ const DashboardHome = () => {
               <h3 className="text-lg font-semibold mb-2">
                 Funding Departments
               </h3>
-              <p className="text-xl font-bold">3</p>
+              <p className="text-xl font-bold">{DashboardData?.FundingDepttIDCount}</p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 ">
             <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">Proposed Schemes</h3>
-              <p className="text-xl font-bold">1</p>
+              <p className="text-xl font-bold">-</p>
             </div>
 
             {/* Mini Card 2 */}
@@ -55,13 +88,13 @@ const DashboardHome = () => {
               <h3 className="text-md font-semibold mb-2 text-center">
                 Estimated Unskilled Workers
               </h3>
-              <p className="text-xl font-bold">2</p>
+              <p className="text-xl font-bold">{DashboardData?.totalUnskilledWorkers}</p>
             </div>
 
             {/* Mini Card 3 */}
             <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">Estimated Mandays</h3>
-              <p className="text-xl font-bold">3</p>
+              <p className="text-xl font-bold">{DashboardData?.totalPersonDaysGenerated}</p>
             </div>
 
             {/* Mini Card 4 */}
@@ -76,7 +109,7 @@ const DashboardHome = () => {
             <h1 className="text-xl tracking-tight font-bold">
               Last 7 Days Progress
             </h1>
-            <Charts className="shadow-md p-8 px-16 bg-cyan-50 rounded-e-md " />
+            {isSuccess && <Charts data={DashboardData?.charts} className="shadow-md p-8 px-16 bg-cyan-50 rounded-e-md " />}
           </div>
         </div>
       </div>

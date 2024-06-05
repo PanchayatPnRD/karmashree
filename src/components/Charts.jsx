@@ -1,17 +1,35 @@
 import ReactApexChart from "react-apexcharts";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
-const Charts = ({className}) => {
+const Charts = ({ data, className }) => {
+  console.log(data, "data")
+
+  const Months = useMemo(()=>{
+    const arr = data?.map(e=>e.month)
+    return arr ? arr : []
+  },[data])
+
+  const Works = useMemo(()=>{
+    const arr = data?.map(e=>e.engaged)
+    return arr ? arr : []
+  },[data])
+
+  const Mandays = useMemo(()=>{
+    const arr = data?.map(e=>e.mandays)
+    return arr ? arr : []
+  },[data])
+
+  console.log(Months)
 
   const [state, setState] = useState({
     series: [
       {
         name: "Work Engaged",
-        data: [168, 385, 201, 298, 187, 195, 291],
+        data: Works,
       },
       {
         name: "Mandays Generated",
-        data: [16, 80, 115, 212, 290, 310, 112],
+        data: Mandays,
       },
     ],
   });
@@ -42,7 +60,7 @@ const Charts = ({className}) => {
       curve: "smooth",
     },
     xaxis: {
-      categories: ["1 May 2024", "2 May 2024", "3 May 2024", "4 May 2024", "5 May 2024", "6 May 2024", "7 May 2024"],
+      categories: Months,
       axisBorder: {
         show: false,
       },
