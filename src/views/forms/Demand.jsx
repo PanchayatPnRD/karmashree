@@ -571,9 +571,11 @@ const WorkRequirement = () => {
                           placeholder="worker name"
                           name="workerName"
                           value={workerName}
-                          onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
-                          }
+                          onChange={(e) => {
+                            const regex = /^[a-zA-Z\s]+$/;
+                            if (regex.test(e.target.value) || e.target.value == "")
+                              updateVal(e, index, allData, setAllData);
+                          }}
                         />
                       </Table.Cell>
                       <Table.Cell>

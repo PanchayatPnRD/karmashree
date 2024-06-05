@@ -2,6 +2,7 @@ import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
 
 const authToken = localStorage.getItem("karmashree_AuthToken");
+console.log(authToken,"tipi");
 
 const axiosInstance = axios.create({
   baseURL: devApi,
