@@ -123,8 +123,8 @@ export const DashboardNavbar = () => {
               className="space-x-2"
               onClick={() => {
                 navigate("/login", { state: "signout" });
-                localStorage.removeItem("karmashree_User");
-                localStorage.removeItem("karmashree_AuthToken");
+                localStorage.setItem("karmashree_User","");
+                localStorage.setItem("karmashree_AuthToken","");
               }}
             >
               <Icon

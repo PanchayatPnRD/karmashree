@@ -408,16 +408,16 @@ const Scheme = () => {
 
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
-        
+
         data?.departmentNo,
 
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
-        
+
         status,
-        
+
         format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
-        format(new Date(actualWorkStartDate), "yyyy-MM-dd"),
+        format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
         format(new Date(expectedWorkDate), "yyyy-MM-dd"),
         projectCost,
         totalWages,
@@ -439,7 +439,7 @@ const Scheme = () => {
           console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
-            setSchemeId(r.schemeid)
+            setSchemeId(r.schemeid);
           } else {
             toast.error(r.message);
           }
