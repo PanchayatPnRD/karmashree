@@ -357,7 +357,7 @@ const Scheme = () => {
       toast.error("Please Select Status Of Work");
     } else if (!tentativeWorkStartDate) {
       toast.error("Please Select Tentative Work Start Date");
-    } else if (!actualWorkStartDate) {
+    } else if (!tentativeWorkStartDate) {
       toast.error("Please Select Actual Work Start Date");
     } else if (!expectedWorkDate) {
       toast.error("Please Select Expected Work Completion Date");
@@ -450,6 +450,7 @@ const Scheme = () => {
 
   return (
     <>
+    <ToastContainer />
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
@@ -461,7 +462,7 @@ const Scheme = () => {
         // userCreate={false}
       />
       <div className="flex-grow">
-        <ToastContainer />
+        
         <div className="mx-auto mt-2">
           <div className="bg-white rounded-lg p-12">
             <div className="shadow-md" style={{ marginBottom: "-1rem" }}>

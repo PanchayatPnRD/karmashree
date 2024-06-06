@@ -103,13 +103,13 @@ export const sideBarList = [
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 29],
   },
   {
     Component: ContractorList,
     text: "contractor list",
     route: "/dashboard/contractor-list",
-    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 29],
   },
   {
     Component: Scheme,
@@ -221,18 +221,18 @@ export const sideBarList = [
 export const Sidebar = () => {
   const userMasterHidden = [17, 23, 29, 30, 31, 32, 33, 34, 35];
   const MasterHidden = [
-    7, 12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
+    7, 12, 13, 15, 17, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35,
   ];
   const actionPlanHidden = [
-    12, 13, 15, 17, 19, 21, 23, 24, 25, 29, 30, 31, 32, 33, 34, 35,
+    12, 13, 15, 17, 19, 21, 23, 24, 25,27, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [7, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7,27, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [ 7, 30, 31, 32, 33, 34, 35];
   const demandHidden = [1, 7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const employmentHidden = [1, 7, 30, 31, 32, 33, 34, 35];
-
+  const reportHidden = [1, 7,27, 30, 31, 32, 33, 34, 35];
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
   const { data: userDetails, isSuccess } = useQuery({
@@ -446,6 +446,7 @@ export const Sidebar = () => {
             );
           })}
       </SidebarExpand> */}
+      {isSuccess && !reportHidden.includes(userRoleIndex) && (
       <SidebarExpand text={"Reports"}>
         {sideBarList
           .slice(23, sideBarList.length)
@@ -462,7 +463,7 @@ export const Sidebar = () => {
               </SidebarElement>
             );
           })}
-      </SidebarExpand>
+      </SidebarExpand>)}
       {/* {isSuccess &&
         sideBarList
           .slice(18, sideBarList.length)
