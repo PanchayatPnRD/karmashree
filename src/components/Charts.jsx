@@ -24,7 +24,7 @@ const Charts = ({ data, className }) => {
   const [state, setState] = useState({
     series: [
       {
-        name: "Work Engaged",
+        name: "Worker Engaged",
         data: Works,
       },
       {

@@ -41,6 +41,15 @@ const WorkAlloc = () => {
 
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
+  const { data: userDetails } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+
+      return data.data.result;
+    },
+  });
+
   const [schemeAllList, setAllSchemeAllList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
@@ -67,7 +76,6 @@ const WorkAlloc = () => {
   const schemeDataId = scheme_sl;
   console.log(schemeName, "schemeName");
 
-  
   const dateDifference = useMemo(() => {
     return allocData.map(({ dateFrom, dateTo }) => {
       const timeDiff = Math.abs(
@@ -75,7 +83,7 @@ const WorkAlloc = () => {
       ); // Absolute difference in milliseconds
       const daysDifference = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
 
-      return isNaN(daysDifference) ? 0 : daysDifference+1;
+      return isNaN(daysDifference) ? 0 : daysDifference + 1;
     });
   }, [allocData]);
 
@@ -83,7 +91,9 @@ const WorkAlloc = () => {
     queryKey: ["demandData"],
     queryFn: async () => {
       const data = await fetch.get(
-        "/api/allocation/demandslistforallocation/" + scheme_sl
+        "/api/demand/getDemandsforallocation_and_direct_emp?userIndex=" +
+          userDetails?.userIndex +
+          "&districtcode=" + userDetails?.districtcode
       );
       // console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
@@ -173,6 +183,8 @@ const WorkAlloc = () => {
         caste,
         whetherMinority,
         whetherMigrantWorker,
+        dateOfApplicationForWork,
+        dateoflastallocation,
         typeOfWorkers,
         ...rest2
       } = demandData[index];
@@ -187,6 +199,13 @@ const WorkAlloc = () => {
           // contractorID: schemeList.filter((e) => e.scheme_sl == schemeId)[0]
           //   .ControctorID,
           contractorID: contractorId,
+          dateOfApplicationForWork: new Date(
+            dateOfApplicationForWork
+          ).toLocaleDateString("fr-CA", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }),
           ...rest,
           workAllocationFromDate:
             dateFrom.length > 5

@@ -78,16 +78,15 @@ const DashboardHome = () => {
             </div>
             <div className="bg-pink-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-md text-center font-semibold mb-2">
-                Total Amount Wages paid 
+                Total Amount Wages paid
               </h3>
               <p className="text-xl font-bold">1230</p>
             </div>
-            
           </div>
           <div className="grid grid-cols-4 gap-4 ">
             <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">Proposed Schemes</h3>
-              <p className="text-xl font-bold">-</p>
+              <p className="text-xl font-bold">{DashboardData?.totalscheme}</p>
             </div>
 
             {/* Mini Card 2 */}
@@ -113,7 +112,9 @@ const DashboardHome = () => {
               <h3 className="text-md text-center font-semibold mb-2">
                 Avg Days of Employment to be provided/Household
               </h3>
-              <p className="text-xl font-bold">4</p>
+              <p className="text-xl font-bold">
+                {Math.round(DashboardData?.avgCostProvidedPerWorker)}
+              </p>
             </div>
           </div>
           <div>
