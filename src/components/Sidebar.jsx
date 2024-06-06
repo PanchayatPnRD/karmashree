@@ -194,24 +194,24 @@ export const sideBarList = [
     route: "/dashboard/actionplan-report",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
-  {
-    Component: ActionPlanReport1,
-    text: "action plan Report 1",
-    route: "/dashboard/actionplan-report1",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  },
-  {
-    Component: ActionPlanReport2,
-    text: "action plan Report 2",
-    route: "/dashboard/actionplan-report2",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  },
-  {
-    Component: ActionPlanReport3,
-    text: "action plan Report 3",
-    route: "/dashboard/actionplan-report3",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  },
+  // {
+  //   Component: ActionPlanReport1,
+  //   text: "action plan Report 1",
+  //   route: "/dashboard/actionplan-report1",
+  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  // },
+  // {
+  //   Component: ActionPlanReport2,
+  //   text: "action plan Report 2",
+  //   route: "/dashboard/actionplan-report2",
+  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  // },
+  // {
+  //   Component: ActionPlanReport3,
+  //   text: "action plan Report 3",
+  //   route: "/dashboard/actionplan-report3",
+  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  // },
   {
     Component: SchemeReport,
     text: "scheme Report",

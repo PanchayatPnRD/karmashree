@@ -17,6 +17,9 @@ import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ActionPlanReport1 from "./views/reports/ActionPlanReport1";
+import ActionPlanReport3 from "./views/reports/ActionPlanReport3";
+import ActionPlanReport2 from "./views/reports/ActionPlanReport2";
 import { useNetworkState } from "@uidotdev/usehooks";
 import WorkAllocationView from "./views/forms/WorkAllocationView";
 import SchemeEdit from "./views/forms/SchemeEdit";
@@ -117,20 +120,56 @@ function App() {
             </Auth>
           }
         />
-
-        <Route path="/dashboard/workallocationview/:allocationID"
-          element={<Auth>
-            <Dashboard>
-              <WorkAllocationView />
-            </Dashboard>
-          </Auth>}
+        <Route
+          path="/dashboard/workallocationview/:allocationID"
+          element={
+            <Auth>
+              <Dashboard>
+                <WorkAllocationView />
+              </Dashboard>
+            </Auth>
+          }
         />
-        <Route path="/dashboard/scheme-edit/:schemeID"
-          element={<Auth>
-            <Dashboard>
-              <SchemeEdit/>
-            </Dashboard>
-          </Auth>}
+        <Route
+          path="/dashboard/actionplan-report1"
+          element={
+            <Auth>
+              <Dashboard>
+                <ActionPlanReport1 />
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path="/dashboard/actionplan-report2"
+          element={
+            <Auth>
+              <Dashboard>
+                <ActionPlanReport2 />
+              </Dashboard>
+            </Auth>
+          }
+        />
+
+        <Route
+          path="/dashboard/actionplan-report3"
+          element={
+            <Auth>
+              <Dashboard>
+                <ActionPlanReport3 />
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path="/dashboard/scheme-edit/:schemeID"
+          element={
+            <Auth>
+              <Dashboard>
+                <SchemeEdit />
+              </Dashboard>
+            </Auth>
+          }
         />
         <Route path="*" element={<Error404 />} />
       </Routes>
