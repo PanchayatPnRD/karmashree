@@ -16,6 +16,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { getAllContractorList } from "../../Service/Scheme/SchemeService";
+import { Link } from "react-router-dom";
 
 const SchemeList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -154,7 +155,7 @@ const SchemeList = () => {
       // sortingFn: "id",
       cell: ({ row }) =>
         row.original.totalLabourprovided == "" ||
-        row.original.totalLabourprovided == null
+          row.original.totalLabourprovided == null
           ? "-"
           : row.original.totalLabourprovided,
     },
@@ -169,7 +170,7 @@ const SchemeList = () => {
       // sortingFn: "id",
       cell: ({ row }) =>
         row.original.personDaysGeneratedprovided == "" ||
-        row.original.personDaysGeneratedprovided == null
+          row.original.personDaysGeneratedprovided == null
           ? "-"
           : row.original.personDaysGeneratedprovided,
     },
@@ -184,7 +185,7 @@ const SchemeList = () => {
       // sortingFn: "id",
       cell: ({ row }) =>
         row.original.totalCostprovided == "" ||
-        row.original.totalCostprovided == null
+          row.original.totalCostprovided == null
           ? "-"
           : row.original.totalCostprovided,
     },
@@ -299,14 +300,14 @@ const SchemeList = () => {
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
               onClick={() => exportToExcel(rowToArray(), table, "schemeList")}
-              // onClick={rowToArray}
+            // onClick={rowToArray}
             >
               XLSX
             </button>
             <button
               className="border px-4 h-[42px] text-black rounded border-black"
               onClick={() => exportToCSV(table, "schemeList")}
-              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
             >
               CSV
             </button>
@@ -361,11 +362,15 @@ const SchemeList = () => {
                       )}
                     </Table.Cell>
                   ))}
-                  <Table.Cell className="px-1 py-1 flex justify-center">
-                    <button className="text-3xl text-cyan-600">
+                  <Table.Cell className="px-3 py-1 flex justify-between" >
+                    <Link to={`/dashboard/scheme-edit/${row.original.scheme_sl}`}><button className="text-3xl text-cyan-600" >
                       <Icon icon={"icon-park-solid:preview-open"} />
-                    </button>
+                    </button></Link>
+                    <Link to={`/dashboard/scheme-edit/${row.original.scheme_sl}`}><button className="text-3xl text-cyan-600">
+                      <Icon icon={"basil:edit-outline"} />
+                    </button></Link>
                   </Table.Cell>
+
                 </Table.Row>
               ))}
             </Table.Body>

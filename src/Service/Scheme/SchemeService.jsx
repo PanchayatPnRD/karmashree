@@ -169,3 +169,11 @@ export const getAllSchemeList = async (userId) => {
     return await webApi.get(`/api/schememaster/schemelist/${userId}`,
     );
 }
+
+
+//scheme details view
+export const getSchemeViewDetails = async (schemeID) => {
+    console.log(schemeID, "schemeID")
+    return await webApi.get(`/api/schememaster/schemeview/${schemeID}`,
+    );
+}

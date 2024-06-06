@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNetworkState } from "@uidotdev/usehooks";
 import WorkAllocationView from "./views/forms/WorkAllocationView";
+import SchemeEdit from "./views/forms/SchemeEdit";
 function App() {
   // const network = useNetworkState();
   const homeRoutes = [
@@ -30,7 +31,7 @@ function App() {
     { path: "/reset", Element: ResetPassword },
   ];
 
-  
+
 
   return (
     <>
@@ -117,12 +118,19 @@ function App() {
           }
         />
 
-        <Route path="/dashboard/workallocationview/:allocationID" 
-        element={<Auth>
-        <Dashboard>
-        <WorkAllocationView />
-        </Dashboard>
-      </Auth>} 
+        <Route path="/dashboard/workallocationview/:allocationID"
+          element={<Auth>
+            <Dashboard>
+              <WorkAllocationView />
+            </Dashboard>
+          </Auth>}
+        />
+        <Route path="/dashboard/scheme-edit/:schemeID"
+          element={<Auth>
+            <Dashboard>
+              <SchemeEdit/>
+            </Dashboard>
+          </Auth>}
         />
         <Route path="*" element={<Error404 />} />
       </Routes>
