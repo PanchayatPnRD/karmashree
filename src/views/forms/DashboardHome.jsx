@@ -109,16 +109,19 @@ const DashboardHome = () => {
               <p className="text-xl font-bold">4</p>
             </div>
           </div>
-          <div className="flex-col flex items-center justify-center ">
-            <h1 className="text-xl tracking-tight font-bold">
-              Last 7 Days Progress
-            </h1>
-            {isSuccess && (
-              <Charts
-                data={DashboardData?.charts}
-                className="shadow-md p-8 px-16 bg-cyan-50 rounded-e-md "
-              />
-            )}
+          <div>
+            <div></div>
+            <div className="flex-col flex items-center justify-center ">
+              <h1 className="text-xl tracking-tight font-bold">
+                Last 7 Days Progress
+              </h1>
+              {isSuccess && (
+                <Charts
+                  data={DashboardData?.charts}
+                  className="shadow-md p-8 px-16 bg-cyan-50 rounded-e-md "
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

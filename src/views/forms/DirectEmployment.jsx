@@ -362,10 +362,9 @@ const DirectEmployment = () => {
         ...dateDifference[idx],
         ...allocTableData[idx],
       };
-    })
+    });
+    return arr;
   }, [allocInputData]);
-
-  
 
   const handleChange = (index, key, value) => {
     const newData = [...allocInputData];
@@ -385,9 +384,9 @@ const DirectEmployment = () => {
     if (
       key == "workAllocationDateFrom" &&
       value.length > 0 &&
-      obj.workProvidedDateFrom.length > 0 && date1 > date2
+      obj.workProvidedDateFrom.length > 0 &&
+      date1 > date2
     ) {
-
       obj.workProvidedDateFrom = value;
     }
 
@@ -431,10 +430,10 @@ const DirectEmployment = () => {
                 onChange={(e) => setFiltering(e.target.value)}
               />
             </div>
-            <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+            <div className="overflow-x-auto overflow-y-auto max-h-[400px] w-full show-scrollbar shadow-md">
               <Table>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Table.Head key={headerGroup.id}>
+                  <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                     {headerGroup.headers.map((header) => (
                       <Table.HeadCell
                         key={header.id}

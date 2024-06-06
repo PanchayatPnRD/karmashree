@@ -6,6 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import classNames from "classnames";
 import { getVerifyOtp } from "../Service/Otp/otpService";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
 
@@ -22,8 +25,8 @@ const OTPConfirm = () => {
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
-    const data = JSON.parse(jsonString);
-    setUserData(data);
+    const userData = JSON.parse(jsonString);
+    setUserData(userData);
   }, []);
   // console.log(otp, "otp")
   const handleOtpChange = (index, value) => {
@@ -54,38 +57,37 @@ const OTPConfirm = () => {
     }
   };
 
-  const validateOTP = () => {
-    getVerifyOtp(otp.join(""), userData?.UserID, (res) => {
-      console.log(res?.newPayload?.is_passwordreset, "response");
-      if (res?.newPayload?.is_passwordreset == 0) {
-        setOpenModal(true);
-      }
-      else if (res?.errorCode == 0) {
-        const userdata = {
-          category: res?.newPayload?.category,
-          departmentNo: res?.newPayload?.departmentNo,
-          districtcode: res?.newPayload?.districtcode,
-          subDivision: res?.newPayload?.subDivision,
-          blockCode: res?.newPayload?.blockCode,
-          userIndex: res?.newPayload?.userIndex,
-          deptWing: res?.newPayload?.deptWing,
-          area: res?.newPayload?.area,
-          municipalityCode: res?.newPayload?.municipalityCode,
-        };
-        localStorage.setItem("karmashree_User", JSON.stringify(userdata));
-        localStorage.setItem("karmashree_AuthToken", res?.newPayload?.token);
+  const {
+    data: mutationData,
+    isSuccess,
+    mutate,
+  } = useMutation({
+    mutationKey: ["otpVerify"],
+    mutationFn: async () => {
+      const data = await axios.post(devApi + `/api/auth/verify-otp`, {
+        userId: userData?.UserID,
+        otp: otp.join(""),
+      });
+      return data.data;
+    },
+    onSuccess: (data) => {
+      // const { category}Payload
 
-        navigate("/dashboard");
+      localStorage.setItem("karmashree_User", JSON.stringify(data?.newPayload));
+      localStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
 
-        toast.success(res.message);
-        // window.location.reload();
-      } else if (res.errorCode == 1) {
-        console.log("nononononono");
-        toast.error(res.message);
-      } else {
-      }
-    });
-  };
+      if (
+        localStorage.getItem("karmashree_AuthToken") != "" ||
+        localStorage.getItem("karmashree_AuthToken") != undefined
+      )
+        if (data?.errorCode == 0)
+          navigate("/dashboard");
+        else
+          toast.error(data?.message);
+    },
+  });
+
+  
   function resendOTP() {
     setTimeLeft(59);
     setIsValidating(true);
@@ -163,7 +165,7 @@ const OTPConfirm = () => {
                     ? "bg-blue-500 hover:bg-blue-500/90"
                     : "bg-red-500 hover:bg-red-500/90"
                 )}
-                onClick={isValidating ? validateOTP : resendOTP}
+                onClick={isValidating ? mutate : resendOTP}
               >
                 {isValidating ? "Validate OTP" : "Resend OTP"}
               </button>
