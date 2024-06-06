@@ -85,13 +85,13 @@ const SchemeList = () => {
     },
     {
       header: "Block/Municipality",
-      accessorKey: "blockname",
+      accessorKey: "blockName",
       headClass: "cursor-pointer normal-case",
 
       cell: ({ row }) =>
-        row.original.blockname == ""
+        row.original.blockName == ""
           ? row.original.muniName
-          : row.original.blockname,
+          : row.original.blockName,
       // sortingFn: "id",
     },
     {
