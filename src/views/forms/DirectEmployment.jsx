@@ -963,6 +963,27 @@ const DirectEmployment = () => {
                     </Table.Body>
                   </Table>
                 </div>
+                <div className="flex space-x-4 justify-center items-center">
+                        <button
+                          type="button"
+                          className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                          onClick={() => {
+                            setWorkAllocationId("");
+                            setEmpData([]);
+                          }}
+                        >
+                          Back
+                        </button>
+                        <button
+                          type="button"
+                          className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          // onClick={() => {
+                          //   if (empDataList.length > 0) mutate();
+                          // }}
+                        >
+                          Submit
+                        </button>
+                      </div>
               </div>
             </div>
           </div>
