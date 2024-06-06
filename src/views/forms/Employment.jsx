@@ -806,7 +806,7 @@ const Employment = () => {
                                         }}
                                         maxDate={
                                           new Date(empProvidedFrom).getTime() +
-                                          empList[index]?.noOfDaysWorkAlloted *
+                                          (empList[index]?.noOfDaysWorkAlloted - 1) *
                                             24 *
                                             60 *
                                             60 *

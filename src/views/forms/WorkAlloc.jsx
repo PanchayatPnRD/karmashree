@@ -798,7 +798,7 @@ const WorkAlloc = () => {
                                   minDate={dateFrom}
                                   maxDate={
                                     new Date(dateFrom).getTime() +
-                                    demandData[index]?.noOfDaysWorkDemanded *
+                                    (demandData[index]?.noOfDaysWorkDemanded - 1 )*
                                       24 *
                                       60 *
                                       60 *
