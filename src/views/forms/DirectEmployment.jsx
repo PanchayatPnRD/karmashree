@@ -357,30 +357,12 @@ const DirectEmployment = () => {
 
   const allocDisplayData = useMemo(() => {
     const arr = allocInputData.map((e, idx) => {
-      const { workAllocationDateFrom, workProvidedDateFrom, ...rest } = e;
-
-      const date1 = new Date(workAllocationDateFrom);
-      const date2 = new Date(workProvidedDateFrom);
-
-      if (workAllocationDateFrom.length > 0 && workProvidedDateFrom.length == 0)
-        return {
-          workAllocationDateFrom: workAllocationDateFrom,
-          workProvidedDateFrom: workAllocationDateFrom,
-          ...rest,
-        };
-      else if (
-        workAllocationDateFrom.length > 0 &&
-        workProvidedDateFrom.length > 0 &&
-        date1 > date2
-      ) {
-        return {
-          workAllocationDateFrom: workAllocationDateFrom,
-          workProvidedDateFrom: workAllocationDateFrom,
-          ...rest,
-        };
-      } else return e;
-    });
-    return arr;
+      return {
+        ...e,
+        ...dateDifference[idx],
+        ...allocTableData[idx],
+      };
+    })
   }, [allocInputData]);
 
   
@@ -950,7 +932,7 @@ const DirectEmployment = () => {
                                     handleChange(
                                       index,
                                       "paymentDate",
-                                      date.toString()
+                                      e.toString()
                                     );
                                   }}
                                   portalId="root-portal"
