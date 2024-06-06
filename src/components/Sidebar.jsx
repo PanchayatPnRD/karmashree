@@ -36,6 +36,9 @@ import WorkRequirementList from "../views/forms/WorkRequirementList";
 import EmploymentList from "../views/forms/EmploymentList";
 import DemandList from "../views/forms/DemandList";
 import WorkAllocationList from "../views/forms/WorkAllocationList";
+import ActionPlanReport3 from "../views/reports/ActionPlanReport3";
+import ActionPlanReport2 from "../views/reports/ActionPlanReport2";
+import ActionPlanReport1 from "../views/reports/ActionPlanReport1";
 
 
 export const sideBarList = [
@@ -189,6 +192,24 @@ export const sideBarList = [
     Component: ActionPlanReport,
     text: "action plan Report",
     route: "/dashboard/actionplan-report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: ActionPlanReport1,
+    text: "action plan Report 1",
+    route: "/dashboard/actionplan-report1",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: ActionPlanReport2,
+    text: "action plan Report 2",
+    route: "/dashboard/actionplan-report2",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: ActionPlanReport3,
+    text: "action plan Report 3",
+    route: "/dashboard/actionplan-report3",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {

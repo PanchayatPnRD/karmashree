@@ -29,7 +29,7 @@ const ActionPlanReport = () => {
     queryKey: ["employmentList"],
     queryFn: async () => {
       const data = await fetch.get(
-        `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
+        `/api/schememaster/getactionplanreport`
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
@@ -57,16 +57,16 @@ const ActionPlanReport = () => {
     // },
     {
       header: "Total Implementating Departments",
-      accessorKey: "finYear",
+      accessorKey: "ExecutingDepttIDCount",
       headclass: "cursor-pointer",
     },
     {
       header: "Total Funding Departments",
-      accessorKey: "districtName",
+      accessorKey: "FundingDepttIDCount",
       headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.districtName == "" ? "-" : row.original.districtName,
+        row.original.FundingDepttIDCount == "" ? "-" : row.original.FundingDepttIDCount,
     },
     {
       header: "Total no of Sectors",
