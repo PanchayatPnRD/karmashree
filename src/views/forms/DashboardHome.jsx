@@ -43,7 +43,7 @@ const DashboardHome = () => {
       {/* <ToastContainer /> */}
       <div className="mx-auto mt-2">
         <div className="flex flex-col space-y-4 bg-white rounded-lg p-12">
-          <div className="grid grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-4 gap-4 ">
             {/* Mini Card 1 */}
             <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">
@@ -76,6 +76,13 @@ const DashboardHome = () => {
                 {DashboardData?.FundingDepttIDCount}
               </p>
             </div>
+            <div className="bg-pink-200 rounded-lg p-4 flex flex-col justify-center items-center">
+              <h3 className="text-md text-center font-semibold mb-2">
+                Total Amount Wages paid 
+              </h3>
+              <p className="text-xl font-bold">1230</p>
+            </div>
+            
           </div>
           <div className="grid grid-cols-4 gap-4 ">
             <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
