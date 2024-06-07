@@ -96,7 +96,7 @@ const WorkRequirement = () => {
     aadhaarNo: "",
     typeOfWorkers: "U",
     dateOfApplicationForWork: "",
-    noOfDaysWorkDemanded: "",
+    noOfDaysWorkDemanded: "14",
     remark: "",
     age: "",
     total_pending: 0,
