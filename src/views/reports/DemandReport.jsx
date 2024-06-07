@@ -30,14 +30,14 @@ const DemandReport = () => {
         `/api/demand/Summary_Report_on_Demand_for_Work`
       );
       // console.log(Array.isArray(data.data.result));
-      return data.data.result;
+      return [data.data.result];
     },
   });
   console.log(employmentList, "employmentList");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => [employmentList] ?? [], [employmentList]);
+  const data = useMemo(() => employmentList ?? [], [employmentList]);
 
   const list = [
     {
@@ -81,8 +81,8 @@ const DemandReport = () => {
       accessorKey: "gpName",
       headclass: "cursor-pointer",
       className: "text-center",
-      cell: ({ row }) =>
-        "-"
+      // cell: ({ row }) =>
+      //   "-"
     },
     {
       header: "Male",
