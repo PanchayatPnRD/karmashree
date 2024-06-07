@@ -466,7 +466,7 @@ const WorkAlloc = () => {
                 /
               </li>
               <li className="text-gray-500 font-bold" aria-current="page">
-                Allocation
+                Worker Allocation
               </li>
             </ol>
           </nav>

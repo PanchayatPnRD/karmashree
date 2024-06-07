@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import "./App.css";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { sideBarList } from "./components/Sidebar";
 import Home from "./views/Home";
 import Auth from "./auth/Auth";
@@ -83,7 +83,9 @@ function App() {
               element={
                 <Auth>
                   <Dashboard>
-                    <Component />
+                    <Suspense>
+                      <Component />
+                    </Suspense>
                   </Dashboard>
                 </Auth>
               }

@@ -214,7 +214,7 @@ const WorkAllocationList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Work Allocation List
+                    Worker Allocation List
                   </li>
                 </ol>
               </nav>

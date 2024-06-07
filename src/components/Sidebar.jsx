@@ -1,4 +1,6 @@
-import ActionPlan from "../views/forms/ActionPlan";
+import { lazy } from "react";
+const ActionPlan = lazy(() => import("../views/forms/ActionPlan"));
+// import ActionPlan from "../views/forms/ActionPlan";
 import ActionPlanList from "../views/forms/ActionPlanList";
 import Contractor from "../views/forms/Contractor";
 import Demand from "../views/forms/Demand";
@@ -36,9 +38,7 @@ import WorkRequirementList from "../views/forms/WorkRequirementList";
 import EmploymentList from "../views/forms/EmploymentList";
 import DemandList from "../views/forms/DemandList";
 import WorkAllocationList from "../views/forms/WorkAllocationList";
-import ActionPlanReport3 from "../views/reports/ActionPlanReport3";
-import ActionPlanReport2 from "../views/reports/ActionPlanReport2";
-import ActionPlanReport1 from "../views/reports/ActionPlanReport1";
+
 
 
 export const sideBarList = [
@@ -157,14 +157,14 @@ export const sideBarList = [
 
   {
     Component: WorkAlloc,
-    text: "work allocation",
+    text: "worker allocation",
     route: "/dashboard/work-allocation",
     permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },
 
   {
     Component: WorkAllocationList,
-    text: "work allocation list",
+    text: "worker allocation list",
     route: "/dashboard/work-allocation-list",
     permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
   },

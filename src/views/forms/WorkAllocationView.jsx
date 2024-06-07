@@ -25,7 +25,7 @@ const WorkAllocationView = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
   const { data: workAllocationList } = useQuery({
-    queryKey: ["workAllocationList"],
+    queryKey: ["workAllocationView"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/allocation/getallocationdemandview/${allocationID}`
@@ -61,12 +61,12 @@ const WorkAllocationView = () => {
     },
     {
       header: "Scheme ID",
-      accessorKey: "-",
+      accessorKey: "schemeId",
       headclass: "cursor-pointer whitespace-nowrap",
     },
     {
       header: "Scheme Name",
-      accessorKey: "-",
+      accessorKey: "schemeName",
       headclass: "cursor-pointer whitespace-nowrap",
     },
     {
@@ -85,19 +85,15 @@ const WorkAllocationView = () => {
     },
     {
       header: "Gender",
-      accessorKey: "gender",
+      accessorKey: "demandMaster.gender",
       headclass: "cursor-pointer",
       className: "text-center whitespace-nowrap",
-      cell: ({ row }) =>
-        row.original.gender == "M"
-          ? "Male"
-          : row.original.gender == "F"
-          ? "Female"
-          : "Transgender",
+      // cell: ({ row }) =>
+      //     row.original.gender == "M" ? "Male" : row.original.gender == "F" ? "Female" : "Transgender",
     },
     {
       header: "Caste",
-      accessorKey: "caste",
+      accessorKey: "demandMaster.caste",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "text-center whitespace-nowrap",
       //   cell: ({ row }) =>
@@ -105,22 +101,25 @@ const WorkAllocationView = () => {
     },
     {
       header: "Age",
-      accessorKey: "age",
+      accessorKey: "demandMaster.age",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
     },
     {
       header: "Mobile No",
-      accessorKey: "mobileNo",
+      accessorKey: "demandMaster.mobileNo",
       headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        row.original.mobileNo == "" ? "-" : row.original.mobileNo,
     },
     {
       header: "Date Of Application For Work",
       accessorKey: "dateOfApplicationForWork",
       headclass: "cursor-pointer",
       className: "whitespace-nowrap",
+      cell: ({ row }) =>
+        new Date(row.original.dateOfApplicationForWork).toLocaleDateString(
+          "en-IN",
+          { month: "2-digit", day: "2-digit", year: "numeric" }
+        ),
     },
     // {
     //   header: "Worker JobCard No",
@@ -154,20 +153,30 @@ const WorkAllocationView = () => {
     // },
     {
       header: "Allocation From Date",
-      accessorKey: "-",
+      accessorKey: "workAllocationFromDate",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
+      cell: ({ row }) =>
+        new Date(row.original.workAllocationFromDate).toLocaleDateString(
+          "en-IN",
+          { month: "2-digit", day: "2-digit", year: "numeric" }
+        ),
     },
 
     {
       header: "Allocation To Date",
-      accessorKey: "-",
+      accessorKey: "workAllocationToDate",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
+      cell: ({ row }) =>
+        new Date(row.original.workAllocationToDate).toLocaleDateString(
+          "en-IN",
+          { month: "2-digit", day: "2-digit", year: "numeric" }
+        ),
     },
     {
       header: "Total No Of Days Allocated",
-      accessorKey: "-",
+      accessorKey: "noOfDaysWorkAlloted",
       headclass: "cursor-pointer whitespace-nowrap",
       className: "whitespace-nowrap",
     },

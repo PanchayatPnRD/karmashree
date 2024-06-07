@@ -225,7 +225,7 @@ const WorkRequirementList = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Work Requirement List
+                    Worker Requirement List
                   </li>
                 </ol>
               </nav>
