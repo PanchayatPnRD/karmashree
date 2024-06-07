@@ -313,7 +313,7 @@ const WorkAllocationList = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8 py-1">
-                  <Link to={`/dashboard/workallocationview/${row.original.workAllocationID}`}><button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
+                  <Link to={`/dashboard/workallocationview/${row.original.workAllocationID}`} className="flex items-center justify-center"><button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
                       <Icon
                         icon={"icon-park-solid:preview-open"}
                         className="font-medium text-cyan-600 hover:underline text-2xl"
