@@ -27,7 +27,7 @@ const DemandReport = () => {
     queryKey: ["employmentList"],
     queryFn: async () => {
       const data = await fetch.get(
-        `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
+        `/api/demand/Summary_Report_on_Demand_for_Work`
       );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
@@ -37,7 +37,7 @@ const DemandReport = () => {
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => [employmentList] ?? [], [employmentList]);
 
   const list = [
     {
@@ -55,32 +55,26 @@ const DemandReport = () => {
     // },
     {
       header: "Total Districts",
-      accessorKey: "finYear",
+      accessorKey: "totalNoOfDistricts",
       headclass: "cursor-pointer",
     },
     {
       header: "Total Blocks",
-      accessorKey: "districtName",
+      accessorKey: "totalBlocks",
       headclass: "cursor-pointer",
       className: "text-center",
-      cell: ({ row }) =>
-        row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
       header: "Total Gps",
-      accessorKey: "muniName",
+      accessorKey: "totalGPs",
       headclass: "cursor-pointer",
       className: "text-center",
-      cell: ({ row }) =>
-        row.original.muniName == "" ? "-" : row.original.muniName,
     },
     {
       header: "Cumulative No of Job Card Holders Demand for Work",
-      accessorKey: "blockname",
+      accessorKey: "cumulativeNoOfJobCardHoldersDemandForWork",
       headclass: "cursor-pointer",
       className: "text-center",
-      cell: ({ row }) =>
-        row.original.blockname == "" ? "-" : row.original.blockname,
     },
     {
       header: "Cumulative No of Unskilled Workers demand for work",
@@ -88,47 +82,49 @@ const DemandReport = () => {
       headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.gpName == "" ? "-" : row.original.gpName,
+        "-"
     },
     {
       header: "Male",
-      accessorKey: "sectorName",
+      accessorKey: "noOfMaleWorkers",
       headclass: "cursor-pointer",
     },
     {
       header: "Female",
-      accessorKey: "sectorName",
+      accessorKey: "noOfFemaleWorkers",
       headclass: "cursor-pointer",
     },
     {
       header: "SC",
-      accessorKey: "FundingDeptname",
+      accessorKey: "sc",
       headclass: "cursor-pointer",
     },
     {
       header: "ST",
-      accessorKey: "FundingDeptname",
+      accessorKey: "st",
       headclass: "cursor-pointer",
     },
     {
       header: "Minority",
-      accessorKey: "FundingDeptname",
+      accessorKey: "minority",
       headclass: "cursor-pointer",
     },
     {
       header: "Cumulative No of Mandays Demanded",
-      accessorKey: "FundingDeptname",
+      accessorKey: "cumulativeNoOfMandaysDemanded",
       headclass: "cursor-pointer",
     },
     {
       header: "Cumulative No of Mandays Provided",
-      accessorKey: "FundingDeptname",
+      accessorKey: "cumulativeNoOfMandaysProvided",
       headclass: "cursor-pointer",
     },
     {
       header: "Avg days of Employment provided / household",
-      accessorKey: "FundingDeptname",
+      accessorKey: "averageDaysOfEmploymentProvidedPerHH",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        Math.round(row.original.averageDaysOfEmploymentProvidedPerHH),
     },
   ];
 

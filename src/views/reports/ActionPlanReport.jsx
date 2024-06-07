@@ -66,7 +66,9 @@ const ActionPlanReport = () => {
       headclass: "cursor-pointer",
       className: "text-center",
       cell: ({ row }) =>
-        row.original.FundingDepttIDCount == "" ? "-" : row.original.FundingDepttIDCount,
+        row.original.FundingDepttIDCount == ""
+          ? "-"
+          : row.original.FundingDepttIDCount,
     },
     {
       header: "Total no of Sectors",
@@ -94,18 +96,19 @@ const ActionPlanReport = () => {
     },
     {
       header: "Total Estimated Unskilled Workers",
-      accessorKey: "sectorName",
+      accessorKey: "totalUnskilledWorkers",
       headclass: "cursor-pointer",
     },
     {
       header: "Total Estimated Mandays",
-      accessorKey: "FundingDeptname",
+      accessorKey: "totalPersonDaysGenerated",
       headclass: "cursor-pointer",
     },
     {
       header: "Avg days Employment to be provided / household",
-      accessorKey: "FundingDeptname",
+      accessorKey: "avgCostProvidedPerWorker",
       headclass: "cursor-pointer",
+      cell: ({ row }) => Math.round(row.original.avgCostProvidedPerWorker),
     },
   ];
 
