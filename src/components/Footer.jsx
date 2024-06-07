@@ -1,5 +1,4 @@
-export const Footer = ({bg}) => {
-
+export const Footer = ({ bg }) => {
   return (
     <>
       <section className="inset-x-0 bottom-0 ">
@@ -34,8 +33,8 @@ export const Footer = ({bg}) => {
                 <div className="copyinner">
                   <div className="flex flex-col items-center bg-[#d7e2f6]">
                     <p className="text">
-                      © 2024 Designed and Developed By{" "}
-                      <span className="font-bold">IT And Statistical Cell</span>{" "}
+                      © 2024 Designed and Developed By
+                      <span className="font-bold">IT And Statistical Cell</span>
                       , Panchayat & Rural Development Department
                       <span className="font-bold"> Govt. of West Bengal</span>
                     </p>

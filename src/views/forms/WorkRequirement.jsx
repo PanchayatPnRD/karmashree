@@ -69,14 +69,18 @@ const WorkRequirement = () => {
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
     queryFn: async () => {
-      const data = await fetch.get(`/api/schememaster/getAllScheme/${userIndex}`);
+      const data = await fetch.get(
+        `/api/schememaster/getAllScheme/${userIndex}`
+      );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
 
   const schemeData = useMemo(() => {
-    const data = schemeAll_List?.filter((item) => item.scheme_sl == schemeSl)[0];
+    const data = schemeAll_List?.filter(
+      (item) => item.scheme_sl == schemeSl
+    )[0];
 
     return data;
   }, [schemeSl]);
@@ -842,7 +846,6 @@ const WorkRequirement = () => {
                       })}
                     </Table.Cell>
                     <Table.Cell>
-                      {" "}
                       <input
                         type="number"
                         className="rounded-md border-zinc-300"

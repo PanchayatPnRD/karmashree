@@ -16,12 +16,11 @@ import {
 } from "@tanstack/react-table";
 
 const ActionPlanList = () => {
-
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   const { data: actionPlanList } = useQuery({
     queryKey: ["actionPlanList"],
     queryFn: async () => {
-      const data = await fetch.get("/api/actionplan/getActionList/",userIndex );
+      const data = await fetch.get("/api/actionplan/getActionList/", userIndex);
 
       return data.data.result;
     },
@@ -169,7 +168,6 @@ const ActionPlanList = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"

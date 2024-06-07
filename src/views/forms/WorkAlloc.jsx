@@ -93,7 +93,8 @@ const WorkAlloc = () => {
       const data = await fetch.get(
         "/api/demand/getDemandsforallocation_and_direct_emp?userIndex=" +
           userDetails?.userIndex +
-          "&districtcode=" + userDetails?.districtcode
+          "&districtcode=" +
+          userDetails?.districtcode
       );
       // console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
@@ -630,7 +631,7 @@ const WorkAlloc = () => {
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Total Unskilled Workers</div>
-                      {totalUnskilledWorkers}{" "}
+                      {totalUnskilledWorkers}
                       <span className="w-fit mx-32 mr-6">
                         Total Unskilled Workers Provided
                       </span>
@@ -711,7 +712,6 @@ const WorkAlloc = () => {
                             </Table.Cell>
 
                             <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {" "}
                               <div className="w-44">
                                 {demandData[index]?.workerJobCardNo}
                               </div>
@@ -798,7 +798,8 @@ const WorkAlloc = () => {
                                   minDate={dateFrom}
                                   maxDate={
                                     new Date(dateFrom).getTime() +
-                                    (demandData[index]?.noOfDaysWorkDemanded - 1 )*
+                                    (demandData[index]?.noOfDaysWorkDemanded -
+                                      1) *
                                       24 *
                                       60 *
                                       60 *

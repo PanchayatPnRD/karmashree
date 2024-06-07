@@ -35,7 +35,7 @@ const Department = () => {
 
   const { mutate: add, isPending: addPending } = useMutation({
     mutationFn: (newTodo) => {
-      return fetch.post(newTodo,"/api/mastertable/createDepartment");
+      return fetch.post(newTodo, "/api/mastertable/createDepartment");
     },
     onSuccess: () => {
       queryClient.invalidateQueries("designationList");
@@ -47,8 +47,9 @@ const Department = () => {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationFn: (newTodo) => {
-      return fetch.post(newTodo,
-        "/api/mastertable/UpdateDepartment/" + mutationId,
+      return fetch.post(
+        newTodo,
+        "/api/mastertable/UpdateDepartment/" + mutationId
       );
     },
     onSuccess: () => {
@@ -169,8 +170,7 @@ const Department = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
-                  {/* Added padding */}{" "}
+                  {/* Added padding */}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"

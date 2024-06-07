@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from "react";
 import { Table } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
@@ -17,9 +16,7 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
-
 const ActionPlanReport = () => {
-
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -28,9 +25,7 @@ const ActionPlanReport = () => {
   const { data: employmentList } = useQuery({
     queryKey: ["employmentList"],
     queryFn: async () => {
-      const data = await fetch.get(
-        `/api/schememaster/getactionplanreport`
-      );
+      const data = await fetch.get(`/api/schememaster/getactionplanreport`);
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
@@ -158,7 +153,6 @@ const ActionPlanReport = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"
@@ -285,15 +279,14 @@ const ActionPlanReport = () => {
               ))}
             </Table.Body>
           </Table>
-          
         </div>
-          <div className="text-md font-semibold opacity-70 text-center">
-            No data available
-          </div>
+        <div className="text-md font-semibold opacity-70 text-center">
+          No data available
+        </div>
         <Pagination data={data} table={table} />
       </div>
     </>
   );
-}
+};
 
-export default ActionPlanReport
+export default ActionPlanReport;

@@ -151,11 +151,11 @@ const DemandList = () => {
     () =>
       loading
         ? list.map((e) => {
-          const { cell, ...rest } = e
-            return ({
+            const { cell, ...rest } = e;
+            return {
               ...rest,
-              cell: <Skeleton/>,
-            });
+              cell: <Skeleton />,
+            };
           })
         : list,
     [loading, list]
@@ -208,7 +208,6 @@ const DemandList = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"

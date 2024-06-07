@@ -20,7 +20,6 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 
-
 const Scheme = () => {
   const navigate = useNavigate();
   const jsonString = localStorage.getItem("karmashree_User");
@@ -46,7 +45,7 @@ const Scheme = () => {
   const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(
     new Date()
   );
-  
+
   const [expectedWorkDate, setExpectedWorkDate] = useState();
   const [projectCost, setProjectCost] = useState("");
   const [totalWages, setTotalWages] = useState("");
@@ -137,7 +136,7 @@ const Scheme = () => {
       setAllBlockList(response);
     });
 
-    getAllMunicipalityList(e.target.value,0).then(function (result) {
+    getAllMunicipalityList(e.target.value, 0).then(function (result) {
       const response = result?.data?.result;
       setAllMunicipalityList(response);
     });
@@ -344,7 +343,7 @@ const Scheme = () => {
     //   toast.error("Please Select Block");
     // } else if (area === "R" && gp === "") {
     //   toast.error("Please Select Gram Panchayat");
-    // } 
+    // }
     else if (sector === "") {
       toast.error("Please Select Scheme Sector");
     } else if (schemeName === "") {
@@ -386,7 +385,7 @@ const Scheme = () => {
     // }
     // else if (remark === "") {
     //   toast.error("Please Type Remarks");
-    // } 
+    // }
     else {
       addCreateScheme(
         area,
@@ -450,7 +449,7 @@ const Scheme = () => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
@@ -462,7 +461,6 @@ const Scheme = () => {
         // userCreate={false}
       />
       <div className="flex-grow">
-        
         <div className="mx-auto mt-2">
           <div className="bg-white rounded-lg p-12">
             <div className="shadow-md" style={{ marginBottom: "-1rem" }}>
@@ -470,8 +468,7 @@ const Scheme = () => {
                 <div className="flex items-center space-x-4">
                   <nav aria-label="Breadcrumb">
                     <ol className="flex items-center space-x-4 px-4 py-2">
-                      {" "}
-                      {/* Added padding */}{" "}
+                      {/* Added padding */}
                       <svg
                         viewBox="0 0 1024 1024"
                         fill="currentColor"

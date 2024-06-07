@@ -9,18 +9,18 @@ export const Pagination = ({ table, data }) => {
       <div className="flex overflow-x-auto justify-center">
         <nav className="">
           <div className="text-sm text-gray-700 dark:text-gray-400">
-            Showing{" "}
+            Showing
             <span className="font-semibold text-gray-900 dark:text-white">
               {startIndex}
-            </span>{" "}
+            </span>
             to&nbsp;
             <span className="font-semibold text-gray-900 dark:text-white">
               {endIndex}
-            </span>{" "}
+            </span>
             of&nbsp;
             <span className="font-semibold text-gray-900 dark:text-white">
               {data?.length}
-            </span>{" "}
+            </span>
             Entries
           </div>
           <ul className="xs:mt-0 mt-2 inline-flex items-center -space-x-px">

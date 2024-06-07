@@ -207,7 +207,6 @@ const WorkRequirementList = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"

@@ -47,9 +47,9 @@ export const Pedestal = () => {
   const pedalstalRef = useRef(null);
   const queryClient = useQueryClient();
 
-  const { mutate: add, isPending:addpending } = useMutation({
+  const { mutate: add, isPending: addpending } = useMutation({
     mutationFn: (newTodo) => {
-      return fetch.post(newTodo,"/api/mastertable/createPedestal" );
+      return fetch.post(newTodo, "/api/mastertable/createPedestal");
     },
     mutationKey: ["padesAdd"],
     onSuccess: () => {
@@ -59,9 +59,12 @@ export const Pedestal = () => {
     },
   });
 
-  const { mutate: update, isPending:updatepending } = useMutation({
+  const { mutate: update, isPending: updatepending } = useMutation({
     mutationFn: (newTodo) => {
-      return fetch.post(newTodo,"/api/mastertable/updatePedestal/"+mutationId);
+      return fetch.post(
+        newTodo,
+        "/api/mastertable/updatePedestal/" + mutationId
+      );
     },
     mutationKey: ["padesUpdate"],
     onSuccess: () => {
@@ -181,8 +184,6 @@ export const Pedestal = () => {
     }
   }
 
-  
-
   return (
     <>
       <ToastContainer />
@@ -193,8 +194,7 @@ export const Pedestal = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
-                  {/* Added padding */}{" "}
+                  {/* Added padding */}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"

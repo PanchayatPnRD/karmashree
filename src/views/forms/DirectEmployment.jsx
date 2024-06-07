@@ -433,7 +433,10 @@ const DirectEmployment = () => {
             <div className="overflow-x-auto overflow-y-auto max-h-[400px] w-full show-scrollbar shadow-md">
               <Table>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
+                  <Table.Head
+                    key={headerGroup.id}
+                    className="sticky top-0 z-10"
+                  >
                     {headerGroup.headers.map((header) => (
                       <Table.HeadCell
                         key={header.id}
@@ -515,8 +518,7 @@ const DirectEmployment = () => {
                 <div className="flex items-center space-x-4">
                   <nav aria-label="Breadcrumb">
                     <ol className="flex items-center space-x-4 px-4 py-2">
-                      {" "}
-                      {/* Added padding */}{" "}
+                      {/* Added padding */}
                       <svg
                         viewBox="0 0 1024 1024"
                         fill="currentColor"
@@ -963,26 +965,26 @@ const DirectEmployment = () => {
                   </Table>
                 </div>
                 <div className="flex space-x-4 justify-center items-center">
-                        <button
-                          type="button"
-                          className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                          onClick={() => {
-                            setWorkAllocationId("");
-                            setEmpData([]);
-                          }}
-                        >
-                          Back
-                        </button>
-                        <button
-                          type="button"
-                          className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          // onClick={() => {
-                          //   if (empDataList.length > 0) mutate();
-                          // }}
-                        >
-                          Submit
-                        </button>
-                      </div>
+                  <button
+                    type="button"
+                    className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    onClick={() => {
+                      setWorkAllocationId("");
+                      setEmpData([]);
+                    }}
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    // onClick={() => {
+                    //   if (empDataList.length > 0) mutate();
+                    // }}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>

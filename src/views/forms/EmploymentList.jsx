@@ -121,7 +121,7 @@ const EmploymentList = () => {
       cell: ({ row }) =>
         new Date(row.original.workAllocationFromDate).toLocaleDateString(
           "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit"}
+          { day: "2-digit", month: "2-digit", year: "2-digit" }
         ),
     },
     {
@@ -131,7 +131,7 @@ const EmploymentList = () => {
       cell: ({ row }) =>
         new Date(row.original.workAllocationToDate).toLocaleDateString(
           "en-IN",
-          { day: "2-digit", month: "2-digit", year: "2-digit"}
+          { day: "2-digit", month: "2-digit", year: "2-digit" }
         ),
     },
     {
@@ -193,7 +193,6 @@ const EmploymentList = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"
@@ -222,106 +221,106 @@ const EmploymentList = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow p-8 px-12">
-          <div className=" flex justify-between px-2 items-center h-12">
-            <select
-              className="rounded-lg"
-              name=""
-              id=""
-              value={items}
-              onChange={(e) => setItems(e.target.value)}
+        <div className=" flex justify-between px-2 items-center h-12">
+          <select
+            className="rounded-lg"
+            name=""
+            id=""
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+          >
+            {ListOptions.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+          <div className="h-full py-1">
+            <input
+              type="text"
+              value={filtering}
+              placeholder="search..."
+              className="border-2 rounded-lg border-zinc-400"
+              onChange={(e) => setFiltering(e.target.value)}
+            />
+            <button
+              className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
+              onClick={() =>
+                exportToExcel(rowToArray(), table, "contractorList")
+              }
+              // onClick={rowToArray}
             >
-              {ListOptions.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-            <div className="h-full py-1">
-              <input
-                type="text"
-                value={filtering}
-                placeholder="search..."
-                className="border-2 rounded-lg border-zinc-400"
-                onChange={(e) => setFiltering(e.target.value)}
-              />
-              <button
-                className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
-                onClick={() =>
-                  exportToExcel(rowToArray(), table, "contractorList")
-                }
-                // onClick={rowToArray}
-              >
-                XLSX
-              </button>
-              <button
-                className="border px-4 h-[42px] text-black rounded border-black"
-                onClick={() => exportToCSV(table, "contractorList")}
-                // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
-              >
-                CSV
-              </button>
-            </div>
+              XLSX
+            </button>
+            <button
+              className="border px-4 h-[42px] text-black rounded border-black"
+              onClick={() => exportToCSV(table, "contractorList")}
+              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            >
+              CSV
+            </button>
           </div>
-          <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Table.Head key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.HeadCell
-                      key={header.id}
+        </div>
+        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+          <Table>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Head key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.HeadCell
+                    key={header.id}
+                    className={classNames(
+                      header.column.columnDef.headclass,
+                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                    )}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center space-x-2 justify-between">
+                        <span className="normal-case">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </span>
+                        <SortIcon sort={header.column.getIsSorted()} />
+                      </div>
+                    )}
+                  </Table.HeadCell>
+                ))}
+                {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
+              </Table.Head>
+            ))}
+
+            <Table.Body className="divide-y">
+              {table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id} className="divide-x">
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
                       className={classNames(
-                        header.column.columnDef.headclass,
-                        "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                        cell.column.columnDef.className,
+                        "whitespace-nowrap py-2 text-center"
                       )}
-                      onClick={header.column.getToggleSortingHandler()}
                     >
-                      {header.isPlaceholder ? null : (
-                        <div className="flex items-center space-x-2 justify-between">
-                          <span className="normal-case">
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </span>
-                          <SortIcon sort={header.column.getIsSorted()} />
-                        </div>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
                       )}
-                    </Table.HeadCell>
+                    </Table.Cell>
                   ))}
-                  {/* <Table.HeadCell className="normal-case">Actions</Table.HeadCell> */}
-                </Table.Head>
-              ))}
 
-              <Table.Body className="divide-y">
-                {table.getRowModel().rows.map((row) => (
-                  <Table.Row key={row.id} className="divide-x">
-                    {row.getVisibleCells().map((cell) => (
-                      <Table.Cell
-                        key={cell.id}
-                        className={classNames(
-                          cell.column.columnDef.className,
-                          "whitespace-nowrap py-2 text-center"
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Table.Cell>
-                    ))}
-
-                    {/* <Table.Cell className="flex items-center justify-center space-x-8">
+                  {/* <Table.Cell className="flex items-center justify-center space-x-8">
                       <Icon
                         icon={"mingcute:edit-line"}
                         className="font-medium text-cyan-600 hover:underline text-2xl"
                       />
                     </Table.Cell> */}
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
-          </div>
-          <Pagination data={data} table={table} />
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+        <Pagination data={data} table={table} />
       </div>
     </>
   );

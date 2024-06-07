@@ -15,7 +15,7 @@ import { Pagination } from "../../components/Pagination";
 import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const WorkAllocationList = () => {
   const [workAllocationId, setWorkAllocationId] = useState("");
@@ -196,7 +196,6 @@ const WorkAllocationList = () => {
             <div className="flex items-center space-x-4">
               <nav aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4 px-4 py-2">
-                  {" "}
                   <svg
                     viewBox="0 0 1024 1024"
                     fill="currentColor"
@@ -292,7 +291,7 @@ const WorkAllocationList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue" >
+                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
                   Actions
                 </Table.HeadCell>
               </Table.Head>
@@ -313,12 +312,21 @@ const WorkAllocationList = () => {
                   ))}
 
                   <Table.Cell className="flex items-center justify-center space-x-8 py-1">
-                  <Link to={`/dashboard/workallocationview/${row.original.workAllocationID}`} className="flex items-center justify-center"><button onClick={()=>setWorkAllocationId(row.original.workAllocationID)}>
-                      <Icon
-                        icon={"icon-park-solid:preview-open"}
-                        className="font-medium text-cyan-600 hover:underline text-2xl"
-                      />
-                    </button></Link>
+                    <Link
+                      to={`/dashboard/workallocationview/${row.original.workAllocationID}`}
+                      className="flex items-center justify-center"
+                    >
+                      <button
+                        onClick={() =>
+                          setWorkAllocationId(row.original.workAllocationID)
+                        }
+                      >
+                        <Icon
+                          icon={"icon-park-solid:preview-open"}
+                          className="font-medium text-cyan-600 hover:underline text-2xl"
+                        />
+                      </button>
+                    </Link>
                   </Table.Cell>
                 </Table.Row>
               ))}
