@@ -824,7 +824,7 @@ const Scheme = () => {
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Total Wage Cost
+                    Total Wage Cost Involved
                     <span className="text-red-500 "> *</span>
                   </label>
                   <input
