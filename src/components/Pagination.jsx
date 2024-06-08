@@ -8,20 +8,22 @@ export const Pagination = ({ table, data }) => {
     <>
       <div className="flex overflow-x-auto justify-center">
         <nav className="">
-          <div className="text-sm text-gray-700 dark:text-gray-400">
-            Showing
+          <div className="text-sm text-gray-700 dark:text-gray-400 flex space-x-1">
+            <span>Showing</span>
+
             <span className="font-semibold text-gray-900 dark:text-white">
               {startIndex}
             </span>
-            to&nbsp;
+
+            <span>to</span>
             <span className="font-semibold text-gray-900 dark:text-white">
               {endIndex}
             </span>
-            of&nbsp;
+            <span>of</span>
             <span className="font-semibold text-gray-900 dark:text-white">
               {data?.length}
             </span>
-            Entries
+            <span>Entries</span>
           </div>
           <ul className="xs:mt-0 mt-2 inline-flex items-center -space-x-px">
             <li>

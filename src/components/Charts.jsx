@@ -2,24 +2,24 @@ import ReactApexChart from "react-apexcharts";
 import { useState, useMemo } from "react";
 
 const Charts = ({ data, className }) => {
-  console.log(data, "data")
+  console.log(data, "data");
 
-  const Months = useMemo(()=>{
-    const arr = data?.map(e=>e.month)
-    return arr ? arr : []
-  },[data])
+  const Months = useMemo(() => {
+    const arr = data?.map((e) => e.month);
+    return arr ? arr : [];
+  }, [data]);
 
-  const Works = useMemo(()=>{
-    const arr = data?.map(e=>e.engaged)
-    return arr ? arr : []
-  },[data])
+  const Works = useMemo(() => {
+    const arr = data?.map((e) => e.engaged);
+    return arr ? arr : [];
+  }, [data]);
 
-  const Mandays = useMemo(()=>{
-    const arr = data?.map(e=>e.mandays)
-    return arr ? arr : []
-  },[data])
+  const Mandays = useMemo(() => {
+    const arr = data?.map((e) => e.mandays);
+    return arr ? arr : [];
+  }, [data]);
 
-  console.log(Months)
+  console.log(Months);
 
   const [state, setState] = useState({
     series: [
@@ -133,6 +133,9 @@ const Charts = ({ data, className }) => {
   };
   return (
     <div className={className}>
+      <h1 className="text-xl tracking-tight font-bold pt-2 w-full text-center">
+        Last 7 Days Progress
+      </h1>
       <ReactApexChart
         options={options}
         series={state.series}
