@@ -800,6 +800,7 @@ const SchemeEdit = () => {
                   <select
                     id="scheme_name"
                     name="scheme_name"
+                    value={allData?.StatusOfWork}
                     autoComplete="off"
                     className="p-2 block w-full border border-gray-300 rounded-md mt-1"
                     required
@@ -828,10 +829,13 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                    disabled={status == "" || status == "S"}
+                    disabled={
+                      allData?.StatusOfWork == "" ||
+                      allData?.StatusOfWork == "S"
+                    }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    selected={tentativeWorkStartDate}
+                    selected={allData?.tentativeStartDate}
                     onChange={(date) => setTentativeWorkStartDate(date)}
                   />
                 </div>
@@ -845,27 +849,27 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                    disabled={status == "" || status == "P"}
+                    disabled={
+                      allData?.StatusOfWork == "" ||
+                      allData?.StatusOfWork == "P"
+                    }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    selected={tentativeWorkStartDate}
+                    selected={allData?.ActualtartDate}
                     onChange={(date) => setTentativeWorkStartDate(date)}
                   />
                 </div>
                 <div className="w-fit flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700 w-fit"
-                  >
+                  <label className="block text-sm font-medium text-gray-700 w-fit">
                     Expected Work Completion Date
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                    minDate={tentativeWorkStartDate}
+                    minDate={allData?.tentativeStartDate}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="dd-mm-yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={expectedWorkDate}
+                    selected={allData?.ExpectedCompletionDate}
                     onChange={(date) => setExpectedWorkDate(date)}
                   />
                 </div>

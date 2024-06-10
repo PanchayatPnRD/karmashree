@@ -413,7 +413,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !allocationHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Allocation"}>
+        <SidebarExpand text={"Worker Allocation"}>
           {sideBarList
             .slice(18, 20)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -432,7 +432,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !employmentHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Employment"}>
+        <SidebarExpand text={"Worker Employment"}>
           {sideBarList
             .slice(20, 23)
             .filter((e) => e.permissions.includes(userRoleIndex))
