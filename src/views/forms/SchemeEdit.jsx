@@ -70,6 +70,9 @@ const SchemeEdit = () => {
     workorderNo: "",
     shortName: "",
     overview: "",
+    tentativeStartDate:"",
+    ActualtartDate:"",
+    ExpectedCompletionDate:"",
   });
   console.log(allData, "ALLDATA");
 
@@ -464,6 +467,27 @@ const SchemeEdit = () => {
     }
   };
 
+  const onTentativeStartDate=(d)=>{
+    setAllData({ ...allData, tentativeStartDate: format(new Date(d), "yyyy-MM-dd") });
+    setTentativeWorkStartDate(d)
+  }
+
+  const onActualStartDate=(d)=>{
+    
+    setAllData({ ...allData, ActualtartDate: format(new Date(d), "yyyy-MM-dd") });
+    setTentativeWorkStartDate(d)
+
+  }
+
+  const onExpectedWorkdate=(d)=>{
+    setAllData({ ...allData, ExpectedCompletionDate: format(new Date(d), "yyyy-MM-dd") });
+    setExpectedWorkDate(d)
+  }
+
+  const onWorkOrderDate=(d)=>{
+
+  }
+
   return (
     <>
       <ToastContainer />
@@ -829,14 +853,17 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
+                  name="tentativeStartDate"
                     disabled={
                       allData?.StatusOfWork == "" ||
                       allData?.StatusOfWork == "S"
                     }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    selected={allData?.tentativeStartDate}
-                    onChange={(date) => setTentativeWorkStartDate(date)}
+                    // selected={allData?.tentativeStartDate}
+                    value={new Date(allData?.tentativeStartDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+
+                    onChange={onTentativeStartDate}
                   />
                 </div>
 
@@ -849,14 +876,15 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
+                  name="ActualtartDate"
                     disabled={
                       allData?.StatusOfWork == "" ||
                       allData?.StatusOfWork == "P"
                     }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    selected={allData?.ActualtartDate}
-                    onChange={(date) => setTentativeWorkStartDate(date)}
+                    value={new Date(allData?.ActualtartDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+                    onChange={onActualStartDate}
                   />
                 </div>
                 <div className="w-fit flex flex-col">
@@ -869,8 +897,10 @@ const SchemeEdit = () => {
                     dateFormat="dd/MM/yyyy"
                     placeholderText="dd-mm-yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={allData?.ExpectedCompletionDate}
-                    onChange={(date) => setExpectedWorkDate(date)}
+                    // selected={allData?.ExpectedCompletionDate}
+                    value={new Date(allData?.ExpectedCompletionDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+
+                    onChange={onExpectedWorkdate}
                   />
                 </div>
               </div>
@@ -1025,10 +1055,11 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
+                  maxDate={allData?.ActualtartDate} 
                     dateFormat="dd/MM/yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
                     selected={workOrderDate}
-                    onChange={(date) => setWorkOrderDate(date)}
+                    onChange={onWorkOrderDate}
                   />
                 </div>
                 <div className="px-4 w-1/3">
