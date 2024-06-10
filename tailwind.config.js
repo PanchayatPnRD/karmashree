@@ -13,6 +13,7 @@ export default {
       backgroundImage: {
         banner: "url('/assets/img/mamta_banner_bg.png')",
         curve: "url('/assets/img/curve_border2.png')",
+        error: "url('/dribbble_1.gif')"
       },
       height: {
         remaining: "calc(100vh - 96px)",
