@@ -125,6 +125,15 @@ const DirectEmployment = () => {
   const queryclient = useQueryClient();
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
+    const { data: userDetails, isSuccess } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+
+      return data.data.result;
+    },
+  });
+
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
     queryFn: async () => {
@@ -138,10 +147,13 @@ const DirectEmployment = () => {
   const { data: demandList, isLoading: loading } = useQuery({
     queryKey: ["demandList"],
     queryFn: async () => {
-      const data = await fetch.get(`/api/demand/getdemandList/${userIndex}`);
+      const data = await fetch.get(
+        `/api/demand/getDemandsforallocation_and_direct_emp?userIndex=${userIndex}&districtcode=${userDetails?.districtcode}`
+      );
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
+    enabled: isSuccess
   });
 
   const ListOptions = [5, 10, 15, "all"];

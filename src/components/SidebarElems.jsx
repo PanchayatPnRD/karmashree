@@ -9,7 +9,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import classNames from "classnames";
 
-export const SidebarElement = ({ to, children, customCss ,isWrapped}) => {
+export const SidebarElement = ({ to, children, customCss, isWrapped }) => {
   const navigate = useNavigate();
   const isActive = useResolvedPath(to).pathname === useLocation().pathname;
   return (
@@ -19,9 +19,9 @@ export const SidebarElement = ({ to, children, customCss ,isWrapped}) => {
         customCss || "py-1 pl-6 ",
         isActive
           ? "hover:bg-cyan-500 bg-cyan-400 text-blue-950"
-          : ("hover:bg-blue-800/40 "+ (isWrapped ? "text-white/60" : "text-white")),
-        "rounded-lg transition-all duration-100 cursor-pointer",
-        
+          : "hover:bg-blue-800/40 " +
+              (isWrapped ? "text-white/60" : "text-white"),
+        "rounded-lg transition-all duration-100 cursor-pointer"
       )}
     >
       <NavLink end to={to}>
@@ -31,7 +31,7 @@ export const SidebarElement = ({ to, children, customCss ,isWrapped}) => {
   );
 };
 
-export const SidebarExpand = ({ text, children }) => {
+export const SidebarExpand = ({ text, children, icon }) => {
   const [isopen, setIsopen] = useState(false);
 
   return (
@@ -40,7 +40,10 @@ export const SidebarExpand = ({ text, children }) => {
         className="flex py-2.5 pl-10 pr-8 space-x-2 rounded-lg justify-between items-center hover:bg-blue-800/40 transition-all duration-100"
         onClick={() => setIsopen((prev) => !prev)}
       >
-        <span>{text}</span>
+        <span className="flex items-center space-x-4">
+          <Icon icon={icon} className="text-2xl"/>
+          <span>{text}</span>
+        </span>
         {isopen ? (
           <Icon icon={"ep:arrow-up-bold"} />
         ) : (

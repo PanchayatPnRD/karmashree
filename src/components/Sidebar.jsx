@@ -39,7 +39,7 @@ import EmploymentList from "../views/forms/EmploymentList";
 import DemandList from "../views/forms/DemandList";
 import WorkAllocationList from "../views/forms/WorkAllocationList";
 
-
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const sideBarList = [
   {
@@ -275,11 +275,16 @@ export const Sidebar = () => {
   return (
     <div className="z-20 flex flex-col p-3">
       <SidebarElement to="/dashboard" customCss={"flex justify-start pl-10 "}>
-        <div className=" items-start py-2 capitalize">Home</div>
+        <div className=" items-start py-2 capitalize">
+          <span className="flex items-center space-x-4">
+            <Icon icon={"material-symbols:home"} className="text-2xl" />
+            <span>Home</span>
+          </span>
+        </div>
       </SidebarElement>
       <div className="h-2"></div>
       {isSuccess && !userMasterHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"User Creation"}>
+        <SidebarExpand text={"User Creation"} icon={"mdi:user"}>
           {sideBarList
             .slice(1, 5)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -337,7 +342,10 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !contractorHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Contractor Master"}>
+        <SidebarExpand
+          text={"Contractor Master"}
+          icon={"map:general-contractor"}
+        >
           {sideBarList
             .slice(10, 12)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -356,7 +364,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !schemeHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Scheme Master"}>
+        <SidebarExpand text={"Scheme Master"} icon={"eos-icons:project"}>
           {sideBarList
             .slice(12, 14)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -375,7 +383,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !demandHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Demand Register"}>
+        <SidebarExpand text={"Demand Register"} icon={"mdi:register"}>
           {sideBarList
             .slice(14, 16)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -394,7 +402,7 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !requirementHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Worker Requisition"}>
+        <SidebarExpand text={"Worker Requisition"} icon={"mdi:worker"}>
           {sideBarList
             .slice(16, 18)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -413,7 +421,10 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !allocationHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Worker Allocation"}>
+        <SidebarExpand
+          text={"Worker Allocation"}
+          icon={"clarity:assign-user-solid"}
+        >
           {sideBarList
             .slice(18, 20)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -432,7 +443,10 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !employmentHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Worker Employment"}>
+        <SidebarExpand
+          text={"Worker Employment"}
+          icon={"clarity:employee-solid"}
+        >
           {sideBarList
             .slice(20, 23)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -468,23 +482,24 @@ export const Sidebar = () => {
           })}
       </SidebarExpand> */}
       {isSuccess && !reportHidden.includes(userRoleIndex) && (
-      <SidebarExpand text={"Reports"}>
-        {sideBarList
-          .slice(23, sideBarList.length)
-          // .filter((e) => e.permissions.includes(userRoleIndex))
-          .map((e) => {
-            return (
-              <SidebarElement
-                key={e.route}
-                to={e.route}
-                customCss={"py-2 pl-8 text-sm"}
-                isWrapped
-              >
-                <div className=" items-center capitalize">{e.text}</div>
-              </SidebarElement>
-            );
-          })}
-      </SidebarExpand>)}
+        <SidebarExpand text={"Reports"} icon={"bxs:report"}>
+          {sideBarList
+            .slice(23, sideBarList.length)
+            // .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
       {/* {isSuccess &&
         sideBarList
           .slice(18, sideBarList.length)
