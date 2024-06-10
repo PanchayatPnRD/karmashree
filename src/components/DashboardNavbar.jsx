@@ -48,7 +48,7 @@ export const DashboardNavbar = () => {
     if (permission >= 13 && permission <= 17)
       return userDetails?.deptName + " " + userDetails?.districtName;
     if (permission >= 18 && permission <= 23)
-      return userDetails?.deptName + " / " + userDetails?.districtName + " / " + userDetails?.subDivisionName;
+      return userDetails?.deptName + " / " + userDetails?.districtName + " / " + userDetails?.subDivision;
     if (permission >= 24 && permission <= 29)
       return userDetails?.deptName + " / " + userDetails?.districtName + " / " + userDetails?.blockname;
     if (permission >= 30 && permission <= 35)
