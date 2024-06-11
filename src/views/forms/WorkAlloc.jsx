@@ -630,7 +630,7 @@ const WorkAlloc = () => {
                       {gpName.length > 0 && gpName}
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">Total Unskilled Workers</div>
+                      <div className="label-style">Total Unskilled Workers Demandad</div>
                       {totalUnskilledWorkers}
                       <span className="w-fit mx-32 mr-6">
                         Total Unskilled Workers Provided
@@ -638,7 +638,7 @@ const WorkAlloc = () => {
                       {AllocAPIData.length}
                     </div>
                     <div className="div-even">
-                      <div className="label-style">Total No of Days</div>
+                      <div className="label-style">Total No of Days Demandad</div>
                       {noOfDays}
                       <span className="w-fit mx-32 mr-6">
                         Total No of Days Provided
@@ -844,7 +844,7 @@ const WorkAlloc = () => {
                     type="button"
                     className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
                     onClick={mutate}
-                    disabled={is_demand}
+                    //disabled={is_demand}
                   >
                     Submit
                   </button>
