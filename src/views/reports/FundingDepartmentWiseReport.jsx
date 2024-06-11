@@ -56,7 +56,7 @@ const FundingDepartmentWiseReport = () => {
       header: "Department Name",
       accessorKey: "departmentName",
       headclass: "cursor-pointer",
-      className:"text-center"
+      className:"text-left"
     },
     {
       header: "Total Scheme",
@@ -248,8 +248,8 @@ const FundingDepartmentWiseReport = () => {
                     <Table.Cell
                       key={cell.id}
                       className={classNames(
-                        cell.column.columnDef.className,
-                        "whitespace-nowrap py-2 text-center"
+                        "whitespace-nowrap py-2 text-center",
+                        cell.column.columnDef.className
                       )}
                     >
                       {flexRender(

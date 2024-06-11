@@ -257,7 +257,7 @@ export const sideBarList = [
 
   {
     Component: UserListByDepartment,
-    text: "UserList By Department",
+    text: "User List By Department",
     route: "/dashboard/user_list_by_department",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
