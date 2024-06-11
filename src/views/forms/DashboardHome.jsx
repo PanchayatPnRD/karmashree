@@ -73,20 +73,38 @@ const DashboardHome = () => {
                 Funding Departments
               </h3>
               <p className="text-xl font-bold">
-                {DashboardData?.FundingDepttIDCount}
+                <CountUp
+                  start={0}
+                  end={DashboardData?.FundingDepttIDCount}
+                  duration={2.75}
+                  // delay={0}
+                />
               </p>
             </div>
             <div className="bg-pink-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-md text-center font-semibold mb-2">
                 Total Amount Wages paid
               </h3>
-              <p className="text-xl font-bold">1230</p>
+              <p className="text-xl font-bold">
+                <CountUp
+                  start={0}
+                  end={"12450"}
+                  duration={2.75}
+                  // delay={0}
+                /></p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 ">
             <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">Proposed Schemes</h3>
-              <p className="text-xl font-bold">{DashboardData?.totalscheme}</p>
+              <p className="text-xl font-bold">
+              <CountUp
+                  start={0}
+                  end={DashboardData?.totalscheme}
+                  duration={2.75}
+                  // delay={0}
+                />
+                </p>
             </div>
 
             {/* Mini Card 2 */}
@@ -95,7 +113,13 @@ const DashboardHome = () => {
                 Estimated Unskilled Workers
               </h3>
               <p className="text-xl font-bold">
-                {DashboardData?.totalUnskilledWorkers}
+              <CountUp
+                  start={0}
+                  end={DashboardData?.totalUnskilledWorkers}
+                  duration={2.75}
+                  // delay={0}
+                />
+                
               </p>
             </div>
 
@@ -103,7 +127,12 @@ const DashboardHome = () => {
             <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-2">Estimated Mandays</h3>
               <p className="text-xl font-bold">
-                {DashboardData?.totalPersonDaysGenerated}
+                <CountUp
+                  start={0}
+                  end={DashboardData?.totalPersonDaysGenerated}
+                  duration={2.75}
+                  // delay={0}
+                />
               </p>
             </div>
 
@@ -113,7 +142,13 @@ const DashboardHome = () => {
                 Avg Days of Employment to be provided/Household
               </h3>
               <p className="text-xl font-bold">
-                {Math.round(DashboardData?.avgCostProvidedPerWorker)}
+              <CountUp
+                  start={0}
+                  end={Math.round(DashboardData?.avgCostProvidedPerWorker)}
+                  duration={2.75}
+                  // delay={0}
+                />
+                
               </p>
             </div>
           </div>
