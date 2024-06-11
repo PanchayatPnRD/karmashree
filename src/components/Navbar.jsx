@@ -1,13 +1,33 @@
 import { Karmashree_logo } from "./Logo";
+import { useState, useEffect, useMemo } from "react";
 import emblem from "/assets/logo/biswa.png";
 import { Link, useLocation } from "react-router-dom";
+import { devApi } from "../WebApi/WebApi";
 import classNames from "classnames";
 import { useNetworkState } from "@uidotdev/usehooks";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const Navbar = () => {
   const { pathname } = useLocation();
   const { online } = useNetworkState();
-  
+  const [serverStat, setserverStat] = useState();
+
+  const { data, isError, isFetched, isFetching } = useQuery({
+    queryKey: ["serverStatus"],
+    queryFn: async () => {
+      const response = await axios.get(devApi);
+      return response;
+    },
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+
+  useEffect(() => {
+    if (isFetched && !isFetching)
+      setserverStat(isError)
+  }, [isFetching])
+
   return (
     <>
       <div className="p-4 px-16 flex justify-between border items-center sticky top-0 left-0 z-50 bg-white shadow-lg">
@@ -47,13 +67,16 @@ export const Navbar = () => {
           </Link>
         </div>
       </div>
+      
       <div
         className={classNames(
-          online ? "h-0" : "h-8",
+          online ? (!serverStat ? "h-0" : "h-8") : "h-8",
           " bg-red-600 flex justify-center items-center text-white font-semibold transition-all duration-300"
         )}
       >
-        Your are offline
+        {online
+          ? serverStat == true && "Unable to connect to the server"
+          : "You are Offline"}
       </div>
     </>
   );
