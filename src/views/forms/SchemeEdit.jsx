@@ -14,7 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   getAllContractorList,
-  addCreateScheme,
+  updateScheme,
   getSchemeViewDetails,
 } from "../../Service/Scheme/SchemeService";
 import { format } from "date-fns";
@@ -68,11 +68,11 @@ const SchemeEdit = () => {
   const [schemeDetails, setSchemeDetails] = useState();
   const [allData, setAllData] = useState({
     workorderNo: "",
-    shortName: "",
-    overview: "",
     tentativeStartDate: "",
+    workOderDate: "",
     ActualtartDate: "",
     ExpectedCompletionDate: "",
+    Remarks: "",
   });
   console.log(allData, "ALLDATA");
 
@@ -303,6 +303,7 @@ const SchemeEdit = () => {
   };
 
   const onContractor = (e) => {
+    setAllData({ ...allData, ControctorID: e.target.value });
     setContractor(e.target.value);
   };
 
@@ -311,6 +312,8 @@ const SchemeEdit = () => {
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
     if (regex.test(value) || value === "") {
       setRemark(value);
+      setAllData({ ...allData, Remarks: event.target.value });
+
       setIsValidRemark(true);
     } else {
       setIsValidRemark(false);
@@ -350,121 +353,30 @@ const SchemeEdit = () => {
     format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
     "fatafatafa"
   );
-  const onSubmit = () => {
-    console.log("clicked");
-    if (area === "") {
-      toast.error("Please Select Area Type");
-    } else if (!district) {
-      toast.error("Please Select District");
-    }
-    //  else if (area === "U" && municipality === "") {
-    //   toast.error("Please Select Municipality");
-    // } else if (area === "R" && block === "") {
-    //   toast.error("Please Select Block");
-    // } else if (area === "R" && gp === "") {
-    //   toast.error("Please Select Gram Panchayat");
-    // }
-    else if (sector === "") {
-      toast.error("Please Select Scheme Sector");
-    } else if (schemeName === "") {
-      toast.error("Please Type Scheme Name");
-    } else if (Location === "") {
-      toast.error("Please Type Worksite Location");
-    } else if (department === "") {
-      toast.error("Please Select Funding Department");
-    } else if (status === "") {
-      toast.error("Please Select Status Of Work");
-    } else if (!tentativeWorkStartDate) {
-      toast.error("Please Select Tentative Work Start Date");
-    } else if (!tentativeWorkStartDate) {
-      toast.error("Please Select Actual Work Start Date");
-    } else if (!expectedWorkDate) {
-      toast.error("Please Select Expected Work Completion Date");
-    } else if (projectCost === "") {
-      toast.error("Please Type Project Cost");
-    } else if (totalWages === "") {
-      toast.error("Please Type Total Wage Cost involved in the Work");
-    } else if (parseInt(totalWages) > parseInt(projectCost)) {
-      toast.error("Total Wage Cost cant greater than Project Cost ");
-    } else if (persondaysWork === "") {
-      toast.error("Please Type Persondays to be generated from the Work");
-    }
-    // else if (unskilled === "") {
-    //   toast.error("Please Type No of Unskilled Workers to be engaged");
-    // } else if (semiskilled === "") {
-    //   toast.error("Please Type No of Semi-Skilled Workers to be engaged");
-    // } else if (skilled === "") {
-    //   toast.error("Please Type No of Skilled Workers to be engaged");
-    // }
-    // else if (workOrderNumber === "") {
-    //   toast.error("Please Type Work Order Number");
-    // } else if (!workOrderDate) {
-    //   toast.error("Please Select Work Order Date");
-    // } else if (contractor === "") {
-    //   toast.error("Please Select Contractor List");
-    // }
-    // else if (remark === "") {
-    //   toast.error("Please Type Remarks");
-    // }
-    else {
-      addCreateScheme(
-        area,
-        data?.departmentNo,
-        district,
-        municipality,
-        block,
-        gp,
-        "0",
-        Location,
-        sector,
-        "-",
-        schemeName,
-        department,
-        allDepartmentList.find((c) => c.departmentNo == department)
-          ?.departmentName,
+  const onUpdate = () => {
 
-        data?.departmentNo,
+    updateScheme(
+      allData?.scheme_sl,
+      status ? status : allData?.StatusOfWork,
+      format(new Date(allData?.tentativeStartDate), "yyyy-MM-dd"),
+      format(new Date(allData?.ActualtartDate), "yyyy-MM-dd"),
+      format(new Date(expectedWorkDate ? expectedWorkDate : allData?.ExpectedCompletionDate), "yyyy-MM-dd"),
+      allData?.workorderNo,
+      format(new Date(workOrderDate ? workOrderDate : allData?.workOderDate), "yyyy-MM-dd"),
+      allData?.ControctorID,
+      allData?.Remarks,
 
-        allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
-          ?.departmentName,
-
-        data?.departmentNo,
-
-        allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
-          ?.departmentName,
-
-        status,
-
-        format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
-        format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
-        format(new Date(expectedWorkDate), "yyyy-MM-dd"),
-        projectCost,
-        totalWages,
-        0,
-        persondaysWork,
-        +unskilled,
-        +semiskilled,
-        +skilled,
-        workOrderNumber,
-        format(new Date(workOrderDate), "yyyy-MM-dd"),
-        contractor,
-        "A",
-        currentMonth,
-        currentYear,
-        financialYear,
-        remark,
-        data?.userIndex,
-        (r) => {
-          console.log(r, "response");
-          if (r.errorCode == 0) {
-            setOpenModal(true);
-            setSchemeId(r.schemeid);
-          } else {
-            toast.error(r.message);
-          }
+      (r) => {
+        console.log(r, "response");
+        if (r.errorCode == 0) {
+          setOpenModal(true);
+          setSchemeId(r.schemeid);
+        } else {
+          toast.error(r.message);
         }
-      );
-    }
+      }
+    );
+
   };
 
   const onTentativeStartDate = (d) => {
@@ -485,7 +397,8 @@ const SchemeEdit = () => {
   }
 
   const onWorkOrderDate = (d) => {
-
+    setAllData({ ...allData, workOderDate: format(new Date(d), "yyyy-MM-dd") });
+    setWorkOrderDate(d)
   }
 
   return (
@@ -494,7 +407,7 @@ const SchemeEdit = () => {
       <SuccessModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={`Scheme Id ${schemeId} created Successfully`}
+        message={`Scheme updated Successfully`}
         // resetData={resetData}
         to="scheme-list"
         isSuccess={true}
@@ -824,7 +737,7 @@ const SchemeEdit = () => {
                   <select
                     id="scheme_name"
                     name="scheme_name"
-                    value={allData?.StatusOfWork}
+                    value={status ? status : allData?.StatusOfWork}
                     autoComplete="off"
                     className="p-2 block w-full border border-gray-300 rounded-md mt-1"
                     required
@@ -855,8 +768,9 @@ const SchemeEdit = () => {
                   <DatePicker
                     name="tentativeStartDate"
                     disabled={
-                      allData?.StatusOfWork == "" ||
-                      allData?.StatusOfWork == "S"
+
+                      status === "S" ? status === "S" : allData?.StatusOfWork === "S" ||
+                        status === "S"
                     }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
@@ -879,7 +793,8 @@ const SchemeEdit = () => {
                     name="ActualtartDate"
                     disabled={
                       allData?.StatusOfWork == "" ||
-                      allData?.StatusOfWork == "P"
+                      allData?.StatusOfWork == "P" ||
+                      status == "P"
                     }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
@@ -1058,8 +973,10 @@ const SchemeEdit = () => {
                     maxDate={allData?.ActualtartDate}
                     dateFormat="dd/MM/yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
-                    selected={workOrderDate}
+                    // selected={workOrderDate}
                     onChange={onWorkOrderDate}
+                    value={new Date(allData?.workOderDate).toLocaleDateString("en-IN", { month: "2-digit", day: "2-digit", year: "numeric" })}
+
                   />
                 </div>
                 <div className="px-4 w-1/3">
@@ -1078,11 +995,11 @@ const SchemeEdit = () => {
                     onChange={onContractor}
                   >
                     <option value="" selected hidden>
-                      {contractor ? contractor : allData?.c}
+                      {contractor ? contractor : allContractorList.find((c) => c.cont_sl == allData?.ControctorID)?.contractorNameGst}
                     </option>
-                    {/* <option value="1">
-                    Department Itself
-                  </option> */}
+                    <option value="">
+                      Select Contractor List
+                    </option>
                     {contractorListDropdown}
 
                     {/* Add more options as needed */}
@@ -1105,6 +1022,7 @@ const SchemeEdit = () => {
                     placeholder=" Remarks..."
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onRemarks}
+                    value={allData?.Remarks}
                   />
                   {!isValidRemark && (
                     <div style={{ color: "red" }}>
@@ -1117,7 +1035,7 @@ const SchemeEdit = () => {
                 <button
                   type="button"
                   className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSubmit}
+                  onClick={onUpdate}
                 >
                   Update
                 </button>

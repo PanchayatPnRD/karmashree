@@ -161,6 +161,75 @@ export const addCreateScheme = async (
     }
 };
 
+//update scheme
+
+export const updateScheme = async (
+    schemeId,
+    StatusOfWork,
+    tentativeStartDate,
+    ActualtartDate,
+    ExpectedCompletionDate,
+    workorderNo,
+    workOderDate,
+    ControctorID,
+    Remarks,
+    onSuccess,
+    onFailure) => {
+  
+  
+        console.log(schemeId,
+        StatusOfWork,
+        tentativeStartDate,
+        ActualtartDate,
+        ExpectedCompletionDate,
+        workorderNo,
+        workOderDate,
+        ControctorID,
+        Remarks, "conconcon")
+
+
+    try {
+        const res = await webApi.post(
+            `/api/schememaster/updateschme/${schemeId}`,
+            {
+
+                "StatusOfWork": StatusOfWork,
+                "tentativeStartDate": tentativeStartDate,
+                "ActualtartDate": ActualtartDate,
+                "ExpectedCompletionDate": ExpectedCompletionDate,
+                "workorderNo": workorderNo === "" ? 0 : workorderNo,
+                "workOderDate": workOderDate,
+                "ControctorID": ControctorID === "" ? 0 : ControctorID,
+                "Remarks": Remarks,
+
+
+            },
+
+
+        );
+        if (res?.data?.errorCode == 0) {
+            const r = res.data;
+            console.log(r, "rerere")
+
+            return onSuccess(r);
+
+        } else if (res?.data?.errorCode == 1) {
+            const r = res.data;
+            console.log(r, "rerere")
+
+            return onSuccess(r);
+        } else {
+            onFailure("Something Wrong! Please Try again later" + res.data);
+
+        }
+    } catch (error) {
+        console.log("fdgdf")
+    }
+};
+
+
+
+
 
 //scheme list
 

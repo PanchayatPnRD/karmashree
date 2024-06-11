@@ -66,7 +66,7 @@ const AllocationReport = () => {
         row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
-      header: "Total Requisition for forwarded workers",
+      header: "Total Requisition forwarded for workers",
       accessorKey: "muniName",
       headclass: "cursor-pointer",
       className: "text-center",

@@ -402,9 +402,7 @@ const Scheme = () => {
         department,
         allDepartmentList.find((c) => c.departmentNo == department)
           ?.departmentName,
-
         data?.departmentNo,
-
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
 
@@ -457,8 +455,8 @@ const Scheme = () => {
         // resetData={resetData}
         to="scheme-list"
         isSuccess={true}
-        // isSuccess={true}
-        // userCreate={false}
+      // isSuccess={true}
+      // userCreate={false}
       />
       <div className="flex-grow">
         <div className="mx-auto mt-2">
@@ -672,7 +670,7 @@ const Scheme = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
                     onChange={onSchemeName}
-                    // onKeyDown={handleKeyDown}
+                  // onKeyDown={handleKeyDown}
                   />
                   {!isValidSchemeName && (
                     <div style={{ color: "red" }}>
