@@ -363,7 +363,7 @@ const SchemeList = () => {
                   ))}
                   <Table.Cell className="px-3 py-1 flex justify-between">
                     <Link
-                      to={`/dashboard/scheme-edit/${row.original.scheme_sl}`}
+                      to={`/dashboard/scheme-view/${row.original.scheme_sl}`}
                     >
                       <button className="text-3xl text-cyan-600">
                         <Icon icon={"icon-park-solid:preview-open"} />

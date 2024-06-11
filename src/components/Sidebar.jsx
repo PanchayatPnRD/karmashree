@@ -40,6 +40,9 @@ import DemandList from "../views/forms/DemandList";
 import WorkAllocationList from "../views/forms/WorkAllocationList";
 
 import { Icon } from "@iconify/react/dist/iconify.js";
+import SummaryReportOnScheme from "../views/reports/SummaryReportOnScheme";
+import FundingDepartmentWiseReport from "../views/reports/FundingDepartmentWiseReport";
+import UserListByDepartment from "../views/reports/UserListByDepartment";
 
 export const sideBarList = [
   {
@@ -237,6 +240,29 @@ export const sideBarList = [
     route: "/dashboard/employment-report",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
+
+  {
+    Component: SummaryReportOnScheme,
+    text: "Summary Report on Scheme",
+    route: "/dashboard/summary-report-on-scheme",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+
+  {
+    Component: FundingDepartmentWiseReport,
+    text: "Funding Department Wise Report",
+    route: "/dashboard/funding_department_wise_report",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+
+  {
+    Component: UserListByDepartment,
+    text: "UserList By Department",
+    route: "/dashboard/user_list_by_department",
+    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+
+  
 ];
 
 export const Sidebar = () => {

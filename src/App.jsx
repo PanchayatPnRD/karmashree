@@ -23,6 +23,7 @@ import ActionPlanReport2 from "./views/reports/ActionPlanReport2";
 import { useNetworkState } from "@uidotdev/usehooks";
 import WorkAllocationView from "./views/forms/WorkAllocationView";
 import SchemeEdit from "./views/forms/SchemeEdit";
+import SchemeView from "./views/forms/SchemeView";
 function App() {
   // const network = useNetworkState();
   const homeRoutes = [
@@ -169,6 +170,17 @@ function App() {
             <Auth>
               <Dashboard>
                 <SchemeEdit />
+              </Dashboard>
+            </Auth>
+          }
+        />
+
+        <Route
+          path="/dashboard/scheme-view/:schemeID"
+          element={
+            <Auth>
+              <Dashboard>
+                <SchemeView />
               </Dashboard>
             </Auth>
           }
