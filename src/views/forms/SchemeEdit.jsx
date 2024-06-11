@@ -70,9 +70,9 @@ const SchemeEdit = () => {
     workorderNo: "",
     shortName: "",
     overview: "",
-    tentativeStartDate:"",
-    ActualtartDate:"",
-    ExpectedCompletionDate:"",
+    tentativeStartDate: "",
+    ActualtartDate: "",
+    ExpectedCompletionDate: "",
   });
   console.log(allData, "ALLDATA");
 
@@ -467,24 +467,24 @@ const SchemeEdit = () => {
     }
   };
 
-  const onTentativeStartDate=(d)=>{
+  const onTentativeStartDate = (d) => {
     setAllData({ ...allData, tentativeStartDate: format(new Date(d), "yyyy-MM-dd") });
     setTentativeWorkStartDate(d)
   }
 
-  const onActualStartDate=(d)=>{
-    
+  const onActualStartDate = (d) => {
+
     setAllData({ ...allData, ActualtartDate: format(new Date(d), "yyyy-MM-dd") });
     setTentativeWorkStartDate(d)
 
   }
 
-  const onExpectedWorkdate=(d)=>{
+  const onExpectedWorkdate = (d) => {
     setAllData({ ...allData, ExpectedCompletionDate: format(new Date(d), "yyyy-MM-dd") });
     setExpectedWorkDate(d)
   }
 
-  const onWorkOrderDate=(d)=>{
+  const onWorkOrderDate = (d) => {
 
   }
 
@@ -498,8 +498,8 @@ const SchemeEdit = () => {
         // resetData={resetData}
         to="scheme-list"
         isSuccess={true}
-        // isSuccess={true}
-        // userCreate={false}
+      // isSuccess={true}
+      // userCreate={false}
       />
       <div className="flex-grow">
         <div className="mx-auto mt-2">
@@ -834,8 +834,8 @@ const SchemeEdit = () => {
                       {status
                         ? status
                         : allData?.StatusOfWork === "P"
-                        ? "Proposed"
-                        : "Started"}
+                          ? "Proposed"
+                          : "Started"}
                     </option>
                     <option value="P">Proposed</option>
                     <option value="S">Started</option>
@@ -853,7 +853,7 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                  name="tentativeStartDate"
+                    name="tentativeStartDate"
                     disabled={
                       allData?.StatusOfWork == "" ||
                       allData?.StatusOfWork == "S"
@@ -861,7 +861,7 @@ const SchemeEdit = () => {
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
                     // selected={allData?.tentativeStartDate}
-                    value={new Date(allData?.tentativeStartDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+                    value={new Date(allData?.tentativeStartDate).toLocaleDateString("en-IN", { month: "2-digit", day: "2-digit", year: "numeric" })}
 
                     onChange={onTentativeStartDate}
                   />
@@ -876,14 +876,14 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                  name="ActualtartDate"
+                    name="ActualtartDate"
                     disabled={
                       allData?.StatusOfWork == "" ||
                       allData?.StatusOfWork == "P"
                     }
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    value={new Date(allData?.ActualtartDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+                    value={new Date(allData?.ActualtartDate).toLocaleDateString("en-IN", { month: "2-digit", day: "2-digit", year: "numeric" })}
                     onChange={onActualStartDate}
                   />
                 </div>
@@ -898,7 +898,7 @@ const SchemeEdit = () => {
                     placeholderText="dd-mm-yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
                     // selected={allData?.ExpectedCompletionDate}
-                    value={new Date(allData?.ExpectedCompletionDate).toLocaleDateString("en-IN",{month:"2-digit",day:"2-digit",year:"numeric"})}
+                    value={new Date(allData?.ExpectedCompletionDate).toLocaleDateString("en-IN", { month: "2-digit", day: "2-digit", year: "numeric" })}
 
                     onChange={onExpectedWorkdate}
                   />
@@ -1055,7 +1055,7 @@ const SchemeEdit = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                  maxDate={allData?.ActualtartDate} 
+                    maxDate={allData?.ActualtartDate}
                     dateFormat="dd/MM/yyyy"
                     className="w-full border border-gray-300 rounded-md mt-1"
                     selected={workOrderDate}
