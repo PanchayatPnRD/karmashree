@@ -304,7 +304,7 @@ export const Sidebar = () => {
       )}
 
       {isSuccess && !MasterHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Master Entry"}>
+        <SidebarExpand text={"Master Entry"} icon={"hugeicons:microsoft-admin"}>
           {sideBarList
             .slice(5, 8)
             .filter((e) => e.permissions.includes(userRoleIndex))
@@ -323,7 +323,10 @@ export const Sidebar = () => {
         </SidebarExpand>
       )}
       {isSuccess && !actionPlanHidden.includes(userRoleIndex) && (
-        <SidebarExpand text={"Action Plan Master"}>
+        <SidebarExpand
+          text={"Action Plan Master"}
+          icon={"icon-park-solid:plan"}
+        >
           {sideBarList
             .slice(8, 10)
             .filter((e) => e.permissions.includes(userRoleIndex))

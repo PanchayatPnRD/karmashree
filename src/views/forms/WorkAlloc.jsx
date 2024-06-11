@@ -156,11 +156,12 @@ const WorkAlloc = () => {
     if (arr) return arr[0];
   }, [reqId]);
 
-  const is_demand = useMemo(async() => {
+  const is_demand = useMemo(() => {
     if (scheme_sl == undefined) return false;
     // console.log(filteredData?.totalUnskilledWorkers,demandData?.length,"is_demand");
-    return await filteredData?.totalUnskilledWorkers > demandData?.length;
-  }, [filteredData, scheme_sl]);
+    if (demandData != null || demandData != undefined)
+      return filteredData?.totalUnskilledWorkers > demandData?.length;
+  }, [filteredData, scheme_sl, demandData]);
 
   useEffect(() => {
     setIsDemand(is_demand);
