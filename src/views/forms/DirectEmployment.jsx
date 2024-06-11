@@ -125,7 +125,7 @@ const DirectEmployment = () => {
   const queryclient = useQueryClient();
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
-    const { data: userDetails, isSuccess } = useQuery({
+  const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
       const data = await fetch.get("/api/user/viewuser/", userIndex);
@@ -153,7 +153,7 @@ const DirectEmployment = () => {
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
-    enabled: isSuccess
+    enabled: isSuccess,
   });
 
   const ListOptions = [5, 10, 15, "all"];
@@ -369,8 +369,23 @@ const DirectEmployment = () => {
 
   const allocDisplayData = useMemo(() => {
     const arr = allocInputData.map((e, idx) => {
+      const {
+        workAllocationDateFrom,
+        workAllocationDateTo,
+        workProvidedDateFrom,
+        workProvidedDateTo,
+        totalWagePaid,
+        paymentDate,
+      } = e;
       return {
-        ...e,
+        workAllocationFromDate: new Date(workAllocationDateFrom).toLocaleDateString('fr-CA'),
+        workAllocationToDate: new Date(workAllocationDateTo).toLocaleDateString('fr-CA'),
+        empProvidedfrom: new Date(workProvidedDateFrom).toLocaleDateString('fr-CA'),
+        empProvidedto: new Date(workProvidedDateTo).toLocaleDateString('fr-CA'),
+        dateOfPayment: new Date(paymentDate).toLocaleDateString('fr-CA'),
+        totalWagePaid: +totalWagePaid,
+        schemeArea: area,
+        
         ...dateDifference[idx],
         ...allocTableData[idx],
       };
