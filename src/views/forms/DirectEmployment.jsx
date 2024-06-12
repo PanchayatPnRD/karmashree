@@ -528,6 +528,7 @@ const DirectEmployment = () => {
       <SuccessModal
         openModal={Submitted}
         setOpenModal={setSubmitted}
+        to={"employment-list"}
         isSuccess={submitted}
         message={`Direct Employment ${EmpData} created successfully`}
       />
@@ -852,7 +853,7 @@ const DirectEmployment = () => {
                 </div>
                 <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                   <Table className="">
-                    <Table.Head className="sticky top-0">
+                    <Table.Head className="sticky top-0 z-10">
                       <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
                         Name of worker
                       </Table.HeadCell>

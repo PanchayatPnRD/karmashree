@@ -650,7 +650,7 @@ const Employment = () => {
                       </div>
                       <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                         <Table>
-                          <Table.Head className="sticky top-0">
+                          <Table.Head className="sticky top-0 z-10">
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                               #
                             </Table.HeadCell>
