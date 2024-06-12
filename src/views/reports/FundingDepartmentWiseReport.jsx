@@ -53,48 +53,62 @@ const FundingDepartmentWiseReport = () => {
     //   headclass: "cursor-pointer",
     // },
     {
-      header: "Department Name",
+      header: "Department",
       accessorKey: "departmentName",
       headclass: "cursor-pointer",
-      className:"text-center"
+      className: "text-left"
     },
     {
-      header: "Total Scheme",
+      header: "Total No Of Schemes",
       accessorKey: "Total_scheme",
       headclass: "cursor-pointer",
       className: "text-center",
     },
     {
-      header: "Total Sector",
+      header: "Total No Of Sectors",
       accessorKey: "Total_sector",
       headclass: "cursor-pointer",
       className: "text-center",
     },
     {
-      header: "Total Cost",
+      header: "Total Project Cost(Cr.)",
       accessorKey: "Total_Cost",
       headclass: "cursor-pointer",
       className: "text-center",
+      cell: ({ row }) =>
+        row.original.Total_Cost == "" || row.original.Total_Cost == null
+          ? "0"
+          : row.original.Total_Cost,
     },
     {
-      header: "Total Spent",
+      header: "Total Wages Paid(Cr.)",
       accessorKey: "Total_Spent",
       headclass: "cursor-pointer",
       className: "text-center",
-      // cell: ({ row }) =>
-      //   "-"
+      cell: ({ row }) =>
+        row.original.Total_Spent == "" || row.original.Total_Spent == null
+          ? "0"
+          : row.original.Total_Cost,
     },
     {
-      header: "Total Worker",
+      header: "Total Workers Engaged",
       accessorKey: "Total_worker",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        row.original.Total_worker == "" || row.original.Total_worker == null
+          ? "0"
+          : row.original.Total_Cost,
     },
     {
-      header: "Total Mandays",
+      header: "Worker Engaged For No Of Days",
       accessorKey: "Total_Mandays",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        row.original.Total_Mandays == "" || row.original.Total_Mandays == null
+          ? "0"
+          : row.original.Total_Cost,
     },
-       
+
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -161,7 +175,7 @@ const FundingDepartmentWiseReport = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                  Funding Department Wise Report
+                    Funding Department Wise Report
                   </li>
                 </ol>
               </nav>
@@ -196,16 +210,16 @@ const FundingDepartmentWiseReport = () => {
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
               onClick={() =>
-                exportToExcel(rowToArray(), table, "summary_report_on_scheme")
+                exportToExcel(rowToArray(), table, "Funding_dept_wise_report")
               }
-              // onClick={rowToArray}
+            // onClick={rowToArray}
             >
               XLSX
             </button>
             <button
               className="border px-4 h-[42px] text-black rounded border-black"
-              onClick={() => exportToCSV(table, "summary_report_on_scheme")}
-              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+              onClick={() => exportToCSV(table, "Funding_dept_wise_report")}
+            // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
             >
               CSV
             </button>
@@ -248,8 +262,8 @@ const FundingDepartmentWiseReport = () => {
                     <Table.Cell
                       key={cell.id}
                       className={classNames(
-                        cell.column.columnDef.className,
-                        "whitespace-nowrap py-2 text-center"
+                        "whitespace-nowrap py-2 text-center",
+                        cell.column.columnDef.className
                       )}
                     >
                       {flexRender(

@@ -218,7 +218,7 @@ const ActionPlanReport1 = () => {
             <button
               className="border px-4 h-[42px] bg-green-600/90 text-white rounded"
               onClick={() =>
-                exportToExcel(rowToArray(), table, "contractorList")
+                exportToExcel(rowToArray(), table, "Action_plan_report1")
               }
               // onClick={rowToArray}
             >
@@ -226,7 +226,7 @@ const ActionPlanReport1 = () => {
             </button>
             <button
               className="border px-4 h-[42px] text-black rounded border-black"
-              onClick={() => exportToCSV(table, "contractorList")}
+              onClick={() => exportToCSV(table, "Action_plan_report1")}
               // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
             >
               CSV
