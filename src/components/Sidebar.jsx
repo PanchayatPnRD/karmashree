@@ -300,7 +300,7 @@ export const Sidebar = () => {
 
   return (
     <div className="z-20 flex flex-col p-3">
-      <SidebarElement to="/dashboard" customCss={"flex justify-start pl-10 "}>
+      <SidebarElement to="/dashboard" customCss={"flex justify-start pl-4 "}>
         <div className=" items-start py-2 capitalize">
           <span className="flex items-center space-x-4">
             <Icon icon={"material-symbols:home"} className="text-2xl" />

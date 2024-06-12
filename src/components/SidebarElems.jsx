@@ -16,7 +16,7 @@ export const SidebarElement = ({ to, children, customCss, isWrapped }) => {
     <div
       onClick={() => navigate(to)}
       className={classNames(
-        customCss || "py-1 pl-6 ",
+        customCss || "py-1 pl-4 ",
         isActive
           ? "hover:bg-cyan-500 bg-cyan-400 text-blue-950"
           : "hover:bg-blue-800/40 " +
@@ -37,7 +37,7 @@ export const SidebarExpand = ({ text, children, icon }) => {
   return (
     <div className={"flex flex-col transition-all text-white"}>
       <button
-        className="flex py-2.5 pl-10 pr-8 space-x-2 rounded-lg justify-between items-center hover:bg-blue-800/40 transition-all duration-100"
+        className="flex py-2.5 pl-4 pr-8 space-x-2 rounded-lg justify-between items-center hover:bg-blue-800/40 transition-all duration-100"
         onClick={() => setIsopen((prev) => !prev)}
       >
         <span className="flex items-center space-x-4">

@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import SuccessModal from "../../components/SuccessModal";
 import { updateVal } from "../../functions/updateVal";
+
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -36,6 +38,7 @@ import DatePicker from "react-datepicker";
 
 const DirectEmployment = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [Submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -51,7 +54,7 @@ const DirectEmployment = () => {
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState();
+  const [municipality, setMunicipality] = useState(0);
   const [allBlockList, setAllBlockList] = useState([]);
   const [gp, setGP] = useState();
   const [block, setBlock] = useState();
@@ -367,7 +370,12 @@ const DirectEmployment = () => {
     );
   }, [allocInputData]);
 
-  const allocDisplayData = useMemo(() => {
+  const selectedScheme = useMemo(() => {
+    // if (schemeSl != undefined)
+    return schemeAll_List?.filter((e) => e.scheme_sl == schemeSl)[0] ?? {};
+  }, [schemeSl]);
+
+  const allocApiData = useMemo(() => {
     const arr = allocInputData.map((e, idx) => {
       const {
         workAllocationDateFrom,
@@ -377,21 +385,88 @@ const DirectEmployment = () => {
         totalWagePaid,
         paymentDate,
       } = e;
+
+      const {
+        departmentNo,
+        workerName,
+        workerJobCardNo,
+        demanduniqueID,
+        currentMonth,
+        currentYear,
+        finYear,
+        dateOfApplicationForWork,
+        noOfDaysWorkDemanded,
+      } = allocTableData[idx];
+
+      const {
+        scheme_sl,
+        schemename,
+        totalUnskilledWorkers,
+        totalSkilledWorkers,
+        totalSemiSkilledWorkers,
+        ControctorID,
+        FundingDeptname,
+        FundingDepttID,
+        ExecutingDepttID,
+        ExecutingDeptName,
+        ImplementingAgencyID,
+        ImplementingAgencyName,
+        scheme_Id,
+        schemeSector,
+      } = selectedScheme;
+
       return {
-        workAllocationFromDate: new Date(workAllocationDateFrom).toLocaleDateString('fr-CA'),
-        workAllocationToDate: new Date(workAllocationDateTo).toLocaleDateString('fr-CA'),
-        empProvidedfrom: new Date(workProvidedDateFrom).toLocaleDateString('fr-CA'),
-        empProvidedto: new Date(workProvidedDateTo).toLocaleDateString('fr-CA'),
-        dateOfPayment: new Date(paymentDate).toLocaleDateString('fr-CA'),
+        schemeId: +scheme_sl,
+        scheme_Id: scheme_Id,
+        schemeName: schemename,
+        schemeSector: schemeSector,
+        unskilledWorkers: +totalUnskilledWorkers,
+        skilledWorkers: +totalSkilledWorkers,
+        semiSkilledWorkers: +totalSemiSkilledWorkers,
+        ContractorID: ControctorID,
+        FundingDeptname: FundingDeptname,
+        FundingDepttID: FundingDepttID,
+        ExecutingDepttID: ExecutingDepttID,
+        ExecutingDeptName: ExecutingDeptName,
+        ImplementingAgencyID: ImplementingAgencyID,
+        ImplementingAgencyName: ImplementingAgencyName,
+        attandance: "P",
+        departmentNo: departmentNo,
+        districtcode: +district,
+        municipalityCode: +municipality,
+        blockcode: +block,
+        gpCode: +gp,
+        workerName: workerName,
+        workerJobCardNo: workerJobCardNo,
+        demandid: demanduniqueID,
+        currentMonth: currentMonth,
+        currentYear: currentYear,
+        workAllocationID: 0,
+        finYear: finYear,
+        dateOfApplicationForWork: new Date(
+          workAllocationDateFrom
+        ).toLocaleDateString("fr-CA"),
+        noOfDaysWorkDemanded: noOfDaysWorkDemanded,
+        workAllocationFromDate: new Date(
+          workAllocationDateFrom
+        ).toLocaleDateString("fr-CA"),
+        workAllocationToDate: new Date(workAllocationDateTo).toLocaleDateString(
+          "fr-CA"
+        ),
+        empProvidedfrom: new Date(workProvidedDateFrom).toLocaleDateString(
+          "fr-CA"
+        ),
+        empProvidedto: new Date(workProvidedDateTo).toLocaleDateString("fr-CA"),
+        dateOfPayment: new Date(paymentDate).toLocaleDateString("fr-CA"),
         totalWagePaid: +totalWagePaid,
         schemeArea: area,
-        
-        ...dateDifference[idx],
-        ...allocTableData[idx],
+        noOfDaysWorkAlloted: dateDifference[idx].allocDateDiff,
+        noOfDaysWorProvided: dateDifference[idx].providedDateDiff,
+        userIndex: userIndex,
       };
     });
     return arr;
-  }, [allocInputData]);
+  }, [allocInputData, schemeSl, district, block, municipality, gp]);
 
   const handleChange = (index, key, value) => {
     const newData = [...allocInputData];
@@ -426,8 +501,36 @@ const DirectEmployment = () => {
     setAllocInputData(newData);
   };
 
+  const queryClient = useQueryClient();
+
+  const {
+    data: EmpData,
+    mutate,
+    isSuccess: submitted,
+  } = useMutation({
+    mutationFn: async () => {
+      const data = await fetch.post(
+        { CreateEmploymentDtos: allocApiData },
+        "/api/employment/creatediretemp"
+      );
+      return data.data.employment;
+    },
+    mutationKey: ["directEmp"],
+    onSuccess: () => {
+      //  queryClient.invalidateQueries("edit");
+      setSubmitted(true);
+      // navigate("/dashboard/" + state)
+    },
+  });
+
   return (
     <>
+      <SuccessModal
+        openModal={Submitted}
+        setOpenModal={setSubmitted}
+        isSuccess={submitted}
+        message={`Direct Employment ${EmpData} created successfully`}
+      />
       <Modal size={"7xl"} show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header className="px-8">
           Worker Details from Demand List
@@ -1005,9 +1108,7 @@ const DirectEmployment = () => {
                   <button
                     type="button"
                     className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    // onClick={() => {
-                    //   if (empDataList.length > 0) mutate();
-                    // }}
+                    onClick={mutate}
                   >
                     Submit
                   </button>
