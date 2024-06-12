@@ -17,7 +17,12 @@ import {
 } from "@tanstack/react-table";
 import { getAllContractorList } from "../../Service/Scheme/SchemeService";
 import { Link } from "react-router-dom";
-
+const formatNumberToINR = (number, withDecimal) => {
+    return new Intl.NumberFormat("en-IN", {
+      minimumFractionDigits: withDecimal ? 2 : 0,
+      maximumFractionDigits: withDecimal ? 2 : 0,
+    }).format(number);
+  };
 const SchemeList = () => {
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
   const [allContractorList, setAllContractorList] = useState([]);
@@ -115,8 +120,8 @@ const SchemeList = () => {
       header: "Project Cost",
       accessorKey: "totalprojectCost",
       headClass: "cursor-pointer normal-case",
-      // cell: ({ row }) => row.index + 1,
-      // sortingFn: "id",
+      cell: ({ row }) =>
+        formatNumberToINR(row.original.totalprojectCost,true)
     },
     // {
     //   header: "Total Unskilled workers",
@@ -136,15 +141,15 @@ const SchemeList = () => {
       header: "Estimated No of Mandays",
       accessorKey: "personDaysGenerated",
       headClass: "cursor-pointer normal-case",
-      // cell: ({ row }) => row.index + 1,
-      // sortingFn: "id",
+      cell: ({ row }) =>
+        formatNumberToINR(row.original.personDaysGenerated,false)
     },
     {
       header: "Estimated Wage Cost",
       accessorKey: "totalwagescostinvoled",
       headClass: "cursor-pointer normal-case",
-      // cell: ({ row }) => row.index + 1,
-      // sortingFn: "id",
+      cell: ({ row }) =>
+        formatNumberToINR(row.original.totalwagescostinvoled,true)
     },
     {
       header: "No of Workers Engaged",
@@ -157,7 +162,7 @@ const SchemeList = () => {
         row.original.totalLabourprovided == "" ||
         row.original.totalLabourprovided == null
           ? "-"
-          : row.original.totalLabourprovided,
+          : formatNumberToINR(row.original.totalLabourprovided,false),
     },
     {
       header: "No of Mandays Provided",
@@ -172,7 +177,7 @@ const SchemeList = () => {
         row.original.personDaysGeneratedprovided == "" ||
         row.original.personDaysGeneratedprovided == null
           ? "-"
-          : row.original.personDaysGeneratedprovided,
+          : formatNumberToINR(row.original.personDaysGeneratedprovided,false),
     },
     {
       header: "Total Wages Paid till date",
@@ -187,14 +192,14 @@ const SchemeList = () => {
         row.original.totalCostprovided == "" ||
         row.original.totalCostprovided == null
           ? "-"
-          : row.original.totalCostprovided,
+          : formatNumberToINR(row.original.totalCostprovided,true),
     },
 
     {
       header: "Avg. Mandays provided per household",
       headClass: "cursor-pointer capitalize",
       className: "text-center",
-      cell: ({ row }) => "---",
+      cell: ({ row }) => "-",
       // sortingFn: "id",
     },
   ];

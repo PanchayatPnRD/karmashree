@@ -36,7 +36,12 @@ const EmploymentList = () => {
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => employmentList ?? [], [employmentList]);
-
+  const formatNumberToINR = (number, withDecimal) => {
+    return new Intl.NumberFormat("en-IN", {
+      minimumFractionDigits: withDecimal ? 2 : 0,
+      maximumFractionDigits: withDecimal ? 2 : 0,
+    }).format(number);
+  };
   const list = [
     {
       header: "Sl no",
@@ -45,6 +50,11 @@ const EmploymentList = () => {
       cell: ({ row }) => row.index + 1,
       headclass: "cursor-pointer",
       // sortingFn: "id",
+    },
+    {
+      header: "EmploymentID",
+      accessorKey: "employmentID",
+      headclass: "cursor-pointer",
     },
     {
       header: "Financial Year",
@@ -143,6 +153,8 @@ const EmploymentList = () => {
       header: "total Wage Paid",
       accessorKey: "totalWagePaid",
       headclass: "cursor-pointer",
+      cell: ({ row }) =>
+        formatNumberToINR(row.original.totalWagePaid,true)
     },
   ];
 
