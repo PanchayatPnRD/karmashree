@@ -527,7 +527,7 @@ const WorkRequirement = () => {
                     index
                   ) => (
                     <Table.Row>
-                      <Table.Cell>{index + 1}</Table.Cell>
+                      <Table.Cell>{index + 1})</Table.Cell>
                       <Table.Cell>
                         <div className="flex items-center ">
                           <div className="w-32">
