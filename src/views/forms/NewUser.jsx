@@ -544,54 +544,55 @@ const NewUser = () => {
 
         <form className="flex">
           <div className="w-full px-36 space-y-6 pb-10">
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Department
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                id="country"
-                name="country"
-                required
-                onChange={onDepartment}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  {userData?.category === "HQ"
-                    ? "Select a Department"
-                    : departmentListDropdown}
-                </option>
-                {departmentListDropdown}
-              </select>
-            </div>
+            <div className="flex items-center space-x-6">
+              <div className="w-1/2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Department
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onDepartment}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    {userData?.category === "HQ"
+                      ? "Select a Department"
+                      : departmentListDropdown}
+                  </option>
+                  {departmentListDropdown}
+                </select>
+              </div>
 
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Parastatals
-                {/* <span className="text-red-500 "> * </span> */}
-              </label>
-              <select
-                id="country"
-                name="country"
-                required
-                onChange={onParastatals}
-                className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-              >
-                <option value="" selected>
-                  {userData?.category === "HQ"
-                    ? "Select a Parastatals"
-                    : pedastralDropdown}
-                </option>
-                {userData?.category === "HQ" ? pedastralDropdown : ""}
-              </select>
+              <div className="w-1/2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Parastatals
+                  {/* <span className="text-red-500 "> * </span> */}
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  required
+                  onChange={onParastatals}
+                  className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                >
+                  <option value="" selected>
+                    {userData?.category === "HQ"
+                      ? "Select a Parastatals"
+                      : pedastralDropdown}
+                  </option>
+                  {userData?.category === "HQ" ? pedastralDropdown : ""}
+                </select>
+              </div>
             </div>
-
             {userData?.category === "HQ" ||
             userData?.category === "DIST" ||
             userData?.category === "DEPT" ||
@@ -805,88 +806,118 @@ const NewUser = () => {
                 </select>
               </div>
             )}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nodal Officer Name
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onNodalOfficerName}
-                placeholder="type your Nodal officer name"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
+            <div className="flex items-center space-x-6">
+              <div className="w-1/2">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Nodal Officer Name
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onNodalOfficerName}
+                  placeholder="type your Nodal officer name"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-1/2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  nodal officer Designation
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  onChange={onDesignation}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    Select a Designation
+                  </option>
+                  {designationListDropdown}
+                </select>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer Designation
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                id="country"
-                name="country"
-                onChange={onDesignation}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a Designation
-                </option>
-                {designationListDropdown}
-              </select>
+            <div className="flex items-center space-x-6">
+              <div className="w-1/3">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  nodal officer mobile number
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="tel"
+                  name="username"
+                  maxLength={10}
+                  type="text"
+                  // value={contactNumber}
+                  autoComplete="username"
+                  onChange={onContactNumber}
+                  placeholder="type your Contact number"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+                {!isValidMobile && (
+                  <div style={{ color: "red" }}>
+                    Please enter a valid Mobile Number
+                  </div>
+                )}
+              </div>
+              <div className="w-1/3">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  nodal officer email address
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onEmail}
+                  placeholder="type your email id"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-1/3">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Role
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  name="role"
+                  onChange={onRole}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                  <option value="" selected hidden>
+                    Select a role
+                  </option>
+                  <option value="1" selected={userData?.category == "HQ"}>
+                    Admin
+                  </option>
+                  <option hidden={userData?.category == "HQ"} value="2">
+                    Operator
+                  </option>
+                  <option hidden={userData?.category == "HQ"} value="3">
+                    Project Implementing Agency(PIA)
+                  </option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer mobile number
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="tel"
-                name="username"
-                maxLength={10}
-                type="text"
-                // value={contactNumber}
-                autoComplete="username"
-                onChange={onContactNumber}
-                placeholder="type your Contact number"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-              {!isValidMobile && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid Mobile Number
-                </div>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                nodal officer email address
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onEmail}
-                placeholder="type your email id"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-
             {userData?.category === "HQ" ||
             userData?.category === "HD" ||
             userData?.category === "DEPT" ||
@@ -970,31 +1001,7 @@ const NewUser = () => {
                 />
               </div>
             )}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Role
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                name="role"
-                onChange={onRole}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a role
-                </option>
-                <option value="1" selected={userData?.category == "HQ"} >Admin</option>
-                <option hidden={userData?.category == "HQ"} value="2">
-                  Operator
-                </option>
-                <option hidden={userData?.category == "HQ"} value="3">
-                  Project Implementing Agency(PIA)
-                </option>
-              </select>
-            </div>
+
             <div>
               <label
                 htmlFor="username"
@@ -1059,80 +1066,84 @@ const NewUser = () => {
             </div>
             {isChecked ? (
               <>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Technical Officer Name
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerName}
-                    placeholder="type Technical officer name"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
+                <div className="flex items-center space-x-6">
+                  <div className="w-1/2">
+                    <label
+                      htmlFor="username"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Technical Officer Name
+                    </label>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      onChange={onTechnicalOfficerName}
+                      placeholder="type Technical officer name"
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <label
+                      htmlFor="country"
+                      className="block text-sm font-medium text-gray-700 capitalize"
+                    >
+                      Technical officer Designation
+                    </label>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      onChange={onTechnicalOfficerDesignation}
+                      placeholder="Type Technical officer Designation"
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer Designation
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerDesignation}
-                    placeholder="Type Technical officer Designation"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer mobile number
-                  </label>
-                  <input
-                    id="tel"
-                    name="username"
-                    type="text"
-                    maxLength={10}
-                    // value={technicalOfficerContactNumber}
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerContactNumber}
-                    placeholder="type your Contact number"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                  {!isValidTechnicalMobile && (
-                    <div style={{ color: "red" }}>
-                      Please enter a valid Mobile Number
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 capitalize"
-                  >
-                    Technical officer email address
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    onChange={onTechnicalOfficerEmail}
-                    placeholder="type your email id"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
+                <div className="flex items-center space-x-6">
+                  <div className="w-1/2">
+                    <label
+                      htmlFor="username"
+                      className="block text-sm font-medium text-gray-700 capitalize"
+                    >
+                      Technical officer mobile number
+                    </label>
+                    <input
+                      id="tel"
+                      name="username"
+                      type="text"
+                      maxLength={10}
+                      // value={technicalOfficerContactNumber}
+                      autoComplete="username"
+                      onChange={onTechnicalOfficerContactNumber}
+                      placeholder="type your Contact number"
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    />
+                    {!isValidTechnicalMobile && (
+                      <div style={{ color: "red" }}>
+                        Please enter a valid Mobile Number
+                      </div>
+                    )}
+                  </div>
+                  <div className="w-1/2">
+                    <label
+                      htmlFor="username"
+                      className="block text-sm font-medium text-gray-700 capitalize"
+                    >
+                      Technical officer email address
+                    </label>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      onChange={onTechnicalOfficerEmail}
+                      placeholder="type your email id"
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    />
+                  </div>
                 </div>
               </>
             ) : (
