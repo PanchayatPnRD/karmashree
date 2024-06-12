@@ -481,6 +481,29 @@ const SchemeView = () => {
                 </div>
                 <div className="flex w-full">
                   <div className="w-1/2 flex flex-col rounded-l-xl">
+
+                    <div className="div-even">
+                      <div className="label-style">Area Type</div>
+                      {schemeDetails?.schemeArea==="R"?"Rural":"Urban"}
+
+                    </div>
+
+                    <div className="div-odd">
+                      <div className="label-style">Status of Work</div>
+                      {schemeDetails?.StatusOfWork==="P"?"Proposed":"Started"}
+
+                    </div>
+
+                    <div className="div-even">
+                      <div className="label-style">Actual Work Start Date</div>
+                      {schemeDetails?.ActualtartDate}
+
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Sector</div>
+                      {allSectorList.find((c) => c.sectorid == schemeDetails?.schemeSector)?.sectorname}
+
+                    </div>
                     <div className="div-even">
                       <div className="label-style">Total Wages Cost</div>
                       {schemeDetails?.totalwagescostinvoled}
@@ -492,6 +515,28 @@ const SchemeView = () => {
                     </div>
                   </div>
                   <div className="w-1/2 flex flex-col rounded-r-xl">
+
+                    <div className="div-even">
+                      <div className="label-style">District</div>
+                      
+                      {allDistrictList.find((c) => c.districtCode == schemeDetails?.districtcode)?.districtName}
+
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Tentative Work Start Date
+                      </div>
+                      {schemeDetails?.tentativeStartDate}
+                    </div>
+                    <div className="div-even">
+                      <div className="label-style">Expected Work Completion Date
+                      </div>
+                      {schemeDetails?.ExpectedCompletionDate?schemeDetails?.ExpectedCompletionDate:"-"}
+                    </div>
+                    <div className="div-odd">
+                      <div className="label-style">Work Location</div>
+                      {schemeDetails?.village}
+                    </div>
+                    
                     <div className="div-even">
                       <div className="label-style">Total Project Cost</div>
                       {schemeDetails?.totalprojectCost}
@@ -506,7 +551,7 @@ const SchemeView = () => {
                 </div>
               </div>
             </div>
-           
+
           </div>
         </div>
       </div>
