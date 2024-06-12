@@ -12,7 +12,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { getAllPedastalList, getAllDepartmentList } from "../../Service/NewUserService";
+import {
+  getAllPedastalList,
+  getAllDepartmentList,
+} from "../../Service/NewUserService";
 const ActionPlan = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
@@ -32,7 +35,7 @@ const ActionPlan = () => {
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [allPedastralList, setAllPedastralList] = useState([]);
-  const [parastatals, setParastatals] = useState()
+  const [parastatals, setParastatals] = useState();
   const [schemeProposed, setSchemeProposed] = useState("");
   const [costOfSCheme, setCostOfSCheme] = useState("");
   const [totalWages, setTotalWages] = useState("");
@@ -51,7 +54,7 @@ const ActionPlan = () => {
     const startYear = currentYear - index;
     return `${startYear}-${startYear + 1}`;
   });
-  console.log(department, "department")
+  console.log(department, "department");
   const onFinancialYear = (event) => {
     console.log(event.target.value, "fififififi");
     setSelectedYear(event.target.value);
@@ -66,7 +69,12 @@ const ActionPlan = () => {
       setAllDepartmentList(response);
     });
     //Parastatals  list
-    getAllPedastalList(data?.departmentNo, userData?.category === "HQ" || userData?.category === "HD" ? 0 : data?.deptWing).then(function (result) {
+    getAllPedastalList(
+      data?.departmentNo,
+      userData?.category === "HQ" || userData?.category === "HD"
+        ? 0
+        : data?.deptWing
+    ).then(function (result) {
       const response = result?.data?.result;
       setAllPedastralList(response);
     });
@@ -94,7 +102,6 @@ const ActionPlan = () => {
       <option value={deptRow.departmentNo}>{deptRow.departmentName}</option>
     ));
   }
-
 
   //Parastatals list
   let pedastralDropdown = <option>No data found...</option>;
@@ -185,7 +192,6 @@ const ActionPlan = () => {
     if (regex.test(value) || value === "") {
       setSchemeProposed(value);
     }
-    
   };
 
   const onCostOfSCheme = (e) => {
@@ -235,9 +241,9 @@ const ActionPlan = () => {
 
   const onDepartment = (e) => {
     setDepartment(e.target.value);
-    getAllPedastalList(
-      e.target.value, userData?.deptWing,
-    ).then(function (result) {
+    getAllPedastalList(e.target.value, userData?.deptWing).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllPedastralList(response);
     });
@@ -245,7 +251,7 @@ const ActionPlan = () => {
 
   const onParastatals = (e) => {
     setParastatals(e.target.value);
-  }
+  };
 
   const getCurrentFinancialYear = () => {
     const today = new Date();
@@ -376,7 +382,10 @@ const ActionPlan = () => {
                         </a>
                         /
                       </li>
-                      <li className="text-gray-500 font-bold" aria-current="page">
+                      <li
+                        className="text-gray-500 font-bold"
+                        aria-current="page"
+                      >
                         Action Plan
                       </li>
                     </ol>
@@ -388,14 +397,15 @@ const ActionPlan = () => {
 
             <div className="bg-white shadow-md rounded-lg px-16 pb-8 mb-8">
               <div className="flex flex-col w-full space-y-3 mb-6">
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Financial Year
-                  </label>
-                  {/* <input
+                <div className="flex items-center px-4 space-x-4">
+                  <div className="w-1/3">
+                    <label
+                      htmlFor="scheme_name"
+                      className="block font-medium text-gray-700"
+                    >
+                      Financial Year
+                    </label>
+                    {/* <input
                   id="scheme_name"
                   name="scheme_name"
                   type="text"
@@ -405,197 +415,198 @@ const ActionPlan = () => {
                   // onChange={onSchemeProposed}
                   value={financialYear}
                 /> */}
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onFinancialYear}
-                    value={selectedYear}
-                  >
-                    {lastTenYears.map((yearRange) => (
-                      <option key={yearRange} value={yearRange}>
-                        {yearRange}
+                    <select
+                      id="scheme_name"
+                      name="scheme_name"
+                      autoComplete="off"
+                      className="mt-1 px-2  block w-full border border-gray-300 rounded-md"
+                      onChange={onFinancialYear}
+                      value={selectedYear}
+                    >
+                      {lastTenYears.map((yearRange) => (
+                        <option key={yearRange} value={yearRange}>
+                          {yearRange}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="w-1/3">
+                    <label
+                      htmlFor="country"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Department
+                      <span className="text-red-500 "> * </span>
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      required
+                      onChange={onDepartment}
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    >
+                      <option value="" selected hidden>
+                        {userData?.category === "HQ"
+                          ? "Select a Department"
+                          : departmentListDropdown}
                       </option>
-                    ))}
-                  </select>
+                      {departmentListDropdown}
+                    </select>
+                  </div>
+
+                  <div className="w-1/3">
+                    <label
+                      htmlFor="country"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Parastatals
+                      {/* <span className="text-red-500 "> * </span> */}
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      required
+                      onChange={onParastatals}
+                      className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
+                    >
+                      <option value="" selected>
+                        {userData?.category === "HQ" ||
+                        userData?.category === "HD"
+                          ? "Select a Parastatals"
+                          : pedastralDropdown}
+                      </option>
+                      {pedastralDropdown}
+                    </select>
+                  </div>
                 </div>
 
-                <div className="px-4">
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Department
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    required
-                    onChange={onDepartment}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected hidden>
-                      {userData?.category === "HQ"
-                        ? "Select a Department"
-                        : departmentListDropdown}
-                    </option>
-                    {departmentListDropdown}
-                  </select>
-                </div>
-
-
-                <div className="px-4">
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Parastatals
-                    {/* <span className="text-red-500 "> * </span> */}
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    required
-                    onChange={onParastatals}
-                    className="mt-1 p-2 w-full block border border-gray-300 rounded-md"
-                  >
-                    <option value="" selected >
-                      {userData?.category === "HQ" || userData?.category === "HD"
-                        ? "Select a Parastatals"
-                        : pedastralDropdown}
-
-                    </option>
-                    {pedastralDropdown}
-
-                  </select>
-                </div>
-
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Scheme Area
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onSchemeArea}
-                  >
-                    <option selected hidden>
-                      Select Scheme area
-                    </option>
-                    <option value="R">Rural</option>
-                    <option value="U">Urban</option>
-                  </select>
-                </div>
-
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    District
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <select
-                    id="scheme_name"
-                    name="scheme_name"
-                    autoComplete="off"
-                    className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                    onChange={onDistrict}
-                  >
-                    <option selected hidden>
-                      Select District
-                    </option>
-                    {districtListDropdown}
-                  </select>
-                </div>
-
-                {district?.length > 0 && schemeArea === "U" ? (
-                  <div className="px-4">
+                <div className="flex px-4 space-x-4">
+                  <div className="w-1/4">
                     <label
                       htmlFor="scheme_name"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Municipality/Development Authority
-                      {/* <span className="text-red-500 "> * </span> */}
+                      Scheme Area
+                      <span className="text-red-500 "> * </span>
                     </label>
                     <select
                       id="scheme_name"
                       name="scheme_name"
                       autoComplete="off"
                       className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                      onChange={onMunicipality}
+                      onChange={onSchemeArea}
                     >
                       <option selected hidden>
-                        Select Municipality/Development Authority
+                        Select Scheme area
                       </option>
-                      {municipalityListDropdown}
-
-                      {/* Add more options as needed */}
+                      <option value="R">Rural</option>
+                      <option value="U">Urban</option>
                     </select>
                   </div>
-                ) : (
-                  ""
-                )}
 
-                {district?.length > 0 && schemeArea === "R" ? (
-                  <div className="px-4">
+                  <div className="w-1/4">
                     <label
                       htmlFor="scheme_name"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Block
-                      {/* <span className="text-red-500 "> * </span> */}
+                      District
+                      <span className="text-red-500 "> * </span>
                     </label>
                     <select
                       id="scheme_name"
                       name="scheme_name"
                       autoComplete="off"
                       className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                      onChange={onBlock}
+                      onChange={onDistrict}
                     >
                       <option selected hidden>
-                        Select Block
+                        Select District
                       </option>
-                      {blockListDropdown}
+                      {districtListDropdown}
                     </select>
                   </div>
-                ) : (
-                  ""
-                )}
 
-                {block?.length > 0 && schemeArea === "R" ? (
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Gram Panchayat
-                      {/* <span className="text-red-500 "> * </span> */}
-                    </label>
-                    <select
-                      id="scheme_name"
-                      name="scheme_name"
-                      autoComplete="off"
-                      className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
-                      onChange={onGramPanchayat}
-                    >
-                      <option selected hidden>
-                        Select Gram Panchayat
-                      </option>
-                      {GpListDropdown}
-                    </select>
-                  </div>
-                ) : (
-                  ""
-                )}
+                  {district?.length > 0 && schemeArea === "U" ? (
+                    <div className="w-1/4">
+                      <label
+                        htmlFor="scheme_name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Municipality/Development Authority
+                        {/* <span className="text-red-500 "> * </span> */}
+                      </label>
+                      <select
+                        id="scheme_name"
+                        name="scheme_name"
+                        autoComplete="off"
+                        className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                        onChange={onMunicipality}
+                      >
+                        <option selected hidden>
+                          Select Municipality/Development Authority
+                        </option>
+                        {municipalityListDropdown}
+
+                        {/* Add more options as needed */}
+                      </select>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  {district?.length > 0 && schemeArea === "R" ? (
+                    <div className="w-1/4">
+                      <label
+                        htmlFor="scheme_name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Block
+                        {/* <span className="text-red-500 "> * </span> */}
+                      </label>
+                      <select
+                        id="scheme_name"
+                        name="scheme_name"
+                        autoComplete="off"
+                        className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                        onChange={onBlock}
+                      >
+                        <option selected hidden>
+                          Select Block
+                        </option>
+                        {blockListDropdown}
+                      </select>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  {block?.length > 0 && schemeArea === "R" ? (
+                    <div className="w-1/4">
+                      <label
+                        htmlFor="scheme_name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Gram Panchayat
+                        {/* <span className="text-red-500 "> * </span> */}
+                      </label>
+                      <select
+                        id="scheme_name"
+                        name="scheme_name"
+                        autoComplete="off"
+                        className="mt-1 p-1 text-sm px-2  block w-full border border-gray-300 rounded-md"
+                        onChange={onGramPanchayat}
+                      >
+                        <option selected hidden>
+                          Select Gram Panchayat
+                        </option>
+                        {GpListDropdown}
+                      </select>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
 
                 <div className="px-4">
                   <label
@@ -647,7 +658,8 @@ const ActionPlan = () => {
                     <span> Tentative Total Cost of Schemes</span>
                     <span className="text-red-500 "> * </span>
                     <span>(in &nbsp;</span>
-                    Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
+                    Rupees
+                    <Icon className="text-xs" icon={"fa:rupee"} /> )
                   </label>
                   <input
                     id="scheme_cost"
@@ -669,7 +681,8 @@ const ActionPlan = () => {
                     <span> Tentative Total Wage to be paid in the Schemes</span>
                     <span className="text-red-500 "> * </span>
                     <span>(in &nbsp;</span>
-                    Rupees<Icon className="text-xs" icon={"fa:rupee"} />  )
+                    Rupees
+                    <Icon className="text-xs" icon={"fa:rupee"} /> )
                   </label>
                   <input
                     id="scheme_name"

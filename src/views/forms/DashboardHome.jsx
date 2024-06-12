@@ -45,7 +45,7 @@ const DashboardHome = () => {
         <div className="flex flex-col space-y-4 bg-white rounded-lg p-12">
           <div className="grid grid-cols-4 gap-4 ">
             {/* Mini Card 1 */}
-            <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-blue-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-lg font-semibold mb-2">
                 Implementing Departments
               </h3>
@@ -55,7 +55,7 @@ const DashboardHome = () => {
             </div>
 
             {/* Mini Card 2 */}
-            <div className="bg-green-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-green-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-lg font-semibold mb-2">No of PIA</h3>
               <p className="text-xl font-semibold">
                 <CountUp
@@ -68,7 +68,7 @@ const DashboardHome = () => {
             </div>
 
             {/* Mini Card 3 */}
-            <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-lg font-semibold mb-2">
                 Funding Departments
               </h3>
@@ -81,7 +81,7 @@ const DashboardHome = () => {
                 />
               </p>
             </div>
-            <div className="bg-pink-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-pink-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-md text-center font-semibold mb-2">
                 Total Amount Wages paid
               </h3>
@@ -91,40 +91,40 @@ const DashboardHome = () => {
                   end={"12450"}
                   duration={2.75}
                   // delay={0}
-                /></p>
+                />
+              </p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 ">
-            <div className="bg-blue-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-blue-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-lg font-semibold mb-2">Proposed Schemes</h3>
               <p className="text-xl font-bold">
-              <CountUp
+                <CountUp
                   start={0}
                   end={DashboardData?.totalscheme}
                   duration={2.75}
                   // delay={0}
                 />
-                </p>
+              </p>
             </div>
 
             {/* Mini Card 2 */}
-            <div className="bg-green-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-green-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-md font-semibold mb-2 text-center">
                 Estimated Unskilled Workers
               </h3>
               <p className="text-xl font-bold">
-              <CountUp
+                <CountUp
                   start={0}
                   end={DashboardData?.totalUnskilledWorkers}
                   duration={2.75}
                   // delay={0}
                 />
-                
               </p>
             </div>
 
             {/* Mini Card 3 */}
-            <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-yellow-200 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-lg font-semibold mb-2">Estimated Mandays</h3>
               <p className="text-xl font-bold">
                 <CountUp
@@ -137,25 +137,23 @@ const DashboardHome = () => {
             </div>
 
             {/* Mini Card 4 */}
-            <div className="bg-pink-200 rounded-lg p-4 flex flex-col justify-center items-center">
+            <div className="bg-pink-300 rounded-lg p-4 flex flex-col justify-center items-center shadow hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-1 hover:-translate-x-1">
               <h3 className="text-md text-center font-semibold mb-2">
                 Avg Days of Employment to be provided/Household
               </h3>
               <p className="text-xl font-bold">
-              <CountUp
+                <CountUp
                   start={0}
                   end={Math.round(DashboardData?.avgCostProvidedPerWorker)}
                   duration={2.75}
                   // delay={0}
                 />
-                
               </p>
             </div>
           </div>
           <div>
             <div></div>
             <div className="flex-col flex items-center justify-center">
-              
               {isSuccess && (
                 <Charts
                   data={DashboardData?.charts}

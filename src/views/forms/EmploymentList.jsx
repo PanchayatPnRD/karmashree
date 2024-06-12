@@ -57,6 +57,23 @@ const EmploymentList = () => {
       headclass: "cursor-pointer",
     },
     {
+      header: "Direct Employment",
+      accessorKey: "directempstatus",
+      headclass: "cursor-pointer",
+      cell: ({ row }) => (
+        <span
+          className={classNames(
+            "rounded-full px-2 py-[2px]  animate-pulse font-bold text-sm",
+            row.original.directempstatus
+              ? "text-green-700 bg-green-200/80"
+              : "text-red-700 bg-red-200/80"
+          )}
+        >
+          {row.original.directempstatus == "Y" ? "Yes" : "No"}
+        </span>
+      ),
+    },
+    {
       header: "Financial Year",
       accessorKey: "finYear",
       headclass: "cursor-pointer",
@@ -153,8 +170,7 @@ const EmploymentList = () => {
       header: "total Wage Paid",
       accessorKey: "totalWagePaid",
       headclass: "cursor-pointer",
-      cell: ({ row }) =>
-        formatNumberToINR(row.original.totalWagePaid,true)
+      cell: ({ row }) => formatNumberToINR(row.original.totalWagePaid, true),
     },
   ];
 

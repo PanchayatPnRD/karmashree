@@ -654,7 +654,7 @@ const WorkAlloc = () => {
                 </div>
                 <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                   <Table className="">
-                    <Table.Head className="sticky top-0">
+                    <Table.Head className="sticky top-0 z-10">
                       <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
                         #
                       </Table.HeadCell>
