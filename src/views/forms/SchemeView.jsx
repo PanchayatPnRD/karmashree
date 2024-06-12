@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 import { useParams } from "react-router-dom";
+import { Table } from "flowbite-react";
 
 const SchemeView = () => {
   const { schemeID } = useParams();
@@ -66,6 +67,7 @@ const SchemeView = () => {
   const [userData, setUserData] = useState(null);
   const [schemeId, setSchemeId] = useState();
   const [schemeDetails, setSchemeDetails] = useState();
+  const [schemecontractorDetails, setSchemecontractorDetails] = useState([]);
   const [allData, setAllData] = useState({
     workorderNo: "",
     tentativeStartDate: "",
@@ -103,13 +105,14 @@ const SchemeView = () => {
     });
 
     getSchemeViewDetails(schemeID).then(function (result) {
-      const response = result?.data?.masterScheme;
+      const response = result?.data;
       setAllData(response);
-      setSchemeDetails(response);
+      setSchemeDetails(response?.masterScheme);
+      setSchemecontractorDetails(response?.employmentSummary)
     });
   }, []);
 
-  console.log(allContractorList, "allContractorList");
+  console.log(schemeDetails, "schemeDetails");
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -484,13 +487,13 @@ const SchemeView = () => {
 
                     <div className="div-even">
                       <div className="label-style">Area Type</div>
-                      {schemeDetails?.schemeArea==="R"?"Rural":"Urban"}
+                      {schemeDetails?.schemeArea === "R" ? "Rural" : "Urban"}
 
                     </div>
 
                     <div className="div-odd">
                       <div className="label-style">Status of Work</div>
-                      {schemeDetails?.StatusOfWork==="P"?"Proposed":"Started"}
+                      {schemeDetails?.StatusOfWork === "P" ? "Proposed" : "Started"}
 
                     </div>
 
@@ -518,7 +521,7 @@ const SchemeView = () => {
 
                     <div className="div-even">
                       <div className="label-style">District</div>
-                      
+
                       {allDistrictList.find((c) => c.districtCode == schemeDetails?.districtcode)?.districtName}
 
                     </div>
@@ -530,13 +533,13 @@ const SchemeView = () => {
                     <div className="div-even">
                       <div className="label-style">Expected Work Completion Date
                       </div>
-                      {schemeDetails?.ExpectedCompletionDate?schemeDetails?.ExpectedCompletionDate:"-"}
+                      {schemeDetails?.ExpectedCompletionDate ? schemeDetails?.ExpectedCompletionDate : "-"}
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Work Location</div>
                       {schemeDetails?.village}
                     </div>
-                    
+
                     <div className="div-even">
                       <div className="label-style">Total Project Cost</div>
                       {schemeDetails?.totalprojectCost}
@@ -549,9 +552,77 @@ const SchemeView = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
+            <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
+              <Table>
+                <Table.Head className="sticky top-0">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    #
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Work Jobcard No
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Job Card Holder Name
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Total Days Work Demanded
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Total Days Work Allocated
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Total Days Work Provided
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Total Wages Paid (Cr.)
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Total No Of Mandays
+                  </Table.HeadCell>
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                    Average Wages
+                  </Table.HeadCell>
 
+                </Table.Head>
+
+                <Table.Body>
+                  {schemecontractorDetails?.map((d, index) => (
+                    <Table.Row>
+                      <Table.Cell className="py-1">
+                        {index + 1}
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap">
+                        {d?.employment_workerJobCardNo}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.employment_workerName}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.NoOfDaysDemanded==null?"-":d?.NoOfDaysDemanded}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.NoOfDaysAllocated==null?"-":d?.NoOfDaysAllocated}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.NoOfDaysProvided == null ? "-" : d?.NoOfDaysProvided}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.TotalWagesPaid==null?"-":d?.TotalWagesPaid}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.MANDAYS==null?"-":d?.MANDAYS}
+                      </Table.Cell>
+                      <Table.Cell className="py-1">
+                        {d?.AVERAGEWAGE==null?"-":d?.AVERAGEWAGE}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
           </div>
         </div>
       </div>
