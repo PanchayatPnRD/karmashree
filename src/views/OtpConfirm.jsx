@@ -11,7 +11,7 @@ import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
-import useTokenStore from "../functions/StateMgmt";
+
 
 const OTPConfirm = () => {
   const { stack } = useStack();
@@ -23,7 +23,7 @@ const OTPConfirm = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [openModal, setOpenModal] = useState();
-  const { token, setToken } = useTokenStore()
+  
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -77,7 +77,7 @@ const OTPConfirm = () => {
 
       localStorage.setItem("karmashree_User", JSON.stringify(data?.newPayload));
       localStorage.setItem("karmashree_AuthToken",data?.newPayload?.token);
-      setToken(data?.newPayload?.token);
+      
 
       if (
         localStorage.getItem("karmashree_AuthToken") != "" ||

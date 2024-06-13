@@ -1,29 +1,54 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import "./App.css";
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { sideBarList } from "./components/Sidebar";
-import Home from "./views/Home";
-import Auth from "./auth/Auth";
-import Login from "./views/Login";
-import Contact from "./views/Contact";
-import Dashboard from "./views/Dashboard";
-import Profile from "./views/forms/Profile";
-import OTPConfirm from "./views/OtpConfirm";
-import ViewProfile from "./views/forms/ViewProfile";
-import Edit from "./components/Edit";
-import Dno from "./views/forms/Dno";
-import Error404 from "./views/Error404";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ActionPlanReport1 from "./views/reports/ActionPlanReport1";
-import ActionPlanReport3 from "./views/reports/ActionPlanReport3";
-import ActionPlanReport2 from "./views/reports/ActionPlanReport2";
+// import Home from "./views/Home";
+// import Auth from "./auth/Auth";
+// import Login from "./views/Login";
+// import Contact from "./views/Contact";
+// import Dashboard from "./views/Dashboard";
+// import Profile from "./views/forms/Profile";
+// import OTPConfirm from "./views/OtpConfirm";
+// import ViewProfile from "./views/forms/ViewProfile";
+// import Edit from "./components/Edit";
+// import Dno from "./views/forms/Dno";
+// import Error404 from "./views/Error404";
+// import ActionPlanReport1 from "./views/reports/ActionPlanReport1";
+// import ActionPlanReport3 from "./views/reports/ActionPlanReport3";
+// import ActionPlanReport2 from "./views/reports/ActionPlanReport2";
+// import WorkAllocationView from "./views/forms/WorkAllocationView";
+// import SchemeEdit from "./views/forms/SchemeEdit";
+// import SchemeView from "./views/forms/SchemeView";
+const Home = lazy(() => import("./views/Home"));
+const Auth = lazy(() => import("./auth/Auth"));
+const Login = lazy(() => import("./views/Login"));
+const Contact = lazy(() => import("./views/Contact"));
+const Dashboard = lazy(() => import("./views/Dashboard"));
+const Profile = lazy(() => import("./views/forms/Profile"));
+const OTPConfirm = lazy(() => import("./views/OtpConfirm"));
+const ViewProfile = lazy(() => import("./views/forms/ViewProfile"));
+const Edit = lazy(() => import("./components/Edit"));
+const Dno = lazy(() => import("./views/forms/Dno"));
+const Error404 = lazy(() => import("./views/Error404"));
+const ActionPlanReport1 = lazy(() =>
+  import("./views/reports/ActionPlanReport1")
+);
+const ActionPlanReport3 = lazy(() =>
+  import("./views/reports/ActionPlanReport3")
+);
+const ActionPlanReport2 = lazy(() =>
+  import("./views/reports/ActionPlanReport2")
+);
+const WorkAllocationView = lazy(() =>
+  import("./views/forms/WorkAllocationView")
+);
+const SchemeEdit = lazy(() => import("./views/forms/SchemeEdit"));
+const SchemeView = lazy(() => import("./views/forms/SchemeView"));
 import { useNetworkState } from "@uidotdev/usehooks";
-import WorkAllocationView from "./views/forms/WorkAllocationView";
-import SchemeEdit from "./views/forms/SchemeEdit";
-import SchemeView from "./views/forms/SchemeView";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   // const network = useNetworkState();
   const homeRoutes = [
@@ -34,8 +59,6 @@ function App() {
     { path: "/verify", Element: ConfirmUser },
     { path: "/reset", Element: ResetPassword },
   ];
-
-
 
   return (
     <>
@@ -50,7 +73,9 @@ function App() {
                 <Auth>
                   <div className="flex flex-col min-h-screen">
                     <Navbar />
-                    <Element />
+                    <Suspense>
+                      <Element />
+                    </Suspense>
                   </div>
                 </Auth>
               }
@@ -68,7 +93,9 @@ function App() {
                   <Auth>
                     <div className="flex flex-col min-h-screen">
                       <Navbar />
-                      <Element />
+                      <Suspense>
+                        <Element />
+                      </Suspense>
                     </div>
                   </Auth>
                 }
@@ -98,7 +125,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <ViewProfile />
+                <Suspense>
+                  <ViewProfile />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -108,7 +137,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Profile />
+                <Suspense>
+                  <Profile />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -118,7 +149,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Edit />
+                <Suspense>
+                  <Edit />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -128,7 +161,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <WorkAllocationView />
+                <Suspense>
+                  <WorkAllocationView />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -138,7 +173,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <ActionPlanReport1 />
+                <Suspense>
+                  <ActionPlanReport1 />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -148,7 +185,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <ActionPlanReport2 />
+                <Suspense>
+                  <ActionPlanReport2 />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -159,7 +198,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <ActionPlanReport3 />
+                <Suspense>
+                  <ActionPlanReport3 />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -169,7 +210,9 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <SchemeEdit />
+                <Suspense>
+                  <SchemeEdit />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
@@ -180,12 +223,21 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <SchemeView />
+                <Suspense>
+                  <SchemeView />
+                </Suspense>
               </Dashboard>
             </Auth>
           }
         />
-        <Route path="*" element={<Error404 />} />
+        <Route
+          path="*"
+          element={
+            <Suspense>
+              <Error404 />
+            </Suspense>
+          }
+        />
       </Routes>
     </>
   );

@@ -35,9 +35,7 @@
     "react-select": "^5.8.0",
     "react-swipeable": "^7.0.1",
     "react-toastify": "^10.0.5",
-    "xlsx": "^0.18.5",
-    "zustand": "^4.5.2",
-    "zustymiddleware": "^1.2.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -1,27 +1,55 @@
 import { lazy } from "react";
 const ActionPlan = lazy(() => import("../views/forms/ActionPlan"));
-// import ActionPlan from "../views/forms/ActionPlan";
-import ActionPlanList from "../views/forms/ActionPlanList";
-import Contractor from "../views/forms/Contractor";
-import Demand from "../views/forms/Demand";
-import Employment from "../views/forms/Employment";
-import NewUser from "../views/forms/NewUser";
-import Department from "../views/forms/Department";
-import Designation from "../views/forms/Designation";
-import Scheme from "../views/forms/Scheme";
-import UserList from "../views/forms/UserList";
-import WorkAlloc from "../views/forms/WorkAlloc";
-import DashboardHome from "../views/forms/DashboardHome";
-import DnoList from "../views/forms/DnoList";
-import Dno from "../views/forms/Dno";
-import WorkRequirement from "../views/forms/WorkRequirement";
+const ActionPlanList = lazy(() => import("../views/forms/ActionPlanList"));
 
-import ActionPlanReport from "../views/reports/ActionPlanReport";
-import SchemeReport from "../views/reports/SchemeReport"
-import DemandReport from "../views/reports/DemandReport";
-import AllocationReport from "../views/reports/AllocationReport"
-import EmploymentReport from "../views/reports/EmploymentReport"
-import DirectEmployment from "../views/forms/DirectEmployment";
+// import Contractor from "../views/forms/Contractor";
+// import Demand from "../views/forms/Demand";
+// import Employment from "../views/forms/Employment";
+// import NewUser from "../views/forms/NewUser";
+// import Department from "../views/forms/Department";
+// import Designation from "../views/forms/Designation";
+// import Scheme from "../views/forms/Scheme";
+// import UserList from "../views/forms/UserList";
+// import WorkAlloc from "../views/forms/WorkAlloc";
+// import DashboardHome from "../views/forms/DashboardHome";
+// import DnoList from "../views/forms/DnoList";
+// import Dno from "../views/forms/Dno";
+// import WorkRequirement from "../views/forms/WorkRequirement";
+
+// import ActionPlanReport from "../views/reports/ActionPlanReport";
+// import SchemeReport from "../views/reports/SchemeReport"
+// import DemandReport from "../views/reports/DemandReport";
+// import AllocationReport from "../views/reports/AllocationReport"
+// import EmploymentReport from "../views/reports/EmploymentReport"
+// import DirectEmployment from "../views/forms/DirectEmployment";
+
+const Contractor = lazy(() => import("../views/forms/Contractor"));
+const Demand = lazy(() => import("../views/forms/Demand"));
+const Employment = lazy(() => import("../views/forms/Employment"));
+const NewUser = lazy(() => import("../views/forms/NewUser"));
+const Department = lazy(() => import("../views/forms/Department"));
+const Designation = lazy(() => import("../views/forms/Designation"));
+const Scheme = lazy(() => import("../views/forms/Scheme"));
+const UserList = lazy(() => import("../views/forms/UserList"));
+const WorkAlloc = lazy(() => import("../views/forms/WorkAlloc"));
+const DashboardHome = lazy(() => import("../views/forms/DashboardHome"));
+const DnoList = lazy(() => import("../views/forms/DnoList"));
+const Dno = lazy(() => import("../views/forms/Dno"));
+const WorkRequirement = lazy(() => import("../views/forms/WorkRequirement"));
+const DirectEmployment = lazy(() => import("../views/forms/DirectEmployment"));
+
+// Lazy-loaded reports
+const ActionPlanReport = lazy(() =>
+  import("../views/reports/ActionPlanReport")
+);
+const SchemeReport = lazy(() => import("../views/reports/SchemeReport"));
+const DemandReport = lazy(() => import("../views/reports/DemandReport"));
+const AllocationReport = lazy(() =>
+  import("../views/reports/AllocationReport")
+);
+const EmploymentReport = lazy(() =>
+  import("../views/reports/EmploymentReport")
+);
 
 import { Pedestal } from "../views/forms/Pedestal";
 import { Calc_permission } from "../functions/Permissions";
@@ -31,18 +59,42 @@ import { fetch } from "../functions/Fetchfunctions";
 import { devApi } from "../WebApi/WebApi";
 
 import { SidebarElement, SidebarExpand } from "./SidebarElems";
-import ContractorList from "../views/forms/ContractorList";
-import SchemeList from "../views/forms/SchemeList";
-// import Register from "../views/Register/Register";
-import WorkRequirementList from "../views/forms/WorkRequirementList";
-import EmploymentList from "../views/forms/EmploymentList";
-import DemandList from "../views/forms/DemandList";
-import WorkAllocationList from "../views/forms/WorkAllocationList";
-
 import { Icon } from "@iconify/react/dist/iconify.js";
-import SummaryReportOnScheme from "../views/reports/SummaryReportOnScheme";
-import FundingDepartmentWiseReport from "../views/reports/FundingDepartmentWiseReport";
-import UserListByDepartment from "../views/reports/UserListByDepartment";
+
+const ContractorList = lazy(() => import("../views/forms/ContractorList"));
+const SchemeList = lazy(() => import("../views/forms/SchemeList"));
+// const Register = lazy(() => import('../views/Register/Register'));
+const WorkRequirementList = lazy(() =>
+  import("../views/forms/WorkRequirementList")
+);
+const EmploymentList = lazy(() => import("../views/forms/EmploymentList"));
+const DemandList = lazy(() => import("../views/forms/DemandList"));
+const WorkAllocationList = lazy(() =>
+  import("../views/forms/WorkAllocationList")
+);
+
+// Lazy-loaded reports
+const SummaryReportOnScheme = lazy(() =>
+  import("../views/reports/SummaryReportOnScheme")
+);
+const FundingDepartmentWiseReport = lazy(() =>
+  import("../views/reports/FundingDepartmentWiseReport")
+);
+const UserListByDepartment = lazy(() =>
+  import("../views/reports/UserListByDepartment")
+);
+
+// import ContractorList from "../views/forms/ContractorList";
+// import SchemeList from "../views/forms/SchemeList";
+// // import Register from "../views/Register/Register";
+// import WorkRequirementList from "../views/forms/WorkRequirementList";
+// import EmploymentList from "../views/forms/EmploymentList";
+// import DemandList from "../views/forms/DemandList";
+// import WorkAllocationList from "../views/forms/WorkAllocationList";
+
+// import SummaryReportOnScheme from "../views/reports/SummaryReportOnScheme";
+// import FundingDepartmentWiseReport from "../views/reports/FundingDepartmentWiseReport";
+// import UserListByDepartment from "../views/reports/UserListByDepartment";
 
 export const sideBarList = [
   {
