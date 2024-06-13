@@ -9,6 +9,7 @@ import { Login_logo } from "../components/Logo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getLogin } from "../Service/LoginService";
+import useTokenStore from "../functions/StateMgmt";
 
 // const Contact = () => {
 //   const [buttonClicked, setButtonClicked] = useState(false);
@@ -92,6 +93,8 @@ import { getLogin } from "../Service/LoginService";
 // };
 
 const Contact = () => {
+
+  const { token, setToken } = useTokenStore();
   return (
     <>
       <div className="rounded-sm bg-zinc-50 py-20 px-[20rem] flex-grow">
@@ -111,7 +114,7 @@ const Contact = () => {
               </h2>
               <div>
                 <h2 className="text-xl">
-                  Panchayat & Rural Development (P&RD)
+                  Panchayat & Rural Development (P&RD){token}
                 </h2>
               </div>
               <div>

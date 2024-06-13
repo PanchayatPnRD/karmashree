@@ -22,11 +22,13 @@ export const Navbar = () => {
     refetchInterval: 5000,
     refetchIntervalInBackground: true,
   });
+  useEffect(() => {
+    localStorage.setItem("karmashree_AuthToken", "");
+  }, []);
 
   useEffect(() => {
-    if (isFetched && !isFetching)
-      setserverStat(isError)
-  }, [isFetching])
+    if (isFetched && !isFetching) setserverStat(isError);
+  }, [isFetching]);
 
   return (
     <>
@@ -67,7 +69,7 @@ export const Navbar = () => {
           </Link>
         </div>
       </div>
-      
+
       <div
         className={classNames(
           online ? (!serverStat ? "h-0" : "h-8") : "h-8",

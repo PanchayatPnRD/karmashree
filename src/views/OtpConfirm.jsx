@@ -11,6 +11,7 @@ import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
+import useTokenStore from "../functions/StateMgmt";
 
 const OTPConfirm = () => {
   const { stack } = useStack();
@@ -22,6 +23,7 @@ const OTPConfirm = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [openModal, setOpenModal] = useState();
+  const { token, setToken } = useTokenStore()
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -74,14 +76,17 @@ const OTPConfirm = () => {
       // const { category}Payload
 
       localStorage.setItem("karmashree_User", JSON.stringify(data?.newPayload));
-      localStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
+      localStorage.setItem("karmashree_AuthToken",data?.newPayload?.token);
+      setToken(data?.newPayload?.token);
 
       if (
         localStorage.getItem("karmashree_AuthToken") != "" ||
         localStorage.getItem("karmashree_AuthToken") != undefined
       )
-        if (data?.errorCode == 0)
+        if (data?.errorCode == 0) {
           navigate("/dashboard");
+          
+        }
         else
           toast.error(data?.message);
     },

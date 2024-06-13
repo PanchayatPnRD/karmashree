@@ -1,5 +1,5 @@
 import ReactApexChart from "react-apexcharts";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 const Charts = ({ data, className }) => {
   console.log(data, "data");
@@ -33,6 +33,21 @@ const Charts = ({ data, className }) => {
       },
     ],
   });
+
+  useEffect(() => {
+    setState({
+      series: [
+        {
+          name: "Worker Engaged",
+          data: Works,
+        },
+        {
+          name: "Mandays Generated",
+          data: Mandays,
+        },
+      ],
+    });
+  }, [data])
 
   const options = {
     colors: ["#3C50E0", "#fa9b48"],

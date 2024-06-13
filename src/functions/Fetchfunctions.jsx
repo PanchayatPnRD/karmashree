@@ -1,17 +1,25 @@
 import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
+import useTokenStore from "./StateMgmt";
 
-const authToken = localStorage.getItem("karmashree_AuthToken");
-console.log(authToken,"tipi");
+
 
 const axiosInstance = axios.create({
   baseURL: devApi,
-  responseType: "json",
-  headers: {
-    "token": authToken
-  }
 });
 
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("karmashree_AuthToken");// Implement a function to retrieve the token from cookies
+    if (token) {
+      config.headers["token"] = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const fetch = {
   get: async (route, extenstion) => {

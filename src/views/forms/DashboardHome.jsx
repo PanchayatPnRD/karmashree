@@ -88,7 +88,7 @@ const DashboardHome = () => {
               <p className="text-xl font-bold">
                 <CountUp
                   start={0}
-                  end={"12450"}
+                  end={DashboardData?.totalwage}
                   duration={2.75}
                   // delay={0}
                 />
