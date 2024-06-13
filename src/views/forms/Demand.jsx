@@ -466,8 +466,8 @@ const WorkRequirement = () => {
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
                   Worker name
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Age
+                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-fit">
+                  Age
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
                   Gender
@@ -527,8 +527,8 @@ const WorkRequirement = () => {
                     index
                   ) => (
                     <Table.Row>
-                      <Table.Cell>{index + 1})</Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-6 py-1">{index + 1})</Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <div className="flex items-center ">
                           <div className="w-32">
                             {isLoading ? (
@@ -564,7 +564,7 @@ const WorkRequirement = () => {
                           />
                         </div>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
                           type="text"
@@ -578,11 +578,11 @@ const WorkRequirement = () => {
                           }}
                         />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <input
-                          className="border cursor-pointer border-gray-300 rounded-md"
+                          className="border cursor-pointer border-gray-300 rounded-md w-20"
                           type="text"
-                          placeholder="worker age"
+                          placeholder="Age"
                           name="age"
                           value={age}
                           maxLength={2}
@@ -592,7 +592,7 @@ const WorkRequirement = () => {
                           }}
                         />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <select
                           value={gender}
                           className="border cursor-pointer border-gray-300 rounded-md"
@@ -608,7 +608,7 @@ const WorkRequirement = () => {
                           <option value="T">Transgender</option>
                         </select>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <select
                           value={caste}
                           className="border cursor-pointer border-gray-300 rounded-md"
@@ -624,7 +624,7 @@ const WorkRequirement = () => {
                           <option value="Others">Others</option>
                         </select>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <RadioButton
                           value={whetherMinority}
                           updateVal={updateVal}
@@ -634,7 +634,7 @@ const WorkRequirement = () => {
                           setData={setAllData}
                         />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <RadioButton
                           value={whetherMigrantWorker}
                           updateVal={updateVal}
@@ -644,9 +644,9 @@ const WorkRequirement = () => {
                           setData={setAllData}
                         />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <input
-                          className="border cursor-pointer border-gray-300 rounded-md"
+                          className="border cursor-pointer border-gray-300 rounded-md w-36"
                           type="text"
                           name="mobileNo"
                           maxLength={10}
@@ -663,9 +663,9 @@ const WorkRequirement = () => {
                           </div>
                         )}
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <input
-                          className="border cursor-pointer border-gray-300 rounded-md"
+                          className="border cursor-pointer border-gray-300 rounded-md w-48"
                           type="text"
                           name="aadhaarNo"
                           placeholder="XXXX-XXXX-XXXX"
@@ -683,7 +683,7 @@ const WorkRequirement = () => {
                         )}
                       </Table.Cell>
 
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <select
                           value={typeOfWorkers}
                           className="border cursor-pointer border-gray-300 rounded-md"
@@ -702,7 +702,7 @@ const WorkRequirement = () => {
                         </select>
                       </Table.Cell>
 
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <DatePicker
                           minDate={new Date()}
                           dateFormat="dd/MM/yyyy"
@@ -724,7 +724,7 @@ const WorkRequirement = () => {
                           }
                         />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <select
                           value={noOfDaysWorkDemanded}
                           className="w-32 border cursor-pointer border-gray-300 rounded-md"
@@ -742,7 +742,7 @@ const WorkRequirement = () => {
                           ))}
                         </select>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
                           type="text"
@@ -756,7 +756,7 @@ const WorkRequirement = () => {
                         />
                       </Table.Cell>
 
-                      <Table.Cell>
+                      <Table.Cell className="px-1 py-1">
                         {index != 0 && (
                           <button
                             className="rounded-lg px-3 py-2 leading-tight bg-red-600 text-white hover:shadow-md transition-all hover:bg-opacity-90"
