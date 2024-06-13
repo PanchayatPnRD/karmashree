@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 const ActionPlan = lazy(() => import("../views/forms/ActionPlan"));
 const ActionPlanList = lazy(() => import("../views/forms/ActionPlanList"));
 
