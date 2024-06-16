@@ -1,148 +1,103 @@
 import webApi, { baseURL } from "../WebApi/WebApi";
 
-//FOR LOGIN 
+//FOR LOGIN
 
 export const getLogin = async (userId, password, onSuccess, onFailure) => {
-    console.log(userId, password, "login")
+  try {
+    const res = await webApi.post(`/api/auth/User_login`, {
+      userId: userId,
+      password: password,
+    });
 
-    try {
-        const res = await webApi.post(
+    if (res?.data?.errorCode == 0) {
+      const r = res.data;
 
-            `/api/auth/User_login`,
-            {
-                userId: userId,
-                password: password,
+      return onSuccess(r);
+    } else if (res?.data?.errorCode == 1) {
+      const r = res.data;
 
-            }
-        );
-        console.log(res.data.errorCode, "resresresres")
-        if (res?.data?.errorCode == 0) {
-
-
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-
-        } else if (res?.data?.errorCode == 1) {
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-        } else {
-            onFailure("Something Wrong! Please Try again later" + res.data);
-
-        }
-    } catch (error) {
-        console.log(error)
+      return onSuccess(r);
+    } else {
+      onFailure("Something Wrong! Please Try again later" + res.data);
     }
+  } catch (error) {}
 };
 
+export const getPasswordReset = async (
+  userId,
+  contactNo,
+  onSuccess,
+  onFailure
+) => {
+  try {
+    const res = await webApi.post(`/api/auth/passwordreset`, {
+      userId: userId,
+      contactNo: contactNo,
+    });
 
-export const getPasswordReset = async (userId, contactNo, onSuccess, onFailure) => {
-    console.log(userId, contactNo, "reset")
+    if (res?.data?.errorCode == 0) {
+      const r = res.data;
 
-    try {
-        const res = await webApi.post(
+      return onSuccess(r);
+    } else if (res?.data?.errorCode == 1) {
+      const r = res.data;
 
-            `/api/auth/passwordreset`,
-            {
-                userId: userId,
-                contactNo: contactNo,
-
-            }
-        );
-        console.log(res.data.errorCode, "resresresres")
-        if (res?.data?.errorCode == 0) {
-
-
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-
-        } else if (res?.data?.errorCode == 1) {
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-        } else {
-            onFailure("Something Wrong! Please Try again later" + res.data);
-
-        }
-    } catch (error) {
-        console.log(error)
+      return onSuccess(r);
+    } else {
+      onFailure("Something Wrong! Please Try again later" + res.data);
     }
+  } catch (error) {}
 };
 
+export const getVerifyOtpResetPassword = async (
+  otp,
+  userId,
+  onSuccess,
+  onFailure
+) => {
+  try {
+    const res = await webApi.post(`/api/auth/resetotp`, {
+      userId: userId,
+      resetotp: otp,
+    });
 
-export const getVerifyOtpResetPassword = async (otp, userId, onSuccess, onFailure) => {
-    console.log(otp, userId, "login")
+    if (res?.data?.errorCode == 0) {
+      const r = res.data;
 
-    try {
-        const res = await webApi.post(
+      return onSuccess(r);
+    } else if (res?.data?.errorCode == 1) {
+      const r = res.data;
 
-            `/api/auth/resetotp`,
-            {
-                userId: userId,
-                resetotp: otp,
-
-            }
-        );
-        console.log(res.data.errorCode, "resresresres")
-        if (res?.data?.errorCode == 0) {
-
-
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-
-        } else if (res?.data?.errorCode == 1) {
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-        } else {
-            onFailure("Something Wrong! Please Try again later" + res.data);
-
-        }
-    } catch (error) {
-        console.log(error)
+      return onSuccess(r);
+    } else {
+      onFailure("Something Wrong! Please Try again later" + res.data);
     }
+  } catch (error) {}
 };
 
-export const getNewPasswordGenerate = async ( userId,newPassword,confirmPassword, onSuccess, onFailure) => {
-    console.log(userId,newPassword,confirmPassword, "confirm")
+export const getNewPasswordGenerate = async (
+  userId,
+  newPassword,
+  confirmPassword,
+  onSuccess,
+  onFailure
+) => {
+  try {
+    const res = await webApi.put(`/api/auth/userId/${userId}`, {
+      password: newPassword,
+      confirmpassword: confirmPassword,
+    });
 
-    try {
-        const res = await webApi.put(
+    if (res?.data?.errorCode == 0) {
+      const r = res.data;
 
-            `/api/auth/userId/${userId}`,
-            {
-                password: newPassword,
-                confirmpassword: confirmPassword
-              }
-        );
-        console.log(res.data.errorCode, "resresresres")
-        if (res?.data?.errorCode == 0) {
+      return onSuccess(r);
+    } else if (res?.data?.errorCode == 1) {
+      const r = res.data;
 
-
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-
-        } else if (res?.data?.errorCode == 1) {
-            const r = res.data;
-            console.log(r, "rerere")
-
-            return onSuccess(r);
-        } else {
-            onFailure("Something Wrong! Please Try again later" + res.data);
-
-        }
-    } catch (error) {
-        console.log(error)
+      return onSuccess(r);
+    } else {
+      onFailure("Something Wrong! Please Try again later" + res.data);
     }
+  } catch (error) {}
 };

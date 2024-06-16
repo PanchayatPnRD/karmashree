@@ -2,8 +2,6 @@ import ReactApexChart from "react-apexcharts";
 import { useState, useMemo, useEffect } from "react";
 
 const Charts = ({ data, className }) => {
-  console.log(data, "data");
-
   const Months = useMemo(() => {
     const arr = data?.map((e) => e.month);
     return arr ? arr : [];
@@ -18,8 +16,6 @@ const Charts = ({ data, className }) => {
     const arr = data?.map((e) => e.mandays);
     return arr ? arr : [];
   }, [data]);
-
-  console.log(Months);
 
   const [state, setState] = useState({
     series: [
@@ -47,7 +43,7 @@ const Charts = ({ data, className }) => {
         },
       ],
     });
-  }, [data])
+  }, [data]);
 
   const options = {
     colors: ["#3C50E0", "#fa9b48"],

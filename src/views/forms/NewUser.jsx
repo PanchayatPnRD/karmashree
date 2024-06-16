@@ -22,7 +22,7 @@ import SuccessModal from "../../components/SuccessModal";
 
 const NewUser = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(errorMessage, "erroreeeororor");
+
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
@@ -68,13 +68,11 @@ const NewUser = () => {
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidTechnicalMobile, setIsValidTechnicalMobile] = useState(true);
 
-
-  console.log(pedastal, "pedastal");
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
-    // console.log("userData",userData?.districtcode, userData?.subDivision)
+    //
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
@@ -96,7 +94,7 @@ const NewUser = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-      console.log(response, "sibamdey");
+
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -111,28 +109,29 @@ const NewUser = () => {
     });
 
     {
-      data?.category === "SUB" ? "" :
-        getAllBlockList(data?.districtcode, data?.blockCode).then(function (
-          result
-        ) {
-          const response = result?.data?.result;
-          setAllBlockList(response);
-        });
+      data?.category === "SUB"
+        ? ""
+        : getAllBlockList(data?.districtcode, data?.blockCode).then(function (
+            result
+          ) {
+            const response = result?.data?.result;
+            setAllBlockList(response);
+          });
     }
 
     {
-      data?.category === "BLOCK" ? "" :
-        getAllBlockListbySub(data?.districtcode, data?.subDivision).then(function (
-          result
-        ) {
-          const response = result?.data?.result;
-          setAllBlockList(response);
-        });
+      data?.category === "BLOCK"
+        ? ""
+        : getAllBlockListbySub(data?.districtcode, data?.subDivision).then(
+            function (result) {
+              const response = result?.data?.result;
+              setAllBlockList(response);
+            }
+          );
     }
 
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList");
 
   //Designation list
   let designationListDropdown = <option>No data found...</option>;
@@ -189,7 +188,6 @@ const NewUser = () => {
   };
 
   const onDistrict = (e) => {
-    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -276,7 +274,7 @@ const NewUser = () => {
   const onContactNumber = (e) => {
     const value = e.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setContactNumber(value);
       setIsValidMobile(true);
     } else {
@@ -297,13 +295,14 @@ const NewUser = () => {
   const onSubDivision = (e) => {
     setSubDivision(e.target.value);
     {
-      userData?.category === "BLOCK" ? "" :
-        getAllBlockListbySub(userData?.districtcode, e.target.value).then(function (
-          result
-        ) {
-          const response = result?.data?.result;
-          setAllBlockList(response);
-        });
+      userData?.category === "BLOCK"
+        ? ""
+        : getAllBlockListbySub(userData?.districtcode, e.target.value).then(
+            function (result) {
+              const response = result?.data?.result;
+              setAllBlockList(response);
+            }
+          );
     }
   };
 
@@ -334,7 +333,7 @@ const NewUser = () => {
   const onTechnicalOfficerContactNumber = (e) => {
     const value = e.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setTechnicalOfficerContactNumber(value);
       setIsValidTechnicalMobile(true);
     } else {
@@ -414,20 +413,20 @@ const NewUser = () => {
         userData?.category === "HD"
           ? district
           : userData?.districtcode
-            ? userData?.districtcode
-            : district,
+          ? userData?.districtcode
+          : district,
 
         userData?.category === "DIST"
           ? subDivision
           : userData?.subDivision
-            ? userData?.subDivision
-            : subDivision,
+          ? userData?.subDivision
+          : subDivision,
 
         userData?.category === "SUB" || userData?.category === "DIST"
           ? block
           : userData?.blockCode
-            ? userData?.blockCode
-            : block,
+          ? userData?.blockCode
+          : block,
 
         officeName,
         nodalOfficerName,
@@ -439,19 +438,19 @@ const NewUser = () => {
         userData?.category === "HQ"
           ? "HD"
           : userData?.category === "HD"
-            ? "DIST"
-            : userData?.category === "DEPT"
-              ? "DIST"
-              : userData?.category === "DIST" && subDivision === "" && block === ""
-                ? "DIST"
-                : userData?.category === "DIST" && subDivision && block === ""
-                  ? "SUB"
-                  : (userData?.category === "DIST" && subDivision && block) ||
-                    (userData?.category === "DIST" && subDivision === "" && block)
-                    ? "BLOCK"
-                    : userData?.category === "SUB"
-                      ? "BLOCK"
-                      : "BLOCK",
+          ? "DIST"
+          : userData?.category === "DEPT"
+          ? "DIST"
+          : userData?.category === "DIST" && subDivision === "" && block === ""
+          ? "DIST"
+          : userData?.category === "DIST" && subDivision && block === ""
+          ? "SUB"
+          : (userData?.category === "DIST" && subDivision && block) ||
+            (userData?.category === "DIST" && subDivision === "" && block)
+          ? "BLOCK"
+          : userData?.category === "SUB"
+          ? "BLOCK"
+          : "BLOCK",
 
         parastatals ? parastatals : userData?.deptWing,
         "A",
@@ -468,14 +467,11 @@ const NewUser = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmailInput ? technicalOfficerEmailInput : "",
         (r) => {
-
-          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             setErrorMessage(r);
             setOpenModal(true);
             // setErrorMessage(r.message)
             // toast.success(r.message);
-
           } else {
             // setErrorMessage(r.message)
             // toast.error(r.message);
@@ -492,7 +488,6 @@ const NewUser = () => {
     setAreaGP(e.target.value);
   };
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
 

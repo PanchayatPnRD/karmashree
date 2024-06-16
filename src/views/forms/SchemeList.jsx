@@ -33,15 +33,15 @@ const SchemeList = () => {
       setAllContractorList(response);
     });
   }, []);
-  // console.log(allContractorList,"allContractorList")
-  console.log(
+  // 
+  
     allContractorList.find((c) => c.cont_sl === 1)?.contractorNameGst
   );
   const { data: schemeList } = useQuery({
     queryKey: ["schemeList"],
     queryFn: async () => {
       const data = await fetch.get("/api/schememaster/schemelist/" + userIndex);
-      // console.log(Array.isArray(data.data.result));
+      // 
       return data.data.result;
     },
   });

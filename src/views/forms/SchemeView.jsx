@@ -76,9 +76,9 @@ const SchemeView = () => {
     ExpectedCompletionDate: "",
     Remarks: "",
   });
-  console.log(allData, "ALLDATA");
+  
 
-  console.log(schemeDetails, "schemeDetails");
+  
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -112,7 +112,7 @@ const SchemeView = () => {
     });
   }, []);
 
-  console.log(schemeDetails, "schemeDetails");
+  
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -198,7 +198,7 @@ const SchemeView = () => {
   };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
+    
     setMunicipality(e.target.value);
   };
 
@@ -332,8 +332,8 @@ const SchemeView = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
+    
+    
 
     // Financial year starts from April
     if (currentMonth >= 4) {
@@ -348,11 +348,11 @@ const SchemeView = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
+  
+  
+  
 
-  console.log(
+  
     format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
     "fatafatafa"
   );
@@ -370,7 +370,7 @@ const SchemeView = () => {
       allData?.Remarks,
 
       (r) => {
-        console.log(r, "response");
+        
         if (r.errorCode == 0) {
           setOpenModal(true);
           setSchemeId(r.schemeid);

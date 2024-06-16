@@ -17,13 +17,11 @@ const ViewProfile = () => {
     },
   });
 
-  console.log(userDetails,"userDetails")
-
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],
     queryFn: async () => {
       const data = await fetch.get("/api/mastertable/DesignationList");
-      console.log(data);
+
       return data.data.result;
     },
   });

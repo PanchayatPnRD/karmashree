@@ -72,7 +72,7 @@ const WorkRequirement = () => {
       const data = await fetch.get(
         `/api/schememaster/getAllScheme/${userIndex}`
       );
-      // console.log(Array.isArray(data.data.result));
+      // 
       return data.data.result;
     },
   });
@@ -91,7 +91,7 @@ const WorkRequirement = () => {
       const data = await fetch.get(
         `/api/contractor/getcontractorDetails/${schemeData.ControctorID}`
       );
-      // console.log(Array.isArray(data.data.result));
+      // 
       return data.data.result;
     },
     enabled: schemeData !== undefined,
@@ -122,7 +122,7 @@ const WorkRequirement = () => {
 
     // getSchemeList(data?.userIndex).then(function (result) {
     //   const response = result?.data?.result;
-    //   console.log(response,"response")
+    //   
     //   setAllSchemeAllList(response);
     // });
   }, []);
@@ -135,7 +135,7 @@ const WorkRequirement = () => {
   //       <option value={SchemeRow.scheme_sl}>{SchemeRow.schemename}</option>
   //     ));
   //   }
-  // console.log(schemeListDropdown,"schemeListDropdown")
+  // 
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -176,7 +176,7 @@ const WorkRequirement = () => {
     ));
   }
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
+    
     setMunicipality(e.target.value);
   };
 
@@ -291,8 +291,8 @@ const WorkRequirement = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
+    
+    
 
     // Financial year starts from April
     if (currentMonth >= 4) {
@@ -307,9 +307,9 @@ const WorkRequirement = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
+  
+  
+  
 
   const onSubmit = () => {
     if (area === "") {
@@ -341,8 +341,8 @@ const WorkRequirement = () => {
     } else if (boolean_value) {
       toast.error("Please Enter Valid Unskilled value");
     } else {
-      // console.log(unSkilledWorkerList);
-      // console.log(allData[1]?.unskilledWorkers===""||allData[1]?.unskilledWorkers==="0"?"FALSE":"TRUE","sibam")
+      // 
+      // 
 
       addCreateWorkRequirement(
         area,
@@ -367,7 +367,7 @@ const WorkRequirement = () => {
         userData?.userIndex,
         allData,
         (r) => {
-          console.log(r, "response");
+          
           if (r.errorCode == 0) {
             setOpenModal(true);
             setCreatedReq(r?.requireid);
@@ -861,10 +861,10 @@ const WorkRequirement = () => {
                             return e;
                           });
                           setAllData(new_array);
-                          // console.log(allData[index].unskilledWorkers);
+                          // 
                         }}
                       />
-                      {/* {console.log(allData[0].unskilledWorkers)} */}
+                      {/* {
                     </Table.Cell>
                     <Table.Cell className="hidden">0</Table.Cell>
                     <Table.Cell className="hidden">0</Table.Cell>

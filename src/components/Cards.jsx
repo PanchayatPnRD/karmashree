@@ -32,42 +32,45 @@ export const Cards = () => {
       text: "total no of funding department",
       Icon: MdGroups3,
       //value: formatNumberToINR(Stats?.["Total No Of Funding"], false),
-        value : <CountUp
-        start={0}
-        end={formatNumberToINR(Stats?.["Total No Of Funding"], false)}
-        duration={2.75}
-        // delay={0}
-      />,
-      
+      value: (
+        <CountUp
+          start={0}
+          end={formatNumberToINR(Stats?.["Total No Of Funding"], false)}
+          duration={2.75}
+          // delay={0}
+        />
+      ),
     },
     {
       text: "total of sectors",
       Icon: FaUsersBetweenLines,
       //value: formatNumberToINR(Stats?.["Total Of Sectors"], false),
-      value : <CountUp
-        start={0}
-        end={formatNumberToINR(Stats?.["Total Of Sectors"], false)}
-        duration={2.75}
-        // delay={0}
-      />,
+      value: (
+        <CountUp
+          start={0}
+          end={formatNumberToINR(Stats?.["Total Of Sectors"], false)}
+          duration={2.75}
+          // delay={0}
+        />
+      ),
     },
     {
       text: "total no of schemes",
       Icon: LuTreeDeciduous,
       //value: formatNumberToINR(Stats?.["Total No Of Schemes"], false),
-      value : <CountUp
-        start={0}
-        end={formatNumberToINR(Stats?.["Total No Of Schemes"], false)}
-        duration={2.75}
-        // delay={0}
-      />,
+      value: (
+        <CountUp
+          start={0}
+          end={formatNumberToINR(Stats?.["Total No Of Schemes"], false)}
+          duration={2.75}
+          // delay={0}
+        />
+      ),
     },
     {
       text: "total project cost(rs)",
       Icon: HiMiniCurrencyRupee,
       value: formatNumberToINR(Stats?.["Total Project Cost"], true),
-      
-      
     },
     {
       text: "total amount spent",
@@ -78,16 +81,17 @@ export const Cards = () => {
       text: "total no of workers",
       Icon: FaPeopleCarryBox,
       //value: formatNumberToINR(Stats?.["Total No Of Workers"], false),
-      value : <CountUp
-        start={0}
-        end={formatNumberToINR(Stats?.["Total No Of Workers"], false)}
-        duration={2.75}
-        // delay={0}
-      />,
+      value: (
+        <CountUp
+          start={0}
+          end={formatNumberToINR(Stats?.["Total No Of Workers"], false)}
+          duration={2.75}
+          // delay={0}
+        />
+      ),
     },
   ];
 
-  console.log(cardList);
   return (
     <>
       <div className="bg-banner h-64 flex items-center justify-evenly">

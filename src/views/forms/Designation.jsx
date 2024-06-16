@@ -27,7 +27,7 @@ const Designation = () => {
     queryKey: ["designationList"],
     queryFn: async () => {
       const data = await fetch.get("/api/mastertable/DesignationList");
-      // console.log(Array.isArray(data.data.result));
+      //
       return data.data.result;
     },
   });

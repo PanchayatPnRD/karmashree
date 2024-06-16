@@ -315,8 +315,6 @@ export const sideBarList = [
     route: "/dashboard/user_list_by_department",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
-
-  
 ];
 
 export const Sidebar = () => {
@@ -325,10 +323,10 @@ export const Sidebar = () => {
     7, 12, 13, 15, 17, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35,
   ];
   const actionPlanHidden = [
-    12, 13, 15, 17, 19, 21, 23, 24, 25,27, 29, 30, 31, 32, 33, 34, 35,
+    12, 13, 15, 17, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [7,27, 30, 31, 32, 33, 34, 35];
-  const schemeHidden = [ 7, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7, 27, 30, 31, 32, 33, 34, 35];
+  const schemeHidden = [7, 30, 31, 32, 33, 34, 35];
   const demandHidden = [1, 7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
@@ -350,7 +348,7 @@ export const Sidebar = () => {
     userDetails?.role_type,
     Boolean(parseInt(userDetails?.dno_status))
   )?.uniqueId;
-  // console.log(userRoleIndex, "permission");
+  //
 
   return (
     <div className="z-20 flex flex-col p-3">

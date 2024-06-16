@@ -57,7 +57,7 @@ const Dno = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-      console.log(response, "sibamdey");
+
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -78,7 +78,6 @@ const Dno = () => {
     });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList");
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -105,8 +104,6 @@ const Dno = () => {
     ));
   }
 
-  console.log(districtListDropdown,"districtListDropdown")
-
   //Role list
   async function getRoleDataList() {
     getAllRoleList().then(function (result) {
@@ -127,7 +124,6 @@ const Dno = () => {
   };
 
   const onDistrict = (e) => {
-    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -240,7 +236,6 @@ const Dno = () => {
     } else if (userAddress === "") {
       toast.error("Please type office address");
     } else {
-      
       addNewDNO(
         userData?.category === "HQ"
           ? department
@@ -289,7 +284,7 @@ const Dno = () => {
         (r) => {
           setErrorMessage(r);
           setOpenModal(true);
-          console.log(r, "sibamdeyresponse");
+
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
             // toast.success(r.message);
@@ -312,11 +307,9 @@ const Dno = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         message={errorMessage?.message}
-        
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         to="dno-userlist"
         isSuccess={!Boolean(errorMessage?.errorCode)}
-        
       />
       <ToastContainer />
       <div className="mx-auto mt-2">

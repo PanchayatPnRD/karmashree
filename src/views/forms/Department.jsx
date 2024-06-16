@@ -24,7 +24,7 @@ const Department = () => {
     queryKey: ["departmentList"],
     queryFn: async () => {
       const data = await fetch.get("/api/mastertable/DepartmentList");
-      // console.log(Array.isArray(data.data.result));
+      //
       return data.data.result;
     },
   });

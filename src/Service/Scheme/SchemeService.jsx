@@ -7,7 +7,7 @@ export const getAllContractorList = async () => {
 
 
 export const getSchemeList = async (userId) => {
-    console.log(userId, "hashashhas")
+    
     return await webApi.get(`/api/schememaster/getAllScheme/${userId}`,
     );
 }
@@ -57,7 +57,7 @@ export const addCreateScheme = async (
     onFailure) => {
 
 
-    console.log(
+    
         schemeArea,
         departmentNo,
         districtcode,
@@ -143,13 +143,13 @@ export const addCreateScheme = async (
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            console.log(r, "rerere")
+            
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            console.log(r, "rerere")
+            
 
             return onSuccess(r);
         } else {
@@ -157,7 +157,7 @@ export const addCreateScheme = async (
 
         }
     } catch (error) {
-        console.log("fdgdf")
+        
     }
 };
 
@@ -177,7 +177,7 @@ export const updateScheme = async (
     onFailure) => {
   
   
-        console.log(schemeId,
+        
         StatusOfWork,
         tentativeStartDate,
         ActualtartDate,
@@ -209,13 +209,13 @@ export const updateScheme = async (
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            console.log(r, "rerere")
+            
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            console.log(r, "rerere")
+            
 
             return onSuccess(r);
         } else {
@@ -223,7 +223,7 @@ export const updateScheme = async (
 
         }
     } catch (error) {
-        console.log("fdgdf")
+        
     }
 };
 
@@ -234,7 +234,7 @@ export const updateScheme = async (
 //scheme list
 
 export const getAllSchemeList = async (userId) => {
-    console.log(userId, "userId")
+    
     return await webApi.get(`/api/schememaster/schemelist/${userId}`,
     );
 }
@@ -242,7 +242,7 @@ export const getAllSchemeList = async (userId) => {
 
 //scheme details view
 export const getSchemeViewDetails = async (schemeID) => {
-    console.log(schemeID, "schemeID")
+    
     return await webApi.get(`/api/schememaster/schemeview/${schemeID}`,
     );
 }

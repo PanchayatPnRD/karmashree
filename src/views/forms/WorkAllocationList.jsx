@@ -23,7 +23,7 @@ const WorkAllocationList = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
-  console.log(karmashree_data, "userIndex");
+
   const navigate = useNavigate();
 
   const { data: workAllocationList } = useQuery({
@@ -32,11 +32,11 @@ const WorkAllocationList = () => {
       const data = await fetch.get(
         `/api/allocation/getallocationList/${karmashree_data?.userIndex}`
       );
-      // console.log(Array.isArray(data.data.result));
+      //
       return data.data.result;
     },
   });
-  console.log(workAllocationId, "workAllocationId");
+
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
