@@ -52,7 +52,8 @@ const EmploymentReport = lazy(() =>
   import("../views/reports/EmploymentReport")
 );
 
-import { Pedestal } from "../views/forms/Pedestal";
+const Pedestal = lazy(() => import("../views/forms/Pedestal"));
+
 import { Calc_permission } from "../functions/Permissions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
+import { Karmashree_logo } from "./components/Logo";
 import "./App.css";
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { sideBarList } from "./components/Sidebar";
@@ -111,7 +112,13 @@ function App() {
               element={
                 <Auth>
                   <Dashboard>
-                    <Suspense>
+                    <Suspense
+                      fallback={
+                        <div className="flex items-center justify-center flex-grow p-8 px-12">
+                          <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                        </div>
+                      }
+                    >
                       <Component />
                     </Suspense>
                   </Dashboard>
