@@ -54,8 +54,9 @@ const ActionPlan = () => {
     const startYear = currentYear - index;
     return `${startYear}-${startYear + 1}`;
   });
-
+  console.log(department, "department");
   const onFinancialYear = (event) => {
+    console.log(event.target.value, "fififififi");
     setSelectedYear(event.target.value);
   };
 
@@ -92,7 +93,7 @@ const ActionPlan = () => {
     //   toast.error("Please add Parastatals")
     // }
   }, []);
-  //
+  // console.log(allPedastralList?.length,"allPedadddstralList")
 
   //Department list
   let departmentListDropdown = <option>No data found...</option>;
@@ -257,6 +258,8 @@ const ActionPlan = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
+    console.log(currentMonth);
+    console.log(currentYear);
 
     // Financial year starts from April
     if (currentMonth >= 4) {
@@ -271,6 +274,9 @@ const ActionPlan = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
+  console.log(financialYear, "financialYear");
+  console.log(currentMonth, "currentMonth");
+  console.log(currentYear, "currentYear");
 
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
@@ -330,6 +336,7 @@ const ActionPlan = () => {
         currentYear,
         data?.userIndex,
         (r) => {
+          console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
           } else {

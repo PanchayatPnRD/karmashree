@@ -74,6 +74,7 @@ const WorkAlloc = () => {
   )?.schemename;
 
   const schemeDataId = scheme_sl;
+  console.log(schemeName, "schemeName");
 
   const dateDifference = useMemo(() => {
     return allocData.map(({ dateFrom, dateTo }) => {
@@ -95,12 +96,14 @@ const WorkAlloc = () => {
           "&districtcode=" +
           userDetails?.districtcode
       );
-      //
+      // console.log(Array.isArray(data.data.result), "array");
       return data.data.result;
     },
     staleTime: 0,
     enabled: !(scheme_sl === undefined),
   });
+
+  console.log(demandData, "demandData");
 
   // const { data: schemeList } = useQuery({
   //   queryKey: ["schemeList"],
@@ -117,7 +120,7 @@ const WorkAlloc = () => {
   //   staleTime: 0,
   // });
 
-  //
+  // console.log(schemeList,"schemeList")
 
   const { data: workRequirementList } = useQuery({
     queryKey: ["workRequirementList"],
@@ -125,7 +128,7 @@ const WorkAlloc = () => {
       const data = await fetch.get(
         `/api/workerrequisition/getallrequztion?userIndex=${userIndex}`
       );
-      //
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
@@ -155,7 +158,7 @@ const WorkAlloc = () => {
 
   const is_demand = useMemo(() => {
     if (scheme_sl == undefined) return false;
-    //
+    // console.log(filteredData?.totalUnskilledWorkers,demandData?.length,"is_demand");
     if (demandData != null || demandData != undefined)
       return filteredData?.totalUnskilledWorkers > demandData?.length;
   }, [filteredData, scheme_sl, demandData]);
@@ -229,6 +232,7 @@ const WorkAlloc = () => {
 
     return array.filter((value) => value !== undefined);
   }, [allocData]);
+  console.log(AllocAPIData, "AllocAPIData");
 
   const list = [
     {
@@ -627,9 +631,7 @@ const WorkAlloc = () => {
                       {gpName.length > 0 && gpName}
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">
-                        Total Unskilled Workers Demandad
-                      </div>
+                      <div className="label-style">Total Unskilled Workers Demandad</div>
                       {totalUnskilledWorkers}
                       <span className="w-fit mx-32 mr-6">
                         Total Unskilled Workers Provided
@@ -637,9 +639,7 @@ const WorkAlloc = () => {
                       {AllocAPIData.length}
                     </div>
                     <div className="div-even">
-                      <div className="label-style">
-                        Total No of Days Demandad
-                      </div>
+                      <div className="label-style">Total No of Days Demandad</div>
                       {noOfDays}
                       <span className="w-fit mx-32 mr-6">
                         Total No of Days Provided

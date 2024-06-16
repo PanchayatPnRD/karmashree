@@ -1,7 +1,7 @@
 import webApi, { baseURL } from "../WebApi/WebApi";
 
 export const getAllDepartmentList = async (deptId) => {
-    
+    console.log(deptId, "deptId")
     return await webApi.get(`/api/mastertable/GetDeptbyId/${deptId}`,
     );
 }
@@ -17,7 +17,7 @@ export const getAllRoleList = async () => {
 }
 
 export const getAllSubDivisionList = async (districtId, subDivision) => {
-    
+    console.log(districtId, subDivision, "districtId,subDivision")
     return await webApi.get(`/api/mastertable/getSubdivison/${parseInt(districtId)}/${parseInt(subDivision) ? parseInt(subDivision) : 0}`,
     );
 }
@@ -28,7 +28,7 @@ export const getAllBlockList = async (districtId, blockCode) => {
 }
 
 export const getAllBlockListbySub = async (districtId, subdivId) => {
-    
+    console.log(districtId, subdivId,"districtId, subdivId")
     return await webApi.get(`/api/mastertable/getBlockbydistandsub/${parseInt(districtId)}/${parseInt(subdivId)}`,
     );
 }
@@ -53,7 +53,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, block,
     technicalOfficerDesignation, technicalOfficerContactNumber, technicalOfficerEmail, onSuccess, onFailure) => {
 
 
-    
+    console.log(departmentNo, districtcode, subDivision, block, officeName, nodalOfficerName, contactNo, email, designation, userAddress, role, category,
         deptWing, currentStatus, area,areaGp, municipalityCode, userType, role_type, pwd, entryBy, created_by, technicalOfficerName,
         technicalOfficerDesignation, technicalOfficerContactNumber, technicalOfficerEmail, "formData")
     try {
@@ -92,13 +92,13 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, block,
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
         } else {
@@ -106,7 +106,7 @@ export const addNewUser = async (departmentNo, districtcode, subDivision, block,
 
         }
     } catch (error) {
-        
+        console.log("fdgdf")
     }
 };
 
@@ -124,7 +124,7 @@ export const updateNewUser = async (userIndex,nodalOfficerName,designation,
     technicalOfficerContactNumber,technicalOfficerEmail,officeName_hd,onSuccess, onFailure) => {
 
 
-   
+   console.log(userIndex,nodalOfficerName,designation,
     contactNo,email,role_type,userAddress,technicalOfficerName,technicalOfficerDesignation,
     technicalOfficerContactNumber,technicalOfficerEmail,"userIndex")
     try {
@@ -165,13 +165,13 @@ export const updateNewUser = async (userIndex,nodalOfficerName,designation,
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
         } else {
@@ -179,6 +179,6 @@ export const updateNewUser = async (userIndex,nodalOfficerName,designation,
 
         }
     } catch (error) {
-        
+        console.log("fdgdf")
     }
 };

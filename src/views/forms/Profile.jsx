@@ -16,7 +16,7 @@ import SuccessModal from "../../components/SuccessModal";
 import { getUserList } from "../../Service/ProfileEdit/ProfileEditService";
 const Profile = () => {
   const [errorMessage, setErrorMessage] = useState("");
-
+  console.log(errorMessage, "erroreeeororor")
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
@@ -42,24 +42,29 @@ const Profile = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [technicalOfficerName, setTechnicalOfficerName] = useState("");
-  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] =
-    useState("");
-  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] =
-    useState("");
+  const [technicalOfficerDesignation, setTechnicalOfficerDesignation] = useState("");
+  const [technicalOfficerContactNumber, setTechnicalOfficerContactNumber] = useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
-  const [allUserList, setAllUserList] = useState({
-    userName: "",
-    designationID: "",
-    contactNo: "",
-    email: "",
-    role_type: "",
-    UserAddress: "",
-    technical_officer: "",
-    tech_designation_id: "",
-    tech_mobile: "",
-    tech_email: "",
-    officeName_hd: "",
-  });
+  const [allUserList, setAllUserList] = useState(
+    {
+      userName: '',
+      designationID: '',
+      contactNo: '',
+      email:'',
+      role_type:'',
+      UserAddress:'',
+      technical_officer:'',
+      tech_designation_id:'',
+      tech_mobile:'',
+      tech_email:'',
+      officeName_hd:'',
+    }
+  );
+
+  console.log(allUserList, "allUserList");
+
+
+
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -78,7 +83,7 @@ const Profile = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-
+      console.log(response, "sibamdey");
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -99,6 +104,7 @@ const Profile = () => {
     });
     getRoleDataList();
   }, []);
+  console.log(allDistrictList, "allDistrictList");
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -145,6 +151,7 @@ const Profile = () => {
   };
 
   const onDistrict = (e) => {
+    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -184,18 +191,21 @@ const Profile = () => {
 
   const onOfficeName = (e) => {
     setOfficeName(e.target.value);
-    setAllUserList({ ...allUserList, officeName_hd: e.target.value });
+    setAllUserList({ ...allUserList, officeName_hd: e.target.value })
+
   };
 
   const onNodalOfficerName = (e) => {
     setNodalOfficerName(e.target.value);
-    setAllUserList({ ...allUserList, userName: e.target.value });
+    setAllUserList({ ...allUserList, userName: e.target.value })
+
   };
 
   const onContactNumber = (e) => {
     if (e.target.value.length <= 10) {
       setContactNumber(e.target.value);
-      setAllUserList({ ...allUserList, contactNo: e.target.value });
+      setAllUserList({ ...allUserList, contactNo: e.target.value })
+
     }
   };
 
@@ -203,12 +213,14 @@ const Profile = () => {
     setEmailInput(e.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmail(emailRegex.test(e.target.value));
-    setAllUserList({ ...allUserList, email: e.target.value });
+    setAllUserList({ ...allUserList, email: e.target.value })
+
   };
 
   const onUserAddress = (e) => {
     setUserAddress(e.target.value);
-    setAllUserList({ ...allUserList, UserAddress: e.target.value });
+    setAllUserList({ ...allUserList, UserAddress: e.target.value })
+
   };
 
   const onSubDivision = (e) => {
@@ -221,12 +233,15 @@ const Profile = () => {
 
   const onRole = (e) => {
     setRole(e.target.value);
-    setAllUserList({ ...allUserList, role_type: e.target.value });
+    setAllUserList({ ...allUserList, role_type: e.target.value })
+
+    
   };
 
   const onDesignation = (e) => {
     setDesignation(e.target.value);
-    setAllUserList({ ...allUserList, designationID: e.target.value });
+    setAllUserList({ ...allUserList, designationID: e.target.value })
+
   };
 
   const onAddTechnicalOfficer = (e) => {
@@ -235,23 +250,30 @@ const Profile = () => {
 
   const onTechnicalOfficerName = (e) => {
     setTechnicalOfficerName(e.target.value);
-    setAllUserList({ ...allUserList, technical_officer: e.target.value });
+    setAllUserList({ ...allUserList, technical_officer: e.target.value })
+
   };
 
   const onTechnicalOfficerDesignation = (e) => {
     setTechnicalOfficerDesignation(e.target.value);
-    setAllUserList({ ...allUserList, tech_designation_id: e.target.value });
+    setAllUserList({ ...allUserList, tech_designation_id: e.target.value })
+
   };
 
   const onTechnicalOfficerContactNumber = (e) => {
     setTechnicalOfficerContactNumber(e.target.value);
-    setAllUserList({ ...allUserList, tech_mobile: e.target.value });
+    setAllUserList({ ...allUserList, tech_mobile: e.target.value })
+
   };
 
   const onTechnicalOfficerEmail = (e) => {
     setTechnicalOfficerEmail(e.target.value);
-    setAllUserList({ ...allUserList, tech_email: e.target.value });
+    setAllUserList({ ...allUserList, tech_email: e.target.value })
+
   };
+
+  console.log(allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation, "desdesdes")
+  console.log(allUserList?.designationID == 1, "idididididid")
 
   const onRegister = () => {
     if (allUserList?.userName === "") {
@@ -262,10 +284,7 @@ const Profile = () => {
       toast.error("Please type 10 digit Nodal officer mobile number");
     } else if (!allUserList?.email) {
       toast.error("Please enter Nodal officer valid email id");
-    } else if (
-      userData?.category === "HD" &&
-      allUserList?.officeName_hd === ""
-    ) {
+    } else if (userData?.category === "HD" && allUserList?.officeName_hd === "") {
       toast.error("Please type your office name");
     } else if (allUserList?.UserAddress === "") {
       toast.error("Please type user address");
@@ -273,22 +292,15 @@ const Profile = () => {
       // setOpenModal(true);
 
       updateNewUser(
-        userData?.userIndex,
-        allUserList?.userName,
-        allUserList?.designationID,
-        allUserList?.contactNo,
-        allUserList?.email,
-        allUserList?.role_type,
-        allUserList?.UserAddress,
-        allUserList?.technical_officer,
-        allUserList?.tech_designation_id,
-        allUserList?.tech_mobile,
-        allUserList?.tech_email,
-        allUserList?.officeName_hd,
+        userData?.userIndex,allUserList?.userName,allUserList?.designationID,
+        allUserList?.contactNo,allUserList?.email,allUserList?.role_type,
+        allUserList?.UserAddress,allUserList?.technical_officer,allUserList?.tech_designation_id,
+        allUserList?.tech_mobile,allUserList?.tech_email,allUserList?.officeName_hd,
 
         (r) => {
-          setErrorMessage(r);
+          setErrorMessage(r)
 
+          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
             toast.success(r.message);
@@ -301,7 +313,7 @@ const Profile = () => {
       );
     }
   };
-
+  console.log(errorMessage?.message, "message")
   return (
     <div className="flex-grow ">
       <SuccessModal
@@ -349,9 +361,7 @@ const Profile = () => {
 
         <form className="flex">
           <div className="w-full px-36 space-y-6 pb-10">
-            {userData?.category === "HQ" ? (
-              ""
-            ) : (
+            {userData?.category === "HQ" ? "" :
               <div>
                 <label
                   htmlFor="country"
@@ -367,6 +377,7 @@ const Profile = () => {
                   required
                   onChange={onDepartment}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+
                 >
                   <option value="" selected hidden>
                     {userData?.category === "HQ"
@@ -376,7 +387,7 @@ const Profile = () => {
                   {departmentListDropdown}
                 </select>
               </div>
-            )}
+            }
             {/* {userData?.category === "HQ" ? (
               ""
             ) : (
@@ -424,6 +435,7 @@ const Profile = () => {
                 placeholder="type your Nodal officer name"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 value={allUserList?.userName}
+
               />
             </div>
             <div>
@@ -442,11 +454,7 @@ const Profile = () => {
               >
                 <option value="" selected hidden>
                   {/* {allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation} */}
-                  {allUserList?.designationID === "1"
-                    ? "Select a Designation"
-                    : allDesignationList.find(
-                        (c) => c.designationId === allUserList?.designationID
-                      )?.designation}
+                  {allUserList?.designationID==="1" ?"Select a Designation": allDesignationList.find(c => c.designationId === allUserList?.designationID)?.designation}
                 </option>
                 {designationListDropdown}
               </select>
@@ -488,13 +496,14 @@ const Profile = () => {
                 placeholder="type your email id"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 value={allUserList?.email}
+
               />
             </div>
 
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              (userData?.category === "BLOCK" && userData?.subDivision === "") ? (
               ""
             ) : (
               <div>
@@ -515,7 +524,7 @@ const Profile = () => {
                 >
                   <option value="" selected hidden>
                     {userData?.category === "SUB" ||
-                    userData?.category === "BLOCK"
+                      userData?.category === "BLOCK"
                       ? subDivisionDropdown
                       : "Select a sub-division"}
                   </option>
@@ -524,8 +533,8 @@ const Profile = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ? (
               ""
             ) : (
               <div>
@@ -553,11 +562,11 @@ const Profile = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -584,11 +593,11 @@ const Profile = () => {
               </div>
             )}
             {userData?.category === "HQ" ||
-            userData?.category === "HD" ||
-            userData?.category === "DEPT" ||
-            userData?.category === "DIST" ||
-            userData?.category === "SUB" ||
-            userData?.category === "BLOCK" ? (
+              userData?.category === "HD" ||
+              userData?.category === "DEPT" ||
+              userData?.category === "DIST" ||
+              userData?.category === "SUB" ||
+              userData?.category === "BLOCK" ? (
               ""
             ) : (
               <div>
@@ -650,10 +659,7 @@ const Profile = () => {
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               >
                 <option value="" selected hidden>
-                  {allUserList?.role_type
-                    ? allRoleList.find((c) => c.id === allUserList?.role_type)
-                        ?.role_type
-                    : "Select a role"}
+                  {allUserList?.role_type ? allRoleList.find(c => c.id === allUserList?.role_type)?.role_type : "Select a role"}
                 </option>
                 {roleListDropdown}
               </select>
@@ -793,6 +799,7 @@ const Profile = () => {
                     placeholder="type your email id"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     value={allUserList?.tech_email}
+
                   />
                 </div>
               </>

@@ -92,6 +92,7 @@ const DirectEmployment = () => {
   };
 
   const onMunicipality = (e) => {
+    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
   const onScheme = (e) => {
@@ -142,7 +143,7 @@ const DirectEmployment = () => {
       const data = await fetch.get(
         `/api/schememaster/getAllScheme/${userIndex}`
       );
-      //
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
@@ -152,7 +153,7 @@ const DirectEmployment = () => {
       const data = await fetch.get(
         `/api/demand/getDemandsforallocation_and_direct_emp?userIndex=${userIndex}&districtcode=${userDetails?.districtcode}`
       );
-      //
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
     enabled: isSuccess,

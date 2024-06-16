@@ -20,6 +20,7 @@ const SummaryReportOnScheme = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  console.log(karmashree_data, "userIndex");
 
   const { data: employmentList } = useQuery({
     queryKey: ["employmentList"],
@@ -27,11 +28,11 @@ const SummaryReportOnScheme = () => {
       const data = await fetch.get(
         `/api/schememaster/Summary_Report_on_Schemes`
       );
-      //
+      // console.log(Array.isArray(data.data.result));
       return [data.data.result];
     },
   });
-
+  console.log(employmentList, "employmentList");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
@@ -107,6 +108,7 @@ const SummaryReportOnScheme = () => {
       accessorKey: "Total Mandays for which WO issued",
       headclass: "cursor-pointer",
     },
+    
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -173,7 +175,7 @@ const SummaryReportOnScheme = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                    Summary Report on Scheme
+                  Summary Report on Scheme
                   </li>
                 </ol>
               </nav>

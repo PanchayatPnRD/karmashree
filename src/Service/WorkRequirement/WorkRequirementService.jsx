@@ -7,7 +7,7 @@ export const addCreateWorkRequirement = async (area, departmentNo, district, mun
     onSuccess,
     onFailure) => {
 
-    
+    console.log(area, departmentNo, district, municipality,
         block, gp, villageName, scheme, contractor, fundingDeptname, personName, phoneNumber, reportingPlace,
         nearestLandmark, startDate, days, currentMonth, currentYear, financialYear, userIndex, dataArr, "requirement")
     try {
@@ -42,13 +42,13 @@ export const addCreateWorkRequirement = async (area, departmentNo, district, mun
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
         } else {
@@ -56,6 +56,6 @@ export const addCreateWorkRequirement = async (area, departmentNo, district, mun
 
         }
     } catch (error) {
-        
+        console.log("fdgdf")
     }
 };

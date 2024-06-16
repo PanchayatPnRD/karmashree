@@ -103,7 +103,7 @@ const WorkRequirement = () => {
   };
 
   const [allData, setAllData] = useState([initialData]); //! all data
-
+  console.log(allData, "allData");
   const [area, setArea] = useState();
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
@@ -238,6 +238,7 @@ const WorkRequirement = () => {
   });
 
   const onAge = (e) => {
+    console.log(e, "age");
     if (e < 18 || e > 65) {
       toast.error("Age should be between 18-65 years");
     }
@@ -246,6 +247,7 @@ const WorkRequirement = () => {
   //Validation of mobile number
 
   const onMobile = (e) => {
+    console.log(e, "mobile");
     const value = e;
     const regex = /^[6-9]{1}[0-9]{9}$/;
     if (regex.test(value) || value === "") {
@@ -259,6 +261,7 @@ const WorkRequirement = () => {
   //Validation of aadhar card
 
   const onAdhar = (e) => {
+    console.log(e, "mobile");
     const value = e;
     const regex = /^[0-9]{12}$/;
     if (regex.test(value) || value === "") {
@@ -524,9 +527,7 @@ const WorkRequirement = () => {
                     index
                   ) => (
                     <Table.Row>
-                      <Table.Cell className="px-6 py-1">
-                        {index + 1})
-                      </Table.Cell>
+                      <Table.Cell className="px-6 py-1">{index + 1})</Table.Cell>
                       <Table.Cell className="px-1 py-1">
                         <div className="flex items-center ">
                           <div className="w-32">
@@ -572,10 +573,7 @@ const WorkRequirement = () => {
                           value={workerName}
                           onChange={(e) => {
                             const regex = /^[a-zA-Z\s]+$/;
-                            if (
-                              regex.test(e.target.value) ||
-                              e.target.value == ""
-                            )
+                            if (regex.test(e.target.value) || e.target.value == "")
                               updateVal(e, index, allData, setAllData);
                           }}
                         />

@@ -6,11 +6,7 @@ import { useState, useRef, Fragment, useEffect } from "react";
 import { useStack } from "../functions/Stack";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  getPasswordReset,
-  getVerifyOtpResetPassword,
-  getNewPasswordGenerate,
-} from "../../src/Service/LoginService";
+import { getPasswordReset, getVerifyOtpResetPassword, getNewPasswordGenerate } from "../../src/Service/LoginService";
 
 export const ConfirmUser = () => {
   const [userId, setUserId] = useState("");
@@ -29,6 +25,7 @@ export const ConfirmUser = () => {
     const data = JSON.parse(jsonString);
     setUserData(data);
   }, []);
+
 
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
@@ -63,31 +60,38 @@ export const ConfirmUser = () => {
   }
   if (state != "login") return <Navigate to={stack[0]} />;
   if (state != "reset") return <Navigate to={stack[0]} />;
-
-  function onVerifyUser() {
+  console.log(userId, "userId")
+  function onVerifyUser (){
     if (userId === "") {
-      toast.error("Please type your user id");
+      toast.error("Please type your user id")
     } else if (phoneNumber.length != 10) {
-      toast.error("Please type 10 digit mobile number");
+      toast.error("Please type 10 digit mobile number")
+
     } else {
       getPasswordReset(userId, phoneNumber, (res) => {
+        console.log(res, "response");
         if (res.errorCode == 0) {
           const userdata = {
-            UserID: userId,
+            UserID: userId
           };
           localStorage.setItem("karmashree_User", JSON.stringify(userdata));
           setShowOtp(true);
           toast.success(res.message);
         } else if (res.errorCode == 1) {
+          console.log("nononononono");
           toast.error(res.message);
         } else {
         }
       });
+
     }
+
+    console.log("verify")
   }
 
   const onOtpVerify = () => {
     getVerifyOtpResetPassword(otp.join(""), userData?.UserID, (res) => {
+      console.log(res, "response");
       if (res.errorCode == 0) {
         toast.success(res.message);
 
@@ -95,19 +99,21 @@ export const ConfirmUser = () => {
 
         // window.location.reload();
       } else if (res.errorCode == 1) {
+        console.log("nononononono");
         toast.error(res.message);
       } else {
       }
     });
-  };
+
+  }
 
   const onUserId = (e) => {
-    setUserId(e.target.value);
-  };
+    setUserId(e.target.value)
+  }
 
   const onPhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
-  };
+    setPhoneNumber(e.target.value)
+  }
   return (
     <>
       <ToastContainer />
@@ -170,6 +176,7 @@ export const ConfirmUser = () => {
                         placeholder="type your User Id"
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                         onChange={onPhoneNumber}
+
                       />
                     </div>
                   </>
@@ -197,10 +204,10 @@ export const ConfirmUser = () => {
 
 export const ResetPassword = () => {
   const [userData, setUserData] = useState(null);
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { stack } = useStack();
-  const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const { stack } = useStack()
+  const navigate = useNavigate()
   const { state } = useLocation();
   if (state != "verify") return <Navigate to={stack[0]} />;
 
@@ -211,43 +218,38 @@ export const ResetPassword = () => {
   }, []);
 
   const onNewPassword = (e) => {
-    setNewPassword(e.target.value);
-  };
+    setNewPassword(e.target.value)
+  }
 
   const onConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+    setConfirmPassword(e.target.value)
+
+  }
 
   const onResetPassword = () => {
-    if (
-      !newPassword.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/
-      )
+    if (!newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/)
     ) {
-      toast.error(
-        "Password must contain at least 6 characters and max 8 characters, including uppercase, lowercase, and special characters."
-      );
+      toast.error("Password must contain at least 6 characters and max 8 characters, including uppercase, lowercase, and special characters.")
     } else if (confirmPassword === "") {
-      toast.error("Please type your confirm password");
+      toast.error("Please type your confirm password")
     } else if (newPassword != confirmPassword) {
-      toast.error("New password and confirm password should be same");
+      toast.error("New password and confirm password should be same")
+
     } else {
-      getNewPasswordGenerate(
-        userData?.UserID,
-        newPassword,
-        confirmPassword,
-        (res) => {
-          if (res.errorCode == 0) {
-            toast.success(res.message);
-            navigate("/login");
-          } else if (res.errorCode == 1) {
-            toast.error(res.message);
-          } else {
-          }
+      getNewPasswordGenerate(userData?.UserID, newPassword, confirmPassword, (res) => {
+        console.log(res, "response");
+        if (res.errorCode == 0) {
+
+          toast.success(res.message);
+          navigate("/login")
+        } else if (res.errorCode == 1) {
+          console.log("nononononono");
+          toast.error(res.message);
+        } else {
         }
-      );
+      });
     }
-  };
+  }
   return (
     <>
       <ToastContainer />
@@ -288,6 +290,7 @@ export const ResetPassword = () => {
                     placeholder="Enter Confirm Password"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     onChange={onConfirmPassword}
+
                   />
                 </div>
               </div>

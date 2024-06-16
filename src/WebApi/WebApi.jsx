@@ -15,6 +15,8 @@ let instance = axios.create({
   responseType: "json",
 });
 
+const authToken = localStorage.getItem("karmashree_AuthToken");
+console.log(authToken, "authToken")
 
 
 instance.interceptors.request.use(

@@ -33,7 +33,7 @@ const Pedestal = () => {
     },
   });
 
-  //
+  // console.log(departmentList, "departmentList");
 
   const { data: pedestalList } = useQuery({
     queryKey: ["pedestalList"],
@@ -151,6 +151,7 @@ const Pedestal = () => {
   }, [addpending, updatepending]);
 
   const onDepartment = (e) => {
+    console.log(e.target.value, "dept");
     setDepartment(e.target.value);
   };
 
@@ -387,4 +388,4 @@ const Pedestal = () => {
   );
 };
 
-export default Pedestal;
+export default Pedestal

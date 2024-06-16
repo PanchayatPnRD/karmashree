@@ -8,19 +8,19 @@ export const getAllDistrictActionList = async () => {
 
 
 export const getAllBlockList = async (districtCode) => {
-    
+    console.log(districtCode, "districtCode")
     return await webApi.get(`/api/mastertable/getBlockaction/${parseInt(districtCode)}`,
     );
 }
 
 export const getAllMunicipalityList = async (districtCode,urbanCode) => {
-    
+    console.log(districtCode, "districtCode")
     return await webApi.get(`/api/mastertable/getMunicipality/${parseInt(districtCode)}/${parseInt(urbanCode)}`,
     );
 }
 
 export const getAllGramPanchayatList = async (districtCode, BlockCode) => {
-    
+    console.log(districtCode, BlockCode, "districtCode")
     return await webApi.get(`/api/mastertable/getGpaction/${parseInt(districtCode)}/${parseInt(BlockCode)}`,
     );
 }
@@ -38,7 +38,7 @@ export const addCreateAction = async (department,parastatals,schemeArea, distric
     currentYear, userIndex, onSuccess, onFailure) => {
 
 
-    
+    console.log(department,parastatals,schemeArea, district, municipality, block, gp, sector,
         schemeProposed, costOfSCheme, totalWages, totalPersonDays,
         totalJobCard, totalAverageDays, financialYear, currentMonth,
         currentYear, userIndex, "sibamdey")
@@ -70,13 +70,13 @@ export const addCreateAction = async (department,parastatals,schemeArea, distric
         );
         if (res?.data?.errorCode == 0) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
 
         } else if (res?.data?.errorCode == 1) {
             const r = res.data;
-            
+            console.log(r, "rerere")
 
             return onSuccess(r);
         } else {
@@ -84,7 +84,7 @@ export const addCreateAction = async (department,parastatals,schemeArea, distric
 
         }
     } catch (error) {
-        
+        console.log("fdgdf")
     }
 };
 
@@ -92,7 +92,7 @@ export const addCreateAction = async (department,parastatals,schemeArea, distric
 
 
 export const getAllActionPlanList = async (userId) => {
-    
+    console.log(userId, "userId")
     return await webApi.get(`/api/actionplan/getActionList/${userId}`,
     );
 }

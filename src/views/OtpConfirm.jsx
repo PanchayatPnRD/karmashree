@@ -12,6 +12,7 @@ import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
 
+
 const OTPConfirm = () => {
   const { stack } = useStack();
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -22,19 +23,20 @@ const OTPConfirm = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [openModal, setOpenModal] = useState();
+  
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const userData = JSON.parse(jsonString);
     setUserData(userData);
   }, []);
-  //
+  // console.log(otp, "otp")
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
       const updatedOtp = [...otp];
       updatedOtp[index] = value;
-
+      console.log(updatedOtp.join(""), "jinjoin");
       setOtp(updatedOtp);
 
       // Auto-focus the next input field
@@ -74,7 +76,8 @@ const OTPConfirm = () => {
       // const { category}Payload
 
       localStorage.setItem("karmashree_User", JSON.stringify(data?.newPayload));
-      localStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
+      localStorage.setItem("karmashree_AuthToken",data?.newPayload?.token);
+      
 
       if (
         localStorage.getItem("karmashree_AuthToken") != "" ||
@@ -82,10 +85,14 @@ const OTPConfirm = () => {
       )
         if (data?.errorCode == 0) {
           navigate("/dashboard");
-        } else toast.error(data?.message);
+          
+        }
+        else
+          toast.error(data?.message);
     },
   });
 
+  
   function resendOTP() {
     setTimeLeft(59);
     setIsValidating(true);

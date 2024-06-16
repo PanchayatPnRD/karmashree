@@ -20,16 +20,19 @@ const FundingDepartmentWiseReport = () => {
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  console.log(karmashree_data, "userIndex");
 
   const { data: employmentList } = useQuery({
     queryKey: ["employmentList"],
     queryFn: async () => {
-      const data = await fetch.get(`/api/schememaster/funding-department-wise`);
-      //
+      const data = await fetch.get(
+        `/api/schememaster/funding-department-wise`
+      );
+      // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
-
+  console.log(employmentList, "employmentList");
   const ListOptions = [10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
@@ -53,7 +56,7 @@ const FundingDepartmentWiseReport = () => {
       header: "Department",
       accessorKey: "departmentName",
       headclass: "cursor-pointer",
-      className: "text-left",
+      className: "text-left"
     },
     {
       header: "Total No Of Schemes",
@@ -105,6 +108,7 @@ const FundingDepartmentWiseReport = () => {
           ? "0"
           : row.original.Total_Cost,
     },
+
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -208,14 +212,14 @@ const FundingDepartmentWiseReport = () => {
               onClick={() =>
                 exportToExcel(rowToArray(), table, "Funding_dept_wise_report")
               }
-              // onClick={rowToArray}
+            // onClick={rowToArray}
             >
               XLSX
             </button>
             <button
               className="border px-4 h-[42px] text-black rounded border-black"
               onClick={() => exportToCSV(table, "Funding_dept_wise_report")}
-              // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+            // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
             >
               CSV
             </button>
