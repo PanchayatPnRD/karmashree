@@ -54,13 +54,12 @@ export const ConfirmUser = () => {
     }
   };
 
-  function handleSubmit() {
-    if (showOtp) navigate("/reset", { state: "verify" });
-    else setShowOtp(true);
-  }
-  if (state != "login") return <Navigate to={stack[0]} />;
-  if (state != "reset") return <Navigate to={stack[0]} />;
-  console.log(userId, "userId")
+  // function handleSubmit() {
+  //   if (showOtp) navigate("/reset", { state: "verify" });
+  //   else setShowOtp(true);
+  // }
+  
+  console.log(state, "state")
   function onVerifyUser (){
     if (userId === "") {
       toast.error("Please type your user id")
@@ -114,6 +113,8 @@ export const ConfirmUser = () => {
   const onPhoneNumber = (e) => {
     setPhoneNumber(e.target.value)
   }
+  // if (state != "login" || state != "reset") return <Navigate to={stack[0]} />;
+  if (state != "login") return <Navigate to={stack[0]} />;
   return (
     <>
       <ToastContainer />
@@ -229,7 +230,7 @@ export const ResetPassword = () => {
   const onResetPassword = () => {
     if (!newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/)
     ) {
-      toast.error("Password must contain at least 6 characters and max 8 characters, including uppercase, lowercase, and special characters.")
+      toast.error("Password must contain at least 8 characters and max 13 characters, including uppercase, lowercase, and special characters.")
     } else if (confirmPassword === "") {
       toast.error("Please type your confirm password")
     } else if (newPassword != confirmPassword) {

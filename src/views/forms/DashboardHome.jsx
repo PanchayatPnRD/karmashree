@@ -1,10 +1,10 @@
+import { lazy, useEffect, useMemo, useState, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Charts = lazy(() => import("../../components/Charts"));
 // import Charts from "../../components/Charts";
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
-import { lazy, useEffect, useMemo, useState, Suspense } from "react";
 import CountUp from "react-countup";
 import { getAllDashboardList } from "../../Service/DashboardService";
 const DashboardHome = () => {
