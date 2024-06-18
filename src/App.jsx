@@ -1,17 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
+import { Karmashree_logo } from "./components/Logo";
 import "./App.css";
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { sideBarList } from "./components/Sidebar";
 import { ConfirmUser, ResetPassword } from "./views/ResetPassword";
 import { ToastContainer, toast } from "react-toastify";
-// import Home from "./views/Home";
-// import Auth from "./auth/Auth";
-// import Login from "./views/Login";
-// import Contact from "./views/Contact";
+import Home from "./views/Home";
+import Auth from "./auth/Auth";
+import Login from "./views/Login";
+import Contact from "./views/Contact";
 // import Dashboard from "./views/Dashboard";
 // import Profile from "./views/forms/Profile";
-// import OTPConfirm from "./views/OtpConfirm";
+import OTPConfirm from "./views/OtpConfirm";
 // import ViewProfile from "./views/forms/ViewProfile";
 // import Edit from "./components/Edit";
 // import Dno from "./views/forms/Dno";
@@ -22,13 +23,13 @@ import { ToastContainer, toast } from "react-toastify";
 // import WorkAllocationView from "./views/forms/WorkAllocationView";
 // import SchemeEdit from "./views/forms/SchemeEdit";
 // import SchemeView from "./views/forms/SchemeView";
-const Home = lazy(() => import("./views/Home"));
-const Auth = lazy(() => import("./auth/Auth"));
-const Login = lazy(() => import("./views/Login"));
-const Contact = lazy(() => import("./views/Contact"));
+// const Home = lazy(() => import("./views/Home"));
+// const Auth = lazy(() => import("./auth/Auth"));
+// const Login = lazy(() => import("./views/Login"));
+// const Contact = lazy(() => import("./views/Contact"));
 const Dashboard = lazy(() => import("./views/Dashboard"));
 const Profile = lazy(() => import("./views/forms/Profile"));
-const OTPConfirm = lazy(() => import("./views/OtpConfirm"));
+// const OTPConfirm = lazy(() => import("./views/OtpConfirm"));
 const ViewProfile = lazy(() => import("./views/forms/ViewProfile"));
 const Edit = lazy(() => import("./components/Edit"));
 const Dno = lazy(() => import("./views/forms/Dno"));
@@ -64,44 +65,25 @@ function App() {
     <>
       <ToastContainer />
       <Routes>
-        {homeRoutes.slice(0, 3).map(({ path, Element }, index) => {
+        {homeRoutes.map(({ path, Element }, index) => {
           return (
             <Route
               key={index}
               path={path}
               element={
-                <Auth>
+                
                   <div className="flex flex-col min-h-screen">
                     <Navbar />
-                    <Suspense>
+                    {/* <Suspense> */}
                       <Element />
-                    </Suspense>
+                    {/* </Suspense> */}
                   </div>
-                </Auth>
+                
               }
             />
           );
         })}
-        {homeRoutes
-          .slice(3, homeRoutes.length)
-          .map(({ path, Element }, index) => {
-            return (
-              <Route
-                key={index}
-                path={path}
-                element={
-                  <Auth>
-                    <div className="flex flex-col min-h-screen">
-                      <Navbar />
-                      <Suspense>
-                        <Element />
-                      </Suspense>
-                    </div>
-                  </Auth>
-                }
-              />
-            );
-          })}
+       
 
         {sideBarList.map(({ route, Component, text }) => {
           return (
@@ -111,7 +93,13 @@ function App() {
               element={
                 <Auth>
                   <Dashboard>
-                    <Suspense>
+                    <Suspense
+                      fallback={
+                        <div className="flex items-center justify-center flex-grow p-8 px-12">
+                          <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                        </div>
+                      }
+                    >
                       <Component />
                     </Suspense>
                   </Dashboard>

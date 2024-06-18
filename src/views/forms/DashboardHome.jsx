@@ -1,9 +1,10 @@
+import { lazy, useEffect, useMemo, useState, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Charts from "../../components/Charts";
+const Charts = lazy(() => import("../../components/Charts"));
+// import Charts from "../../components/Charts";
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
-import { useEffect, useMemo, useState } from "react";
 import CountUp from "react-countup";
 import { getAllDashboardList } from "../../Service/DashboardService";
 const DashboardHome = () => {
@@ -155,10 +156,12 @@ const DashboardHome = () => {
             <div></div>
             <div className="flex-col flex items-center justify-center">
               {isSuccess && (
-                <Charts
-                  data={DashboardData?.charts}
-                  className="shadow-md pb-8 px-16 bg-cyan-100"
-                />
+                <Suspense>
+                  <Charts
+                    data={DashboardData?.charts}
+                    className="shadow-md pb-8 px-16 bg-cyan-100"
+                  />
+                </Suspense>
               )}
             </div>
           </div>

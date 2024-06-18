@@ -496,6 +496,10 @@ const NewUser = () => {
     setMunicipality(e.target.value);
   };
 
+  useEffect(() => {
+    if (userData?.category == "HQ") setRole("1");
+  }, [userData])
+
   return (
     <div className="flex-grow ">
       <SuccessModal

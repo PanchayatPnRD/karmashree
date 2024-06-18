@@ -112,18 +112,13 @@ export const getVerifyOtpResetPassword = async (otp, userId, onSuccess, onFailur
     }
 };
 
-export const getNewPasswordGenerate = async ( userId,newPassword,confirmPassword, onSuccess, onFailure) => {
-    console.log(userId,newPassword,confirmPassword, "confirm")
+export const getNewPasswordGenerate = async ( userId,newPassword, onSuccess, onFailure) => {
+    console.log(userId,newPassword, "confirm")
 
     try {
-        const res = await webApi.put(
-
-            `/api/auth/userId/${userId}`,
-            {
-                password: newPassword,
-                confirmpassword: confirmPassword
-              }
-        );
+        const res = await webApi.put(`/api/auth/userId/${userId}`, {
+          encryptpassword: newPassword,
+        });
         console.log(res.data.errorCode, "resresresres")
         if (res?.data?.errorCode == 0) {
 

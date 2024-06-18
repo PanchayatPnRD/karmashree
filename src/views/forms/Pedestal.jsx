@@ -21,7 +21,7 @@ import { addCreatePedestal } from "../../Service/Pedestal/PedestalService";
 import { Loading } from "./Department";
 import { fetch } from "../../functions/Fetchfunctions";
 
-export const Pedestal = () => {
+const Pedestal = () => {
   const [mutationId, setMutationId] = useState(null);
   const [department, setDepartment] = useState("");
   const [pedestal, setPedestal] = useState("");
@@ -387,3 +387,5 @@ export const Pedestal = () => {
     </>
   );
 };
+
+export default Pedestal

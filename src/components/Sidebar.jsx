@@ -52,7 +52,8 @@ const EmploymentReport = lazy(() =>
   import("../views/reports/EmploymentReport")
 );
 
-import { Pedestal } from "../views/forms/Pedestal";
+const Pedestal = lazy(() => import("../views/forms/Pedestal"));
+
 import { Calc_permission } from "../functions/Permissions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -174,7 +175,7 @@ export const sideBarList = [
     Component: Scheme,
     text: "scheme",
     route: "/dashboard/scheme",
-    permissions: [1, 7, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: SchemeList,
@@ -187,7 +188,7 @@ export const sideBarList = [
     text: "demand",
     route: "/dashboard/demand",
     permissions: [
-      1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
+      1, 13, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
     ],
   },
   {
@@ -202,7 +203,7 @@ export const sideBarList = [
     Component: WorkRequirement,
     text: "Worker Requisition",
     route: "/dashboard/work-requirement",
-    permissions: [1, 13, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 15, 19, 21, 25, 24, 27],
   },
   {
     Component: WorkRequirementList,
@@ -229,14 +230,14 @@ export const sideBarList = [
     Component: Employment,
     text: "employment",
     route: "/dashboard/employment",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: DirectEmployment,
     text: "direct employment",
     route: "/dashboard/direct-employment",
-    permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: EmploymentList,
@@ -250,24 +251,6 @@ export const sideBarList = [
     route: "/dashboard/actionplan-report",
     permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
-  // {
-  //   Component: ActionPlanReport1,
-  //   text: "action plan Report 1",
-  //   route: "/dashboard/actionplan-report1",
-  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  // },
-  // {
-  //   Component: ActionPlanReport2,
-  //   text: "action plan Report 2",
-  //   route: "/dashboard/actionplan-report2",
-  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  // },
-  // {
-  //   Component: ActionPlanReport3,
-  //   text: "action plan Report 3",
-  //   route: "/dashboard/actionplan-report3",
-  //   permissions: [1, 13, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
-  // },
   {
     Component: SchemeReport,
     text: "scheme Report",
@@ -326,7 +309,7 @@ export const Sidebar = () => {
   const actionPlanHidden = [
     12, 13, 15, 17, 19, 21, 23, 24, 25,27, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [7,27, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7,12,27, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [ 7, 30, 31, 32, 33, 34, 35];
   const demandHidden = [1, 7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
