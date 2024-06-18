@@ -166,7 +166,7 @@ export const Pedestal = () => {
       toast.error("Please Type Parastatals name");
     } else {
       if (mutationId === null)
-        mutate({
+        add({
           departmentNo: department,
           departmentName: departmentList.find(
             (c) => c.departmentNo == department

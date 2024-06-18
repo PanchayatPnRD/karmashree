@@ -43,13 +43,14 @@ const Contractor = () => {
   const [isValidPostOffice, setIsValidPostOffice] = useState(true);
   const [pinCode, setPinCode] = useState("");
   const [isValidPinCode, setIsValidPinCode] = useState(true);
+  const [userData,setUserData]= useState()
 
-
+console.log(userData?.category,"userData")
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
-    // setUserData(data);
+    setUserData(data);
 
     getAllDistrictActionList(data?.districtcode).then(function (result) {
       const response = result?.data?.result;
@@ -75,15 +76,15 @@ const Contractor = () => {
 
   const onDistrict = (e) => {
     setDistrict(e.target.value)
-    getAllBlockList(e.target.value).then(function (result) {
-      const response = result?.data?.result;
-      setAllBlockList(response);
-    });
+    // getAllBlockList(e.target.value).then(function (result) {
+    //   const response = result?.data?.result;
+    //   setAllBlockList(response);
+    // });
 
-    getAllMunicipalityList(e.target.value, 0).then(function (result) {
-      const response = result?.data?.result;
-      setAllMunicipalityList(response);
-    });
+    // getAllMunicipalityList(e.target.value, 0).then(function (result) {
+    //   const response = result?.data?.result;
+    //   setAllMunicipalityList(response);
+    // });
   }
 
   let blockListDropdown = <option>Loading...</option>;
@@ -318,7 +319,7 @@ const Contractor = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            setOpenModal(true);
+            // setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -532,6 +533,30 @@ const Contractor = () => {
         </div> */}
 
           <div className="flex flex-col w-full mb-4 space-y-4">
+            {userData?.category==="HQ"?
+          <div className="px-4">
+            <label
+              htmlFor="scheme_name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              District
+              <span className="text-red-500 "> * </span>
+
+            </label>
+            <select
+              id="scheme_name"
+              name="scheme_name"
+              autoComplete="off"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              onChange={onDistrict}
+
+            >
+              <option value="" selected hidden>Select District List</option>
+              {districtListDropdown}
+
+
+            </select>
+          </div>:""}
             <div className="flex items-center space-x-4">
               <div className="w-1/2 px-4">
                 <label
