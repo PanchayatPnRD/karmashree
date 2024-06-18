@@ -311,7 +311,7 @@ export const Sidebar = () => {
   ];
   const contractorHidden = [7,12,27, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [ 7, 30, 31, 32, 33, 34, 35];
-  const demandHidden = [1, 7];
+  const demandHidden = [7];
   const requirementHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [1, 7, 17, 23, 29, 30, 31, 32, 33, 34, 35];
   const employmentHidden = [1, 7, 30, 31, 32, 33, 34, 35];

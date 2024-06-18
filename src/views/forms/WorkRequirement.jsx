@@ -652,7 +652,7 @@ const WorkRequirement = () => {
                   htmlFor="scheme_name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Village Name
+                  Worksite Location
                 </label>
                 <input
                   type="text"

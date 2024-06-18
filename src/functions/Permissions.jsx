@@ -33,11 +33,11 @@ export const Calc_permission = (category, role_type, dno_status) => {
     { category: "BLOCK", roleType: 3, dnoStatus: false, uniqueId: 27 }, 
     { category: "BLOCK", roleType: 2, dnoStatus: false, uniqueId: 29 }, 
 
-    { category: "GP", roleType: 1, dnoStatus: true, uniqueId: 30 }, 
+    { category: "GP", roleType: 0, dnoStatus: true, uniqueId: 30 }, 
     { category: "GP", roleType: 1, dnoStatus: false, uniqueId: 31 }, 
-    { category: "GP", roleType: 3, dnoStatus: true, uniqueId: 32 }, 
+    // { category: "GP", roleType: 3, dnoStatus: true, uniqueId: 32 }, 
     { category: "GP", roleType: 3, dnoStatus: false, uniqueId: 33 }, 
-    { category: "GP", roleType: 2, dnoStatus: true, uniqueId: 34 }, 
+    // { category: "GP", roleType: 2, dnoStatus: true, uniqueId: 34 }, 
     { category: "GP", roleType: 2, dnoStatus: false, uniqueId: 35 }, 
   ];
 

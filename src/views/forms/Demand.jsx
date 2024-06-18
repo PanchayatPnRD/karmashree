@@ -24,6 +24,34 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
+  const [savedData, setSavedData] = useState([
+    {
+      workerName: "Soumyadeep G",
+      gender: "F",
+      caste: "SC",
+      mobileNo: "9898987823",
+      aadhaarNo: "787878787878",
+      typeOfWorkers: "U",
+      remark: "",
+      age: "46",
+      total_pending: 0,
+      dateOfApplicationForWork: "2024-06-19",
+      whetherMinority: "Y",
+      whetherMigrantWorker: "Y",
+      workerJobCardNo: "WB-3201001015-12-555",
+      userIndex: 1,
+      departmentNo: 1,
+      schemeArea: "R",
+      districtcode: 320,
+      municipalityCode: 0,
+      blockcode: 3027,
+      gpCode: 110782,
+      noOfDaysWorkDemanded: 14,
+      finYear: "2024-2025",
+      currentYear: 2024,
+      currentMonth: 6,
+    },
+  ]);
   const [openModal, setOpenModal] = useState(false);
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
   const [mobileNumber, setMobileNumber] = useState("");
@@ -39,7 +67,7 @@ const WorkRequirement = () => {
     localStorage.getItem("karmashree_User")
   );
 
-  const { data: userDetails, isSuccess } = useQuery({
+  const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
       const data = await fetch.get("/api/user/viewuser/", userIndex);
@@ -272,6 +300,12 @@ const WorkRequirement = () => {
     }
   };
 
+  function SaveDemandData() {
+    setSavedData((prev) => [...prev, ...demandData]);
+    setAllData([initialData]);
+    setDropdownData(["", "", ""]);
+  }
+
   return (
     <>
       <SuccessModal
@@ -312,56 +346,57 @@ const WorkRequirement = () => {
             </ol>
           </nav>
         </div>
-        <div className="bg-white shadow-md rounded-lg px-12 pb-12">
-          <div className="flex w-full space-x-4 mb-6">
-            <div className="px-4 hidden">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Area Type *
-              </label>
-              <select
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                required
-                onChange={onArea}
-              >
-                <option value="" selected hidden>
-                  Select Scheme Name
-                </option>
-                <option value="R">Rural</option>
-                <option value="U">Urban</option>
+        <div className="bg-white flex flex-col space-y-4 shadow-md rounded-lg px-4 pb-4">
+          <div className="border-2 py-4 border-zinc-300 rounded-xl">
+            <div className="flex w-full space-x-2">
+              <div className="px-4 hidden">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Area Type *
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  required
+                  onChange={onArea}
+                >
+                  <option value="" selected hidden>
+                    Select Scheme Name
+                  </option>
+                  <option value="R">Rural</option>
+                  <option value="U">Urban</option>
 
-                {/* Add more options as needed */}
-              </select>
-            </div>
+                  {/* Add more options as needed */}
+                </select>
+              </div>
 
-            <div className="px-4">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                District
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                value={dropdownData[0]}
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                onChange={onDistrict}
-              >
-                <option value="" selected hidden>
-                  Select District List
-                </option>
-                {districtListDropdown}
-              </select>
-            </div>
-            {/* {(
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <select
+                  value={dropdownData[0]}
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onDistrict}
+                >
+                  <option value="" selected hidden>
+                    Select District List
+                  </option>
+                  {districtListDropdown}
+                </select>
+              </div>
+              {/* {(
             <div className="px-4 hidden">
               <label
                 htmlFor="scheme_name"
@@ -388,155 +423,116 @@ const WorkRequirement = () => {
             ""
           )} */}
 
-            {dropdownData[0].length > 0 && (
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Block
-                </label>
-                <select
-                  value={dropdownData[1]}
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onBlock}
-                >
-                  <option value="" selected hidden>
-                    Select Block List
-                  </option>
-                  {blockListDropdown}
+              {dropdownData[0].length > 0 && (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                  </label>
+                  <select
+                    value={dropdownData[1]}
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option value="" selected hidden>
+                      Select Block List
+                    </option>
+                    {blockListDropdown}
 
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-            )}
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              )}
 
-            {dropdownData[1].length > 0 && (
-              <div className="px-4">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  GP
-                </label>
-                <select
-                  value={dropdownData[2]}
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const temp = [...dropdownData];
-                    temp[2] = e.target.value;
-                    setDropdownData(temp);
-                  }}
-                >
-                  <option value="" selected hidden>
-                    Select GP List
-                  </option>
-                  {GpListDropdown}
+              {dropdownData[1].length > 0 && (
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    GP
+                  </label>
+                  <select
+                    value={dropdownData[2]}
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const temp = [...dropdownData];
+                      temp[2] = e.target.value;
+                      setDropdownData(temp);
+                    }}
+                  >
+                    <option value="" selected hidden>
+                      Select GP List
+                    </option>
+                    {GpListDropdown}
 
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-            )}
-          </div>
-          <div className=" w-full flex justify-end py-4">
-            <button
-              className="flex space-x-2 items-center bg-green-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90"
-              onClick={() => setAllData((prev) => [...prev, initialData])}
-            >
-              <span>Add</span>
-              <Icon className="text-2xl" icon={"ic:round-add"} />
-            </button>
-          </div>
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              )}
+            </div>
 
-          <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table className="w-full">
-              <Table.Head>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-8">
-                  #
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker Job Card No
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Worker name
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case w-fit">
-                  Age
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Gender
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Cast
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Whether Minority
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Whether Migrant Worker
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Mobile
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Aadhar
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Type of Worker
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  Work Application Date
-                </Table.HeadCell>
-
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case ">
-                  No of Days (Work Demanded)
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case">
-                  Remarks
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-cyan-400/40 text-blue-900 text-md normal-case "></Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                {allData.map(
-                  (
-                    {
-                      sansadId,
-                      familyId,
-                      workerName,
-                      gender,
-                      caste,
-                      whetherMinority,
-                      whetherMigrantWorker,
-                      mobileNo,
-                      aadhaarNo,
-                      typeOfWorkers,
-                      dateOfApplicationForWork,
-                      noOfDaysWorkDemanded,
-                      currentMonth,
-                      currentYear,
-                      finYear,
-                      remark,
-                      age,
-                    },
-                    index
-                  ) => (
-                    <Table.Row>
-                      <Table.Cell className="px-6 py-1">{index + 1})</Table.Cell>
-                      <Table.Cell className="px-1 py-1">
-                        <div className="flex items-center ">
-                          <div className="w-32">
-                            {isLoading ? (
-                              <Skeleton className="h-10 rounded-lg mr-2" />
-                            ) : (
-                              jobcardNo || "Please select GP"
-                            )}
-                          </div>
+            <div className="flex flex-col space-y-2">
+              {allData.map(
+                (
+                  {
+                    sansadId,
+                    familyId,
+                    workerName,
+                    gender,
+                    caste,
+                    whetherMinority,
+                    whetherMigrantWorker,
+                    mobileNo,
+                    aadhaarNo,
+                    typeOfWorkers,
+                    dateOfApplicationForWork,
+                    noOfDaysWorkDemanded,
+                    currentMonth,
+                    currentYear,
+                    finYear,
+                    remark,
+                    age,
+                  },
+                  index
+                ) => (
+                  <>
+                    <div className="relative text-zinc-500 flex flex-col space-y-4  p-4 rounded-lg">
+                      <div className="absolute right-4">
+                        {index != 0 && (
+                          <button
+                            className="rounded-lg px-3 py-2 leading-tight bg-red-600 text-white hover:shadow-md transition-all hover:bg-opacity-90"
+                            onClick={() => {
+                              const new_array = allData.filter(
+                                (e, idx) => idx != index
+                              );
+                              setAllData(new_array);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        )}
+                        {index == 0 && <div className="w-[66px]"></div>}
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-36">
+                          {isLoading ? (
+                            <Skeleton className="h-4" />
+                          ) : (
+                            <div className="text-center ">
+                              {jobcardNo || "Please select GP"}
+                            </div>
+                          )}
+                        </div>
+                        <span>
                           <select
                             value={sansadId}
                             name="sansadId"
@@ -562,9 +558,7 @@ const WorkRequirement = () => {
                             placeholder="family id"
                             className="text-center w-32 border-zinc-300 rounded-r-lg"
                           />
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
+                        </span>
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md"
                           type="text"
@@ -573,12 +567,15 @@ const WorkRequirement = () => {
                           value={workerName}
                           onChange={(e) => {
                             const regex = /^[a-zA-Z\s]+$/;
-                            if (regex.test(e.target.value) || e.target.value == "")
+                            if (
+                              regex.test(e.target.value) ||
+                              e.target.value == ""
+                            )
                               updateVal(e, index, allData, setAllData);
                           }}
                         />
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
+                      </div>
+                      <div className="flex space-x-4">
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md w-20"
                           type="text"
@@ -591,8 +588,6 @@ const WorkRequirement = () => {
                             onAge(e.target.value);
                           }}
                         />
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
                         <select
                           value={gender}
                           className="border cursor-pointer border-gray-300 rounded-md"
@@ -607,8 +602,6 @@ const WorkRequirement = () => {
                           <option value="F">Female</option>
                           <option value="T">Transgender</option>
                         </select>
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
                         <select
                           value={caste}
                           className="border cursor-pointer border-gray-300 rounded-md"
@@ -623,28 +616,6 @@ const WorkRequirement = () => {
                           <option value="SC">SC</option>
                           <option value="Others">Others</option>
                         </select>
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
-                        <RadioButton
-                          value={whetherMinority}
-                          updateVal={updateVal}
-                          index={index}
-                          name={"whetherMinority"}
-                          data={allData}
-                          setData={setAllData}
-                        />
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
-                        <RadioButton
-                          value={whetherMigrantWorker}
-                          updateVal={updateVal}
-                          index={index}
-                          name={"whetherMigrantWorker"}
-                          data={allData}
-                          setData={setAllData}
-                        />
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md w-36"
                           type="text"
@@ -662,8 +633,6 @@ const WorkRequirement = () => {
                             Please enter a valid Mobile Number
                           </div>
                         )}
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
                         <input
                           className="border cursor-pointer border-gray-300 rounded-md w-48"
                           type="text"
@@ -681,70 +650,95 @@ const WorkRequirement = () => {
                             Please enter a valid Aadhar Number
                           </div>
                         )}
-                      </Table.Cell>
-
-                      <Table.Cell className="px-1 py-1">
-                        <select
-                          value={typeOfWorkers}
-                          className="border cursor-pointer border-gray-300 rounded-md"
-                          name="typeOfWorkers"
-                          id=""
-                          onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
-                          }
-                        >
-                          {/* <option value="">-select worker type-</option> */}
-                          <option value="U" selected>
-                            Unskilled
-                          </option>
-                          <option value="SS">Semi-Skilled</option>
-                          <option value="S">Skilled</option>
-                        </select>
-                      </Table.Cell>
-
-                      <Table.Cell className="px-1 py-1">
-                        <DatePicker
-                          minDate={new Date()}
-                          dateFormat="dd/MM/yyyy"
-                          selected={dateOfApplicationForWork}
-                          portalId="root-portal"
-                          className="w-32 border cursor-pointer border-gray-300 rounded-md"
-                          onChange={(e) =>
-                            updateVal(
-                              {
-                                target: {
-                                  name: "dateOfApplicationForWork",
-                                  value: e.toString(),
+                      </div>
+                      <div className="flex space-x-16">
+                        <div className="flex items-center space-x-4">
+                          <span className="w-fit">
+                            Whether a migrant worker?{" "}
+                          </span>
+                          <RadioButton
+                            value={whetherMigrantWorker}
+                            updateVal={updateVal}
+                            index={index}
+                            name={"whetherMigrantWorker"}
+                            data={allData}
+                            setData={setAllData}
+                          />
+                        </div>
+                        <div className="flex items-center space-x-4">
+                          <span className="w-fit">Whether a Minority? </span>
+                          <RadioButton
+                            value={whetherMinority}
+                            updateVal={updateVal}
+                            index={index}
+                            name={"whetherMinority"}
+                            data={allData}
+                            setData={setAllData}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-1">
+                          <label htmlFor="">Type of Worker?</label>
+                          <select
+                            value={typeOfWorkers}
+                            className="border cursor-pointer border-gray-300 rounded-md"
+                            name="typeOfWorkers"
+                            id=""
+                            onChange={(e) =>
+                              updateVal(e, index, allData, setAllData)
+                            }
+                          >
+                            <option value="U" selected>
+                              Unskilled
+                            </option>
+                            <option value="SS">Semi-Skilled</option>
+                            <option value="S">Skilled</option>
+                          </select>
+                        </div>
+                        <div className="flex  items-center space-x-1">
+                          <label htmlFor="">Date of Application for Work</label>
+                          <DatePicker
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            selected={dateOfApplicationForWork}
+                            portalId="root-portal"
+                            className="w-32 border cursor-pointer border-gray-300 rounded-md"
+                            onChange={(e) =>
+                              updateVal(
+                                {
+                                  target: {
+                                    name: "dateOfApplicationForWork",
+                                    value: e.toString(),
+                                  },
                                 },
-                              },
-                              index,
-                              allData,
-                              setAllData
-                            )
-                          }
-                        />
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
-                        <select
-                          value={noOfDaysWorkDemanded}
-                          className="w-32 border cursor-pointer border-gray-300 rounded-md"
-                          name="noOfDaysWorkDemanded"
-                          id=""
-                          onChange={(e) =>
-                            updateVal(e, index, allData, setAllData)
-                          }
-                        >
-                          <option value="">
-                            -select no of Days Work Demanded-
-                          </option>
-                          {demandDays.map((day) => (
-                            <option value={day}>{day}</option>
-                          ))}
-                        </select>
-                      </Table.Cell>
-                      <Table.Cell className="px-1 py-1">
-                        <input
-                          className="border cursor-pointer border-gray-300 rounded-md"
+                                index,
+                                allData,
+                                setAllData
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <label htmlFor="">No of Days Work Demanded</label>
+                          <select
+                            value={noOfDaysWorkDemanded}
+                            className="w-20 border cursor-pointer border-gray-300 rounded-md"
+                            name="noOfDaysWorkDemanded"
+                            id=""
+                            onChange={(e) =>
+                              updateVal(e, index, allData, setAllData)
+                            }
+                          >
+                            {demandDays.map((day) => (
+                              <option value={day}>{day}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="w-full">
+                        <textarea
+                          className="border w-full cursor-pointer border-gray-300 rounded-md"
                           type="text"
                           name="remark"
                           maxLength={10}
@@ -754,40 +748,52 @@ const WorkRequirement = () => {
                             updateVal(e, index, allData, setAllData)
                           }
                         />
-                      </Table.Cell>
-
-                      <Table.Cell className="px-1 py-1">
-                        {index != 0 && (
-                          <button
-                            className="rounded-lg px-3 py-2 leading-tight bg-red-600 text-white hover:shadow-md transition-all hover:bg-opacity-90"
-                            onClick={() => {
-                              const new_array = allData.filter(
-                                (e, idx) => idx != index
-                              );
-                              setAllData(new_array);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        )}
-                        {index == 0 && <div className="w-[66px]"></div>}
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                )}
+                      </div>
+                    </div>
+                  </>
+                )
+              )}
+            </div>
+            <div className="flex justify-end items-center px-4">
+              <button
+                type="button"
+                className="w-1/5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                onClick={SaveDemandData}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+          <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+            <Table className="">
+              <Table.Head></Table.Head>
+              <Table.Body>
+                {savedData.map((data, index) => (
+                  <Table.Row key={index}>
+                    <Table.Cell>{index + 1}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      {data.workerJobCardNo}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      {data.workerName}
+                    </Table.Cell>
+                    <Table.Cell>{data.age}</Table.Cell>
+                    <Table.Cell>{data.gender}</Table.Cell>
+                    <Table.Cell>{data.caste}</Table.Cell>
+                    <Table.Cell>{data.mobileNo}</Table.Cell>
+                    <Table.Cell>{data.aadhaarNo}</Table.Cell>
+                    <Table.Cell>{data.whetherMinority}</Table.Cell>
+                    <Table.Cell>{data.whetherMigrantWorker}</Table.Cell>
+                    <Table.Cell>{data.typeOfWorkers}</Table.Cell>
+                    <Table.Cell>{data.dateOfApplicationForWork}</Table.Cell>
+                    <Table.Cell>{data.noOfDaysWorkDemanded}</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                  </Table.Row>
+                ))}
               </Table.Body>
             </Table>
-          </div>
-
-          <div className="flex justify-center items-center">
-            <button
-              type="button"
-              className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={mutate}
-              // onClick={() => setOpenModal(true)}
-            >
-              Submit
-            </button>
           </div>
         </div>
       </div>
