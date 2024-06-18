@@ -23,7 +23,7 @@ const Contractor = () => {
   const [allBlockList, setAllBlockList] = useState([]);
   const [gp, setGP] = useState();
   const [block, setBlock] = useState();
-  const [district, setDistrict] = useState();
+  const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
   const [contractorName, setContractorName] = useState('');
   const [gstin, setGSTIN] = useState('');
@@ -43,9 +43,9 @@ const Contractor = () => {
   const [isValidPostOffice, setIsValidPostOffice] = useState(true);
   const [pinCode, setPinCode] = useState("");
   const [isValidPinCode, setIsValidPinCode] = useState(true);
-  const [userData,setUserData]= useState()
+  const [userData, setUserData] = useState()
 
-console.log(userData?.category,"userData")
+  console.log(userData?.category, "userData")
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
@@ -143,8 +143,8 @@ console.log(userData?.category,"userData")
     }
   }
 
-   // Function to extract PAN from GST number
-   function extractPANFromGST(gstNumber) {
+  // Function to extract PAN from GST number
+  function extractPANFromGST(gstNumber) {
     if (gstNumber.length === 15) {
       return gstNumber.substring(2, 12);
     }
@@ -163,7 +163,7 @@ console.log(userData?.category,"userData")
       setIsValid(false);
     }
 
-     if (value.length === 15) {
+    if (value.length === 15) {
       const extractedPan = extractPANFromGST(value);
       setPanNumber(extractedPan);
     } else {
@@ -300,8 +300,11 @@ console.log(userData?.category,"userData")
     // } else if (area === "R" && gp === "") {
     //   toast.error("Please Select Gram Panchayat")
     // } 
-    // else 
-    if (contractorName === "") {
+    // else  
+    if (data?.category === "HQ" && district === "") {
+      toast.error("Please Select a District")
+    }
+    else if (contractorName === "") {
       toast.error("Please Type Contractor Name")
     } else if (gstin === "") {
       toast.error("Please Type Contractor GSTIN")
@@ -314,12 +317,12 @@ console.log(userData?.category,"userData")
     } else {
       addCreateContractor(
         contractorName, gstin, panNumber, mobileNumber, address, "A", data?.userIndex,
-        currentMonth, currentYear, financialYear, data?.departmentNo, data?.category === "HD" ? 0 : data?.category === "DIST" ? data?.districtcode : "", municipality,
+        currentMonth, currentYear, financialYear, data?.departmentNo, district ? district : data?.districtcode, municipality,
         block, gp, area,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            // setOpenModal(true);
+            setOpenModal(true);
           } else {
             toast.error(r.message);
           }
@@ -533,30 +536,30 @@ console.log(userData?.category,"userData")
         </div> */}
 
           <div className="flex flex-col w-full mb-4 space-y-4">
-            {userData?.category==="HQ"?
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              District
-              <span className="text-red-500 "> * </span>
+            {userData?.category === "HQ" ?
+              <div className="px-4">
+                <label
+                  htmlFor="scheme_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  District
+                  <span className="text-red-500 "> * </span>
 
-            </label>
-            <select
-              id="scheme_name"
-              name="scheme_name"
-              autoComplete="off"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onDistrict}
+                </label>
+                <select
+                  id="scheme_name"
+                  name="scheme_name"
+                  autoComplete="off"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  onChange={onDistrict}
 
-            >
-              <option value="" selected hidden>Select District List</option>
-              {districtListDropdown}
+                >
+                  <option value="" selected hidden>Select District List</option>
+                  {districtListDropdown}
 
 
-            </select>
-          </div>:""}
+                </select>
+              </div> : ""}
             <div className="flex items-center space-x-4">
               <div className="w-1/2 px-4">
                 <label

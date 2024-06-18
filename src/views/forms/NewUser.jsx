@@ -48,6 +48,7 @@ const NewUser = () => {
   const [areaBlock, setAreaBlock] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [role, setRole] = useState("");
+  console.log(role,"rolerole")
   const [allDesignationList, setAllDesignationList] = useState([]);
   const [designation, setDesignation] = useState("");
   const navigate = useNavigate();
