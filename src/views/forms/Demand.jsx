@@ -221,6 +221,23 @@ const WorkRequirement = () => {
     });
   }, [allData, dropdownData, jobcardNo, userDetails]);
 
+  const canSubmit = useMemo(() => {
+    const keys = Object.values(demandData[0]);
+
+    const newArray = [
+      ...keys.slice(0, 6), // Elements before the 4th index
+      ...keys.slice(7), // Elements after the 4th index
+    ];
+
+    return !(
+      newArray.includes("") ||
+      newArray.includes(undefined) 
+      // keys.includes(0)
+      // dropdownData[2] != ""
+    );
+    // return newArray
+  }, [demandData, dropdownData]);
+
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
     districtListDropdown = allDistrictList.map((distRow, index) => (
@@ -752,7 +769,7 @@ const WorkRequirement = () => {
                           className="border w-full cursor-pointer border-gray-300 rounded-md"
                           type="text"
                           name="remark"
-                          maxLength={10}
+                          // maxLength={10}
                           placeholder="Remarks..."
                           value={remark}
                           onChange={(e) =>
@@ -768,7 +785,8 @@ const WorkRequirement = () => {
             <div className="flex justify-center items-center px-4">
               <button
                 type="button"
-                className="w-[12%] flex items-center justify-center space-x-4 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                disabled={!canSubmit}
+                className="w-[12%] disabled:cursor-not-allowed disabled:bg-zinc-400 flex items-center justify-center space-x-4 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
                 onClick={SaveDemandData}
               >
                 <span>Add</span>
@@ -897,7 +915,10 @@ const WorkRequirement = () => {
           </div>
           {savedData.length > 0 && (
             <div className="flex justify-center items-center">
-              <button onClick={mutate} className="text-white bg-indigo-500 hover:bg-indigo-500/90 hover:shadow-md transition-all  px-6 py-1 rounded-lg">
+              <button
+                onClick={mutate}
+                className="text-white bg-indigo-500 hover:bg-indigo-500/90 hover:shadow-md transition-all  px-6 py-1 rounded-lg"
+              >
                 Submit Demands
               </button>
             </div>
