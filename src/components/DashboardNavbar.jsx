@@ -48,9 +48,21 @@ export const DashboardNavbar = () => {
     if (permission >= 13 && permission <= 17)
       return userDetails?.deptName + " " + userDetails?.districtName;
     if (permission >= 18 && permission <= 23)
-      return userDetails?.deptName + " / " + userDetails?.districtName + " / " + userDetails?.subDivisionName;
+      return (
+        userDetails?.deptName +
+        " / " +
+        userDetails?.districtName +
+        " / " +
+        userDetails?.subDivisionName
+      );
     if (permission >= 24 && permission <= 29)
-      return userDetails?.deptName + " / " + userDetails?.districtName + " / " + userDetails?.blockname;
+      return (
+        userDetails?.deptName +
+        " / " +
+        userDetails?.districtName +
+        " / " +
+        userDetails?.blockname
+      );
     if (permission >= 30 && permission <= 35)
       return (
         userDetails?.districtName +
@@ -93,7 +105,10 @@ export const DashboardNavbar = () => {
                   </div>
                   <span className="text-sm text-end">
                     {userTitle}
-
+                    
+                    {userDetails?.dno_status == 1 &&
+                      userDetails?.category == "DIST" &&
+                      " / DNO-MGNREGS"}
                     {" #"}
                     {userIndex}
                   </span>
@@ -123,8 +138,8 @@ export const DashboardNavbar = () => {
               className="space-x-2"
               onClick={() => {
                 navigate("/login", { state: "signout" });
-                localStorage.setItem("karmashree_User","");
-                localStorage.setItem("karmashree_AuthToken","");
+                localStorage.setItem("karmashree_User", "");
+                localStorage.setItem("karmashree_AuthToken", "");
               }}
             >
               <Icon
@@ -157,7 +172,11 @@ const UserDetails = ({ role, category }) => {
     BLOCK: "Block",
     GP: "Gram Panchayat",
   };
-  const type = [ "Admin", "Operator", "PIA"]
+  const type = ["Admin", "Operator", "PIA"];
 
-  return <span className="text-zinc-700 text-base font-semibold">{` ( ${cat[category]}/${type[role-1]} ) `}</span>;
+  return (
+    <span className="text-zinc-700 text-base font-semibold">{` ( ${
+      cat[category]
+    }/${type[role - 1]} ) `}</span>
+  );
 };
