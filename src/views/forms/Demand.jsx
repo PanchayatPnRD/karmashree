@@ -11,7 +11,12 @@ import { getCurrentFinancialYear } from "../../functions/dateCalc";
 import { Table } from "flowbite-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "react-datepicker";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useMutation,
+  useQueries,
+} from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
 // import { Datepicker } from "flowbite-react";
 import {
@@ -24,34 +29,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkRequirement = () => {
-  const [savedData, setSavedData] = useState([
-    {
-      workerName: "Soumyadeep G",
-      gender: "F",
-      caste: "SC",
-      mobileNo: "9898987823",
-      aadhaarNo: "787878787878",
-      typeOfWorkers: "U",
-      remark: "",
-      age: "46",
-      total_pending: 0,
-      dateOfApplicationForWork: "2024-06-19",
-      whetherMinority: "Y",
-      whetherMigrantWorker: "Y",
-      workerJobCardNo: "WB-3201001015-12-555",
-      userIndex: 1,
-      departmentNo: 1,
-      schemeArea: "R",
-      districtcode: 320,
-      municipalityCode: 0,
-      blockcode: 3027,
-      gpCode: 110782,
-      noOfDaysWorkDemanded: 14,
-      finYear: "2024-2025",
-      currentYear: 2024,
-      currentMonth: 6,
-    },
-  ]);
+  const [savedData, setSavedData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
   const [mobileNumber, setMobileNumber] = useState("");
@@ -72,6 +50,49 @@ const WorkRequirement = () => {
     queryFn: async () => {
       const data = await fetch.get("/api/user/viewuser/", userIndex);
       return data.data.result;
+    },
+  });
+
+  const GpData = useQueries({
+    queries: [
+      {
+        queryKey: ["districtName"],
+        queryFn: async () => {
+          const { data } = await fetch.get(
+            "/api/mastertable/GetAllDistricts/" + dropdownData[0]
+          );
+          return data.result[0].districtName;
+        },
+        enabled: dropdownData[0] != "",
+        gcTime: 0,
+      },
+      {
+        queryKey: ["blockName"],
+        queryFn: async () => {
+          const { data } = await fetch.get(
+            `/api/mastertable/getBlock/${dropdownData[0]}/${dropdownData[1]}`
+          );
+          return data.result[0].blockName;
+        },
+        enabled: dropdownData[1] != "",
+        gcTime: 0,
+      },
+      {
+        queryKey: ["gpName"],
+        queryFn: async () => {
+          const { data } = await fetch.get(
+            `/api/mastertable/getGp/${dropdownData[0]}/${dropdownData[1]}/${dropdownData[2]}`
+          );
+          return data.result[0].gpName;
+        },
+        enabled: dropdownData[2] != "",
+        gcTime: 0,
+      },
+    ],
+    combine: (results) => {
+      return {
+        data: results?.map((result) => result.data),
+      };
     },
   });
 
@@ -106,10 +127,16 @@ const WorkRequirement = () => {
   }
 
   useEffect(() => {
+    if (dropdownData[1] != "")
+      queryClient.invalidateQueries({
+        queryKey: ["blockName", "districtName"],
+      });
+    if (dropdownData[1] == "")
+      queryClient.resetQueries({ queryKey: ["blockName"] });
     if (dropdownData[2] != "")
-      queryClient.invalidateQueries({ queryKey: ["jobcardNo"] });
+      queryClient.invalidateQueries({ queryKey: ["jobcardNo", "gpName"] });
     if (dropdownData[2] == "")
-      queryClient.resetQueries({ queryKey: ["jobcardNo"] });
+      queryClient.resetQueries({ queryKey: ["jobcardNo", "gpName"] });
   }, [dropdownData]);
 
   const initialData = {
@@ -180,9 +207,12 @@ const WorkRequirement = () => {
         departmentNo: userDetails?.departmentNo,
         schemeArea: "R",
         districtcode: +dropdownData[0],
+        districtName: GpData?.data[0],
         municipalityCode: 0,
         blockcode: +dropdownData[1],
+        blockName: GpData?.data[1],
         gpCode: +dropdownData[2],
+        gpName: GpData?.data[2],
         noOfDaysWorkDemanded: +noOfDaysWorkDemanded,
         finYear: getCurrentFinancialYear().financialYear,
         currentYear: getCurrentFinancialYear().currentYear,
@@ -190,6 +220,23 @@ const WorkRequirement = () => {
       };
     });
   }, [allData, dropdownData, jobcardNo, userDetails]);
+
+  const canSubmit = useMemo(() => {
+    const keys = Object.values(demandData[0]);
+
+    const newArray = [
+      ...keys.slice(0, 6), // Elements before the 4th index
+      ...keys.slice(7), // Elements after the 4th index
+    ];
+
+    return !(
+      newArray.includes("") ||
+      newArray.includes(undefined) 
+      // keys.includes(0)
+      // dropdownData[2] != ""
+    );
+    // return newArray
+  }, [demandData, dropdownData]);
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
@@ -254,7 +301,7 @@ const WorkRequirement = () => {
   } = useMutation({
     mutationFn: async () => {
       const { data } = await fetch.post(
-        { DemandMasterDto: demandData },
+        { DemandMasterDto: savedData },
         "/api/demand/createDemand"
       );
       return data.demand;
@@ -303,7 +350,13 @@ const WorkRequirement = () => {
   function SaveDemandData() {
     setSavedData((prev) => [...prev, ...demandData]);
     setAllData([initialData]);
+    // console.log(GpData.data);
     setDropdownData(["", "", ""]);
+  }
+
+  function deleteDemandData(idx) {
+    const new_data = savedData.filter((e, i) => i !== idx);
+    setSavedData(new_data);
   }
 
   return (
@@ -396,32 +449,6 @@ const WorkRequirement = () => {
                   {districtListDropdown}
                 </select>
               </div>
-              {/* {(
-            <div className="px-4 hidden">
-              <label
-                htmlFor="scheme_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Municipality
-              </label>
-              <select
-                ref={municipalityRef}
-                id="scheme_name"
-                name="scheme_name"
-                autoComplete="off"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select Municipality List
-                </option>
-                {municipalityListDropdown}
-
-                
-              </select>
-            </div>
-          ) : (
-            ""
-          )} */}
 
               {dropdownData[0].length > 0 && (
                 <div className="px-4">
@@ -702,6 +729,7 @@ const WorkRequirement = () => {
                             minDate={new Date()}
                             dateFormat="dd/MM/yyyy"
                             selected={dateOfApplicationForWork}
+                            placeholderText="dd-mm-yyyy"
                             portalId="root-portal"
                             className="w-32 border cursor-pointer border-gray-300 rounded-md"
                             onChange={(e) =>
@@ -741,7 +769,7 @@ const WorkRequirement = () => {
                           className="border w-full cursor-pointer border-gray-300 rounded-md"
                           type="text"
                           name="remark"
-                          maxLength={10}
+                          // maxLength={10}
                           placeholder="Remarks..."
                           value={remark}
                           onChange={(e) =>
@@ -754,47 +782,147 @@ const WorkRequirement = () => {
                 )
               )}
             </div>
-            <div className="flex justify-end items-center px-4">
+            <div className="flex justify-center items-center px-4">
               <button
                 type="button"
-                className="w-1/5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                disabled={!canSubmit}
+                className="w-[12%] disabled:cursor-not-allowed disabled:bg-zinc-400 flex items-center justify-center space-x-4 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
                 onClick={SaveDemandData}
               >
-                Add
+                <span>Add</span>
+                <Icon className="text-2xl" icon={"ic:round-add"} />
               </button>
             </div>
           </div>
           <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-            <Table className="">
-              <Table.Head></Table.Head>
-              <Table.Body>
-                {savedData.map((data, index) => (
-                  <Table.Row key={index}>
-                    <Table.Cell>{index + 1}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">
-                      {data.workerJobCardNo}
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">
-                      {data.workerName}
-                    </Table.Cell>
-                    <Table.Cell>{data.age}</Table.Cell>
-                    <Table.Cell>{data.gender}</Table.Cell>
-                    <Table.Cell>{data.caste}</Table.Cell>
-                    <Table.Cell>{data.mobileNo}</Table.Cell>
-                    <Table.Cell>{data.aadhaarNo}</Table.Cell>
-                    <Table.Cell>{data.whetherMinority}</Table.Cell>
-                    <Table.Cell>{data.whetherMigrantWorker}</Table.Cell>
-                    <Table.Cell>{data.typeOfWorkers}</Table.Cell>
-                    <Table.Cell>{data.dateOfApplicationForWork}</Table.Cell>
-                    <Table.Cell>{data.noOfDaysWorkDemanded}</Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            {savedData.length > 0 && (
+              <Table className="">
+                <Table.Head className="divide-x">
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Sl
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    District
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Block
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Gp
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Job Card No
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Worker Name
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Age
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Gender
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Caste
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Mobile No
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    aadhar No
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Minority
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Migrant Worker
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Worker Type
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Application date
+                  </Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                    Days Demanded
+                  </Table.HeadCell>
+
+                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize"></Table.HeadCell>
+                </Table.Head>
+                <Table.Body className="divide-y">
+                  {savedData.map((data, index) => (
+                    <Table.Row key={index} className="divide-x">
+                      <Table.Cell className="px-2 py-1">{index + 1}</Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.districtName}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.blockName}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.gpName}
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap px-2 py-1">
+                        {data.workerJobCardNo}
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap px-2 py-1">
+                        {data.workerName}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.age}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.gender}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.caste}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.mobileNo}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.aadhaarNo}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.whetherMinority}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.whetherMigrantWorker}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.typeOfWorkers}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.dateOfApplicationForWork}
+                      </Table.Cell>
+                      <Table.Cell className="px-2 py-1 whitespace-nowrap">
+                        {data.noOfDaysWorkDemanded}
+                      </Table.Cell>
+
+                      <Table.Cell
+                        className="px-2 py-1 whitespace-nowrap"
+                        onClick={() => deleteDemandData(index)}
+                      >
+                        <button className="px-2 bg-red-500 rounded-md text-white">
+                          Delete
+                        </button>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            )}
           </div>
+          {savedData.length > 0 && (
+            <div className="flex justify-center items-center">
+              <button
+                onClick={mutate}
+                className="text-white bg-indigo-500 hover:bg-indigo-500/90 hover:shadow-md transition-all  px-6 py-1 rounded-lg"
+              >
+                Submit Demands
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
