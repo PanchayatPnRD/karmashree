@@ -21,11 +21,12 @@ export const ConfirmUser = () => {
   const { stack } = useStack();
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
-    const data = JSON.parse(jsonString);
-    setUserData(data);
-  }, []);
+    const jsonString = localStorage.getItem("karmashree_User")?localStorage.getItem("karmashree_User"):"";
+    // const data = JSON.parse(jsonString);
+    // setUserData(data);
+console.log(jsonString,"jsonString")
 
+  }, []);
 
   const handleOtpChange = (index, value) => {
     // Only allow numeric input

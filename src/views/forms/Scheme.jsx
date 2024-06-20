@@ -644,7 +644,7 @@ const Scheme = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-                    
+
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onSector}
                   >
