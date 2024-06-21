@@ -6,6 +6,7 @@ import {
   getAllRoleList,
   getAllSubDivisionList,
   getAllBlockList,
+  getAllGramPanchayatList,
 } from "../../Service/NewUserService";
 import { addNewDNO } from "../../Service/DNO/dnoService";
 import { ToastContainer, toast } from "react-toastify";
@@ -46,6 +47,8 @@ const Dno = () => {
     useState("");
   const [technicalOfficerEmail, setTechnicalOfficerEmail] = useState("");
   const [gp, setGp] = useState("");
+  const [allGpList, setAllGpList] = useState([]);
+
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -53,6 +56,10 @@ const Dno = () => {
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
+    });
+    getAllGramPanchayatList(data?.districtcode, data?.blockCode).then(function (result) {
+      const response = result?.data?.result;
+      setAllGpList(response);
     });
 
     getAllDesignationList(data?.category).then(function (result) {
@@ -79,6 +86,13 @@ const Dno = () => {
     getRoleDataList();
   }, []);
   console.log(allDistrictList, "allDistrictList");
+
+  let GpListDropdown = <option>Loading...</option>;
+  if (allGpList && allGpList.length > 0) {
+    GpListDropdown = allGpList.map((gpRow, index) => (
+      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+    ));
+  }
 
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
@@ -428,7 +442,7 @@ const Dno = () => {
                   <option value="" selected hidden>
                     Select a Gram Panchayat
                   </option>
-                  {gp}
+                  {GpListDropdown}
                 </select>
               </div>
             ) : (
