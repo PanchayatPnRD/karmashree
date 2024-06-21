@@ -42,6 +42,12 @@ export const getAllPedastalList = async (departmentNo,deptwing) => {
     );
 }
 
+export const getAllGramPanchayatList = async (districtCode, BlockCode) => {
+    console.log(districtCode, BlockCode, "districtCode")
+    return await webApi.get(`/api/mastertable/getGpaction/${parseInt(districtCode)}/${parseInt(BlockCode)}`,
+    );
+}
+
 //ADD USER
 
 
