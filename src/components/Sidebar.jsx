@@ -309,12 +309,12 @@ export const Sidebar = () => {
   const actionPlanHidden = [
     12, 13,24, 15, 17,29, 19, 21, 23, 24, 25,27, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [7,12, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7,12,24, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [ 13,24,17,29, 30, 31, 32, 33, 34, 35];
   const demandHidden = [7,13,17,29];
   const requirementHidden = [ 7, 13,24,17,29, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [ 7,13, 17,29, 23, 29, 30, 31, 32, 33, 34, 35];
-  const employmentHidden = [ 7,13,17,29,24, 30, 31, 32, 33, 34, 35];
+  const employmentHidden = [ 7,13,17,29, 30, 31, 32, 33, 34, 35];
   const reportHidden = [27, 30, 31, 32, 33, 34, 35];
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
