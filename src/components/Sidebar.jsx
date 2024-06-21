@@ -203,7 +203,7 @@ export const sideBarList = [
     Component: WorkRequirement,
     text: "Worker Requisition",
     route: "/dashboard/work-requirement",
-    permissions: [1, 13,25, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13,25, 15, 19, 21, 25, 27],
   },
   {
     Component: WorkRequirementList,
@@ -312,9 +312,9 @@ export const Sidebar = () => {
   const contractorHidden = [7,12,24, 30, 31, 32, 33, 34, 35];
   const schemeHidden = [ 13,24,17,29, 30, 31, 32, 33, 34, 35];
   const demandHidden = [7,13,17,29];
-  const requirementHidden = [ 7, 13,24,17,29, 23, 29, 30, 31, 32, 33, 34, 35];
+  const requirementHidden = [ 7, 13,17,29, 23, 29, 30, 31, 32, 33, 34, 35];
   const allocationHidden = [ 7,13, 17,29, 23, 29, 30, 31, 32, 33, 34, 35];
-  const employmentHidden = [ 7,13,17,29, 30, 31, 32, 33, 34, 35];
+  const employmentHidden = [ 7,13,17,24,29, 30, 31, 32, 33, 34, 35];
   const reportHidden = [27, 30, 31, 32, 33, 34, 35];
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
