@@ -785,7 +785,7 @@ const WorkRequirement = () => {
             <div className="flex justify-center items-center px-4">
               <button
                 type="button"
-                // disabled={!canSubmit}
+                disabled={!canSubmit}
                 className="w-[12%] disabled:cursor-not-allowed disabled:bg-zinc-400 flex items-center justify-center space-x-4 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
                 onClick={SaveDemandData}
               >

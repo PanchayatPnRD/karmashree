@@ -46,6 +46,7 @@ const ActionPlanReport2 = lazy(() =>
 const WorkAllocationView = lazy(() =>
   import("./views/forms/WorkAllocationView")
 );
+const UserManual = lazy(() => import("./views/UserManual"))
 const SchemeEdit = lazy(() => import("./views/forms/SchemeEdit"));
 const SchemeView = lazy(() => import("./views/forms/SchemeView"));
 import { useNetworkState } from "@uidotdev/usehooks";
@@ -71,19 +72,16 @@ function App() {
               key={index}
               path={path}
               element={
-                
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    {/* <Suspense> */}
-                      <Element />
-                    {/* </Suspense> */}
-                  </div>
-                
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  {/* <Suspense> */}
+                  <Element />
+                  {/* </Suspense> */}
+                </div>
               }
             />
           );
         })}
-       
 
         {sideBarList.map(({ route, Component, text }) => {
           return (
@@ -213,6 +211,18 @@ function App() {
               <Dashboard>
                 <Suspense>
                   <SchemeView />
+                </Suspense>
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path="/dashboard/manual"
+          element={
+            <Auth>
+              <Dashboard>
+                <Suspense>
+                  <UserManual />
                 </Suspense>
               </Dashboard>
             </Auth>
