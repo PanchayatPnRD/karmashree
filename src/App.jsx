@@ -147,7 +147,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <WorkAllocationView />
                 </Suspense>
               </Dashboard>
@@ -159,7 +165,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport1 />
                 </Suspense>
               </Dashboard>
@@ -171,7 +183,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport2 />
                 </Suspense>
               </Dashboard>
@@ -184,7 +202,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport3 />
                 </Suspense>
               </Dashboard>
@@ -221,7 +245,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <UserManual />
                 </Suspense>
               </Dashboard>
