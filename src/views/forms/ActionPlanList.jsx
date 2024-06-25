@@ -285,8 +285,10 @@ const ActionPlanList = () => {
               ))}
             </Table.Body>
           </Table>
+
         </div>
         <Pagination data={data} table={table} />
+        
       </div>
     </div>
   );
