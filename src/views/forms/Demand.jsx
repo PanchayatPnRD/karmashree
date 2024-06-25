@@ -27,6 +27,7 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TextInput } from "../../components/TextInput";
 
 const WorkRequirement = () => {
   const [savedData, setSavedData] = useState([]);
@@ -105,6 +106,7 @@ const WorkRequirement = () => {
       return data.data.result[0].nregaPanchCode;
     },
     enabled: dropdownData[2] != "",
+    gcTime: 0,
   });
 
   function updateDropdown(index, value) {
@@ -223,15 +225,15 @@ const WorkRequirement = () => {
 
   const canSubmit = useMemo(() => {
     const keys = Object.values(demandData[0]);
-
+    // const k = Object.keys(demandData[0]);
     const newArray = [
-      ...keys.slice(0, 6), // Elements before the 4th index
-      ...keys.slice(7), // Elements after the 4th index
+      ...keys.slice(0, 3),
+      ...keys.slice(5, 6),
+      ...keys.slice(7),
     ];
 
     return !(
-      newArray.includes("") ||
-      newArray.includes(undefined) 
+      (newArray.includes("") || newArray.includes(undefined))
       // keys.includes(0)
       // dropdownData[2] != ""
     );
@@ -240,9 +242,18 @@ const WorkRequirement = () => {
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
-    districtListDropdown = allDistrictList.map((distRow, index) => (
-      <option value={distRow.districtCode}>{distRow.districtName}</option>
-    ));
+    districtListDropdown = allDistrictList
+      ?.sort((a, b) => {
+        const valueA = a.concatenatedName.toLowerCase();
+        const valueB = b.concatenatedName.toLowerCase();
+
+        if (valueA < valueB) return -1;
+        if (valueA > valueB) return 1;
+        return 0;
+      })
+      .map((distRow, index) => (
+        <option value={distRow.districtCode}>{distRow.concatenatedName}</option>
+      ));
   }
 
   const onArea = (e) => {
@@ -267,7 +278,7 @@ const WorkRequirement = () => {
   let blockListDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
     blockListDropdown = allBlockList.map((blockRow, index) => (
-      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+      <option value={blockRow.blockCode}>{blockRow.concatenatedName}</option>
     ));
   }
 
@@ -290,7 +301,7 @@ const WorkRequirement = () => {
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
     GpListDropdown = allGpList.map((gpRow, index) => (
-      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+      <option value={gpRow.gpCode}>{gpRow.concatenatedName}</option>
     ));
   }
 
