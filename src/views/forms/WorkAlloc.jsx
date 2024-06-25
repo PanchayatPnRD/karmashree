@@ -647,7 +647,7 @@ const WorkAlloc = () => {
                       {daysSum}
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">Total Persandays</div>
+                      <div className="label-style">Expected Total Persandays</div>
                       {personDaysGenerated}
                     </div>
                   </div>
@@ -775,7 +775,7 @@ const WorkAlloc = () => {
                                   startDate={dateFrom}
                                   endDate={dateTo}
                                   portalId="root-portal"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
+                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm z-20"
                                 />
                                 <DatePicker
                                   placeholderText="dd/mm/yyyy"

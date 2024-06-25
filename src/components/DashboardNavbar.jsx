@@ -57,8 +57,7 @@ export const DashboardNavbar = () => {
       );
     if (permission >= 24 && permission <= 29)
       return (
-        userDetails?.deptName +
-        " / " +
+        (userDetails?.deptName != "" ? userDetails?.deptName + "/" : "") +
         userDetails?.districtName +
         " / " +
         userDetails?.blockname
@@ -105,10 +104,13 @@ export const DashboardNavbar = () => {
                   </div>
                   <span className="text-sm text-end">
                     {userTitle}
-                    
+
                     {userDetails?.dno_status == 1 &&
                       userDetails?.category == "DIST" &&
                       " / DNO-MGNREGS"}
+                    {userDetails?.dno_status == 1 &&
+                      userDetails?.category == "BLOCK" &&
+                      " / BDO-MGNREGS"}
                     {" #"}
                     {userIndex}
                   </span>

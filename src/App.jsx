@@ -46,6 +46,7 @@ const ActionPlanReport2 = lazy(() =>
 const WorkAllocationView = lazy(() =>
   import("./views/forms/WorkAllocationView")
 );
+const UserManual = lazy(() => import("./views/UserManual"))
 const SchemeEdit = lazy(() => import("./views/forms/SchemeEdit"));
 const SchemeView = lazy(() => import("./views/forms/SchemeView"));
 import { useNetworkState } from "@uidotdev/usehooks";
@@ -71,19 +72,16 @@ function App() {
               key={index}
               path={path}
               element={
-                
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    {/* <Suspense> */}
-                      <Element />
-                    {/* </Suspense> */}
-                  </div>
-                
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  {/* <Suspense> */}
+                  <Element />
+                  {/* </Suspense> */}
+                </div>
               }
             />
           );
         })}
-       
 
         {sideBarList.map(({ route, Component, text }) => {
           return (
@@ -149,7 +147,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <WorkAllocationView />
                 </Suspense>
               </Dashboard>
@@ -161,7 +165,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport1 />
                 </Suspense>
               </Dashboard>
@@ -173,7 +183,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport2 />
                 </Suspense>
               </Dashboard>
@@ -186,7 +202,13 @@ function App() {
           element={
             <Auth>
               <Dashboard>
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
                   <ActionPlanReport3 />
                 </Suspense>
               </Dashboard>
@@ -213,6 +235,24 @@ function App() {
               <Dashboard>
                 <Suspense>
                   <SchemeView />
+                </Suspense>
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path="/dashboard/manual"
+          element={
+            <Auth>
+              <Dashboard>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
+                  <UserManual />
                 </Suspense>
               </Dashboard>
             </Auth>

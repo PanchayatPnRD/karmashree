@@ -31,6 +31,7 @@ const NewUser = lazy(() => import("../views/forms/NewUser"));
 const Department = lazy(() => import("../views/forms/Department"));
 const Designation = lazy(() => import("../views/forms/Designation"));
 const Scheme = lazy(() => import("../views/forms/Scheme"));
+const SchemeImport = lazy(() => import("../views/forms/SchemeImport"));
 const UserList = lazy(() => import("../views/forms/UserList"));
 const WorkAlloc = lazy(() => import("../views/forms/WorkAlloc"));
 const DashboardHome = lazy(() => import("../views/forms/DashboardHome"));
@@ -86,18 +87,6 @@ const UserListByDepartment = lazy(() =>
   import("../views/reports/UserListByDepartment")
 );
 
-// import ContractorList from "../views/forms/ContractorList";
-// import SchemeList from "../views/forms/SchemeList";
-// // import Register from "../views/Register/Register";
-// import WorkRequirementList from "../views/forms/WorkRequirementList";
-// import EmploymentList from "../views/forms/EmploymentList";
-// import DemandList from "../views/forms/DemandList";
-// import WorkAllocationList from "../views/forms/WorkAllocationList";
-
-// import SummaryReportOnScheme from "../views/reports/SummaryReportOnScheme";
-// import FundingDepartmentWiseReport from "../views/reports/FundingDepartmentWiseReport";
-// import UserListByDepartment from "../views/reports/UserListByDepartment";
-
 export const sideBarList = [
   {
     Component: DashboardHome,
@@ -109,23 +98,23 @@ export const sideBarList = [
     Component: NewUser,
     text: "department user",
     route: "/dashboard/dept-user",
-    permissions: [1, 7, 13,25, 15, 19, 21, 25, 27],
+    permissions: [1, 7, 13, 25, 15, 19, 21, 25, 27],
   },
   {
     Component: UserList,
     text: "department user list",
     route: "/dashboard/dept-userlist",
-    permissions: [1, 7, 13,25, 15, 19, 21, 25, 27],
+    permissions: [1, 7, 13, 25, 15, 19, 21, 25, 27],
   },
   {
     Component: Dno,
-    text: "DNO-MGNREGS User",
+    text: "MGNREGS User",
     route: "/dashboard/dno-user",
     permissions: [1, 12, 24],
   },
   {
     Component: DnoList,
-    text: "DNO-MGNREGS User list",
+    text: "MGNREGS User list",
     route: "/dashboard/dno-userlist",
     permissions: [1, 12, 24],
   },
@@ -163,32 +152,38 @@ export const sideBarList = [
     Component: Contractor,
     text: "contractor master",
     route: "/dashboard/contractor-master",
-    permissions: [1, 7, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 29],
+    permissions: [1, 7, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 29],
   },
   {
     Component: ContractorList,
     text: "contractor list",
     route: "/dashboard/contractor-list",
-    permissions: [1, 7, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 29],
+    permissions: [1, 7, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 29],
   },
   {
     Component: Scheme,
     text: "work",
     route: "/dashboard/scheme",
-    permissions: [1, 7, 13,25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: SchemeList,
     text: "work List",
     route: "/dashboard/scheme-list",
-    permissions: [1, 7, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 7, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+  },
+  {
+    Component: SchemeImport,
+    text: "import",
+    route: "/dashboard/scheme-import",
+    permissions: [1, 7, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: Demand,
     text: "demand",
     route: "/dashboard/demand",
     permissions: [
-      1, 13,25, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
+      1, 13, 25, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
     ],
   },
   {
@@ -196,125 +191,124 @@ export const sideBarList = [
     text: "demand list",
     route: "/dashboard/demand-list",
     permissions: [
-      1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
+      1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29, 30, 31, 32, 33, 34, 35,
     ],
   },
   {
     Component: WorkRequirement,
     text: "Worker Requisition",
     route: "/dashboard/work-requirement",
-    permissions: [1, 13,25, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 25, 15, 19, 21, 25, 27],
   },
   {
     Component: WorkRequirementList,
     text: "Worker Requisition List",
     route: "/dashboard/work-requirement-list",
-    permissions: [1, 13,25, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 25, 12, 15, 19, 21, 25, 24, 27],
   },
 
   {
     Component: WorkAlloc,
     text: "worker allocation",
     route: "/dashboard/work-allocation",
-    permissions: [1, 13,25, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 25, 12, 15, 19, 21, 25, 24, 27],
   },
 
   {
     Component: WorkAllocationList,
     text: "worker allocation list",
     route: "/dashboard/work-allocation-list",
-    permissions: [1, 13,25, 12, 15, 19, 21, 25, 24, 27],
+    permissions: [1, 13, 25, 12, 15, 19, 21, 25, 24, 27],
   },
 
   {
     Component: Employment,
     text: "employment",
     route: "/dashboard/employment",
-    permissions: [1, 13,25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: DirectEmployment,
     text: "direct employment",
     route: "/dashboard/direct-employment",
-    permissions: [1, 13,25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: EmploymentList,
     text: "employment list",
     route: "/dashboard/employment-list",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: ActionPlanReport,
     text: "action plan Report",
     route: "/dashboard/actionplan-report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: SchemeReport,
     text: "scheme Report",
     route: "/dashboard/scheme-report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: DemandReport,
     text: "demand Report",
     route: "/dashboard/demand-report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
   {
     Component: AllocationReport,
     text: "allocation & requisition Report",
     route: "/dashboard/alloc-report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: EmploymentReport,
     text: "employment Report",
     route: "/dashboard/employment-report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: SummaryReportOnScheme,
     text: "Summary Report on Scheme",
     route: "/dashboard/summary-report-on-scheme",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: FundingDepartmentWiseReport,
     text: "Funding Department Wise Report",
     route: "/dashboard/funding_department_wise_report",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
 
   {
     Component: UserListByDepartment,
     text: "User List By Department",
     route: "/dashboard/user_list_by_department",
-    permissions: [1, 13,25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
+    permissions: [1, 13, 25, 12, 15, 17, 19, 21, 23, 25, 24, 27, 29],
   },
-
-  
 ];
 
 export const Sidebar = () => {
-  const userMasterHidden = [17,29, 23, 29, 30, 31, 32, 33, 34, 35];
+  const userMasterHidden = [17, 29, 23, 29, 30, 31, 32, 33, 34, 35];
   const MasterHidden = [
-    7, 12, 13,24, 15, 17,29, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35,
+    7, 12, 13, 24, 15, 17, 29, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34,
+    35,
   ];
   const actionPlanHidden = [
-    12, 13,24, 15, 17,29, 19, 21, 23, 24, 25,27, 29, 30, 31, 32, 33, 34, 35,
+    12, 13, 24, 15, 17, 29, 19, 21, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35,
   ];
-  const contractorHidden = [7,12,27, 30, 31, 32, 33, 34, 35];
-  const schemeHidden = [ 13,24,17,29, 30, 31, 32, 33, 34, 35];
-  const demandHidden = [7,13,17,29,24];
-  const requirementHidden = [1, 7, 13,24,17,29, 23, 29, 30, 31, 32, 33, 34, 35];
-  const allocationHidden = [1, 7,13,24, 17,29, 23, 29, 30, 31, 32, 33, 34, 35];
-  const employmentHidden = [1, 7,13,17,29,24, 30, 31, 32, 33, 34, 35];
+  const contractorHidden = [7, 12, 24, 30, 31, 32, 33, 34, 35];
+  const schemeHidden = [13, 24, 17, 29, 30, 31, 32, 33, 34, 35];
+  const demandHidden = [7, 13, 17, 29];
+  const requirementHidden = [7, 13, 17, 29, 23, 29, 30, 31, 32, 33, 34, 35];
+  const allocationHidden = [7, 13, 17, 29, 23, 29, 30, 31, 32, 33, 34, 35];
+  const employmentHidden = [7, 13, 17, 24, 29, 30, 31, 32, 33, 34, 35];
   const reportHidden = [27, 30, 31, 32, 33, 34, 35];
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
 
@@ -431,7 +425,7 @@ export const Sidebar = () => {
       {isSuccess && !schemeHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Work Master"} icon={"eos-icons:project"}>
           {sideBarList
-            .slice(12, 14)
+            .slice(12, 15)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -450,7 +444,7 @@ export const Sidebar = () => {
       {isSuccess && !demandHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Demand Register"} icon={"mdi:register"}>
           {sideBarList
-            .slice(14, 16)
+            .slice(15, 17)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -469,7 +463,7 @@ export const Sidebar = () => {
       {isSuccess && !requirementHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Worker Requisition"} icon={"mdi:worker"}>
           {sideBarList
-            .slice(16, 18)
+            .slice(17, 19)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -491,7 +485,7 @@ export const Sidebar = () => {
           icon={"clarity:assign-user-solid"}
         >
           {sideBarList
-            .slice(18, 20)
+            .slice(19, 21)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -513,7 +507,7 @@ export const Sidebar = () => {
           icon={"clarity:employee-solid"}
         >
           {sideBarList
-            .slice(20, 23)
+            .slice(21, 24)
             .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -549,7 +543,7 @@ export const Sidebar = () => {
       {isSuccess && !reportHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Reports"} icon={"bxs:report"}>
           {sideBarList
-            .slice(23, sideBarList.length)
+            .slice(24, sideBarList.length)
             // .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
@@ -565,21 +559,18 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
-      {/* {isSuccess &&
-        sideBarList
-          .slice(18, sideBarList.length)
-          .filter((e) => e.permissions.includes(userRoleIndex))
-          .map((e) => {
-            return (
-              <SidebarElement
-                key={e.route}
-                to={e.route}
-                customCss={"py-2.5 pl-10"}
-              >
-                <div className=" items-center capitalize">{e.text}</div>
-              </SidebarElement>
-            );
-          })} */}
+
+      <SidebarElement
+        to="/dashboard/manual"
+        customCss={"flex justify-start pl-4 "}
+      >
+        <div className=" items-start py-2 capitalize">
+          <span className="flex items-center space-x-4">
+            <Icon icon={"streamline:manual-book"} className="text-xl" />
+            <span>User Manual</span>
+          </span>
+        </div>
+      </SidebarElement>
     </div>
   );
 };

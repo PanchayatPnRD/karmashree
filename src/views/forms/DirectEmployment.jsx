@@ -137,16 +137,26 @@ const DirectEmployment = () => {
     },
   });
 
-  const { data: schemeAll_List } = useQuery({
-    queryKey: ["schemeAll_List"],
-    queryFn: async () => {
-      const data = await fetch.get(
-        `/api/schememaster/getAllScheme/${userIndex}`
-      );
-      // console.log(Array.isArray(data.data.result));
-      return data.data.result;
-    },
-  });
+const { data: schemeAll_List } = useQuery({
+  queryKey: ["schemeAll_List"],
+  queryFn: async () => {
+    const data = await fetch.get(
+      `/api/schememaster/getAllSchemerequizition?districtcode=${district}${
+        block != undefined ? "&blockcode=" + block : ""
+      }${gp != undefined ? "&gpCode=" + gp : ""}`
+    );
+    // console.log(Array.isArray(data.data.result));
+    return data.data.result;
+  },
+  enabled: district != undefined,
+});
+
+useEffect(() => {
+  if (district !== undefined)
+    queryclient.invalidateQueries({ queryKey: ["schemeAll_List"] });
+}, [district, block, gp]);
+
+
   const { data: demandList, isLoading: loading } = useQuery({
     queryKey: ["demandList"],
     queryFn: async () => {
