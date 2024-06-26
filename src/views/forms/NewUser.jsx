@@ -19,11 +19,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
-import { Karmashree_logo } from "../../components/Logo";
-
+import ColorRingCustomLoader from "../Loader/Loader";
 
 const NewUser = () => {
-  const [loader, setLoder] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [errorMessage, setErrorMessage] = useState("");
   console.log(errorMessage, "erroreeeororor");
   const [openModal, setOpenModal] = useState();
@@ -410,7 +409,8 @@ const NewUser = () => {
     } else if (technicalOfficerEmailInput != "" && !technicalOfficerEmail) {
       toast.error("Please enter Technical officer valid email id");
     } else {
-      setLoder(true)
+      setLoader(true);
+
       addNewUser(
         userData?.category === "HQ"
           ? department
@@ -479,16 +479,15 @@ const NewUser = () => {
 
             setErrorMessage(r);
             setOpenModal(true);
-            setLoder(false)
+            setLoader(false);
 
             // setErrorMessage(r.message)
             // toast.success(r.message);
 
           } else {
-            setErrorMessage(r.message)
+            // setErrorMessage(r.message)
             toast.error(r.message);
-            setLoder(false)
-
+            setLoader(false);
           }
         }
       );
@@ -512,12 +511,10 @@ const NewUser = () => {
 
   return (
     <>
-      {loader ?
-        <div className="flex items-center justify-center flex-grow p-8 px-12">
-          <ToastContainer />
-          <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
-        </div> :
-
+      {/* {loader ? <div className="flex-grow ">
+         <ColorRingCustomLoader isLoader={loader} />
+         <ToastContainer />
+      </div> : */}
         <div className="flex-grow ">
           <SuccessModal
             openModal={openModal}
@@ -1170,11 +1167,13 @@ const NewUser = () => {
                 ) : (
                   ""
                 )}
+                
                 <div className="flex justify-center items-center">
                   <button
                     type="button"
                     className="w-1/3 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={onRegister}
+                    disabled={loader}
                   >
                     Register
                   </button>
@@ -1182,7 +1181,8 @@ const NewUser = () => {
               </div>
             </form>
           </div>
-        </div>}
+        </div>
+      {/* } */}
     </>
   );
 };
