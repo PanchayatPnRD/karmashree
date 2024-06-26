@@ -47,6 +47,7 @@ const WorkAllocationView = lazy(() =>
   import("./views/forms/WorkAllocationView")
 );
 const UserManual = lazy(() => import("./views/UserManual"))
+const ManualEdit = lazy(() => import("./views/UsermanualEdit"));
 const SchemeEdit = lazy(() => import("./views/forms/SchemeEdit"));
 const SchemeView = lazy(() => import("./views/forms/SchemeView"));
 import { useNetworkState } from "@uidotdev/usehooks";
@@ -253,6 +254,24 @@ function App() {
                   }
                 >
                   <UserManual />
+                </Suspense>
+              </Dashboard>
+            </Auth>
+          }
+        />
+        <Route
+          path="/dashboard/manual-add"
+          element={
+            <Auth>
+              <Dashboard>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center flex-grow p-8 px-12">
+                      <Karmashree_logo className="fill-blue-400 h-[10rem] animate-pulse w-fit" />
+                    </div>
+                  }
+                >
+                  <ManualEdit />
                 </Suspense>
               </Dashboard>
             </Auth>
