@@ -37,7 +37,7 @@ const SchemeReport = () => {
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => employmentList ?? [], [employmentList]);
-
+console.log(data,"data")
   const list = [
     {
       header: "Sl no",
@@ -288,11 +288,13 @@ const SchemeReport = () => {
                 </Table.Row>
               ))}
             </Table.Body>
+          {/* <span>Total user:</span> */}
+
           </Table>
         </div>
-        <div className="text-md font-semibold opacity-70 text-center">
+        {/* <div className="text-md font-semibold opacity-70 text-center">
           No data available
-        </div>
+        </div> */}
         <Pagination data={data} table={table} />
       </div>
     </>

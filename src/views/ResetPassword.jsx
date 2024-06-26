@@ -22,8 +22,8 @@ export const ConfirmUser = () => {
 
   useEffect(() => {
     const jsonString = localStorage.getItem("karmashree_User")?localStorage.getItem("karmashree_User"):"";
-    // const data = JSON.parse(jsonString);
-    // setUserData(data);
+    const data = JSON.parse(jsonString);
+    setUserData(data);
 console.log(jsonString,"jsonString")
 
   }, []);
