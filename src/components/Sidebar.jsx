@@ -571,6 +571,17 @@ export const Sidebar = () => {
           </span>
         </div>
       </SidebarElement>
+      <SidebarElement
+        to="/dashboard/manual-add"
+        customCss={"flex justify-start pl-4 "}
+      >
+        <div className=" items-start py-2 capitalize">
+          <span className="flex items-center space-x-4">
+            <Icon icon={"streamline:manual-book"} className="text-xl" />
+            <span>User Manual Add</span>
+          </span>
+        </div>
+      </SidebarElement>
     </div>
   );
 };

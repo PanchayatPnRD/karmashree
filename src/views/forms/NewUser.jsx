@@ -914,10 +914,20 @@ const NewUser = () => {
                   <option value="1" selected={userData?.category == "HQ"}>
                     Admin
                   </option>
-                  <option hidden={userData?.category == "HQ"} value="2">
+                  <option
+                    hidden={
+                      userData?.category == "HQ" || userData?.category == "HD"
+                    }
+                    value="2"
+                  >
                     Operator
                   </option>
-                  <option hidden={userData?.category == "HQ"} value="3">
+                  <option
+                    hidden={
+                      userData?.category == "HQ" || userData?.category == "HD"
+                    }
+                    value="3"
+                  >
                     Project Implementing Agency(PIA)
                   </option>
                 </select>
