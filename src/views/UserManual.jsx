@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link } from "react-router-dom";
+import { Accordion } from "flowbite-react";
 
 const UserManual = () => {
   return (
@@ -26,14 +28,59 @@ const UserManual = () => {
                 /
               </li>
               <li className="text-gray-500 font-bold" aria-current="page">
-                User Manual
+                Library
               </li>
             </ol>
           </nav>
         </div>
+        <div>
+          <Accordion>
+            <Accordion.Panel>
+              <Accordion.Title>User Manual</Accordion.Title>
+              <Accordion.Content>
+                <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
+                  <span>1. Karmashree User Manual</span>
+                  <Icon
+                    className="text-3xl cursor-pointer"
+                    icon={"vscode-icons:file-type-pdf2"}
+                  />
+                </p>
+              </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+              <Accordion.Title>Orders</Accordion.Title>
+              <Accordion.Content>
+                <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
+                  <span>1. Order Circulation</span>
+                  <Icon
+                    className="text-3xl cursor-pointer"
+                    icon={"vscode-icons:file-type-pdf2"}
+                  />
+                </p>
+              </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+              <Accordion.Title>Video Links</Accordion.Title>
+              <Accordion.Content>
+                <div>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/wvlHkSbLodc?si=JScHg765osZYNSXh"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </Accordion.Content>
+            </Accordion.Panel>
+          </Accordion>
+        </div>
       </div>
     </>
   );
-}
+};
 
-export default UserManual
+export default UserManual;
