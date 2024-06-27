@@ -48,28 +48,27 @@ const UserManual = () => {
           <Accordion>
             <Accordion.Panel>
               <Accordion.Title>User Manual</Accordion.Title>
-              {LibraryList?.map((d, index) => {
-                if (d?.category === "U") {
-                  return (
-                    <Accordion.Content>
-                      <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                        <span>
-                          <li>
-                            <b>{d?.caption}</b>
-                          </li>
-                        </span>
-                        <a href={devApi + "/api/" + d?.UploadFileLink}>
-                          {" "}
-                          <Icon
-                            className="text-2xl cursor-pointer"
-                            icon={"vscode-icons:file-type-pdf2"}
-                          />
-                        </a>
-                      </p>
-                    </Accordion.Content>
-                  );
-                }
-              })}
+              <Accordion.Content className="pl-10 text-zinc-500">
+                <ol className="list-decimal flex flex-col space-y-4">
+                  {LibraryList?.map((d, index) => {
+                    if (d?.category === "U") {
+                      return (
+                        <li>
+                          <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-4">
+                            <span>{d?.caption}</span>
+                            <a href={devApi + "/api/" + d?.UploadFileLink}>
+                              <Icon
+                                className="text-2xl cursor-pointer text-red-600"
+                                icon={"bi:file-earmark-pdf-fill"}
+                              />
+                            </a>
+                          </p>
+                        </li>
+                      );
+                    }
+                  })}
+                </ol>
+              </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Orders</Accordion.Title>
