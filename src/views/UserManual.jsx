@@ -5,7 +5,7 @@ import { Accordion } from "flowbite-react";
 import { getAllLibraryList } from "../Service/Library/LibraryService";
 import { devApi } from "../WebApi/WebApi";
 const UserManual = () => {
-  const [LibraryList, setAllLibraryList] = useState([])
+  const [LibraryList, setAllLibraryList] = useState([]);
 
   useEffect(() => {
     getAllLibraryList("").then(function (result) {
@@ -14,9 +14,7 @@ const UserManual = () => {
     });
   }, []);
 
-
-
-  console.log(LibraryList, "LibraryList")
+  console.log(LibraryList, "LibraryList");
   return (
     <>
       <div className="flex flex-grow flex-col space-y-16 p-4 px-12">
@@ -55,51 +53,70 @@ const UserManual = () => {
                   return (
                     <Accordion.Content>
                       <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                        <span><li><b>{d?.caption}</b></li></span>
-                        <a href={devApi + "/api/" + d?.UploadFileLink}> <Icon
-                          className="text-2xl cursor-pointer"
-                          icon={"vscode-icons:file-type-pdf2"}
-                        /></a>
+                        <span>
+                          <li>
+                            <b>{d?.caption}</b>
+                          </li>
+                        </span>
+                        <a href={devApi + "/api/" + d?.UploadFileLink}>
+                          {" "}
+                          <Icon
+                            className="text-2xl cursor-pointer"
+                            icon={"vscode-icons:file-type-pdf2"}
+                          />
+                        </a>
                       </p>
                     </Accordion.Content>
-                  )
+                  );
                 }
               })}
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Orders</Accordion.Title>
-              {LibraryList?.map((d, index) => {
-                if (d?.category === "Or") {
-                  return (
-                    <Accordion.Content>
-                      <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                        <span><ol><li><b>
-                          {d?.caption}-{d?.orderno}-{new Date(d?.orderDate).toLocaleDateString("fr-CA", {
-                            year: "numeric",
-                            month: "numeric",
-                            day: "numeric",
-                          })}
-                        </b></li></ol></span>
-                        <a href={devApi + "/api/" + d?.UploadFileLink}> <Icon
-                          className="text-2xl cursor-pointer"
-                          icon={"vscode-icons:file-type-pdf2"}
-                        /></a>
-                      </p>
-                    </Accordion.Content>
-                  )
-                }
-              })}
+              <Accordion.Content className="pl-10 text-zinc-500">
+                <ol className="list-decimal flex flex-col space-y-4">
+                  {LibraryList?.map((d, index) => {
+                    if (d?.category === "Or") {
+                      return (
+                        <li>
+                          <span className="flex items-center space-x-4">
+                            <span>
+                              {d?.caption}-{d?.orderno}-
+                              {new Date(d?.orderDate).toLocaleDateString(
+                                "fr-CA",
+                                {
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                            <a href={devApi + "/api/" + d?.UploadFileLink}>
+                              <Icon
+                                className="text-2xl cursor-pointer text-red-600"
+                                icon={"bi:file-earmark-pdf-fill"}
+                              />
+                            </a>
+                          </span>
+                        </li>
+                      );
+                    }
+                  })}
+                </ol>
+              </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Video Links</Accordion.Title>
               {LibraryList?.map((d, index) => {
                 if (d?.category === "Y") {
                   return (
-
                     <Accordion.Content>
                       <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                        <span><li><b>{d?.caption}</b></li></span>
-
+                        <span>
+                          <li>
+                            <b>{d?.caption}</b>
+                          </li>
+                        </span>
                       </p>
                       <div>
                         <iframe
@@ -114,12 +131,10 @@ const UserManual = () => {
                         ></iframe>
                       </div>
                     </Accordion.Content>
-                  )
+                  );
                 }
               })}
-
             </Accordion.Panel>
-
           </Accordion>
         </div>
       </div>
