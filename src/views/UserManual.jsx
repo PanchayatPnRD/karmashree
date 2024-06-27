@@ -2,8 +2,21 @@ import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
 import { Accordion } from "flowbite-react";
-
+import { getAllLibraryList } from "../Service/Library/LibraryService";
+import { devApi } from "../WebApi/WebApi";
 const UserManual = () => {
+  const [LibraryList, setAllLibraryList] = useState([])
+
+  useEffect(() => {
+    getAllLibraryList("").then(function (result) {
+      const response = result?.data?.result;
+      setAllLibraryList(response);
+    });
+  }, []);
+
+
+
+  console.log(LibraryList, "LibraryList")
   return (
     <>
       <div className="flex flex-grow flex-col space-y-16 p-4 px-12">
@@ -37,45 +50,76 @@ const UserManual = () => {
           <Accordion>
             <Accordion.Panel>
               <Accordion.Title>User Manual</Accordion.Title>
-              <Accordion.Content>
-                <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                  <span>1. Karmashree User Manual</span>
-                  <Icon
-                    className="text-3xl cursor-pointer"
-                    icon={"vscode-icons:file-type-pdf2"}
-                  />
-                </p>
-              </Accordion.Content>
+              {LibraryList?.map((d, index) => {
+                if (d?.category === "U") {
+                  return (
+                    <Accordion.Content>
+                      <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
+                        <span><li><b>{d?.caption}</b></li></span>
+                        <a href={devApi + "/api/" + d?.UploadFileLink}> <Icon
+                          className="text-2xl cursor-pointer"
+                          icon={"vscode-icons:file-type-pdf2"}
+                        /></a>
+                      </p>
+                    </Accordion.Content>
+                  )
+                }
+              })}
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Orders</Accordion.Title>
-              <Accordion.Content>
-                <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
-                  <span>1. Order Circulation</span>
-                  <Icon
-                    className="text-3xl cursor-pointer"
-                    icon={"vscode-icons:file-type-pdf2"}
-                  />
-                </p>
-              </Accordion.Content>
+              {LibraryList?.map((d, index) => {
+                if (d?.category === "Or") {
+                  return (
+                    <Accordion.Content>
+                      <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
+                        <span><ol><li><b>
+                          {d?.caption}-{d?.orderno}-{new Date(d?.orderDate).toLocaleDateString("fr-CA", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })}
+                        </b></li></ol></span>
+                        <a href={devApi + "/api/" + d?.UploadFileLink}> <Icon
+                          className="text-2xl cursor-pointer"
+                          icon={"vscode-icons:file-type-pdf2"}
+                        /></a>
+                      </p>
+                    </Accordion.Content>
+                  )
+                }
+              })}
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Video Links</Accordion.Title>
-              <Accordion.Content>
-                <div>
-                  <iframe
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/wvlHkSbLodc?si=JScHg765osZYNSXh"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-              </Accordion.Content>
+              {LibraryList?.map((d, index) => {
+                if (d?.category === "Y") {
+                  return (
+
+                    <Accordion.Content>
+                      <p className="mb-2 text-gray-500 dark:text-gray-400 flex items-center space-x-12">
+                        <span><li><b>{d?.caption}</b></li></span>
+
+                      </p>
+                      <div>
+                        <iframe
+                          width="560"
+                          height="315"
+                          src={d?.YoutubeLink}
+                          title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        ></iframe>
+                      </div>
+                    </Accordion.Content>
+                  )
+                }
+              })}
+
             </Accordion.Panel>
+
           </Accordion>
         </div>
       </div>

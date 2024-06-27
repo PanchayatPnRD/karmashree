@@ -3,11 +3,118 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
 import { Accordion } from "flowbite-react";
 import DatePicker from "react-datepicker";
+import { addLibrary } from "../Service/Library/LibraryService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const UserManual = () => {
+  const navigate = useNavigate();
+  const [category, setCategory] = useState("")
+  const [youtube, setYoutube] = useState("")
+  const [caption, setCaption] = useState("")
+  const [orderNumber, setOrderNumber] = useState("")
+  const [orderdate, setOrderDate] = useState();
+  const [image, setImage] = useState({ preview: "", raw: "" });
+  const [getImage, setGetImage] = useState(null);
+  const [getImageresult, setGetImageresult] = useState("")
+
+  const jsonString = localStorage.getItem("karmashree_User");
+  const karmashree_data = JSON.parse(jsonString);
+  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const onCategory = (e) => {
+    setCategory(e.target.value)
+  }
+  const onYoutubeLink = (e) => {
+    setYoutube(e.target.value)
+  }
+  console.log(youtube, "youtube")
+
+  const onCaption = (e) => {
+    setCaption(e.target.value)
+  }
+  const onOrderNumber = (e) => {
+    setOrderNumber(e.target.value)
+  }
+
+  const onFile = (event) => {
+    if (event["target"].files.length > 0) {
+      const file = event["target"].files[0];
+      // setUserData({...userData, profileImage : file});
+      setImage({
+        preview: URL.createObjectURL(event.target.files[0]),
+        raw: event.target.files[0]
+      });
+      setGetImage(file)
+      setGetImageresult(file.name)
+      //     const reader = new FileReader();
+      //     reader.readAsDataURL(file);
+      //     reader.onload = (event) => {
+      //         setGetImageresult(reader.result);
+      //   };
+    }
+
+  }
+
+  const onSubmit = () => {
+
+    let formData = new FormData();
+
+    formData.append('file', getImage);
+    formData.append('category', category);
+    formData.append('YoutubeLink', youtube);
+    formData.append('caption', caption);
+    formData.append('orderno', orderNumber);
+    formData.append('orderDate', orderdate);
+    formData.append('userIndex', karmashree_data?.userIndex);
+    formData.append('status', 0);
+
+
+
+    if (category === "") {
+      toast.error("Please select Category")
+
+    } else if (category === "Y" && youtube === "") {
+      toast.error("Please type YouTube link")
+
+    } else if (caption === "") {
+      toast.error("Please type Caption/Subject")
+
+    } else if (category === "Or" && orderNumber === "") {
+      toast.error("Please type Order Number")
+
+    } else if (category === "Or" && !orderdate) {
+      toast.error("Please type Order Date")
+
+    } else if (category === "Ot" || category === "U" || category === "Or" && getImage === null) {
+      toast.error("Please Choose a File")
+
+    }
+    else {
+
+      addLibrary(formData,
+        (r) => {
+          console.log(r, "response")
+          if (r.errorCode == 0) {
+            toast.success(r.message)
+            navigate("/dashboard/manual")
+          } else {
+            console.log("nononononono")
+            toast.error(r.message)
+
+          }
+        })
+    }
+
+
+
+
+
+  }
   return (
     <>
       <div className="flex flex-grow flex-col space-y-16 p-4 px-12">
+        <ToastContainer />
         <div className="p-4 shadow-md rounded">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center space-x-4 px-4 py-1">
@@ -29,7 +136,7 @@ const UserManual = () => {
                 /
               </li>
               <li className="text-gray-500 font-bold" aria-current="page">
-                User Manual Master
+                Library Master
               </li>
             </ol>
           </nav>
@@ -55,6 +162,7 @@ const UserManual = () => {
                         name="scheme_name"
                         autoComplete="off"
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        onChange={onCategory}
                       >
                         <option value="" selected hidden>
                           Select Category
@@ -62,97 +170,126 @@ const UserManual = () => {
                         <option value="Or">Order</option>
                         <option value="U">User Manual</option>
                         <option value="Y">Youtube Links</option>
-                        <option value="O">Others</option>
+                        <option value="Ot">Others</option>
                       </select>
                     </div>
-                    <div className="w-1/2 px-4">
+                    {category === "Y" ?
+                      <div className="w-1/2 px-4">
+                        <label
+                          htmlFor="scheme_name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Youtube Link
+                          <span className="text-red-500 "> * </span>
+                        </label>
+                        <input
+                          id="scheme_name"
+                          name="scheme_name"
+                          type="text"
+                          autoComplete="off"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                          // onChange={onGstIn}
+                          // maxLength={15}
+                          placeholder="Please type Youtube Link"
+                          onChange={onYoutubeLink}
+
+                        />
+                      </div> : ""}
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    {category ?
+
+                      <div className="w-1/3 px-4">
+                        <label
+                          htmlFor="scheme_name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Caption/Subject
+                          <span className="text-red-500 "> * </span>
+                        </label>
+                        <input
+                          id="Caption/Subject"
+                          name="Caption/Subject"
+                          type="text"
+                          autoComplete="off"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                          placeholder="Please type Caption/Subject"
+                          onChange={onCaption}
+                        />
+                      </div> : ""}
+                    {category === "Or" ?
+
+                      <div className="w-1/3 px-4">
+                        <label
+                          htmlFor="scheme_name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Order Number
+                          <span className="text-red-500 "> * </span>
+                        </label>
+                        <input
+                          id="contractor_name"
+                          name="contractor_name"
+                          type="text"
+                          autoComplete="off"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                          onChange={onOrderNumber}
+                          placeholder="Please type Order Number"
+                        />
+                      </div> : ""}
+                    {category === "Or" ?
+                      <div className="w-1/3 px-4">
+                        <label
+                          htmlFor="scheme_name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Order Date
+                          <span className="text-red-500 "> * </span>
+                        </label>
+                        <DatePicker
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                          dateFormat="dd/MM/yyyy"
+                          selectsStart
+                          minDate={orderdate}
+                          selected={orderdate}
+                          onChange={(date) => setOrderDate(date)}
+                          placeholderText="dd-mm-yyyy"
+
+                        />
+                      </div> : ""}
+                  </div>
+                </div>
+
+                <div className="flex flex-col w-full mb-4">
+                  {category === "Ot" || category === "U" || category === "Or" ?
+
+                    <div className="px-4">
                       <label
                         htmlFor="scheme_name"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Youtube Link
+                        File upload
                         <span className="text-red-500 "> * </span>
                       </label>
                       <input
                         id="scheme_name"
                         name="scheme_name"
-                        type="text"
+                        type="file"
+                        accept="application/pdf"
                         autoComplete="off"
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                        // onChange={onGstIn}
-                        maxLength={15}
-                      />
-                    </div>
-                  </div>
+                        onChange={onFile}
 
-                  <div className="flex items-center space-x-4">
-                    <div className="w-1/3 px-4">
-                      <label
-                        htmlFor="scheme_name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Caption/Subject
-                        <span className="text-red-500 "> * </span>
-                      </label>
-                      <input
-                        id="contractor_name"
-                        name="contractor_name"
-                        type="text"
-                        autoComplete="off"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                       />
-                    </div>
-                    <div className="w-1/3 px-4">
-                      <label
-                        htmlFor="scheme_name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Order Number
-                        <span className="text-red-500 "> * </span>
-                      </label>
-                      <input
-                        id="contractor_name"
-                        name="contractor_name"
-                        type="text"
-                        autoComplete="off"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="w-1/3 px-4">
-                      <label
-                        htmlFor="scheme_name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Order Date
-                        <span className="text-red-500 "> * </span>
-                      </label>
-                      <DatePicker className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col w-full mb-4">
-                  <div className="px-4">
-                    <label
-                      htmlFor="scheme_name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      File upload
-                      <span className="text-red-500 "> * </span>
-                    </label>
-                    <input
-                      id="scheme_name"
-                      name="scheme_name"
-                      type="file"
-                      autoComplete="off"
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    />
-                  </div>
+                    </div> : ""}
                 </div>
 
                 <div className="flex justify-center items-center">
                   <button
                     type="button"
                     className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={onSubmit}
                   >
                     Submit
                   </button>

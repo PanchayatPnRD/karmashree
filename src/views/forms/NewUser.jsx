@@ -511,10 +511,10 @@ const NewUser = () => {
 
   return (
     <>
-      {/* {loader ? <div className="flex-grow ">
+      {loader ? <div className="flex-grow ">
          <ColorRingCustomLoader isLoader={loader} />
          <ToastContainer />
-      </div> : */}
+      </div> :
         <div className="flex-grow ">
           <SuccessModal
             openModal={openModal}
@@ -1182,7 +1182,7 @@ const NewUser = () => {
             </form>
           </div>
         </div>
-      {/* } */}
+       }
     </>
   );
 };
