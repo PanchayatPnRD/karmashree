@@ -137,25 +137,25 @@ const DirectEmployment = () => {
     },
   });
 
-const { data: schemeAll_List } = useQuery({
-  queryKey: ["schemeAll_List"],
-  queryFn: async () => {
-    const data = await fetch.get(
-      `/api/schememaster/getAllSchemerequizition?districtcode=${district}${
-        block != undefined ? "&blockcode=" + block : ""
-      }${gp != undefined ? "&gpCode=" + gp : ""}`
-    );
-    // console.log(Array.isArray(data.data.result));
-    return data.data.result;
-  },
-  enabled: district != undefined,
-});
+  const { data: schemeAll_List } = useQuery({
+    queryKey: ["schemeAll_List"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        `/api/schememaster/getAllSchemerequizition?districtcode=${district}${
+          block != undefined ? "&blockcode=" + block : ""
+        }${gp != undefined ? "&gpCode=" + gp : ""}`
+      );
+      // console.log(Array.isArray(data.data.result));
+      return data.data.result;
+    },
+    enabled: district != undefined,
+    gcTime: 0,
+  });
 
-useEffect(() => {
-  if (district !== undefined)
-    queryclient.invalidateQueries({ queryKey: ["schemeAll_List"] });
-}, [district, block, gp]);
-
+  useEffect(() => {
+    if (district !== undefined)
+      queryclient.invalidateQueries({ queryKey: ["schemeAll_List"] });
+  }, [district, block, gp]);
 
   const { data: demandList, isLoading: loading } = useQuery({
     queryKey: ["demandList"],
@@ -533,6 +533,15 @@ useEffect(() => {
     },
   });
 
+  const checking = useMemo(() => {
+    return allocInputData.map((data) => {
+      const keys = Object.values(data);
+      return !(
+        (keys.includes("") || keys.includes(undefined))
+      );
+    })
+  }, [allocInputData]);
+
   return (
     <>
       <SuccessModal
@@ -862,268 +871,277 @@ useEffect(() => {
                   </button>
                 </div>
                 <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
-                  <Table className="">
-                    <Table.Head className="sticky top-0 z-10">
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Name of worker
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Date of Work Application
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Days Work Demanded
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Work Allocation Dates
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Days Work Allocated
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Work Provided Dates
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
-                        Days Work Provided
-                      </Table.HeadCell>
+                  {allocInputData.length > 0 && (
+                    <Table className="">
+                      <Table.Head className="sticky top-0 z-10">
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Name of worker
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Date of Work Application
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Days Work Demanded
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Work Allocation Dates
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Days Work Allocated
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Work Provided Dates
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                          Days Work Provided
+                        </Table.HeadCell>
 
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                        Total Wage Paid
-                      </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                          Total Wage Paid
+                        </Table.HeadCell>
 
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
-                        Payment Date
-                      </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap w-32" />
-                    </Table.Head>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                          Payment Date
+                        </Table.HeadCell>
+                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap w-32" />
+                      </Table.Head>
 
-                    <Table.Body className="divide-y ">
-                      {allocInputData?.map(
-                        (
-                          {
-                            workAllocationDateFrom,
-                            workAllocationDateTo,
-                            workProvidedDateFrom,
-                            workProvidedDateTo,
-                            totalWagePaid,
-                            paymentDate,
-                          },
-                          index
-                        ) => (
-                          <Table.Row key={index}>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {allocTableData[index]?.workerName}
-                            </Table.Cell>
+                      <Table.Body className="divide-y ">
+                        {allocInputData?.map(
+                          (
+                            {
+                              workAllocationDateFrom,
+                              workAllocationDateTo,
+                              workProvidedDateFrom,
+                              workProvidedDateTo,
+                              totalWagePaid,
+                              paymentDate,
+                            },
+                            index
+                          ) => (
+                            <Table.Row key={index}>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                {allocTableData[index]?.workerName}
+                              </Table.Cell>
 
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {new Date(
-                                allocTableData[index]?.dateOfApplicationForWork
-                              ).toLocaleDateString("en-IN", {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                              })}
-                            </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                {new Date(
+                                  allocTableData[
+                                    index
+                                  ]?.dateOfApplicationForWork
+                                ).toLocaleDateString("en-IN", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })}
+                              </Table.Cell>
 
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {allocTableData[index]?.noOfDaysWorkDemanded}
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              <div className="flex items-center space-x-2">
-                                <DatePicker
-                                  minDate={
-                                    new Date(
-                                      allocTableData[
-                                        index
-                                      ]?.dateOfApplicationForWork
-                                    )
-                                  }
-                                  dateFormat="dd/MM/yyyy"
-                                  selected={workAllocationDateFrom}
-                                  onChange={(date) =>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                {allocTableData[index]?.noOfDaysWorkDemanded}
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                <div className="flex items-center space-x-2">
+                                  <DatePicker
+                                    minDate={
+                                      new Date(
+                                        allocTableData[
+                                          index
+                                        ]?.dateOfApplicationForWork
+                                      )
+                                    }
+                                    dateFormat="dd/MM/yyyy"
+                                    selected={workAllocationDateFrom}
+                                    onChange={(date) =>
+                                      handleChange(
+                                        index,
+                                        "workAllocationDateFrom",
+                                        date.toString()
+                                      )
+                                    }
+                                    placeholderText="dd/mm/yyyy"
+                                    selectsStart
+                                    startDate={workAllocationDateFrom}
+                                    endDate={workAllocationDateTo}
+                                    portalId="root-portal"
+                                    className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
+                                  />
+                                  <span className="text-lg -px-1">-</span>
+                                  <DatePicker
+                                    placeholderText="dd/mm/yyyy"
+                                    selected={workAllocationDateTo}
+                                    onChange={(date) =>
+                                      handleChange(
+                                        index,
+                                        "workAllocationDateTo",
+                                        date.toString()
+                                      )
+                                    }
+                                    selectsEnd
+                                    startDate={workAllocationDateFrom}
+                                    endDate={workAllocationDateTo}
+                                    minDate={workAllocationDateFrom}
+                                    maxDate={
+                                      new Date(
+                                        workAllocationDateFrom
+                                      ).getTime() +
+                                      (allocTableData[index]
+                                        ?.noOfDaysWorkDemanded -
+                                        1) *
+                                        24 *
+                                        60 *
+                                        60 *
+                                        1000
+                                    }
+                                    // minDate={new Date()}
+                                    dateFormat="dd/MM/yyyy"
+                                    // selected={dateOfApplicationForWork}
+                                    portalId="root-portal"
+                                    className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
+                                  />
+                                </div>
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                {dateDifference[index].allocDateDiff}
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                <div className="flex items-center space-x-2">
+                                  <DatePicker
+                                    disabled={
+                                      dateDifference[index].allocDateDiff === 0
+                                    }
+                                    minDate={new Date(workAllocationDateFrom)}
+                                    dateFormat="dd/MM/yyyy"
+                                    selected={workProvidedDateFrom}
+                                    onChange={(date) => {
+                                      handleChange(
+                                        index,
+                                        "workProvidedDateFrom",
+                                        date.toString()
+                                      );
+                                    }}
+                                    placeholderText="dd/mm/yyyy"
+                                    selectsStart
+                                    startDate={workProvidedDateFrom}
+                                    endDate={workProvidedDateTo}
+                                    portalId="root-portal"
+                                    className="w-32 cursor-pointer border-gray-300 rounded-md text-sm disabled:bg-red-200 disabled:cursor-not-allowed"
+                                  />
+                                  <span className="text-lg -px-1">-</span>
+                                  <DatePicker
+                                    disabled={
+                                      dateDifference[index].allocDateDiff === 0
+                                    }
+                                    placeholderText="dd/mm/yyyy"
+                                    selected={workProvidedDateTo}
+                                    onChange={(date) =>
+                                      handleChange(
+                                        index,
+                                        "workProvidedDateTo",
+                                        date.toString()
+                                      )
+                                    }
+                                    selectsEnd
+                                    startDate={workProvidedDateFrom}
+                                    endDate={workProvidedDateTo}
+                                    minDate={workProvidedDateFrom}
+                                    maxDate={
+                                      new Date(workProvidedDateFrom).getTime() +
+                                      (dateDifference[index].allocDateDiff -
+                                        1) *
+                                        24 *
+                                        60 *
+                                        60 *
+                                        1000
+                                    }
+                                    // minDate={new Date()}
+                                    dateFormat="dd/MM/yyyy"
+                                    // selected={dateOfApplicationForWork}
+                                    portalId="root-portal"
+                                    className="w-32 cursor-pointer border-gray-300 rounded-md text-sm disabled:bg-red-200 disabled:cursor-not-allowed"
+                                  />
+                                </div>
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                {dateDifference[index].providedDateDiff}
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                <input
+                                  // disabled={attandance == "Absent" ? true : false}
+                                  name="totalWagePaid"
+                                  type="text"
+                                  className="rounded-lg border-zinc-300 disabled:bg-red-100 disabled:cursor-not-allowed"
+                                  onChange={(e) =>
                                     handleChange(
                                       index,
-                                      "workAllocationDateFrom",
-                                      date.toString()
+                                      "totalWagePaid",
+                                      e.target.value
                                     )
                                   }
-                                  placeholderText="dd/mm/yyyy"
-                                  selectsStart
-                                  startDate={workAllocationDateFrom}
-                                  endDate={workAllocationDateTo}
-                                  portalId="root-portal"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
                                 />
-                                <span className="text-lg -px-1">-</span>
-                                <DatePicker
-                                  placeholderText="dd/mm/yyyy"
-                                  selected={workAllocationDateTo}
-                                  onChange={(date) =>
-                                    handleChange(
-                                      index,
-                                      "workAllocationDateTo",
-                                      date.toString()
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                <div className="flex items-center space-x-2">
+                                  <DatePicker
+                                    minDate={new Date()}
+                                    dateFormat="dd/MM/yyyy"
+                                    selected={paymentDate}
+                                    onChange={(e) => {
+                                      handleChange(
+                                        index,
+                                        "paymentDate",
+                                        e.toString()
+                                      );
+                                    }}
+                                    portalId="root-portal"
+                                    placeholderText="dd/mm/yyyy"
+                                    className="w-32 cursor-pointer border-gray-300 rounded-md"
+                                  />
+                                </div>
+                              </Table.Cell>
+                              <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
+                                <button
+                                  className="flex space-x-2 items-center font-bold bg-red-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90"
+                                  onClick={() =>
+                                    setDirectAlloc((e) =>
+                                      e.filter(
+                                        (el) =>
+                                          el !=
+                                          allocTableData[index]?.demanduniqueID
+                                      )
                                     )
                                   }
-                                  selectsEnd
-                                  startDate={workAllocationDateFrom}
-                                  endDate={workAllocationDateTo}
-                                  minDate={workAllocationDateFrom}
-                                  maxDate={
-                                    new Date(workAllocationDateFrom).getTime() +
-                                    (allocTableData[index]
-                                      ?.noOfDaysWorkDemanded -
-                                      1) *
-                                      24 *
-                                      60 *
-                                      60 *
-                                      1000
-                                  }
-                                  // minDate={new Date()}
-                                  dateFormat="dd/MM/yyyy"
-                                  // selected={dateOfApplicationForWork}
-                                  portalId="root-portal"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm"
-                                />
-                              </div>
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {dateDifference[index].allocDateDiff}
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              <div className="flex items-center space-x-2">
-                                <DatePicker
-                                  disabled={
-                                    dateDifference[index].allocDateDiff === 0
-                                  }
-                                  minDate={new Date(workAllocationDateFrom)}
-                                  dateFormat="dd/MM/yyyy"
-                                  selected={workProvidedDateFrom}
-                                  onChange={(date) => {
-                                    handleChange(
-                                      index,
-                                      "workProvidedDateFrom",
-                                      date.toString()
-                                    );
-                                  }}
-                                  placeholderText="dd/mm/yyyy"
-                                  selectsStart
-                                  startDate={workProvidedDateFrom}
-                                  endDate={workProvidedDateTo}
-                                  portalId="root-portal"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm disabled:bg-red-200 disabled:cursor-not-allowed"
-                                />
-                                <span className="text-lg -px-1">-</span>
-                                <DatePicker
-                                  disabled={
-                                    dateDifference[index].allocDateDiff === 0
-                                  }
-                                  placeholderText="dd/mm/yyyy"
-                                  selected={workProvidedDateTo}
-                                  onChange={(date) =>
-                                    handleChange(
-                                      index,
-                                      "workProvidedDateTo",
-                                      date.toString()
-                                    )
-                                  }
-                                  selectsEnd
-                                  startDate={workProvidedDateFrom}
-                                  endDate={workProvidedDateTo}
-                                  minDate={workProvidedDateFrom}
-                                  maxDate={
-                                    new Date(workProvidedDateFrom).getTime() +
-                                    (dateDifference[index].allocDateDiff - 1) *
-                                      24 *
-                                      60 *
-                                      60 *
-                                      1000
-                                  }
-                                  // minDate={new Date()}
-                                  dateFormat="dd/MM/yyyy"
-                                  // selected={dateOfApplicationForWork}
-                                  portalId="root-portal"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md text-sm disabled:bg-red-200 disabled:cursor-not-allowed"
-                                />
-                              </div>
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              {dateDifference[index].providedDateDiff}
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              <input
-                                // disabled={attandance == "Absent" ? true : false}
-                                name="totalWagePaid"
-                                type="text"
-                                className="rounded-lg border-zinc-300 disabled:bg-red-100 disabled:cursor-not-allowed"
-                                onChange={(e) =>
-                                  handleChange(
-                                    index,
-                                    "totalWagePaid",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              <div className="flex items-center space-x-2">
-                                <DatePicker
-                                  minDate={new Date()}
-                                  dateFormat="dd/MM/yyyy"
-                                  selected={paymentDate}
-                                  onChange={(e) => {
-                                    handleChange(
-                                      index,
-                                      "paymentDate",
-                                      e.toString()
-                                    );
-                                  }}
-                                  portalId="root-portal"
-                                  placeholderText="dd/mm/yyyy"
-                                  className="w-32 cursor-pointer border-gray-300 rounded-md"
-                                />
-                              </div>
-                            </Table.Cell>
-                            <Table.Cell className=" whitespace-nowrap text-xs py-1 ">
-                              <button
-                                className="flex space-x-2 items-center font-bold bg-red-500 text-white px-4 py-1 rounded-md transition-all hover:shadow-md hover:bg-opacity-90"
-                                onClick={() =>
-                                  setDirectAlloc((e) =>
-                                    e.filter(
-                                      (el) =>
-                                        el !=
-                                        allocTableData[index]?.demanduniqueID
-                                    )
-                                  )
-                                }
-                              >
-                                <span>Delete</span>
-                              </button>
-                            </Table.Cell>
-                          </Table.Row>
-                        )
-                      )}
-                    </Table.Body>
-                  </Table>
+                                >
+                                  <span>Delete</span>
+                                </button>
+                              </Table.Cell>
+                            </Table.Row>
+                          )
+                        )}
+                      </Table.Body>
+                    </Table>
+                  )}
                 </div>
-                <div className="flex space-x-4 justify-center items-center">
-                  <button
-                    type="button"
-                    className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                    onClick={() => {
-                      setWorkAllocationId("");
-                      setEmpData([]);
-                    }}
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={mutate}
-                  >
-                    Submit
-                  </button>
-                </div>
+                {allocInputData.length > 0 && (
+                  <div className="flex space-x-4 justify-center items-center">
+                    {/* <button
+                      type="button"
+                      className="w-28 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      onClick={() => {
+                        setWorkAllocationId("");
+                      }}
+                    >
+                      Back
+                    </button> */}
+                    <button
+                      disabled={checking.includes(false)}
+                      type="button"
+                      className="w-1/5 py-2 px-4 border mt-10 disabled:cursor-not-allowed disabled:bg-zinc-400 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={mutate}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
