@@ -227,6 +227,7 @@ const WorkAlloc = () => {
               : "",
           ...rest2,
           noOfDaysWorkAlloted: dateDifference[index],
+          requzitionuserIndex: filteredData.userIndex,
         };
     });
 
@@ -432,6 +433,7 @@ const WorkAlloc = () => {
     personDaysGenerated,
     FundingDeptname,
     SubmitTime,
+    // userIndex
   } = filteredData ?? {};
 
   return (
