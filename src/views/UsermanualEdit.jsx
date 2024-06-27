@@ -18,7 +18,7 @@ const UserManual = () => {
   const [image, setImage] = useState({ preview: "", raw: "" });
   const [getImage, setGetImage] = useState(null);
   const [getImageresult, setGetImageresult] = useState("")
-
+console.log(getImage,"getImage")
   const jsonString = localStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
@@ -70,7 +70,6 @@ const UserManual = () => {
     formData.append('status', 0);
 
 
-
     if (category === "") {
       toast.error("Please select Category")
 
@@ -86,12 +85,16 @@ const UserManual = () => {
     } else if (category === "Or" && !orderdate) {
       toast.error("Please type Order Date")
 
-    } else if (category === "Ot" || category === "U" || category === "Or" && getImage === null) {
+    } else if (category === "Ot" && !getImage) {
       toast.error("Please Choose a File")
-
+    }
+    else if (category === "U" && !getImage) {
+      toast.error("Please Choose a File")
+    }
+    else if (category === "Or" && !getImage) {
+      toast.error("Please Choose a File")
     }
     else {
-
       addLibrary(formData,
         (r) => {
           console.log(r, "response")
@@ -101,15 +104,9 @@ const UserManual = () => {
           } else {
             console.log("nononononono")
             toast.error(r.message)
-
           }
         })
     }
-
-
-
-
-
   }
   return (
     <>
