@@ -104,6 +104,33 @@ const UserManual = () => {
                 </ol>
               </Accordion.Content>
             </Accordion.Panel>
+
+            <Accordion.Panel>
+              <Accordion.Title>Others</Accordion.Title>
+              <Accordion.Content className="pl-10 text-zinc-500">
+                <ol className="list-decimal flex flex-col space-y-4">
+                  {LibraryList?.map((d, index) => {
+                    if (d?.category === "Ot") {
+                      return (
+                        <li>
+                          <span className="flex items-center space-x-4">
+                            <span>
+                              {d?.caption}
+                            </span>
+                            <a href={devApi + "/api/" + d?.UploadFileLink}>
+                              <Icon
+                                className="text-2xl cursor-pointer text-red-600"
+                                icon={"bi:file-earmark-pdf-fill"}
+                              />
+                            </a>
+                          </span>
+                        </li>
+                      );
+                    }
+                  })}
+                </ol>
+              </Accordion.Content>
+            </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title>Video Links</Accordion.Title>
               {LibraryList?.map((d, index) => {
