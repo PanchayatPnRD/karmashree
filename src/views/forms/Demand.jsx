@@ -242,16 +242,7 @@ const WorkRequirement = () => {
 
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
-    districtListDropdown = allDistrictList
-      ?.sort((a, b) => {
-        const valueA = a.concatenatedName.toLowerCase();
-        const valueB = b.concatenatedName.toLowerCase();
-
-        if (valueA < valueB) return -1;
-        if (valueA > valueB) return 1;
-        return 0;
-      })
-      .map((distRow, index) => (
+    districtListDropdown = allDistrictList.map((distRow, index) => (
         <option value={distRow.districtCode}>{distRow.concatenatedName}</option>
       ));
   }
