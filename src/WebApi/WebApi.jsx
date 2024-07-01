@@ -25,6 +25,7 @@ instance.interceptors.request.use(
     if (token) {
       config.headers["token"] = token;
     }
+    config.headers["amar-val"] = import.meta.env.VITE_X_API_KEY;
     return config;
   },
   (error) => {

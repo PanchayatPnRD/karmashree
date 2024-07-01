@@ -56,7 +56,7 @@ const Employment = () => {
 
   const [workAllocationId, setWorkAllocationId] = useState("");
 
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: allocationList } = useQuery({
     queryKey: ["allocationList"],

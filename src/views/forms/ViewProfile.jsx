@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { fetch } from "../../functions/Fetchfunctions";
 const ViewProfile = () => {
   const { userIndex, category } = JSON.parse(
-    localStorage.getItem("karmashree_User")
+    sessionStorage.getItem("karmashree_User")
   );
 
   const { data: userDetails } = useQuery({
@@ -17,7 +17,7 @@ const ViewProfile = () => {
     },
   });
 
-  console.log(userDetails,"userDetails")
+  console.log(userDetails, "userDetails");
 
   const { data: designationList } = useQuery({
     queryKey: ["designationList"],

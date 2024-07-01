@@ -6,7 +6,11 @@ import { useState, useRef, Fragment, useEffect } from "react";
 import { useStack } from "../functions/Stack";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getPasswordReset, getVerifyOtpResetPassword, getNewPasswordGenerate } from "../../src/Service/LoginService";
+import {
+  getPasswordReset,
+  getVerifyOtpResetPassword,
+  getNewPasswordGenerate,
+} from "../../src/Service/LoginService";
 
 export const ConfirmUser = () => {
   const [userId, setUserId] = useState("");
@@ -21,11 +25,12 @@ export const ConfirmUser = () => {
   const { stack } = useStack();
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User")?localStorage.getItem("karmashree_User"):"";
+    const jsonString = sessionStorage.getItem("karmashree_User")
+      ? sessionStorage.getItem("karmashree_User")
+      : "";
     const data = JSON.parse(jsonString);
     setUserData(data);
-console.log(jsonString,"jsonString")
-
+    console.log(jsonString, "jsonString");
   }, []);
 
   const handleOtpChange = (index, value) => {
@@ -59,22 +64,21 @@ console.log(jsonString,"jsonString")
   //   if (showOtp) navigate("/reset", { state: "verify" });
   //   else setShowOtp(true);
   // }
-  
-  console.log(state, "state")
-  function onVerifyUser (){
-    if (userId === "") {
-      toast.error("Please type your user id")
-    } else if (phoneNumber.length != 10) {
-      toast.error("Please type 10 digit mobile number")
 
+  console.log(state, "state");
+  function onVerifyUser() {
+    if (userId === "") {
+      toast.error("Please type your user id");
+    } else if (phoneNumber.length != 10) {
+      toast.error("Please type 10 digit mobile number");
     } else {
       getPasswordReset(userId, phoneNumber, (res) => {
         console.log(res, "response");
         if (res.errorCode == 0) {
           const userdata = {
-            UserID: userId
+            UserID: userId,
           };
-          localStorage.setItem("karmashree_User", JSON.stringify(userdata));
+          sessionStorage.setItem("karmashree_User", JSON.stringify(userdata));
           setShowOtp(true);
           toast.success(res.message);
         } else if (res.errorCode == 1) {
@@ -83,10 +87,9 @@ console.log(jsonString,"jsonString")
         } else {
         }
       });
-
     }
 
-    console.log("verify")
+    console.log("verify");
   }
 
   const onOtpVerify = () => {
@@ -104,16 +107,15 @@ console.log(jsonString,"jsonString")
       } else {
       }
     });
-
-  }
+  };
 
   const onUserId = (e) => {
-    setUserId(e.target.value)
-  }
+    setUserId(e.target.value);
+  };
 
   const onPhoneNumber = (e) => {
-    setPhoneNumber(e.target.value)
-  }
+    setPhoneNumber(e.target.value);
+  };
   // if (state != "login" || state != "reset") return <Navigate to={stack[0]} />;
   if (state != "login") return <Navigate to={stack[0]} />;
   return (
@@ -178,7 +180,6 @@ console.log(jsonString,"jsonString")
                         placeholder="type your User Id"
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                         onChange={onPhoneNumber}
-
                       />
                     </div>
                   </>
@@ -206,52 +207,59 @@ console.log(jsonString,"jsonString")
 
 export const ResetPassword = () => {
   const [userData, setUserData] = useState(null);
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const { stack } = useStack()
-  const navigate = useNavigate()
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { stack } = useStack();
+  const navigate = useNavigate();
   const { state } = useLocation();
   if (state != "verify") return <Navigate to={stack[0]} />;
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
   }, []);
 
   const onNewPassword = (e) => {
-    setNewPassword(e.target.value)
-  }
+    setNewPassword(e.target.value);
+  };
 
   const onConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value)
-
-  }
+    setConfirmPassword(e.target.value);
+  };
 
   const onResetPassword = () => {
-    if (!newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/)
+    if (
+      !newPassword.match(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/
+      )
     ) {
-      toast.error("Password must contain at least 8 characters and max 13 characters, including uppercase, lowercase, and special characters.")
+      toast.error(
+        "Password must contain at least 8 characters and max 13 characters, including uppercase, lowercase, and special characters."
+      );
     } else if (confirmPassword === "") {
-      toast.error("Please type your confirm password")
+      toast.error("Please type your confirm password");
     } else if (newPassword != confirmPassword) {
-      toast.error("New password and confirm password should be same")
-
+      toast.error("New password and confirm password should be same");
     } else {
-      getNewPasswordGenerate(userData?.UserID, newPassword, confirmPassword, (res) => {
-        console.log(res, "response");
-        if (res.errorCode == 0) {
-
-          toast.success(res.message);
-          navigate("/login")
-        } else if (res.errorCode == 1) {
-          console.log("nononononono");
-          toast.error(res.message);
-        } else {
+      getNewPasswordGenerate(
+        userData?.UserID,
+        newPassword,
+        confirmPassword,
+        (res) => {
+          console.log(res, "response");
+          if (res.errorCode == 0) {
+            toast.success(res.message);
+            navigate("/login");
+          } else if (res.errorCode == 1) {
+            console.log("nononononono");
+            toast.error(res.message);
+          } else {
+          }
         }
-      });
+      );
     }
-  }
+  };
   return (
     <>
       <ToastContainer />
@@ -292,7 +300,6 @@ export const ResetPassword = () => {
                     placeholder="Enter Confirm Password"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     onChange={onConfirmPassword}
-
                   />
                 </div>
               </div>

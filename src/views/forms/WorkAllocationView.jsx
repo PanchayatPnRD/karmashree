@@ -20,9 +20,9 @@ import { useParams } from "react-router-dom";
 const WorkAllocationView = () => {
   const { allocationID } = useParams();
   const [workAllocationId, setWorkAllocationId] = useState("");
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: workAllocationList } = useQuery({
     queryKey: ["workAllocationView"],

@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-table";
 
 const DnoList = () => {
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: dnoUserList } = useQuery({
     queryKey: ["dnoUserList"],

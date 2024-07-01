@@ -17,9 +17,9 @@ import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const SummaryReportOnScheme = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
   const { data: employmentList } = useQuery({
@@ -108,7 +108,6 @@ const SummaryReportOnScheme = () => {
       accessorKey: "Total Mandays for which WO issued",
       headclass: "cursor-pointer",
     },
-    
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -175,7 +174,7 @@ const SummaryReportOnScheme = () => {
                     &nbsp;/
                   </li>
                   <li className="text-gray-500 font-bold" aria-current="page">
-                  Summary Report on Scheme
+                    Summary Report on Scheme
                   </li>
                 </ol>
               </nav>

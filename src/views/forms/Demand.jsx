@@ -43,7 +43,7 @@ const WorkRequirement = () => {
 
   const queryClient = useQueryClient();
   const { userIndex, category } = JSON.parse(
-    localStorage.getItem("karmashree_User")
+    sessionStorage.getItem("karmashree_User")
   );
 
   const { data: userDetails } = useQuery({
@@ -171,7 +171,7 @@ const WorkRequirement = () => {
   const [allGpList, setAllGpList] = useState([]);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     // setUserData(data);
 
@@ -243,8 +243,8 @@ const WorkRequirement = () => {
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
     districtListDropdown = allDistrictList.map((distRow, index) => (
-        <option value={distRow.districtCode}>{distRow.districtName}</option>
-      ));
+      <option value={distRow.districtCode}>{distRow.districtName}</option>
+    ));
   }
 
   const onArea = (e) => {

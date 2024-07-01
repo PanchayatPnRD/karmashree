@@ -22,7 +22,7 @@ import SuccessModal from "../../components/SuccessModal";
 
 const Scheme = () => {
   const navigate = useNavigate();
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
@@ -65,7 +65,7 @@ const Scheme = () => {
 
   console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
 
@@ -455,8 +455,8 @@ const Scheme = () => {
         // resetData={resetData}
         to="scheme-list"
         isSuccess={true}
-      // isSuccess={true}
-      // userCreate={false}
+        // isSuccess={true}
+        // userCreate={false}
       />
       <div className="flex-grow">
         <div className="mx-auto mt-2">
@@ -644,7 +644,6 @@ const Scheme = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     onChange={onSector}
                   >
@@ -671,7 +670,7 @@ const Scheme = () => {
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
                     onChange={onSchemeName}
-                  // onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
                   />
                   {!isValidSchemeName && (
                     <div style={{ color: "red" }}>

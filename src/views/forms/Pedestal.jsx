@@ -79,7 +79,7 @@ const Pedestal = () => {
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => pedestalList ?? [], [pedestalList]);
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const dataUser = JSON.parse(jsonString);
   const list = [
     {
@@ -388,4 +388,4 @@ const Pedestal = () => {
   );
 };
 
-export default Pedestal
+export default Pedestal;

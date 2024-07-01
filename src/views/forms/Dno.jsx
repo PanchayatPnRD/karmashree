@@ -50,14 +50,16 @@ const Dno = () => {
   const [allGpList, setAllGpList] = useState([]);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
     });
-    getAllGramPanchayatList(data?.districtcode, data?.blockCode).then(function (result) {
+    getAllGramPanchayatList(data?.districtcode, data?.blockCode).then(function (
+      result
+    ) {
       const response = result?.data?.result;
       setAllGpList(response);
     });
@@ -119,7 +121,7 @@ const Dno = () => {
     ));
   }
 
-  console.log(districtListDropdown,"districtListDropdown")
+  console.log(districtListDropdown, "districtListDropdown");
 
   //Role list
   async function getRoleDataList() {
@@ -254,7 +256,6 @@ const Dno = () => {
     } else if (userAddress === "") {
       toast.error("Please type office address");
     } else {
-      
       addNewDNO(
         userData?.category === "HQ"
           ? department
@@ -326,11 +327,9 @@ const Dno = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         message={errorMessage?.message}
-        
         // isSuccess={errorMessage?.errorCode === 0 ? true : false}
         to="dno-userlist"
         isSuccess={!Boolean(errorMessage?.errorCode)}
-        
       />
       <ToastContainer />
       <div className="mx-auto mt-2">

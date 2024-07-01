@@ -10,32 +10,32 @@ import { useNavigate } from "react-router-dom";
 
 const UserManual = () => {
   const navigate = useNavigate();
-  const [category, setCategory] = useState("")
-  const [youtube, setYoutube] = useState("")
-  const [caption, setCaption] = useState("")
-  const [orderNumber, setOrderNumber] = useState("")
+  const [category, setCategory] = useState("");
+  const [youtube, setYoutube] = useState("");
+  const [caption, setCaption] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
   const [orderdate, setOrderDate] = useState();
   const [image, setImage] = useState({ preview: "", raw: "" });
   const [getImage, setGetImage] = useState(null);
-  const [getImageresult, setGetImageresult] = useState("")
-console.log(getImage,"getImage")
-  const jsonString = localStorage.getItem("karmashree_User");
+  const [getImageresult, setGetImageresult] = useState("");
+  console.log(getImage, "getImage");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   const onCategory = (e) => {
-    setCategory(e.target.value)
-  }
+    setCategory(e.target.value);
+  };
   const onYoutubeLink = (e) => {
-    setYoutube(e.target.value)
-  }
-  console.log(youtube, "youtube")
+    setYoutube(e.target.value);
+  };
+  console.log(youtube, "youtube");
 
   const onCaption = (e) => {
-    setCaption(e.target.value)
-  }
+    setCaption(e.target.value);
+  };
   const onOrderNumber = (e) => {
-    setOrderNumber(e.target.value)
-  }
+    setOrderNumber(e.target.value);
+  };
 
   const onFile = (event) => {
     if (event["target"].files.length > 0) {
@@ -43,71 +43,59 @@ console.log(getImage,"getImage")
       // setUserData({...userData, profileImage : file});
       setImage({
         preview: URL.createObjectURL(event.target.files[0]),
-        raw: event.target.files[0]
+        raw: event.target.files[0],
       });
-      setGetImage(file)
-      setGetImageresult(file.name)
+      setGetImage(file);
+      setGetImageresult(file.name);
       //     const reader = new FileReader();
       //     reader.readAsDataURL(file);
       //     reader.onload = (event) => {
       //         setGetImageresult(reader.result);
       //   };
     }
-
-  }
+  };
 
   const onSubmit = () => {
-
     let formData = new FormData();
 
-    formData.append('file', getImage);
-    formData.append('category', category);
-    formData.append('YoutubeLink', youtube);
-    formData.append('caption', caption);
-    formData.append('orderno', orderNumber);
-    formData.append('orderDate', orderdate);
-    formData.append('userIndex', karmashree_data?.userIndex);
-    formData.append('status', 0);
-
+    formData.append("file", getImage);
+    formData.append("category", category);
+    formData.append("YoutubeLink", youtube);
+    formData.append("caption", caption);
+    formData.append("orderno", orderNumber);
+    formData.append("orderDate", orderdate);
+    formData.append("userIndex", karmashree_data?.userIndex);
+    formData.append("status", 0);
 
     if (category === "") {
-      toast.error("Please select Category")
-
+      toast.error("Please select Category");
     } else if (category === "Y" && youtube === "") {
-      toast.error("Please type YouTube link")
-
+      toast.error("Please type YouTube link");
     } else if (caption === "") {
-      toast.error("Please type Caption/Subject")
-
+      toast.error("Please type Caption/Subject");
     } else if (category === "Or" && orderNumber === "") {
-      toast.error("Please type Order Number")
-
+      toast.error("Please type Order Number");
     } else if (category === "Or" && !orderdate) {
-      toast.error("Please type Order Date")
-
+      toast.error("Please type Order Date");
     } else if (category === "Ot" && !getImage) {
-      toast.error("Please Choose a File")
+      toast.error("Please Choose a File");
+    } else if (category === "U" && !getImage) {
+      toast.error("Please Choose a File");
+    } else if (category === "Or" && !getImage) {
+      toast.error("Please Choose a File");
+    } else {
+      addLibrary(formData, (r) => {
+        console.log(r, "response");
+        if (r.errorCode == 0) {
+          toast.success(r.message);
+          navigate("/dashboard/manual");
+        } else {
+          console.log("nononononono");
+          toast.error(r.message);
+        }
+      });
     }
-    else if (category === "U" && !getImage) {
-      toast.error("Please Choose a File")
-    }
-    else if (category === "Or" && !getImage) {
-      toast.error("Please Choose a File")
-    }
-    else {
-      addLibrary(formData,
-        (r) => {
-          console.log(r, "response")
-          if (r.errorCode == 0) {
-            toast.success(r.message)
-            navigate("/dashboard/manual")
-          } else {
-            console.log("nononononono")
-            toast.error(r.message)
-          }
-        })
-    }
-  }
+  };
   return (
     <>
       <div className="flex flex-grow flex-col space-y-16 p-4 px-12">
@@ -170,7 +158,7 @@ console.log(getImage,"getImage")
                         <option value="Ot">Others</option>
                       </select>
                     </div>
-                    {category === "Y" ?
+                    {category === "Y" ? (
                       <div className="w-1/2 px-4">
                         <label
                           htmlFor="scheme_name"
@@ -189,14 +177,15 @@ console.log(getImage,"getImage")
                           // maxLength={15}
                           placeholder="Please type Youtube Link"
                           onChange={onYoutubeLink}
-
                         />
-                      </div> : ""}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    {category ?
-
+                    {category ? (
                       <div className="w-1/3 px-4">
                         <label
                           htmlFor="scheme_name"
@@ -214,9 +203,11 @@ console.log(getImage,"getImage")
                           placeholder="Please type Caption/Subject"
                           onChange={onCaption}
                         />
-                      </div> : ""}
-                    {category === "Or" ?
-
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {category === "Or" ? (
                       <div className="w-1/3 px-4">
                         <label
                           htmlFor="scheme_name"
@@ -234,8 +225,11 @@ console.log(getImage,"getImage")
                           onChange={onOrderNumber}
                           placeholder="Please type Order Number"
                         />
-                      </div> : ""}
-                    {category === "Or" ?
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {category === "Or" ? (
                       <div className="w-1/3 px-4">
                         <label
                           htmlFor="scheme_name"
@@ -252,15 +246,18 @@ console.log(getImage,"getImage")
                           selected={orderdate}
                           onChange={(date) => setOrderDate(date)}
                           placeholderText="dd-mm-yyyy"
-
                         />
-                      </div> : ""}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
                 <div className="flex flex-col w-full mb-4">
-                  {category === "Ot" || category === "U" || category === "Or" ?
-
+                  {category === "Ot" ||
+                  category === "U" ||
+                  category === "Or" ? (
                     <div className="px-4">
                       <label
                         htmlFor="scheme_name"
@@ -277,9 +274,11 @@ console.log(getImage,"getImage")
                         autoComplete="off"
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                         onChange={onFile}
-
                       />
-                    </div> : ""}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <div className="flex justify-center items-center">

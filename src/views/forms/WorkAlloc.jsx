@@ -39,7 +39,7 @@ const WorkAlloc = () => {
   const [contractorId, setContractorId] = useState();
   const [allocData, setAllocData] = useState([]);
 
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
@@ -633,7 +633,9 @@ const WorkAlloc = () => {
                       {gpName.length > 0 && gpName}
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">Total Unskilled Workers Demandad</div>
+                      <div className="label-style">
+                        Total Unskilled Workers Demandad
+                      </div>
                       {totalUnskilledWorkers}
                       <span className="w-fit mx-32 mr-6">
                         Total Unskilled Workers Provided
@@ -641,7 +643,9 @@ const WorkAlloc = () => {
                       {AllocAPIData.length}
                     </div>
                     <div className="div-even">
-                      <div className="label-style">Total No of Days Demandad</div>
+                      <div className="label-style">
+                        Total No of Days Demandad
+                      </div>
                       {noOfDays}
                       <span className="w-fit mx-32 mr-6">
                         Total No of Days Provided
@@ -649,7 +653,9 @@ const WorkAlloc = () => {
                       {daysSum}
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">Expected Total Persandays</div>
+                      <div className="label-style">
+                        Expected Total Persandays
+                      </div>
                       {personDaysGenerated}
                     </div>
                   </div>

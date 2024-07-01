@@ -23,7 +23,7 @@ export const Navbar = () => {
     refetchIntervalInBackground: true,
   });
   useEffect(() => {
-    localStorage.setItem("karmashree_AuthToken", "");
+    sessionStorage.setItem("karmashree_AuthToken", "");
   }, []);
 
   useEffect(() => {

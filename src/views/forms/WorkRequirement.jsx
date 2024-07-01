@@ -25,7 +25,7 @@ import SuccessModal from "../../components/SuccessModal";
 
 const WorkRequirement = () => {
   const navigate = useNavigate();
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   // const { userIndex } = JSON.parse(jsonString);
   const [days, setDays] = useState(1);
   const [startDate, setStartDate] = useState(new Date().toString());
@@ -64,7 +64,7 @@ const WorkRequirement = () => {
   const [createdReq, setCreatedReq] = useState();
 
   const queryclient = useQueryClient();
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
@@ -114,7 +114,7 @@ const WorkRequirement = () => {
   }, [schemeData]);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
 

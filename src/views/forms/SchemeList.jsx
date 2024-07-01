@@ -18,13 +18,13 @@ import {
 import { getAllContractorList } from "../../Service/Scheme/SchemeService";
 import { Link } from "react-router-dom";
 const formatNumberToINR = (number, withDecimal) => {
-    return new Intl.NumberFormat("en-IN", {
-      minimumFractionDigits: withDecimal ? 2 : 0,
-      maximumFractionDigits: withDecimal ? 2 : 0,
-    }).format(number);
-  };
+  return new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: withDecimal ? 2 : 0,
+    maximumFractionDigits: withDecimal ? 2 : 0,
+  }).format(number);
+};
 const SchemeList = () => {
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   const [allContractorList, setAllContractorList] = useState([]);
 
   useEffect(() => {
@@ -120,8 +120,7 @@ const SchemeList = () => {
       header: "Project Cost",
       accessorKey: "totalprojectCost",
       headClass: "cursor-pointer normal-case",
-      cell: ({ row }) =>
-        formatNumberToINR(row.original.totalprojectCost,true)
+      cell: ({ row }) => formatNumberToINR(row.original.totalprojectCost, true),
     },
     // {
     //   header: "Total Unskilled workers",
@@ -142,14 +141,14 @@ const SchemeList = () => {
       accessorKey: "personDaysGenerated",
       headClass: "cursor-pointer normal-case",
       cell: ({ row }) =>
-        formatNumberToINR(row.original.personDaysGenerated,false)
+        formatNumberToINR(row.original.personDaysGenerated, false),
     },
     {
       header: "Estimated Wage Cost",
       accessorKey: "totalwagescostinvoled",
       headClass: "cursor-pointer normal-case",
       cell: ({ row }) =>
-        formatNumberToINR(row.original.totalwagescostinvoled,true)
+        formatNumberToINR(row.original.totalwagescostinvoled, true),
     },
     {
       header: "No of Workers Engaged",
@@ -162,7 +161,7 @@ const SchemeList = () => {
         row.original.totalLabourprovided == "" ||
         row.original.totalLabourprovided == null
           ? "-"
-          : formatNumberToINR(row.original.totalLabourprovided,false),
+          : formatNumberToINR(row.original.totalLabourprovided, false),
     },
     {
       header: "No of Mandays Provided",
@@ -177,7 +176,7 @@ const SchemeList = () => {
         row.original.personDaysGeneratedprovided == "" ||
         row.original.personDaysGeneratedprovided == null
           ? "-"
-          : formatNumberToINR(row.original.personDaysGeneratedprovided,false),
+          : formatNumberToINR(row.original.personDaysGeneratedprovided, false),
     },
     {
       header: "Total Wages Paid till date",
@@ -192,7 +191,7 @@ const SchemeList = () => {
         row.original.totalCostprovided == "" ||
         row.original.totalCostprovided == null
           ? "-"
-          : formatNumberToINR(row.original.totalCostprovided,true),
+          : formatNumberToINR(row.original.totalCostprovided, true),
     },
 
     {

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
 
-
-
+const key = import.meta.env.VITE_X_API_KEY;
 
 const axiosInstance = axios.create({
   baseURL: devApi,
@@ -10,10 +9,11 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("karmashree_AuthToken");// Implement a function to retrieve the token from cookies
+    const token = sessionStorage.getItem("karmashree_AuthToken"); // Implement a function to retrieve the token from cookies
     if (token) {
       config.headers["token"] = token;
     }
+    config.headers["amar-val"] = import.meta.env.VITE_X_API_KEY;
     return config;
   },
   (error) => {

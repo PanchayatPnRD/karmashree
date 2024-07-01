@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import {
-  getAllDistrictActionList, getAllBlockList, getAllMunicipalityList,
-  getAllGramPanchayatList, getAllSectorActionList, addCreateAction
+  getAllDistrictActionList,
+  getAllBlockList,
+  getAllMunicipalityList,
+  getAllGramPanchayatList,
+  getAllSectorActionList,
+  addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 
 const Contractor = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
@@ -25,11 +29,11 @@ const Contractor = () => {
   const [block, setBlock] = useState();
   const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
-  const [contractorName, setContractorName] = useState('');
-  const [gstin, setGSTIN] = useState('');
+  const [contractorName, setContractorName] = useState("");
+  const [gstin, setGSTIN] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [isValidContractorName, setIsValidContractorName] = useState(true);
-  const [panNumber, setPanNumber] = useState('');
+  const [panNumber, setPanNumber] = useState("");
   const [isValidPan, setIsValidPan] = useState(true);
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValidMobile, setIsValidMobile] = useState(true);
@@ -43,12 +47,12 @@ const Contractor = () => {
   const [isValidPostOffice, setIsValidPostOffice] = useState(true);
   const [pinCode, setPinCode] = useState("");
   const [isValidPinCode, setIsValidPinCode] = useState(true);
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState();
 
-  console.log(userData?.category, "userData")
+  console.log(userData?.category, "userData");
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
 
@@ -56,7 +60,6 @@ const Contractor = () => {
       const response = result?.data?.result;
       setAllDistrictList(response);
     });
-
   }, []);
 
   //District list
@@ -68,14 +71,12 @@ const Contractor = () => {
     ));
   }
 
-
   const onArea = (e) => {
-    setArea(e.target.value)
-  }
-
+    setArea(e.target.value);
+  };
 
   const onDistrict = (e) => {
-    setDistrict(e.target.value)
+    setDistrict(e.target.value);
     // getAllBlockList(e.target.value).then(function (result) {
     //   const response = result?.data?.result;
     //   setAllBlockList(response);
@@ -85,7 +86,7 @@ const Contractor = () => {
     //   const response = result?.data?.result;
     //   setAllMunicipalityList(response);
     // });
-  }
+  };
 
   let blockListDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
@@ -102,12 +103,12 @@ const Contractor = () => {
   }
 
   const onBlock = (e) => {
-    setBlock(e.target.value)
+    setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
       setAllGpList(response);
     });
-  }
+  };
 
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
@@ -122,13 +123,12 @@ const Contractor = () => {
     const regex = /^[A-Za-z\s]+$/;
     if (regex.test(value)) {
       setContractorName(value);
-      setIsValidContractorName(true)
+      setIsValidContractorName(true);
     } else {
-      setIsValidContractorName(false)
+      setIsValidContractorName(false);
       // toast.error("Please use only Alphabet characters")
-
     }
-  }
+  };
 
   const handleKeyDown = (event) => {
     // Allow only alphabets and white spaces
@@ -136,27 +136,28 @@ const Contractor = () => {
       !(
         (event.keyCode >= 65 && event.keyCode <= 90) || // A-Z
         (event.keyCode >= 97 && event.keyCode <= 122) || // a-z
-        event.keyCode === 32 || event.key === "Backspace"
+        event.keyCode === 32 ||
+        event.key === "Backspace"
       )
     ) {
       event.preventDefault();
     }
-  }
+  };
 
   // Function to extract PAN from GST number
   function extractPANFromGST(gstNumber) {
     if (gstNumber.length === 15) {
       return gstNumber.substring(2, 12);
     }
-    return '';
+    return "";
   }
-
 
   const onGstIn = (event) => {
     const value = event.target.value;
     // Regular expression to match GSTIN format
-    const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
-    if (regex.test(value) || value === '') {
+    const regex =
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+    if (regex.test(value) || value === "") {
       setGSTIN(value);
       setIsValid(true);
     } else {
@@ -167,16 +168,15 @@ const Contractor = () => {
       const extractedPan = extractPANFromGST(value);
       setPanNumber(extractedPan);
     } else {
-      setPanNumber('');
+      setPanNumber("");
     }
   };
-
 
   const onPanCard = (event) => {
     const value = event.target.value.toUpperCase(); // Convert to uppercase for consistency
     // Regular expression to match PAN format
     const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setPanNumber(value);
       setIsValidPan(true);
     } else {
@@ -187,7 +187,7 @@ const Contractor = () => {
   const onMobile = (event) => {
     const value = event.target.value;
     const regex = /^[6-9]{1}[0-9]{9}$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setMobileNumber(value);
       setIsValidMobile(true);
     } else {
@@ -198,7 +198,7 @@ const Contractor = () => {
   const onAddress = (event) => {
     const value = event.target.value;
     const regex = /^[a-zA-Z0-9\s,\/]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setAddress(value);
       setIsValidAddress(true);
     } else {
@@ -251,13 +251,13 @@ const Contractor = () => {
   // };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality")
-    setMunicipality(e.target.value)
-  }
+    console.log(e.target.value, "municipality");
+    setMunicipality(e.target.value);
+  };
 
   const onGP = (e) => {
-    setGP(e.target.value)
-  }
+    setGP(e.target.value);
+  };
 
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
@@ -267,25 +267,34 @@ const Contractor = () => {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
-    let financialYear = '';
-    console.log(currentMonth)
-    console.log(currentYear)
+    let financialYear = "";
+    console.log(currentMonth);
+    console.log(currentYear);
 
     // Financial year starts from April
     if (currentMonth >= 4) {
-      financialYear = currentYear.toString() + '-' + (currentYear + 1).toString();
+      financialYear =
+        currentYear.toString() + "-" + (currentYear + 1).toString();
     } else {
-      financialYear = (currentYear - 1).toString() + '-' + currentYear.toString();
+      financialYear =
+        (currentYear - 1).toString() + "-" + currentYear.toString();
     }
 
     return financialYear;
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear")
-  console.log(currentMonth, "currentMonth")
-  console.log(currentYear, "currentYear")
-  console.log(data?.category === "HD" ? 0 : data?.category === "Dist" ? data?.districtcode : "", "dadadada")
+  console.log(financialYear, "financialYear");
+  console.log(currentMonth, "currentMonth");
+  console.log(currentYear, "currentYear");
+  console.log(
+    data?.category === "HD"
+      ? 0
+      : data?.category === "Dist"
+      ? data?.districtcode
+      : "",
+    "dadadada"
+  );
 
   const onSubmit = () => {
     // if (area === "") {
@@ -299,26 +308,38 @@ const Contractor = () => {
     //   toast.error("Please Select Block")
     // } else if (area === "R" && gp === "") {
     //   toast.error("Please Select Gram Panchayat")
-    // } 
-    // else  
+    // }
+    // else
     if (data?.category === "HQ" && district === "") {
-      toast.error("Please Select a District")
-    }
-    else if (contractorName === "") {
-      toast.error("Please Type Contractor Name")
+      toast.error("Please Select a District");
+    } else if (contractorName === "") {
+      toast.error("Please Type Contractor Name");
     } else if (gstin === "") {
-      toast.error("Please Type Contractor GSTIN")
+      toast.error("Please Type Contractor GSTIN");
     } else if (panNumber === "") {
-      toast.error("Please Type Contractor PAN")
+      toast.error("Please Type Contractor PAN");
     } else if (mobileNumber === "") {
-      toast.error("Please Type Contractor Mobile Number")
+      toast.error("Please Type Contractor Mobile Number");
     } else if (address === "") {
-      toast.error("Please Type Contractor Address")
+      toast.error("Please Type Contractor Address");
     } else {
       addCreateContractor(
-        contractorName, gstin, panNumber, mobileNumber, address, "A", data?.userIndex,
-        currentMonth, currentYear, financialYear, data?.departmentNo, district ? district : data?.districtcode, municipality,
-        block, gp, area,
+        contractorName,
+        gstin,
+        panNumber,
+        mobileNumber,
+        address,
+        "A",
+        data?.userIndex,
+        currentMonth,
+        currentYear,
+        financialYear,
+        data?.departmentNo,
+        district ? district : data?.districtcode,
+        municipality,
+        block,
+        gp,
+        area,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -329,7 +350,7 @@ const Contractor = () => {
         }
       );
     }
-  }
+  };
   return (
     <>
       <SuccessModal
@@ -536,7 +557,7 @@ const Contractor = () => {
         </div> */}
 
           <div className="flex flex-col w-full mb-4 space-y-4">
-            {userData?.category === "HQ" ?
+            {userData?.category === "HQ" ? (
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -544,7 +565,6 @@ const Contractor = () => {
                 >
                   District
                   <span className="text-red-500 "> * </span>
-
                 </label>
                 <select
                   id="scheme_name"
@@ -552,14 +572,16 @@ const Contractor = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onDistrict}
-
                 >
-                  <option value="" selected hidden>Select District List</option>
+                  <option value="" selected hidden>
+                    Select District List
+                  </option>
                   {districtListDropdown}
-
-
                 </select>
-              </div> : ""}
+              </div>
+            ) : (
+              ""
+            )}
             <div className="flex items-center space-x-4">
               <div className="w-1/2 px-4">
                 <label

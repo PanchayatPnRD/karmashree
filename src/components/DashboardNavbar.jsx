@@ -16,7 +16,7 @@ export const DashboardNavbar = () => {
   const { online } = useNetworkState();
   const [permission, setPermission] = useState();
   const { userIndex, category } = JSON.parse(
-    localStorage.getItem("karmashree_User")
+    sessionStorage.getItem("karmashree_User")
   );
 
   const { data: userDetails, isSuccess } = useQuery({
@@ -140,8 +140,8 @@ export const DashboardNavbar = () => {
               className="space-x-2"
               onClick={() => {
                 navigate("/login", { state: "signout" });
-                localStorage.setItem("karmashree_User", "");
-                localStorage.setItem("karmashree_AuthToken", "");
+                sessionStorage.setItem("karmashree_User", "");
+                sessionStorage.setItem("karmashree_AuthToken", "");
               }}
             >
               <Icon

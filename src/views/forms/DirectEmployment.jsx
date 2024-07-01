@@ -41,7 +41,7 @@ const DirectEmployment = () => {
   const [Submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     // setUserData(data);
 
@@ -126,7 +126,7 @@ const DirectEmployment = () => {
   }
 
   const queryclient = useQueryClient();
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
@@ -536,10 +536,8 @@ const DirectEmployment = () => {
   const checking = useMemo(() => {
     return allocInputData.map((data) => {
       const keys = Object.values(data);
-      return !(
-        (keys.includes("") || keys.includes(undefined))
-      );
-    })
+      return !(keys.includes("") || keys.includes(undefined));
+    });
   }, [allocInputData]);
 
   return (

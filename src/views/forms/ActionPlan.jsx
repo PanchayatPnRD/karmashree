@@ -17,7 +17,7 @@ import {
   getAllDepartmentList,
 } from "../../Service/NewUserService";
 const ActionPlan = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [userData, setUserData] = useState(null);
   const [schemeArea, setSchemeArea] = useState("");
@@ -61,7 +61,7 @@ const ActionPlan = () => {
   };
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
     getAllDepartmentList(data?.departmentNo).then(function (result) {

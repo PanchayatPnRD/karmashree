@@ -17,9 +17,9 @@ import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const SchemeReport = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
   const { data: employmentList } = useQuery({
@@ -37,7 +37,7 @@ const SchemeReport = () => {
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => employmentList ?? [], [employmentList]);
-console.log(data,"data")
+  console.log(data, "data");
   const list = [
     {
       header: "Sl no",
@@ -288,8 +288,7 @@ console.log(data,"data")
                 </Table.Row>
               ))}
             </Table.Body>
-          {/* <span>Total user:</span> */}
-
+            {/* <span>Total user:</span> */}
           </Table>
         </div>
         {/* <div className="text-md font-semibold opacity-70 text-center">

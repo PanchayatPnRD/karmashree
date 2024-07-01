@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-table";
 
 const ActionPlanList = () => {
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   const { data: actionPlanList } = useQuery({
     queryKey: ["actionPlanList"],
     queryFn: async () => {
@@ -285,10 +285,8 @@ const ActionPlanList = () => {
               ))}
             </Table.Body>
           </Table>
-
         </div>
         <Pagination data={data} table={table} />
-        
       </div>
     </div>
   );

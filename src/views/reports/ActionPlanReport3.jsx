@@ -17,9 +17,9 @@ import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const ActionPlanReport3 = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
   const { data: employmentList } = useQuery({

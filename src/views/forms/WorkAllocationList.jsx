@@ -20,9 +20,9 @@ import { useNavigate, Link } from "react-router-dom";
 const WorkAllocationList = () => {
   const [workAllocationId, setWorkAllocationId] = useState("");
 
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
   const navigate = useNavigate();
 

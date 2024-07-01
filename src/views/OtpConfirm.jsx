@@ -12,7 +12,6 @@ import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
 
-
 const OTPConfirm = () => {
   const { stack } = useStack();
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -23,10 +22,9 @@ const OTPConfirm = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [openModal, setOpenModal] = useState();
-  
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const userData = JSON.parse(jsonString);
     setUserData(userData);
   }, []);
@@ -66,33 +64,40 @@ const OTPConfirm = () => {
   } = useMutation({
     mutationKey: ["otpVerify"],
     mutationFn: async () => {
-      const data = await axios.post(devApi + `/api/auth/verify-otp`, {
-        userId: userData?.UserID,
-        otp: otp.join(""),
+      const api = axios.create({
+        baseURL: devApi,
+        headers: { "amar-val": import.meta.env.VITE_X_API_KEY },
       });
+
+      const data = await api.post(
+        `/api/auth/verify-otp`,
+        {
+          userId: userData?.UserID,
+          otp: otp.join(""),
+        },
+        {}
+      );
       return data.data;
     },
     onSuccess: (data) => {
       // const { category}Payload
 
-      localStorage.setItem("karmashree_User", JSON.stringify(data?.newPayload));
-      localStorage.setItem("karmashree_AuthToken",data?.newPayload?.token);
-      
+      sessionStorage.setItem(
+        "karmashree_User",
+        JSON.stringify(data?.newPayload)
+      );
+      sessionStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
 
       if (
-        localStorage.getItem("karmashree_AuthToken") != "" ||
-        localStorage.getItem("karmashree_AuthToken") != undefined
+        sessionStorage.getItem("karmashree_AuthToken") != "" ||
+        sessionStorage.getItem("karmashree_AuthToken") != undefined
       )
         if (data?.errorCode == 0) {
           navigate("/dashboard");
-          
-        }
-        else
-          toast.error(data?.message);
+        } else toast.error(data?.message);
     },
   });
 
-  
   function resendOTP() {
     setTimeLeft(59);
     setIsValidating(true);

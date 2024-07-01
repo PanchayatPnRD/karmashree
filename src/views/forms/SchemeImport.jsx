@@ -22,7 +22,7 @@ import SuccessModal from "../../components/SuccessModal";
 
 const SchemeImport = () => {
   const navigate = useNavigate();
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
@@ -65,7 +65,7 @@ const SchemeImport = () => {
 
   console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
 

@@ -18,7 +18,7 @@ import {
 import { Pagination } from "../../components/Pagination";
 
 const UserList = () => {
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   // Queries
   const { data: userlist } = useQuery({

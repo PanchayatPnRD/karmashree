@@ -26,7 +26,7 @@ import { Table } from "flowbite-react";
 const SchemeView = () => {
   const { schemeID } = useParams();
   const navigate = useNavigate();
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
@@ -80,7 +80,7 @@ const SchemeView = () => {
 
   console.log(schemeDetails, "schemeDetails");
   useEffect(() => {
-    const jsonString = localStorage.getItem("karmashree_User");
+    const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
 
@@ -108,7 +108,7 @@ const SchemeView = () => {
       const response = result?.data;
       setAllData(response);
       setSchemeDetails(response?.masterScheme);
-      setSchemecontractorDetails(response?.employmentSummary)
+      setSchemecontractorDetails(response?.employmentSummary);
     });
   }, []);
 
@@ -357,15 +357,22 @@ const SchemeView = () => {
     "fatafatafa"
   );
   const onUpdate = () => {
-
     updateScheme(
       allData?.scheme_sl,
       status ? status : allData?.StatusOfWork,
       format(new Date(allData?.tentativeStartDate), "yyyy-MM-dd"),
       format(new Date(allData?.ActualtartDate), "yyyy-MM-dd"),
-      format(new Date(expectedWorkDate ? expectedWorkDate : allData?.ExpectedCompletionDate), "yyyy-MM-dd"),
+      format(
+        new Date(
+          expectedWorkDate ? expectedWorkDate : allData?.ExpectedCompletionDate
+        ),
+        "yyyy-MM-dd"
+      ),
       allData?.workorderNo,
-      format(new Date(workOrderDate ? workOrderDate : allData?.workOderDate), "yyyy-MM-dd"),
+      format(
+        new Date(workOrderDate ? workOrderDate : allData?.workOderDate),
+        "yyyy-MM-dd"
+      ),
       allData?.ControctorID,
       allData?.Remarks,
 
@@ -379,30 +386,36 @@ const SchemeView = () => {
         }
       }
     );
-
   };
 
   const onTentativeStartDate = (d) => {
-    setAllData({ ...allData, tentativeStartDate: format(new Date(d), "yyyy-MM-dd") });
-    setTentativeWorkStartDate(d)
-  }
+    setAllData({
+      ...allData,
+      tentativeStartDate: format(new Date(d), "yyyy-MM-dd"),
+    });
+    setTentativeWorkStartDate(d);
+  };
 
   const onActualStartDate = (d) => {
-
-    setAllData({ ...allData, ActualtartDate: format(new Date(d), "yyyy-MM-dd") });
-    setTentativeWorkStartDate(d)
-
-  }
+    setAllData({
+      ...allData,
+      ActualtartDate: format(new Date(d), "yyyy-MM-dd"),
+    });
+    setTentativeWorkStartDate(d);
+  };
 
   const onExpectedWorkdate = (d) => {
-    setAllData({ ...allData, ExpectedCompletionDate: format(new Date(d), "yyyy-MM-dd") });
-    setExpectedWorkDate(d)
-  }
+    setAllData({
+      ...allData,
+      ExpectedCompletionDate: format(new Date(d), "yyyy-MM-dd"),
+    });
+    setExpectedWorkDate(d);
+  };
 
   const onWorkOrderDate = (d) => {
     setAllData({ ...allData, workOderDate: format(new Date(d), "yyyy-MM-dd") });
-    setWorkOrderDate(d)
-  }
+    setWorkOrderDate(d);
+  };
 
   return (
     <>
@@ -414,8 +427,8 @@ const SchemeView = () => {
         // resetData={resetData}
         to="scheme-list"
         isSuccess={true}
-      // isSuccess={true}
-      // userCreate={false}
+        // isSuccess={true}
+        // userCreate={false}
       />
       <div className="flex-grow">
         <div className="mx-auto mt-2">
@@ -484,28 +497,29 @@ const SchemeView = () => {
                 </div>
                 <div className="flex w-full">
                   <div className="w-1/2 flex flex-col rounded-l-xl">
-
                     <div className="div-even">
                       <div className="label-style">Area Type</div>
                       {schemeDetails?.schemeArea === "R" ? "Rural" : "Urban"}
-
                     </div>
 
                     <div className="div-odd">
                       <div className="label-style">Status of Work</div>
-                      {schemeDetails?.StatusOfWork === "P" ? "Proposed" : "Started"}
-
+                      {schemeDetails?.StatusOfWork === "P"
+                        ? "Proposed"
+                        : "Started"}
                     </div>
 
                     <div className="div-even">
                       <div className="label-style">Actual Work Start Date</div>
                       {schemeDetails?.ActualtartDate}
-
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Sector</div>
-                      {allSectorList.find((c) => c.sectorid == schemeDetails?.schemeSector)?.sectorname}
-
+                      {
+                        allSectorList.find(
+                          (c) => c.sectorid == schemeDetails?.schemeSector
+                        )?.sectorname
+                      }
                     </div>
                     <div className="div-even">
                       <div className="label-style">Total Wages Cost</div>
@@ -518,22 +532,28 @@ const SchemeView = () => {
                     </div>
                   </div>
                   <div className="w-1/2 flex flex-col rounded-r-xl">
-
                     <div className="div-even">
                       <div className="label-style">District</div>
 
-                      {allDistrictList.find((c) => c.districtCode == schemeDetails?.districtcode)?.districtName}
-
+                      {
+                        allDistrictList.find(
+                          (c) => c.districtCode == schemeDetails?.districtcode
+                        )?.districtName
+                      }
                     </div>
                     <div className="div-odd">
-                      <div className="label-style">Tentative Work Start Date
+                      <div className="label-style">
+                        Tentative Work Start Date
                       </div>
                       {schemeDetails?.tentativeStartDate}
                     </div>
                     <div className="div-even">
-                      <div className="label-style">Expected Work Completion Date
+                      <div className="label-style">
+                        Expected Work Completion Date
                       </div>
-                      {schemeDetails?.ExpectedCompletionDate ? schemeDetails?.ExpectedCompletionDate : "-"}
+                      {schemeDetails?.ExpectedCompletionDate
+                        ? schemeDetails?.ExpectedCompletionDate
+                        : "-"}
                     </div>
                     <div className="div-odd">
                       <div className="label-style">Work Location</div>
@@ -552,7 +572,6 @@ const SchemeView = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
@@ -585,15 +604,12 @@ const SchemeView = () => {
                   <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
                     Average Wages
                   </Table.HeadCell>
-
                 </Table.Head>
 
                 <Table.Body>
                   {schemecontractorDetails?.map((d, index) => (
                     <Table.Row>
-                      <Table.Cell className="py-1">
-                        {index + 1}
-                      </Table.Cell>
+                      <Table.Cell className="py-1">{index + 1}</Table.Cell>
                       <Table.Cell className="whitespace-nowrap">
                         {d?.employment_workerJobCardNo}
                       </Table.Cell>
@@ -601,22 +617,28 @@ const SchemeView = () => {
                         {d?.employment_workerName}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.NoOfDaysDemanded==null?"-":d?.NoOfDaysDemanded}
+                        {d?.NoOfDaysDemanded == null
+                          ? "-"
+                          : d?.NoOfDaysDemanded}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.NoOfDaysAllocated==null?"-":d?.NoOfDaysAllocated}
+                        {d?.NoOfDaysAllocated == null
+                          ? "-"
+                          : d?.NoOfDaysAllocated}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.NoOfDaysProvided == null ? "-" : d?.NoOfDaysProvided}
+                        {d?.NoOfDaysProvided == null
+                          ? "-"
+                          : d?.NoOfDaysProvided}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.TotalWagesPaid==null?"-":d?.TotalWagesPaid}
+                        {d?.TotalWagesPaid == null ? "-" : d?.TotalWagesPaid}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.MANDAYS==null?"-":d?.MANDAYS}
+                        {d?.MANDAYS == null ? "-" : d?.MANDAYS}
                       </Table.Cell>
                       <Table.Cell className="py-1">
-                        {d?.AVERAGEWAGE==null?"-":d?.AVERAGEWAGE}
+                        {d?.AVERAGEWAGE == null ? "-" : d?.AVERAGEWAGE}
                       </Table.Cell>
                     </Table.Row>
                   ))}

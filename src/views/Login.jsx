@@ -28,14 +28,14 @@ const Login = () => {
             // subDivision:res?.result?.subDivision,
             // blockCode:res?.result?.blockCode,
             // userIndex: res?.result?.userIndex,
-            UserID:UserID
+            UserID: UserID,
           };
 
-          // localStorage.setItem("karmashree_AuthToken", res.result.token);
-          localStorage.setItem("karmashree_User", JSON.stringify(userdata));
+          // sessionStorage.setItem("karmashree_AuthToken", res.result.token);
+          sessionStorage.setItem("karmashree_User", JSON.stringify(userdata));
 
           toast.success(res.message);
-          navigate("/otp",{state:"login"});
+          navigate("/otp", { state: "login" });
           // window.location.reload();
         } else if (res.errorCode == 1) {
           console.log("nononononono");

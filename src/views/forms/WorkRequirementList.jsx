@@ -16,9 +16,9 @@ import { exportToCSV, exportToExcel } from "../../functions/exportData";
 import classNames from "classnames";
 
 const WorkRequirementList = () => {
-  const jsonString = localStorage.getItem("karmashree_User");
+  const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
   const { data: workRequirementList } = useQuery({

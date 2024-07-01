@@ -16,7 +16,7 @@ import classNames from "classnames";
 import { exportToCSV, exportToExcel } from "../../functions/exportData";
 
 const ContractorList = () => {
-  const { userIndex } = JSON.parse(localStorage.getItem("karmashree_User"));
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: contractorList } = useQuery({
     queryKey: ["contractorList"],
