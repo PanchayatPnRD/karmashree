@@ -11,6 +11,18 @@ const DashboardHome = () => {
   // const countUpRef = useRef(null);
   const [allDashboardList, setAllDashboardList] = useState([]);
 
+  const { userIndex, category } = JSON.parse(
+    sessionStorage.getItem("karmashree_User")
+  );
+
+  const { data: userDetails } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      return data.data.result;
+    },
+  });
+
   const {
     data: DashboardData,
     isLoading,
@@ -18,7 +30,9 @@ const DashboardHome = () => {
   } = useQuery({
     queryKey: ["dashboardData"],
     queryFn: async () => {
-      const data = await fetch.get("/api/schememaster/dashboard");
+      const data = await fetch.get(
+        `/api/schememaster/dashboard?category=${userDetails?.category}&dno_status=${userDetails?.dno_status}&departmentNo=${userDetails?.departmentNo}&districtCode=${userDetails?.districtcode}&blockcode=${userDetails?.blockcode}&gpCode=${userDetails?.gpCode}`
+      );
       return data.data.result;
     },
   });

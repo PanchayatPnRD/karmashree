@@ -123,9 +123,9 @@ export const DashboardNavbar = () => {
               </div>
             }
           >
-            <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
+            {/* <div className="h-10 px-5 font-semibold flex-grow flex justify-start items-center">
               <label>{userDetails?.userId}</label>
-            </div>
+            </div> */}
             <DropdownItem
               className="space-x-2"
               onClick={() => navigate("/dashboard/profile")}
