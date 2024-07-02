@@ -42,7 +42,7 @@ const WorkRequirement = () => {
   const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
 
   const queryClient = useQueryClient();
-  const { userIndex, category } = JSON.parse(
+  const { userIndex } = JSON.parse(
     sessionStorage.getItem("karmashree_User")
   );
 
@@ -243,7 +243,7 @@ const WorkRequirement = () => {
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
     districtListDropdown = allDistrictList.map((distRow, index) => (
-      <option value={distRow.districtCode}>{distRow.districtName}</option>
+      <option value={distRow.districtCode}>{distRow.concatenatedName}</option>
     ));
   }
 
@@ -269,7 +269,7 @@ const WorkRequirement = () => {
   let blockListDropdown = <option>Loading...</option>;
   if (allBlockList && allBlockList.length > 0) {
     blockListDropdown = allBlockList.map((blockRow, index) => (
-      <option value={blockRow.blockCode}>{blockRow.blockName}</option>
+      <option value={blockRow.blockCode}>{blockRow.concatenatedName}</option>
     ));
   }
 
@@ -292,7 +292,7 @@ const WorkRequirement = () => {
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
     GpListDropdown = allGpList.map((gpRow, index) => (
-      <option value={gpRow.gpCode}>{gpRow.gpName}</option>
+      <option value={gpRow.gpCode}>{gpRow.concatenatedName}</option>
     ));
   }
 

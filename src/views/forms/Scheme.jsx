@@ -19,11 +19,14 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
+import { useQuery, useQueryClient, useQueries } from "@tanstack/react-query";
+import { fetch } from "../../functions/Fetchfunctions";
 
 const Scheme = () => {
   const navigate = useNavigate();
   const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
+  const [departmentNo, setDepartmentNo] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
@@ -89,6 +92,25 @@ const Scheme = () => {
       setAllContractorList(response);
     });
   }, []);
+
+  const queryClient = useQueryClient();
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
+
+  const { data: userDetails } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      return data.data.result;
+    },
+  });
+
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/mastertable/DepartmentList");
+      return data.data.result;
+    },
+  });
 
   console.log(allContractorList, "allContractorList");
   //District list
@@ -444,6 +466,9 @@ const Scheme = () => {
       );
     }
   };
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <>
@@ -499,6 +524,56 @@ const Scheme = () => {
 
             <br></br>
             <div className="bg-white shadow-md rounded-lg p-12">
+              <div className="flex pb-4 w-full text-zinc-800">
+                <div className="px-4 w-1/2">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Department
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    required
+                    value={userDetails?.departmentNo}
+                    // defaultValue={"30"}
+                  >
+                    {departmentList?.map((e) => (
+                      <option value={e.departmentNo}>{e.departmentName}</option>
+                    ))}
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+                <div className="px-4 w-1/2">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Parastatal
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    required
+                    onChange={onArea}
+                  >
+                    <option value="" selected hidden>
+                      Select Parastatal
+                    </option>
+                    
+
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+              </div>
               <div className="flex w-full space-x-4 mb-6">
                 <div className="px-4">
                   <label
