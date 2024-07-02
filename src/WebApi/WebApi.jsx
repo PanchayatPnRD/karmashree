@@ -15,17 +15,17 @@ let instance = axios.create({
   responseType: "json",
 });
 
-const authToken = localStorage.getItem("karmashree_AuthToken");
+const authToken = sessionStorage.getItem("karmashree_AuthToken");
 console.log(authToken, "authToken")
 
 
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("karmashree_AuthToken");
+    const token = sessionStorage.getItem("karmashree_AuthToken");
     if (token) {
       config.headers["token"] = token;
     }
-    config.headers["amar-val"] = import.meta.env.VITE_X_API_KEY;
+    config.headers["x-api-key"] = import.meta.env.VITE_X_API_KEY;
     return config;
   },
   (error) => {

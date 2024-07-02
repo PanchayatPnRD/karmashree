@@ -66,7 +66,7 @@ const OTPConfirm = () => {
     mutationFn: async () => {
       const api = axios.create({
         baseURL: devApi,
-        headers: { "amar-val": import.meta.env.VITE_X_API_KEY },
+        headers: { "x-api-key": import.meta.env.VITE_X_API_KEY },
       });
 
       const data = await api.post(
