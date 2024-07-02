@@ -112,7 +112,27 @@ const Scheme = () => {
     },
   });
 
+  const { data: parastatal } = useQuery({
+    queryKey: ["parastatal"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        `/api/mastertable/getAllPedestal/${departmentNo}/${userDetails?.deptWing}`
+      );
+      return data.data.result[0];
+    },
+    enabled: userDetails?.category != undefined,
+    gcTime:0
+  });
+
   console.log(allContractorList, "allContractorList");
+
+  useEffect(() => {
+    if (departmentNo != 0)
+      queryClient.invalidateQueries({
+        queryKey: ["parastatal"],
+      });
+    
+  }, [departmentNo])
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -467,8 +487,8 @@ const Scheme = () => {
     }
   };
   useEffect(() => {
-    
-  }, [])
+    if (userDetails != null) setDepartmentNo(userDetails.departmentNo);
+  }, [userDetails]);
 
   return (
     <>
@@ -539,7 +559,8 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
-                    value={userDetails?.departmentNo}
+                    value={departmentNo}
+                    onChange={(e) => setDepartmentNo(+e.target.value)}
                     // defaultValue={"30"}
                   >
                     {departmentList?.map((e) => (
@@ -563,12 +584,13 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
-                    onChange={onArea}
+                    // onChange={onArea}
                   >
                     <option value="" selected hidden>
-                      Select Parastatal
+                      {parastatal != null
+                        ? parastatal?.pedestalName
+                        : "No Parastatal"}
                     </option>
-                    
 
                     {/* Add more options as needed */}
                   </select>

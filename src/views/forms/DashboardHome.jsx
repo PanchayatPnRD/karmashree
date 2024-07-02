@@ -25,7 +25,6 @@ const DashboardHome = () => {
 
   const {
     data: DashboardData,
-    isLoading,
     isSuccess,
   } = useQuery({
     queryKey: ["dashboardData"],
@@ -35,6 +34,7 @@ const DashboardHome = () => {
       );
       return data.data.result;
     },
+    // enabled: userDetails?.category != undefined
   });
 
   useEffect(() => {
