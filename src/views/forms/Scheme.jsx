@@ -116,23 +116,26 @@ const Scheme = () => {
     queryKey: ["parastatal"],
     queryFn: async () => {
       const data = await fetch.get(
-        `/api/mastertable/getAllPedestal/${departmentNo}/${userDetails?.deptWing}`
+        `/api/mastertable/getAllPedestal/${departmentNo}/${
+          userDetails?.deptWing != "" ? userDetails?.deptWing : 0
+        }`
       );
-      return data.data.result[0];
+      if (data.data.errorCode == 1)
+        return []
+      return data.data.result;
     },
-    enabled: userDetails?.category != undefined,
-    gcTime:0
+    enabled: departmentNo != undefined,
+    gcTime: 0,
   });
 
   console.log(allContractorList, "allContractorList");
 
   useEffect(() => {
     if (departmentNo != 0)
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: ["parastatal"],
       });
-    
-  }, [departmentNo])
+  }, [departmentNo]);
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -584,13 +587,21 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
+                    defaultValue={userDetails?.deptWing}
                     // onChange={onArea}
                   >
-                    <option value="" selected hidden>
-                      {parastatal != null
-                        ? parastatal?.pedestalName
-                        : "No Parastatal"}
+                    <option
+                      value={parastatal?.length == 1 ? parastatal.id : ""}
+                      selected
+                      hidden
+                    >
+                      {parastatal?.length == 0 && "No Data Available"}
+                      {parastatal?.length == 1 && parastatal[0].pedestalName}
+                      {parastatal?.length > 1 && "Select Parastatal"}
                     </option>
+                    {parastatal?.length > 1 && parastatal?.map((e) => (
+                      <option value={e.id}>{e.pedestalName}</option>
+                    ))}
 
                     {/* Add more options as needed */}
                   </select>

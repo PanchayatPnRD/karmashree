@@ -6,7 +6,7 @@ const Home = () => {
   const portalList = [
     {
       src: "/assets/img/PublicGrievance.png",
-      href: "http://www.prdgrievance.wb.gov.in/",
+      href: "http://prdgrievance.wb.gov.in/",
     },
     {
       src: "/assets/img/GA.png",
