@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
+import classNames from "classnames";
 
 const Dno = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -368,171 +369,187 @@ const Dno = () => {
         </div>
 
         <form className="flex">
-          <div className="w-full px-36 space-y-6 pb-10">
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
+          <div className="w-full px-32 border rounded-md border-zinc-200 shadow-md mx-12 pt-6 space-y-6 pb-10">
+            <div className="flex items-center space-x-4">
+              <div
+                className={classNames(
+                  userData?.category == "DEPT" && "w-full",
+                  userData?.category == "DIST" && "w-1/2",
+                  userData?.category == "BLOCK" && "w-1/3"
+                )}
               >
-                District
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                id="country"
-                name="country"
-                required
-                onChange={onDistrict}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  {userData?.category === "DEPT" ||
-                  userData?.category === "DIST" ||
-                  userData?.category === "SUB" ||
-                  userData?.category === "BLOCK"
-                    ? districtListDropdown
-                    : "Select a District"}
-                </option>
-                {districtListDropdown}
-              </select>
-            </div>
-            {userData?.category === "HQ" ? (
-              ""
-            ) : (
-              <div>
                 <label
                   htmlFor="country"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Block
+                  District
                   <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
                   name="country"
                   required
+                  onChange={onDistrict}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onBlock}
                 >
                   <option value="" selected hidden>
-                    {userData?.category === "BLOCK"
-                      ? blockDropdown
-                      : "Select a block"}
+                    {userData?.category === "DEPT" ||
+                    userData?.category === "DIST" ||
+                    userData?.category === "SUB" ||
+                    userData?.category === "BLOCK"
+                      ? districtListDropdown
+                      : "Select a District"}
                   </option>
-                  {blockDropdown}
+                  {districtListDropdown}
                 </select>
               </div>
-            )}
-            {userData?.category === "BLOCK" ? (
-              <div>
+              {userData?.category !== "HQ" ? (
+                <div
+                  className={classNames(
+                    userData?.category == "DIST" && "w-1/2",
+                    userData?.category == "BLOCK" && "w-1/3"
+                  )}
+                >
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Block
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onBlock}
+                  >
+                    <option value="" selected hidden>
+                      {userData?.category === "BLOCK"
+                        ? blockDropdown
+                        : "Select a block"}
+                    </option>
+                    {blockDropdown}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+              {userData?.category === "BLOCK" ? (
+                <div className={classNames("w-1/3")}>
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Gram Panchayat
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={onGp}
+                  >
+                    <option value="" selected hidden>
+                      Select a Gram Panchayat
+                    </option>
+                    {GpListDropdown}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex space-x-4">
+              <div className="w-2/5">
                 <label
-                  htmlFor="country"
+                  htmlFor="username"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Gram Panchayat
+                  Name of the {userData?.category == "HQ" && "DNO"}
+                  {userData?.category == "DIST" && "BDO"}
+                  {userData?.category == "BLOCK" && "Officer"}
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onNodalOfficerName}
+                  placeholder="Enter Name ..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-3/5">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  {userData?.category == "HQ" && "DNO"}
+                  {userData?.category == "DIST" && "BDO"}
+                  {userData?.category == "BLOCK" && "Officer"} Designation
                   <span className="text-red-500 "> * </span>
                 </label>
                 <select
                   id="country"
                   name="country"
-                  required
+                  onChange={onDesignation}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onGp}
                 >
                   <option value="" selected hidden>
-                    Select a Gram Panchayat
+                    Select a Designation
                   </option>
-                  {GpListDropdown}
+                  {designationListDropdown}
                 </select>
               </div>
-            ) : (
-              ""
-            )}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Name of the {userData?.category == "HQ" && "DNO"}
-                {userData?.category == "DIST" && "BDO"}
-                {userData?.category == "BLOCK" && "Officer"}
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onNodalOfficerName}
-                placeholder="Enter Name ..."
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                {userData?.category == "HQ" && "DNO"}
-                {userData?.category == "DIST" && "BDO"}
-                {userData?.category == "BLOCK" && "Officer"} Designation
-                <span className="text-red-500 "> * </span>
-              </label>
-              <select
-                id="country"
-                name="country"
-                onChange={onDesignation}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              >
-                <option value="" selected hidden>
-                  Select a Designation
-                </option>
-                {designationListDropdown}
-              </select>
             </div>
 
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                {userData?.category == "HQ" && "DNO"}
-                {userData?.category == "DIST" && "BDO"}
-                {userData?.category == "BLOCK" && "Officer"} Mobile Number
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="tel"
-                name="username"
-                maxLength={10}
-                type="text"
-                value={contactNumber}
-                autoComplete="username"
-                onChange={onContactNumber}
-                placeholder="Mobile Number..."
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
+            <div className="flex items-center space-x-4">
+              <div className="w-2/5">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  {userData?.category == "HQ" && "DNO"}
+                  {userData?.category == "DIST" && "BDO"}
+                  {userData?.category == "BLOCK" && "Officer"} Mobile Number
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="tel"
+                  name="username"
+                  maxLength={10}
+                  type="text"
+                  value={contactNumber}
+                  autoComplete="username"
+                  onChange={onContactNumber}
+                  placeholder="Mobile Number..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-3/5">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700 capitalize"
+                >
+                  {userData?.category == "HQ" && "DNO"}
+                  {userData?.category == "DIST" && "BDO"}
+                  {userData?.category == "BLOCK" && "Officer"} Email Address
+                  <span className="text-red-500 "> * </span>
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  onChange={onEmail}
+                  placeholder="Email Address..."
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                />
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 capitalize"
-              >
-                {userData?.category == "HQ" && "DNO"}
-                {userData?.category == "DIST" && "BDO"}
-                {userData?.category == "BLOCK" && "Officer"} Email Address
-                <span className="text-red-500 "> * </span>
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                onChange={onEmail}
-                placeholder="Email Address..."
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              />
-            </div>
-
             {/* {
               userData?.category === "HQ" ? "" :
 
