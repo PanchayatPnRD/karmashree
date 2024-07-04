@@ -18,6 +18,7 @@ export const getSchemeList = async (userId) => {
 export const addCreateScheme = async (
     schemeArea,
     departmentNo,
+    a,
     districtcode,
     municipalityCode,
     block,
@@ -101,6 +102,7 @@ export const addCreateScheme = async (
             {
                 "schemeArea": schemeArea,
                 "departmentNo": departmentNo,
+                "deptWing":a,
                 "districtcode": districtcode ? districtcode : 0,
                 "municipalityCode": municipalityCode ? municipalityCode : 0,
                 "blockcode": block ? block : 0,

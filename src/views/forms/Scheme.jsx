@@ -1,6 +1,6 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -27,6 +27,7 @@ const Scheme = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [departmentNo, setDepartmentNo] = useState();
+  const parastatalRef = useRef(null)
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
@@ -434,7 +435,8 @@ const Scheme = () => {
     else {
       addCreateScheme(
         area,
-        data?.departmentNo,
+        departmentNo,
+        parastatalRef.current.value,
         district,
         municipality,
         block,
@@ -587,6 +589,7 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
+                    ref={parastatalRef}
                     defaultValue={userDetails?.deptWing}
                     // onChange={onArea}
                   >
