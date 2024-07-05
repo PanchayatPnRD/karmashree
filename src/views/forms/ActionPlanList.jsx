@@ -244,7 +244,7 @@ const ActionPlanList = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headClass,
-                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                      "bg-cyan-400/90 theader-style transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >

@@ -227,7 +227,7 @@ const UserList = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                      "bg-cyan-400/90 theader-style transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -244,7 +244,7 @@ const UserList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 transition-all btn-blue whitespace-nowrap">
+                <Table.HeadCell className="normal-case bg-cyan-400/90 transition-all theader-style whitespace-nowrap">
                   Actions
                 </Table.HeadCell>
               </Table.Head>

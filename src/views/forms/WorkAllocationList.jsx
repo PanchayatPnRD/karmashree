@@ -272,7 +272,7 @@ const WorkAllocationList = () => {
                   <Table.HeadCell
                     key={header.id}
                     className={classNames(
-                      "bg-cyan-400/90 btn-blue whitespace-nowrap",
+                      "bg-cyan-400/90 theader-style whitespace-nowrap",
                       header.column.columnDef.headclass,
                       " transition-all"
                     )}
@@ -291,7 +291,7 @@ const WorkAllocationList = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                <Table.HeadCell className="normal-case bg-cyan-400/90 theader-style">
                   Actions
                 </Table.HeadCell>
               </Table.Head>

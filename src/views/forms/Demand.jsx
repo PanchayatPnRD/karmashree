@@ -42,9 +42,7 @@ const WorkRequirement = () => {
   const demandDays = Array.from({ length: 14 }, (_, i) => i + 1);
 
   const queryClient = useQueryClient();
-  const { userIndex } = JSON.parse(
-    sessionStorage.getItem("karmashree_User")
-  );
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
@@ -800,56 +798,56 @@ const WorkRequirement = () => {
             {savedData.length > 0 && (
               <Table className="">
                 <Table.Head className="divide-x">
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Sl
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     District
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Block
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Gp
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Job Card No
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Worker Name
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Age
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Gender
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Caste
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Mobile No
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     aadhar No
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Minority
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Migrant Worker
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Worker Type
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Application date
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize">
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize">
                     Days Demanded
                   </Table.HeadCell>
 
-                  <Table.HeadCell className="whitespace-nowrap btn-blue bg-cyan-400/80   capitalize"></Table.HeadCell>
+                  <Table.HeadCell className="whitespace-nowrap theader-style bg-cyan-400/80   capitalize"></Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
                   {savedData.map((data, index) => (

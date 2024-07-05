@@ -285,7 +285,7 @@ const WorkRequirementList = () => {
                     className={classNames(
                       header.column.columnDef.headclass,
                       // "normal-case bg-cyan-400/90 hover:bg-cyan-400/60 text-blue-900 text-md",
-                      "bg-cyan-400/90 btn-blue",
+                      "bg-cyan-400/90 theader-style",
                       " transition-all whitespace-nowrap"
                     )}
                     onClick={header.column.getToggleSortingHandler()}

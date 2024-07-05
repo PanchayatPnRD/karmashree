@@ -426,7 +426,7 @@ const Employment = () => {
                                 <Table.HeadCell
                                   key={header.id}
                                   className={classNames(
-                                    "bg-cyan-400/90 btn-blue whitespace-nowrap",
+                                    "bg-cyan-400/90 theader-style whitespace-nowrap",
                                     header.column.columnDef.headclass,
                                     " transition-all"
                                   )}
@@ -447,7 +447,7 @@ const Employment = () => {
                                   )}
                                 </Table.HeadCell>
                               ))}
-                              <Table.HeadCell className="capitalize bg-cyan-400/90 btn-blue">
+                              <Table.HeadCell className="capitalize bg-cyan-400/90 theader-style">
                                 Actions
                               </Table.HeadCell>
                             </Table.Head>
@@ -651,40 +651,40 @@ const Employment = () => {
                       <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                         <Table>
                           <Table.Head className="sticky top-0 z-10">
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               #
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Work Jobcard No
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Job Card Holder Name
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Allocation Date From
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Allocation Date To
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Total Days Work Allocated
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Worker Attendence
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Employment Provided Date
                               <span className="text-red-600"> *</span>
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Total Days Provided
                               <span className="text-red-600"> *</span>
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Paymemt Date
                               <span className="text-red-600"> *</span>
                             </Table.HeadCell>
-                            <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                            <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               Total Wage Paid (Cost in Rs.)
                               <span className="text-red-600"> *</span>
                             </Table.HeadCell>

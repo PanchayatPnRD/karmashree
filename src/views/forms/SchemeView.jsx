@@ -577,31 +577,31 @@ const SchemeView = () => {
             <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
               <Table>
                 <Table.Head className="sticky top-0">
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     #
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Work Jobcard No
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Job Card Holder Name
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Total Days Work Demanded
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Total Days Work Allocated
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Total Days Work Provided
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Total Wages Paid (Cr.)
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Total No Of Mandays
                   </Table.HeadCell>
-                  <Table.HeadCell className="normal-case  bg-cyan-400/90 btn-blue  whitespace-nowrap">
+                  <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     Average Wages
                   </Table.HeadCell>
                 </Table.Head>

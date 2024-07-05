@@ -510,7 +510,7 @@ const WorkAlloc = () => {
                           key={header.id}
                           className={classNames(
                             header.column.columnDef.headclass,
-                            "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                            "bg-cyan-400/90 theader-style transition-all whitespace-nowrap"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                         >
@@ -528,7 +528,7 @@ const WorkAlloc = () => {
                         </Table.HeadCell>
                       ))}
 
-                      <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                      <Table.HeadCell className="normal-case bg-cyan-400/90 theader-style">
                         Actions
                       </Table.HeadCell>
                     </Table.Head>
@@ -663,40 +663,40 @@ const WorkAlloc = () => {
                 <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
                   <Table className="">
                     <Table.Head className="sticky top-0 z-10">
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         #
                       </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         Worker Job Card No
                       </Table.HeadCell>
-                      {/* <Table.HeadCell className="bg-cyan-400/90 btn-blue whitespace-nowrap capitalize">
+                      {/* <Table.HeadCell className="bg-cyan-400/90 theader-style whitespace-nowrap capitalize">
                         Work Code/Scheme name
                       </Table.HeadCell> */}
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         Worker Name
                       </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         District
                       </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         Block
                       </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                         GP
                       </Table.HeadCell>
 
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                         Work Application Date
                       </Table.HeadCell>
 
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                         No of Days (Work Demanded)
                       </Table.HeadCell>
 
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                         Work Allocation Date
                       </Table.HeadCell>
-                      <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                      <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                         No of Days (Work Allocated)
                       </Table.HeadCell>
                     </Table.Head>

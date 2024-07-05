@@ -590,7 +590,7 @@ const DirectEmployment = () => {
                         key={header.id}
                         className={classNames(
                           header.column.columnDef.headclass,
-                          "bg-cyan-400/90 btn-blue transition-all whitespace-nowrap"
+                          "bg-cyan-400/90 theader-style transition-all whitespace-nowrap"
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
@@ -607,7 +607,7 @@ const DirectEmployment = () => {
                         )}
                       </Table.HeadCell>
                     ))}
-                    <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue cursor-pointer py-1">
+                    <Table.HeadCell className="normal-case bg-cyan-400/90 theader-style cursor-pointer py-1">
                       Actions
                     </Table.HeadCell>
                   </Table.Head>
@@ -872,36 +872,36 @@ const DirectEmployment = () => {
                   {allocInputData.length > 0 && (
                     <Table className="">
                       <Table.Head className="sticky top-0 z-10">
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Name of worker
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Date of Work Application
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Days Work Demanded
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Work Allocation Dates
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Days Work Allocated
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Work Provided Dates
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap">
                           Days Work Provided
                         </Table.HeadCell>
 
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                           Total Wage Paid
                         </Table.HeadCell>
 
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap ">
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap ">
                           Payment Date
                         </Table.HeadCell>
-                        <Table.HeadCell className="bg-cyan-400/90 btn-blue normal-case whitespace-nowrap w-32" />
+                        <Table.HeadCell className="bg-cyan-400/90 theader-style normal-case whitespace-nowrap w-32" />
                       </Table.Head>
 
                       <Table.Body className="divide-y ">

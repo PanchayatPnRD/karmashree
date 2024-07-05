@@ -284,7 +284,7 @@ const Department = () => {
                     key={header.id}
                     className={classNames(
                       header.column.columnDef.headclass,
-                      "bg-cyan-400/90 btn-blue transition-all"
+                      "bg-cyan-400/90 theader-style transition-all"
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -301,7 +301,7 @@ const Department = () => {
                     )}
                   </Table.HeadCell>
                 ))}
-                <Table.HeadCell className="normal-case bg-cyan-400/90 btn-blue">
+                <Table.HeadCell className="normal-case bg-cyan-400/90 theader-style">
                   Actions
                 </Table.HeadCell>
               </Table.Head>
