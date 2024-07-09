@@ -612,8 +612,9 @@ const WorkRequirement = () => {
                           maxLength={2}
                           onChange={(e) => {
                             updateVal(e, index, allData, setAllData);
-                            onAge(e.target.value);
+                            
                           }}
+                          onBlur={(e)=>onAge(e.target.value)}
                         />
                         <select
                           value={gender}

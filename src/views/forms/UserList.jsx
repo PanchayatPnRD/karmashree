@@ -20,17 +20,48 @@ import { Pagination } from "../../components/Pagination";
 const UserList = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
+  const { data: userDetails, isSuccess } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser/", userIndex);
+
+      return data.data.result;
+    },
+  });
   // Queries
+
+  const UserListQuery = useMemo(() => {
+    const query = [
+      userDetails?.category ? `category=${userDetails?.category}` : "",
+      userDetails?.dno_status ? `dno_status=${userDetails?.dno_status}` : "",
+      userDetails?.role_type ? `role=${userDetails?.role_type}` : "",
+      userDetails?.districtcode
+        ? `districtCode=${userDetails?.districtcode}`
+        : "",
+      userDetails?.blockCode ? `blockcode=${userDetails?.blockCode}` : "",
+      userDetails?.subDivision ? `subDivision=${userDetails?.subDivision}` : "",
+      userDetails?.gpCode ? `gpCode=${userDetails?.gpCode}` : "",
+      userDetails?.departmentNo
+        ? `departmentNo=${userDetails?.departmentNo}`
+        : "",
+      userDetails?.deptWing ? `deptWing=${+userDetails?.deptWing}` : "",
+      `userIndex=${userIndex}`,
+    ];
+    return query.filter(Boolean).join("&");
+  }, [userDetails]);
+
+  // UserListQuery();
+
   const { data: userlist } = useQuery({
     queryKey: ["userlist"],
     queryFn: async () => {
       const data = await fetch.get(
-        "/api/user/getUserList?created_by=",
-        userIndex
+        `/api/user/User_list-by-category?${UserListQuery}`
       );
 
       return data.data.result.data;
     },
+    enabled: userDetails?.category != undefined
   });
 
   const ListOptions = [5, 10, 15, "all"];
