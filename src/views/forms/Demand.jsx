@@ -575,7 +575,7 @@ const WorkRequirement = () => {
                             ))}
                           </select>
                           <input
-                            maxLength={3}
+                            maxLength={5}
                             value={familyId}
                             onChange={(e) =>
                               updateVal(e, index, allData, setAllData)

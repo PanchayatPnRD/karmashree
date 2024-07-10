@@ -59,7 +59,7 @@ const UserList = () => {
         `/api/user/User_list-by-category?${UserListQuery}`
       );
 
-      return data.data.result.data;
+      return data.data.result.userDetails;
     },
     enabled: userDetails?.category != undefined
   });
