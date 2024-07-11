@@ -18,8 +18,8 @@ export const SidebarElement = ({ to, children, customCss, isWrapped }) => {
       className={classNames(
         customCss || "py-1 pl-4 ",
         isActive
-          ? "hover:bg-cyan-500 bg-cyan-400 text-blue-950"
-          : "hover:bg-blue-800/40 " +
+          ? "hover:bg-cyan-500 bg-gradient-to-r from-cyan-400 to-indigo-500  text-blue-950"
+          : "hover:bg-blue-700/40 " +
               (isWrapped ? "text-white/60" : "text-white"),
         "rounded-lg transition-all duration-100 cursor-pointer"
       )}

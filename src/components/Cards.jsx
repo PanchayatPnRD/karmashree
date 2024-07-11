@@ -45,7 +45,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={formatNumberToINR(Stats?.["Total No Of Funding"], false)}
+          end={Stats?.["Total No Of Funding"]}
           duration={2.75}
           // delay={0}
         />
@@ -58,7 +58,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={formatNumberToINR(Stats?.["Total Of Sectors"], false)}
+          end={Stats?.["Total Of Sectors"]}
           duration={2.75}
           // delay={0}
         />
@@ -71,7 +71,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={formatNumberToINR(Stats?.["Total No Of Schemes"], false)}
+          end={Stats?.["Total No Of Schemes"]}
           duration={2.75}
           // delay={0}
         />
@@ -80,12 +80,30 @@ export const Cards = () => {
     {
       text: "total project cost(rs)",
       Icon: HiMiniCurrencyRupee,
-      value: formatNumberToINR(Stats?.["Total Project Cost"], true),
+
+      value: (
+        <CountUp
+          start={0}
+          end={Stats?.["Total Project Cost"]}
+          duration={2.75}
+          decimals={2}
+          // delay={0}
+        />
+      ),
     },
     {
       text: "total amount spent",
       Icon: GiPayMoney,
-      value: formatNumberToINR(Stats?.["Total Amount Spent"], true),
+
+      value: (
+        <CountUp
+          start={0}
+          end={Stats?.["Total Amount Spent"]}
+          duration={2.75}
+          decimals={2}
+          // delay={0}
+        />
+      ),
     },
     {
       text: "total no of workers",

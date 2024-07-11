@@ -2,28 +2,6 @@ import { lazy } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 const ActionPlan = lazy(() => import("../views/forms/ActionPlan"));
 const ActionPlanList = lazy(() => import("../views/forms/ActionPlanList"));
-
-// import Contractor from "../views/forms/Contractor";
-// import Demand from "../views/forms/Demand";
-// import Employment from "../views/forms/Employment";
-// import NewUser from "../views/forms/NewUser";
-// import Department from "../views/forms/Department";
-// import Designation from "../views/forms/Designation";
-// import Scheme from "../views/forms/Scheme";
-// import UserList from "../views/forms/UserList";
-// import WorkAlloc from "../views/forms/WorkAlloc";
-// import DashboardHome from "../views/forms/DashboardHome";
-// import DnoList from "../views/forms/DnoList";
-// import Dno from "../views/forms/Dno";
-// import WorkRequirement from "../views/forms/WorkRequirement";
-
-// import ActionPlanReport from "../views/reports/ActionPlanReport";
-// import SchemeReport from "../views/reports/SchemeReport"
-// import DemandReport from "../views/reports/DemandReport";
-// import AllocationReport from "../views/reports/AllocationReport"
-// import EmploymentReport from "../views/reports/EmploymentReport"
-// import DirectEmployment from "../views/forms/DirectEmployment";
-
 const Contractor = lazy(() => import("../views/forms/Contractor"));
 const Demand = lazy(() => import("../views/forms/Demand"));
 const Employment = lazy(() => import("../views/forms/Employment"));

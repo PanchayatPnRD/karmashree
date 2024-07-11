@@ -27,7 +27,7 @@ const Dashboard = ({ children }) => {
         <div
           className={classNames(
             isSidebarOpen ? "w-1/4 xl:w-1/5" : "w-[1px]",
-            "hide inset-y-0  bg-blue-950 fixed overflow-y-auto transition-all duration-300",
+            "hide inset-y-0  bg-gradient-to-b from-blue-950 to-zinc-900 fixed overflow-y-auto transition-all duration-300",
             online ? "top-[96px] min-h-remaining" : "top-[128px] min-h-offline"
           )}
         >
