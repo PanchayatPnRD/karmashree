@@ -42,6 +42,7 @@ const DashboardHome = () => {
       const response = result?.data?.result;
       setAllDashboardList(response);
     });
+    sessionStorage.setItem("resendToken","");
   }, []);
   console.log(allDashboardList, "allDashboardList");
   //Dashboard list

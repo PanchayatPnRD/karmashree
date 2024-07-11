@@ -22,8 +22,8 @@ const EmploymentReport = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: employmentList } = useQuery({
-    queryKey: ["employmentList"],
+  const { data: employmentReport } = useQuery({
+    queryKey: ["employmentReport"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
@@ -32,11 +32,11 @@ const EmploymentReport = () => {
       return data.data.result;
     },
   });
-  console.log(employmentList, "employmentList");
+  console.log(employmentReport, "employmentReport");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => employmentReport ?? [], [employmentReport]);
 
   const list = [
     {

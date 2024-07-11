@@ -33,6 +33,7 @@ const Login = () => {
 
           // sessionStorage.setItem("karmashree_AuthToken", res.result.token);
           sessionStorage.setItem("karmashree_User", JSON.stringify(userdata));
+          sessionStorage.setItem("resendToken", JSON.stringify(res.token));
 
           toast.success(res.message);
           navigate("/otp", { state: "login" });

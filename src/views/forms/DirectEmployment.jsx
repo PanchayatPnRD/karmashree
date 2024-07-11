@@ -942,9 +942,10 @@ const DirectEmployment = () => {
                                   <DatePicker
                                     minDate={
                                       new Date(
-                                        allocTableData[
-                                          index
-                                        ]?.dateOfApplicationForWork
+                                        // allocTableData[
+                                        //   index
+                                        // ]?.dateOfApplicationForWork
+                                        "2024-04-01"
                                       )
                                     }
                                     dateFormat="dd/MM/yyyy"

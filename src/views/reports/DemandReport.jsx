@@ -22,8 +22,8 @@ const DemandReport = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: employmentList } = useQuery({
-    queryKey: ["employmentList"],
+  const { data: demandReport } = useQuery({
+    queryKey: ["demandReport"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/demand/Summary_Report_on_Demand_for_Work`
@@ -32,11 +32,11 @@ const DemandReport = () => {
       return [data.data.result];
     },
   });
-  console.log(employmentList, "employmentList");
+  console.log(demandReport, "demandReport");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => demandReport ?? [], [demandReport]);
 
   const list = [
     {

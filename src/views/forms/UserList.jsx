@@ -64,7 +64,7 @@ const UserList = () => {
     enabled: userDetails?.category != undefined
   });
 
-  const ListOptions = [5, 10, 15, "all"];
+  const ListOptions = [10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => {
@@ -249,10 +249,10 @@ const UserList = () => {
             </button>
           </div>
         </div>
-        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+        <div className="overflow-x-auto overflow-y-auto max-h-[600px] w-full show-scrollbar shadow-md">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id}>
+              <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}

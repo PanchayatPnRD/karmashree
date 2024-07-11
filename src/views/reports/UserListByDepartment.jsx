@@ -22,8 +22,8 @@ const UserListByDepartment = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: employmentList } = useQuery({
-    queryKey: ["employmentList"],
+  const { data: userListByDept } = useQuery({
+    queryKey: ["userListByDept"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/user/userslist-by-department?departmentNo=${karmashree_data?.departmentNo}`
@@ -32,11 +32,11 @@ const UserListByDepartment = () => {
       return data.data.result;
     },
   });
-  console.log(employmentList, "employmentList");
+  console.log(userListByDept, "userListByDept");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => userListByDept ?? [], [userListByDept]);
 
   const list = [
     {

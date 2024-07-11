@@ -22,8 +22,8 @@ const AllocationReport = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: employmentList } = useQuery({
-    queryKey: ["employmentList"],
+  const { data: allocationReport } = useQuery({
+    queryKey: ["allocationReport"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
@@ -32,11 +32,11 @@ const AllocationReport = () => {
       return data.data.result;
     },
   });
-  console.log(employmentList, "employmentList");
+  console.log(allocationReport, "allocationReport");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => allocationReport ?? [], [allocationReport]);
 
   const list = [
     {

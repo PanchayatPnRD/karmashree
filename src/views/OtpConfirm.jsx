@@ -24,6 +24,8 @@ const OTPConfirm = () => {
   const [openModal, setOpenModal] = useState();
 
   useEffect(() => {
+    
+
     const jsonString = sessionStorage.getItem("karmashree_User");
     const userData = JSON.parse(jsonString);
     setUserData(userData);
@@ -97,10 +99,35 @@ const OTPConfirm = () => {
         } else toast.error(data?.message);
     },
   });
+  
+  const {
+    data: NewOTP,
+    isSuccess: resendSuccess,
+    mutate:resend_OTP,
+  } = useMutation({
+    mutationKey: ["resendOTP"],
+    mutationFn: async () => {
+      const api = axios.create({
+        baseURL: devApi,
+        headers: { "x-api-key": import.meta.env.VITE_X_API_KEY },
+      });
+
+      const data = await api.post(`/api/auth/resend-otp`, {
+        token: JSON.parse(sessionStorage.getItem("resendToken")),
+      });
+      return data.data;
+    },
+    onSuccess: (data) => {
+      // const { category}Payload
+
+     toast.success("Resent OTP Successfully")
+    },
+  });
 
   function resendOTP() {
     setTimeLeft(59);
     setIsValidating(true);
+    resend_OTP()
     //resend otp function login here
   }
 

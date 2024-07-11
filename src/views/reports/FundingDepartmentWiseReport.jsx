@@ -22,25 +22,25 @@ const FundingDepartmentWiseReport = () => {
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
   console.log(karmashree_data, "userIndex");
 
-  const { data: employmentList } = useQuery({
-    queryKey: ["employmentList"],
+  const { data: fundingDeptWise } = useQuery({
+    queryKey: ["fundingDeptWise"],
     queryFn: async () => {
       const data = await fetch.get(`/api/schememaster/funding-department-wise`);
       // console.log(Array.isArray(data.data.result));
       return data.data.result;
     },
   });
-  console.log(employmentList, "employmentList");
+  console.log(fundingDeptWise, "employmentList");
   const ListOptions = [10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => employmentList ?? [], [employmentList]);
+  const data = useMemo(() => fundingDeptWise ?? [], [fundingDeptWise]);
 
   const list = [
     {
       header: "Sl no",
       accessorKey: "cont_sl",
-      className: "font-bold text-zinc-600 text-center cursor-pointer",
+      className: "font-bold text-zinc-900 text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
       headclass: "cursor-pointer",
       // sortingFn: "id",
@@ -55,18 +55,42 @@ const FundingDepartmentWiseReport = () => {
       accessorKey: "departmentName",
       headclass: "cursor-pointer",
       className: "text-left",
+      footer: () => {
+        
+        return (
+          <span>
+            Total: 
+          </span>
+        );
+      },
     },
     {
       header: "Total No Of Schemes",
       accessorKey: "Total_scheme",
       headclass: "cursor-pointer",
       className: "text-center",
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_scheme);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
     {
       header: "Total No Of Sectors",
       accessorKey: "Total_sector",
       headclass: "cursor-pointer",
       className: "text-center",
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_sector);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
     {
       header: "Total Project Cost(Cr.)",
@@ -77,6 +101,14 @@ const FundingDepartmentWiseReport = () => {
         row.original.Total_Cost == "" || row.original.Total_Cost == null
           ? "0"
           : row.original.Total_Cost,
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_Cost);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
     {
       header: "Total Wages Paid(Cr.)",
@@ -86,7 +118,15 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_Spent == "" || row.original.Total_Spent == null
           ? "0"
-          : row.original.Total_Cost,
+          : row.original.Total_Spent,
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_Spent);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
     {
       header: "Total Workers Engaged",
@@ -95,7 +135,15 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_worker == "" || row.original.Total_worker == null
           ? "0"
-          : row.original.Total_Cost,
+          : row.original.Total_worker,
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_worker);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
     {
       header: "Worker Engaged For No Of Days",
@@ -104,7 +152,15 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_Mandays == "" || row.original.Total_Mandays == null
           ? "0"
-          : row.original.Total_Cost,
+          : row.original.Total_Mandays,
+      footer: (props) => {
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.Total_Mandays);
+        const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
+        console.log(total);
+        return <span className="font-bold text-zinc-900">{total}</span>;
+      },
     },
   ];
 
@@ -222,10 +278,10 @@ const FundingDepartmentWiseReport = () => {
             </button>
           </div>
         </div>
-        <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
+        <div className="overflow-x-auto overflow-y-auto max-h-[600px] w-full show-scrollbar shadow-md">
           <Table>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Table.Head key={headerGroup.id}>
+              <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                 {headerGroup.headers.map((header) => (
                   <Table.HeadCell
                     key={header.id}
@@ -279,6 +335,23 @@ const FundingDepartmentWiseReport = () => {
                 </Table.Row>
               ))}
             </Table.Body>
+            <tfoot className="sticky bottom-0 z-10 shadow-xl">
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id} >
+                  {footerGroup.headers.map((header) => (
+                    <td
+                      key={header.id}
+                      className="border-x border-indigo-400 px-8 py-2 bg-indigo-300 text-end text-xs font-medium text-blue-900 uppercase tracking-wider"
+                    >
+                      {flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
           </Table>
         </div>
         {/* <div className="text-md font-semibold opacity-70 text-center">
