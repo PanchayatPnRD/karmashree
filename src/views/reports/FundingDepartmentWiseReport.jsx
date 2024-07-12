@@ -56,12 +56,7 @@ const FundingDepartmentWiseReport = () => {
       headclass: "cursor-pointer",
       className: "text-left",
       footer: () => {
-        
-        return (
-          <span>
-            Total: 
-          </span>
-        );
+        return <span>Total:</span>;
       },
     },
     {
@@ -279,7 +274,7 @@ const FundingDepartmentWiseReport = () => {
           </div>
         </div>
         <div className="overflow-x-auto overflow-y-auto max-h-[600px] w-full show-scrollbar shadow-md">
-          <Table>
+          <Table className="drop-shadow-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                 {headerGroup.headers.map((header) => (
@@ -337,7 +332,7 @@ const FundingDepartmentWiseReport = () => {
             </Table.Body>
             <tfoot className="sticky bottom-0 z-10 shadow-xl">
               {table.getFooterGroups().map((footerGroup) => (
-                <tr key={footerGroup.id} >
+                <tr key={footerGroup.id}>
                   {footerGroup.headers.map((header) => (
                     <td
                       key={header.id}

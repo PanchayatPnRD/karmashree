@@ -39,7 +39,7 @@ const Dashboard = ({ children }) => {
             isSidebarOpen
               ? "w-[75vw] xl:w-[80vw] ml-[25vw] xl:ml-[20vw]"
               : "w-screen ml-0",
-            " flex flex-col shadow-xl bg-white transition-all duration-300",
+            " flex flex-col shadow-xl transition-all duration-300",
             online ? "mt-[96px] min-h-remaining" : "mt-[128px] min-h-offline"
           )}
         >

@@ -61,7 +61,7 @@ const UserList = () => {
 
       return data.data.result.userDetails;
     },
-    enabled: userDetails?.category != undefined
+    enabled: userDetails?.category != undefined,
   });
 
   const ListOptions = [10, 15, "all"];
@@ -250,7 +250,7 @@ const UserList = () => {
           </div>
         </div>
         <div className="overflow-x-auto overflow-y-auto max-h-[600px] w-full show-scrollbar shadow-md">
-          <Table>
+          <Table className="drop-shadow-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                 {headerGroup.headers.map((header) => (

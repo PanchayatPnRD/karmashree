@@ -280,7 +280,7 @@ const Designation = () => {
           />
         </div>
         <div className="px-12 flex flex-col space-y-6 pb-8">
-          <Table>
+          <Table className="drop-shadow-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

@@ -575,7 +575,7 @@ const SchemeView = () => {
               </div>
             </div>
             <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
-              <Table>
+              <Table className="drop-shadow-none">
                 <Table.Head className="sticky top-0">
                   <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                     #

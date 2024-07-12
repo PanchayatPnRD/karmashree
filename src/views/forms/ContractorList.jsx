@@ -227,7 +227,7 @@ const ContractorList = () => {
           </div>
         </div>
         <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-          <Table>
+          <Table className="drop-shadow-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

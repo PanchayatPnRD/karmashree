@@ -419,7 +419,7 @@ const Employment = () => {
                         />
                       </div>
                       <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
-                        <Table>
+                        <Table className="drop-shadow-none">
                           {table.getHeaderGroups().map((headerGroup) => (
                             <Table.Head key={headerGroup.id}>
                               {headerGroup.headers.map((header) => (
@@ -649,7 +649,7 @@ const Employment = () => {
                         </div>
                       </div>
                       <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
-                        <Table>
+                        <Table className="drop-shadow-none">
                           <Table.Head className="sticky top-0 z-10">
                             <Table.HeadCell className="normal-case  bg-cyan-400/90 theader-style  whitespace-nowrap">
                               #

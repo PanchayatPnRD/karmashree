@@ -74,28 +74,27 @@ export const DashboardNavbar = () => {
 
   return (
     <>
-      <div className="w-screen fixed top-0 left-0 z-30 bg-white shadow-lg">
+      <div className="w-screen fixed top-0 left-0 z-30 bg-gradient-to-br text-white from-blue-900 to-blue-950 shadow-lg">
         <div className="p-1 px-16 flex justify-between">
           <Link to={"/dashboard"} className="flex items-center space-x-2 w-fit">
             <div className="flex">
-              <Karmashree_logo className="fill-blue-600 h-14 w-fit" />
+              <Karmashree_logo className="fill-white h-14 w-fit" />
               <img src={emblem} alt="" className="h-16" />
             </div>
             <div className="flex flex-col -space-y-1">
               <h1 className="capitalize font-semibold text-2xl tracking-tight">
                 department of panchayats & rural development
               </h1>
-              <h3 className="capitalize text-zinc-500">
-                government of west bengal
-              </h3>
+              <h3 className="capitalize">government of west bengal</h3>
             </div>
           </Link>
 
-          <Dropdown
+          <Dropdown 
+
             Button={
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center text-white">
                 <div className="flex flex-col px-2">
-                  <div className="text-lg font-bold text-end text-black">
+                  <div className="text-lg font-bold text-end">
                     {userDetails?.userName}
                     <UserDetails
                       category={userDetails?.category}
@@ -123,13 +122,12 @@ export const DashboardNavbar = () => {
               </div>
             }
           >
-            
             <DropdownItem
               className="space-x-2"
               onClick={() => navigate("/dashboard/profile")}
             >
               <Icon
-                className="text-2xl text-zinc-400"
+                className="text-2xl"
                 icon="material-symbols:settings"
               ></Icon>
               <span>Profile</span>
@@ -143,7 +141,7 @@ export const DashboardNavbar = () => {
               }}
             >
               <Icon
-                className="text-2xl text-zinc-400"
+                className="text-2xl text-red-600"
                 icon="material-symbols:logout"
               ></Icon>
               <span>Sign out</span>
@@ -175,7 +173,7 @@ const UserDetails = ({ role, category }) => {
   const type = ["Admin", "Operator", "PIA"];
 
   return (
-    <span className="text-zinc-700 text-base font-semibold">{` ( ${
+    <span className="text-base font-semibold">{` ( ${
       cat[category]
     }/${type[role - 1]} ) `}</span>
   );

@@ -54,7 +54,7 @@ const DnoList = () => {
     queryKey: ["dnoUserList"],
     queryFn: async () => {
       const { data } = await fetch.get(
-        "/api/user/User_list-by-category?",
+        "/api/user/DNO_list-by-category?",
         DnoListQuery
       );
 
@@ -107,14 +107,14 @@ const DnoList = () => {
     //   accessorKey: "tech_mobile",
     //   headclass: "cursor-pointer",
     // },
-    {
-      header: "Department",
-      accessorKey: "deptName",
-      headclass: "cursor-pointer",
-      className: "text-center",
-      cell: ({ row }) =>
-        row.original.deptName == "" ? "-" : row.original.deptName,
-    },
+    // {
+    //   header: "Department",
+    //   accessorKey: "deptName",
+    //   headclass: "cursor-pointer",
+    //   className: "text-center",
+    //   cell: ({ row }) =>
+    //     row.original.deptName == "" ? "-" : row.original.deptName,
+    // },
     {
       header: "Username",
       accessorKey: "userName",
@@ -129,12 +129,12 @@ const DnoList = () => {
         row.original.districtName == "" ? "-" : row.original.districtName,
     },
     {
-      header: "Sub Division",
-      accessorKey: "subDivisionName",
+      header: "User Id",
+      accessorKey: "userId",
       headclass: "cursor-pointer",
       className: "text-center",
-      cell: ({ row }) =>
-        row.original.subDivisionName == "" ? "-" : row.original.subDivisionName,
+      // cell: ({ row }) =>
+      //   row.original.subDivisionName == "" ? "-" : row.original.subDivisionName,
     },
     {
       header: "Block",
@@ -271,8 +271,8 @@ const DnoList = () => {
             </button>
           </div>
         </div>
-        <div className="overflow-x-auto overflow-y-auto max-h-[300px] w-full show-scrollbar shadow-md">
-          <Table>
+        <div className="overflow-x-auto overflow-y-auto max-h-[550px] w-full">
+          <Table className="drop-shadow-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Head key={headerGroup.id} className="sticky top-0 z-10">
                 {headerGroup.headers.map((header) => (

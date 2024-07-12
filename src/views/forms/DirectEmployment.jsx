@@ -579,7 +579,7 @@ const DirectEmployment = () => {
               />
             </div>
             <div className="overflow-x-auto overflow-y-auto max-h-[400px] w-full show-scrollbar shadow-md">
-              <Table>
+              <Table className="drop-shadow-none">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <Table.Head
                     key={headerGroup.id}
