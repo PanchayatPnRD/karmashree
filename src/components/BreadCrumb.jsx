@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
-const BreadCrumb = ({ page }) => {
+const BreadCrumb = ({ page,className }) => {
   return (
-    <div className="py-8">
+    <div className={classNames("py-8",className)}>
       <ol class="flex items-center whitespace-nowrap">
         <li class="inline-flex items-center">
           <Link
             to="/dashboard"
-            className="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            className={"flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"}
           >
             Home
           </Link>

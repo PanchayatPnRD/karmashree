@@ -31,6 +31,9 @@ import { TextInput } from "../../components/TextInput";
 import BreadCrumb from "../../components/BreadCrumb";
 
 const WorkRequirement = () => {
+  const [importMode, setImportMode] = useState(false);
+  const [selectedWorker, setSelectedWorker] = useState("");
+  const [jobCardSearch, setJobCardSearch] = useState("");
   const [savedData, setSavedData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [dropdownData, setDropdownData] = useState(["", "", ""]);
@@ -123,22 +126,36 @@ const WorkRequirement = () => {
   }
 
   function resetData() {
-    updateDropdown(0, "");
+    setDropdownData(["", "", ""]);
+    // updateDropdown(0, "");
     setAllData([initialData]);
+    setImportMode(false);
+    // queryClient.resetQueries({ queryKey: ["jobcardNo", "gpName"] , exact: true });
+    queryClient.setQueryData(["jobcardNo"], null);
   }
 
   useEffect(() => {
-    if (dropdownData[1] != "")
-      queryClient.invalidateQueries({
-        queryKey: ["blockName", "districtName"],
-      });
-    if (dropdownData[1] == "")
+    const [district, block, gp] = dropdownData;
+    if (district) {
+      queryClient.invalidateQueries({ queryKey: ["districtName"] });
+    } else {
+      queryClient.resetQueries({ queryKey: ["districtName"] });
+    }
+
+    if (block) {
+      queryClient.invalidateQueries({ queryKey: ["blockName"] });
+    } else {
       queryClient.resetQueries({ queryKey: ["blockName"] });
-    if (dropdownData[2] != "")
-      queryClient.invalidateQueries({ queryKey: ["jobcardNo", "gpName"] });
-    if (dropdownData[2] == "")
-      queryClient.resetQueries({ queryKey: ["jobcardNo", "gpName"] });
-  }, [dropdownData]);
+    }
+  }, [dropdownData[0], dropdownData[1]]);
+
+  useEffect(() => {
+    if (dropdownData[2] != "") {
+      queryClient.invalidateQueries({ queryKey: ["jobcardNo"], exact: true });
+    } else {
+      queryClient.resetQueries({ queryKey: ["jobcardNo"], exact: true });
+    }
+  }, [dropdownData[2]]);
 
   const initialData = {
     sansadId: "",
@@ -158,11 +175,9 @@ const WorkRequirement = () => {
     total_pending: 0,
   };
 
-  const [allData, setAllData] = useState([initialData]); //! all data
-  console.log(allData, "allData");
-  const [area, setArea] = useState();
+  const [allData, setAllData] = useState([initialData]);
+
   const [allDistrictList, setAllDistrictList] = useState([]);
-  const [allMunicipalityList, setAllMunicipalityList] = useState([]);
 
   const [allBlockList, setAllBlockList] = useState([]);
   const [block, setBlock] = useState("");
@@ -178,7 +193,9 @@ const WorkRequirement = () => {
       const response = result?.data?.result;
       setAllDistrictList(response);
     });
-  }, []);
+  }, [dropdownData]);
+
+  // useEffect(() => {}, [dropdownData[1]]);
 
   const demandData = useMemo(() => {
     return allData.map((e) => {
@@ -239,17 +256,37 @@ const WorkRequirement = () => {
     // return newArray
   }, [demandData, dropdownData]);
 
+  const { data: blockList, isSuccess: blockListSuccess } = useQuery({
+    queryKey: ["blockList"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/mastertable/getBlockaction/" + dropdownData[0]
+      );
+      return data.data.result;
+    },
+    enabled: dropdownData[0] != "",
+  });
+
+  const { data: gpList, isSuccess: gpListSuccess } = useQuery({
+    queryKey: ["gpList"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/mastertable/getGpaction/" +
+          dropdownData[0] +
+          "/" +
+          dropdownData[1]
+      );
+      return data.data.result;
+    },
+    enabled: dropdownData[1] != "",
+  });
+
   let districtListDropdown = <option>Loading...</option>;
   if (allDistrictList && allDistrictList.length > 0) {
     districtListDropdown = allDistrictList.map((distRow, index) => (
       <option value={distRow.districtCode}>{distRow.concatenatedName}</option>
     ));
   }
-
-  const onArea = (e) => {
-    updateDropdown(0, e.target.value);
-    setArea(e.target.value);
-  };
 
   const onDistrict = (e) => {
     updateDropdown(0, e.target.value);
@@ -258,24 +295,12 @@ const WorkRequirement = () => {
       const response = result?.data?.result;
       setAllBlockList(response);
     });
-
-    getAllMunicipalityList(e.target.value).then(function (result) {
-      const response = result?.data?.result;
-      setAllMunicipalityList(response);
-    });
   };
 
   let blockListDropdown = <option>Loading...</option>;
-  if (allBlockList && allBlockList.length > 0) {
-    blockListDropdown = allBlockList.map((blockRow, index) => (
+  if (blockListSuccess) {
+    blockListDropdown = blockList?.map((blockRow, index) => (
       <option value={blockRow.blockCode}>{blockRow.concatenatedName}</option>
-    ));
-  }
-
-  let municipalityListDropdown = <option>Loading...</option>;
-  if (allMunicipalityList && allMunicipalityList.length > 0) {
-    municipalityListDropdown = allMunicipalityList.map((munRow, index) => (
-      <option value={munRow.urbanCode}>{munRow.urbanName}</option>
     ));
   }
 
@@ -289,8 +314,8 @@ const WorkRequirement = () => {
   };
 
   let GpListDropdown = <option>Loading...</option>;
-  if (allGpList && allGpList.length > 0) {
-    GpListDropdown = allGpList.map((gpRow, index) => (
+  if (gpListSuccess) {
+    GpListDropdown = gpList?.map((gpRow, index) => (
       <option value={gpRow.gpCode}>{gpRow.concatenatedName}</option>
     ));
   }
@@ -334,8 +359,6 @@ const WorkRequirement = () => {
     }
   };
 
-  //Validation of aadhar card
-
   const onAdhar = (e) => {
     console.log(e, "mobile");
     const value = e;
@@ -360,6 +383,78 @@ const WorkRequirement = () => {
     setSavedData(new_data);
   }
 
+  const {
+    data: jobCardSearchResult,
+    mutate: findJobCard,
+    isLoading: searchStatus,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.post(
+        {
+          workerJobCardNo: jobCardSearch,
+          workerName: "",
+        },
+        "/api/demand/search_demand"
+      );
+      return data;
+    },
+    mutationKey: ["searchJobCardNo"],
+    onSuccess: (data) => {
+      setSelectedWorker(data[0].workerName);
+    },
+  });
+
+  const searchData = useMemo(() => {
+    const filteredData = jobCardSearchResult?.filter(
+      (e) => e.workerName == selectedWorker
+    );
+    if (filteredData && filteredData.length > 0) {
+      const {
+        demandsl,
+        demanduniqueID,
+        workallostatus,
+        total_pending,
+        dateoflastallocation,
+        dateOfApplicationForWork,
+        noOfDaysWorkDemanded,
+        workerdemandstatus,
+        currentMonth,
+        currentYear,
+        finYear,
+        submitTime,
+        UpdateTime,
+        ex1,
+        ex2,
+        ex3,
+        ex4,
+        ex5,
+        ...rest
+      } = filteredData[0];
+      return rest;
+    }
+    return {};
+  }, [selectedWorker]);
+
+  function SaveSearchData() {
+    // setSavedData((prev) => [...prev, searchData]);
+    const { districtcode, blockcode, gpCode, workerJobCardNo } = searchData;
+    setDropdownData([`${districtcode}`, `${blockcode}`, `${gpCode}`]);
+
+    const result = { ...initialData };
+    result.sansadId = workerJobCardNo.split("-")[2];
+    result.familyId = workerJobCardNo.split("-")[3];
+    // Update values in result with values from obj2 where keys overlap
+    for (const key in searchData) {
+      if (result.hasOwnProperty(key)) {
+        result[key] = searchData[key];
+      }
+    }
+
+    setAllData([result]);
+
+    setImportMode(true);
+  }
+
   return (
     <>
       <SuccessModal
@@ -374,35 +469,75 @@ const WorkRequirement = () => {
       />
       <div className="flex flex-grow flex-col p-1 px-12">
         <ToastContainer />
-        <BreadCrumb page={"Demand Register"}/>
+        <BreadCrumb page={"Demand Register"} />
+        <div className="bg-white flex flex-col space-y-4 shadow-md rounded-lg p-4 mb-8">
+          <div className="border-2 p-4 border-zinc-300 rounded-xl flex flex-col space-y-4">
+            <div className="flex items-center space-x-6">
+              <h1 className="text-zinc-600">JobCardNo Exists ?</h1>
+              <div className="">
+                <input
+                  type="text"
+                  className="border border-gray-300 rounded-md"
+                  placeholder="Search for JobCard No"
+                  value={jobCardSearch}
+                  onChange={(e) => setJobCardSearch(e.target.value)}
+                />
+              </div>
+              {jobCardSearch.length > 0 && (
+                <button
+                  onClick={findJobCard}
+                  className="px-4 bg-blue-500 text-white py-2 rounded-md flex items-center space-x-2 hover:bg-blue-600 transition-colors"
+                >
+                  <span>Search</span>
+                  <Icon className="text-2xl" icon={"material-symbols:search"} />
+                </button>
+              )}
+              <span>
+                {searchStatus && (
+                  <Icon
+                    className="text-2xl text-green-500"
+                    icon={"svg-spinners:bars-scale-fade"}
+                  />
+                )}
+                {jobCardSearchResult &&
+                  jobCardSearchResult?.length +
+                    ` result${
+                      jobCardSearchResult?.length > 1 ? "s" : ""
+                    } found`}
+              </span>
+            </div>
+            {jobCardSearchResult?.length > 0 && (
+              <div className="flex items-center space-x-4">
+                <span className="capitalize text-zinc-600">
+                  select jobcard holder
+                </span>
+                <select
+                  className="mt-1 p-2 block border border-gray-300 rounded-md w-1/5"
+                  onChange={(e) => setSelectedWorker(e.target.value)}
+                >
+                  {jobCardSearchResult?.map((e) => (
+                    <option value={e.workerName}>{e.workerName}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {jobCardSearchResult?.length > 0 && (
+              <div className="flex justify-center items-center px-4">
+                <button
+                  type="button"
+                  className="w-fit disabled:cursor-not-allowed disabled:bg-zinc-400 flex items-center justify-center space-x-4 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                  onClick={SaveSearchData}
+                >
+                  <span>Import Worker</span>
+                  <Icon className="text-2xl" icon={"lucide:arrow-down"} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
         <div className="bg-white flex flex-col space-y-4 shadow-md rounded-lg px-4 pb-4">
           <div className="border-2 py-4 border-zinc-300 rounded-xl">
             <div className="flex w-full space-x-2">
-              <div className="px-4 hidden">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Area Type *
-                </label>
-                <select
-                  id="scheme_name"
-                  name="scheme_name"
-                  autoComplete="off"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  required
-                  onChange={onArea}
-                >
-                  <option value="" selected hidden>
-                    Select Scheme Name
-                  </option>
-                  <option value="R">Rural</option>
-                  <option value="U">Urban</option>
-
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-
               <div className="px-4">
                 <label
                   htmlFor="scheme_name"
@@ -588,9 +723,8 @@ const WorkRequirement = () => {
                           maxLength={2}
                           onChange={(e) => {
                             updateVal(e, index, allData, setAllData);
-                            
                           }}
-                          onBlur={(e)=>onAge(e.target.value)}
+                          onBlur={(e) => onAge(e.target.value)}
                         />
                         <select
                           value={gender}
@@ -661,6 +795,7 @@ const WorkRequirement = () => {
                             Whether a migrant worker?{" "}
                           </span>
                           <RadioButton
+                            disabled={importMode}
                             value={whetherMigrantWorker}
                             updateVal={updateVal}
                             index={index}
@@ -672,6 +807,7 @@ const WorkRequirement = () => {
                         <div className="flex items-center space-x-4">
                           <span className="w-fit">Whether a Minority? </span>
                           <RadioButton
+                            disabled={importMode}
                             value={whetherMinority}
                             updateVal={updateVal}
                             index={index}
@@ -759,7 +895,7 @@ const WorkRequirement = () => {
                 )
               )}
             </div>
-            <div className="flex justify-center items-center px-4">
+            <div className="flex justify-center items-center px-4 space-x-12 transition-all">
               <button
                 type="button"
                 disabled={!canSubmit}
@@ -769,6 +905,19 @@ const WorkRequirement = () => {
                 <span>Add</span>
                 <Icon className="text-2xl" icon={"ic:round-add"} />
               </button>
+              {importMode && (
+                <button
+                  type="button"
+                  className="w-fit disabled:cursor-not-allowed disabled:bg-zinc-400 flex items-center justify-center space-x-2 py-1 px-4 border border-transparent rounded-md shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                  onClick={resetData}
+                >
+                  <span>Clear</span>
+                  <Icon
+                    className="text-2xl text-white"
+                    icon={"mdi:clear-circle-outline"}
+                  />
+                </button>
+              )}
             </div>
           </div>
           <div className="overflow-x-auto overflow-y-hidden h-fit w-full show-scrollbar">
