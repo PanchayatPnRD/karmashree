@@ -8,6 +8,7 @@ import { useState } from "react";
 import { getLogin } from "../Service/LoginService";
 const Login = () => {
   const [UserID, setUserID] = useState("");
+  const [OTPLoading, setOTPLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const Login = () => {
     } else if (password === "") {
       toast.error("Please type your Password");
     } else {
+      setOTPLoading(true);
       getLogin(UserID, password, (res) => {
-        console.log(res, "response");
         if (res.errorCode == 0) {
           const userdata = {
             // category: res?.result?.category,
@@ -36,10 +37,11 @@ const Login = () => {
           sessionStorage.setItem("resendToken", JSON.stringify(res.token));
 
           toast.success(res.message);
+          setOTPLoading(false);
           navigate("/otp", { state: "login" });
           // window.location.reload();
         } else if (res.errorCode == 1) {
-          console.log("nononononono");
+          setOTPLoading(false);
           toast.error(res.message);
         } else {
         }
@@ -109,10 +111,11 @@ const Login = () => {
                 <div className="mb-5">
                   <button
                     type="button"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
+                    className="w-full cursor-pointer rounded-lg flex items-center justify-center space-x-6 border border-primary bg-primary p-4 text-white bg-blue-600 transition hover:bg-opacity-90"
                     onClick={onSubmit}
                   >
-                    Log in
+                    <span>Log in</span>
+                    {OTPLoading && <Icon icon={"svg-spinners:bars-scale-fade"} className="text-2xl text-white" />}
                   </button>
                 </div>
 
