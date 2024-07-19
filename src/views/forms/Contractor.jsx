@@ -73,6 +73,7 @@ const Contractor = () => {
       return data.data.result;
     },
     enabled: allDistrictList.length > 0,
+    gcTime: 0,
   });
 
   useEffect(() => {
@@ -91,7 +92,6 @@ const Contractor = () => {
       setPanNumber(contractorPAN);
       setMobileNumber(contractorMobile);
       setAddress(contractorAddress);
-      console.log("data set");
     }
   }, [contractorDraft]);
 
@@ -333,8 +333,19 @@ const Contractor = () => {
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            if (+draft == 0) setOpenModal(true);
-            else toast.success("Successfully saved as Draft")
+            if (+draft == 0) {
+              setOpenModal(true);
+              queryClient.resetQueries({
+                queryKey: ["contractorDraft"],
+                exact: true,
+              });
+            } else {
+              toast.success("Successfully saved as Draft");
+              queryClient.invalidateQueries({
+                queryKey: ["contractorDraft"],
+                exact: true,
+              });
+            }
           } else {
             toast.error(r.message);
           }
@@ -522,7 +533,7 @@ const Contractor = () => {
             </button>
             <button
               type="button"
-              className="w-1/6 py-2 px-4 border-2 mt-10 border-transparent rounded-md shadow-sm text-indigo-600 border-indigo-600 bg-white hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-1/6 py-2 px-4 border-2 mt-10 border-transparent rounded-md shadow-sm text-indigo-600 border-indigo-600 bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={() => onSubmit("1")}
               // onClick={() => toast.success("Successfully saved as Draft")}
             >
