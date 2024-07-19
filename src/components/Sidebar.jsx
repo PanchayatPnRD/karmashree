@@ -288,6 +288,7 @@ export const Sidebar = () => {
   const allocationHidden = [7, 13, 17, 29, 23, 29, 30, 31, 32, 33, 34, 35];
   const employmentHidden = [7, 13, 17, 24, 29, 30, 31, 32, 33, 34, 35];
   const reportHidden = [27, 30, 31, 32, 33, 34, 35];
+  
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: userDetails, isSuccess } = useQuery({
@@ -501,27 +502,31 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
-      {/* <SidebarExpand text={"Direct Employment"}>
-        {sideBarList
-          .slice(22, 23)
-          .filter((e) => e.permissions.includes(userRoleIndex))
-          .map((e) => {
-            return (
-              <SidebarElement
-                key={e.route}
-                to={e.route}
-                customCss={"py-2 pl-8 text-sm"}
-                isWrapped
-              >
-                <div className=" items-center capitalize">{e.text}</div>
-              </SidebarElement>
-            );
-          })}
-      </SidebarExpand> */}
+      
+
+      {isSuccess && !userMasterHidden.includes(userRoleIndex) && (
+        <SidebarExpand text={"Secretary Reports"} icon={"mdi:user"}>
+          {sideBarList
+            .slice(24, 27)
+            .filter((e) => e.permissions.includes(userRoleIndex))
+            .map((e) => {
+              return (
+                <SidebarElement
+                  key={e.route}
+                  to={e.route}
+                  customCss={"py-2 pl-8 text-sm"}
+                  isWrapped
+                >
+                  <div className=" items-center capitalize">{e.text}</div>
+                </SidebarElement>
+              );
+            })}
+        </SidebarExpand>
+      )}
       {isSuccess && !reportHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Reports"} icon={"bxs:report"}>
           {sideBarList
-            .slice(24, sideBarList.length)
+            .slice(29, sideBarList.length-1)
             // .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (
