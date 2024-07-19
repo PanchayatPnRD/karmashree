@@ -3,11 +3,7 @@ import { useState, useEffect } from "react";
 
 import {
   getAllDistrictActionList,
-  getAllBlockList,
-  getAllMunicipalityList,
   getAllGramPanchayatList,
-  getAllSectorActionList,
-  addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,6 +11,8 @@ import { addCreateContractor } from "../../Service/Contractor/ContractorService"
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 import BreadCrumb from "../../components/BreadCrumb";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetch } from "../../functions/Fetchfunctions";
 
 const Contractor = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
@@ -51,6 +49,8 @@ const Contractor = () => {
   const [userData, setUserData] = useState();
 
   console.log(userData?.category, "userData");
+  const queryClient = useQueryClient();
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   useEffect(() => {
     const jsonString = sessionStorage.getItem("karmashree_User");
@@ -62,6 +62,38 @@ const Contractor = () => {
       setAllDistrictList(response);
     });
   }, []);
+
+  const { data: contractorDraft } = useQuery({
+    queryKey: ["contractorDraft"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/contractor/get_draft_Details/",
+        userIndex
+      );
+      return data.data.result;
+    },
+    enabled: allDistrictList.length > 0,
+  });
+
+  useEffect(() => {
+    if (contractorDraft != null && district == "") {
+      const {
+        districtcode,
+        contractorName,
+        contractorGSTIN,
+        contractorPAN,
+        contractorMobile,
+        contractorAddress,
+      } = contractorDraft;
+      setDistrict(`${districtcode}`);
+      setContractorName(contractorName);
+      setGSTIN(contractorGSTIN);
+      setPanNumber(contractorPAN);
+      setMobileNumber(contractorMobile);
+      setAddress(contractorAddress);
+      console.log("data set");
+    }
+  }, [contractorDraft]);
 
   //District list
 
@@ -253,7 +285,7 @@ const Contractor = () => {
     "dadadada"
   );
 
-  const onSubmit = () => {
+  const onSubmit = (draft) => {
     // if (area === "") {
     //   toast.error("Please Select Area Type")
     // } else if (!district) {
@@ -297,10 +329,12 @@ const Contractor = () => {
         block,
         gp,
         area,
+        draft,
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
-            setOpenModal(true);
+            if (+draft == 0) setOpenModal(true);
+            else toast.success("Successfully saved as Draft")
           } else {
             toast.error(r.message);
           }
@@ -320,7 +354,7 @@ const Contractor = () => {
       />
       <div className="flex flex-grow flex-col px-8">
         <ToastContainer />
-        <BreadCrumb page={"Contractor Master"} className={"px-4"}/>
+        <BreadCrumb page={"Contractor Master"} className={"px-4"} />
         <div className="bg-white shadow-md rounded-lg pb-12">
           <div className="flex flex-col w-full mb-4 space-y-4">
             {userData?.category === "HQ" ? (
@@ -338,6 +372,7 @@ const Contractor = () => {
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   onChange={onDistrict}
+                  value={district}
                 >
                   <option value="" selected hidden>
                     Select District List
@@ -364,6 +399,7 @@ const Contractor = () => {
                   autoComplete="off"
                   placeholder="Please Enter Contractor Name"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={contractorName}
                   onChange={onContractorName}
                   onKeyDown={handleKeyDown}
                 />
@@ -388,11 +424,12 @@ const Contractor = () => {
                   autoComplete="off"
                   placeholder="Please enter Contractor GSTIN Number"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={gstin}
                   onChange={onGstIn}
                   maxLength={15}
                 />
                 {!isValid && (
-                  <div style={{ color: "red" }}>Please enter a valid GSTIN</div>
+                  <div className="text-red-500">Please enter a valid GSTIN</div>
                 )}
               </div>
             </div>
@@ -438,6 +475,7 @@ const Contractor = () => {
                   placeholder="Please Enter Contractor Mobile Number"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   required
+                  value={mobileNumber}
                   onChange={onMobile}
                   maxLength={10}
                 />
@@ -465,106 +503,30 @@ const Contractor = () => {
                 autoComplete="off"
                 placeholder="Please Enter Contractor Address"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                value={address}
                 onChange={onAddress}
               />
               {!isValidAddress && (
                 <div style={{ color: "red" }}>Please enter a valid Address</div>
               )}
             </div>
-            {/* <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Village Name/Word no  *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Village Name/Word no"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onVillage}
-            />
-            {!isValidVillage && (
-              <div style={{ color: 'red' }}>Please enter a valid Village Name/Word no</div>
-            )}
-          </div> */}
-            {/* <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Police Station  *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter Police Station Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPoliceStation}
-            />
-            {!isValidPoliceStation && (
-              <div style={{ color: 'red' }}>Please enter a valid Police station Name</div>
-            )}
-          </div> */}
-            {/* <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Post Office  *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Enter Scheme Name"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPostOffice}
-            />
-            {!isValidPostOffice && (
-              <div style={{ color: 'red' }}>Please enter a valid Post Office Name</div>
-            )}
-          </div> */}
-          </div>
-          {/* <div className="flex w-full space-x-4 flex-col mb-4 ">
-
-          <div className="px-4">
-            <label
-              htmlFor="scheme_name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Pin  *
-            </label>
-            <input
-              id="scheme_name"
-              name="scheme_name"
-              type="text"
-              autoComplete="off"
-              placeholder="Please Enter a Pin Code"
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              onChange={onPinCode}
-            />
-            {!isValidPinCode && (
-              <div style={{ color: 'red' }}>Please enter a valid Pin Code</div>
-            )}
           </div>
 
-
-        </div> */}
-
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-8">
             <button
               type="button"
-              className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={onSubmit}
+              className="w-1/6 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={() => onSubmit("0")}
             >
               Submit
+            </button>
+            <button
+              type="button"
+              className="w-1/6 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-indigo-600 border-1 border-indigo-600 bg-white hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={() => onSubmit("1")}
+              // onClick={() => toast.success("Successfully saved as Draft")}
+            >
+              Draft
             </button>
           </div>
         </div>
