@@ -34,7 +34,7 @@ const DashboardHome = () => {
       );
       return data.data.result;
     },
-    // enabled: userDetails?.category != undefined
+    enabled: userDetails?.category != undefined
   });
 
   useEffect(() => {
