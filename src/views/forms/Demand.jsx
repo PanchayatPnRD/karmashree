@@ -131,7 +131,7 @@ const WorkRequirement = () => {
     setAllData([initialData]);
     setImportMode(false);
     // queryClient.resetQueries({ queryKey: ["jobcardNo", "gpName"] , exact: true });
-    queryClient.setQueryData(["jobcardNo"], null);
+    // queryClient.setQueryData(["jobcardNo"], null);
   }
 
   useEffect(() => {
@@ -436,13 +436,15 @@ const WorkRequirement = () => {
   }, [selectedWorker]);
 
   function SaveSearchData() {
+    setDropdownData(["", "", ""]);
     // setSavedData((prev) => [...prev, searchData]);
     const { districtcode, blockcode, gpCode, workerJobCardNo } = searchData;
     setDropdownData([`${districtcode}`, `${blockcode}`, `${gpCode}`]);
-
     const result = { ...initialData };
     result.sansadId = workerJobCardNo.split("-")[2];
     result.familyId = workerJobCardNo.split("-")[3];
+
+    queryClient.refetchQueries({ queryKey: ["gpList"] });
     // Update values in result with values from obj2 where keys overlap
     for (const key in searchData) {
       if (result.hasOwnProperty(key)) {
@@ -454,6 +456,25 @@ const WorkRequirement = () => {
 
     setImportMode(true);
   }
+
+  function secondButton() {
+    queryClient.refetchQueries({ queryKey: ["blockList"] });
+    queryClient.refetchQueries({ queryKey: ["gpList"] });
+  }
+
+  useEffect(() => {
+    if (dropdownData[0].length != 0)
+      queryClient.invalidateQueries({ queryKey: ["blockList"], exact: true });
+    if (dropdownData[0].length == 0)
+      queryClient.resetQueries({ queryKey: ["blockList"], exact: true });
+  }, [dropdownData[0]]);
+
+  useEffect(() => {
+    if (dropdownData[1].length != 0)
+      queryClient.invalidateQueries({ queryKey: ["gpList"], exact: true });
+    if (dropdownData[1].length == 0)
+      queryClient.resetQueries({ queryKey: ["gpList"], exact: true });
+  }, [dropdownData[1]]);
 
   return (
     <>
@@ -531,6 +552,7 @@ const WorkRequirement = () => {
                   <span>Import Worker</span>
                   <Icon className="text-2xl" icon={"lucide:arrow-down"} />
                 </button>
+                {/* <button onClick={secondButton}> invalidate</button> */}
               </div>
             )}
           </div>
