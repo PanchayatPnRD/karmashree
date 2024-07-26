@@ -107,6 +107,7 @@ const DashboardHome = () => {
                   end={DashboardData?.totalwage}
                   duration={2.75}
                   decimals={2}
+                  prefix="₹"
                   // delay={0}
                 />
               </p>

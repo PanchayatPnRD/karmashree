@@ -13,7 +13,6 @@ const WestBengalMap = () => {
       // caption: "West Bengal Map",
       // subcaption: "Click on a district to view more details",
       canvasBorderThickness: 10,
-      canvasBorderColor:"#020",
       numbersuffix: "%",
       canvasBorderColor: "#fff",
       fillColor: "#29c3be",
