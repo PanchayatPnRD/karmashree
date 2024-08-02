@@ -18,7 +18,7 @@ const DashboardHome = () => {
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      const data = await fetch.get("/api/user/viewuser");
       return data.data.result;
     },
   });

@@ -24,7 +24,7 @@ const DnoList = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      const data = await fetch.get("/api/user/viewuser");
 
       return data.data.result;
     },
@@ -49,7 +49,6 @@ const DnoList = () => {
     ];
     return query.filter(Boolean).join("&");
   }, [userDetails]);
-
 
   const { data: dnoUserList } = useQuery({
     queryKey: ["dnoUserList"],
@@ -199,7 +198,7 @@ const DnoList = () => {
 
   return (
     <>
-      <BreadCrumb page={"Dno Userlist"} className="px-12"/>
+      <BreadCrumb page={"Dno Userlist"} className="px-12" />
       <div className="flex flex-col flex-grow p-8 pt-0 px-12">
         <div className="flex justify-between items-center px-4">
           <select

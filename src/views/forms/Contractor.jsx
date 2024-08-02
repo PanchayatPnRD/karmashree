@@ -335,16 +335,16 @@ const Contractor = () => {
           if (r.errorCode == 0) {
             if (+draft == 0) {
               setOpenModal(true);
-              queryClient.resetQueries({
-                queryKey: ["contractorDraft"],
-                exact: true,
-              });
+              // queryClient.resetQueries({
+              //   queryKey: ["contractorDraft"],
+              //   exact: true,
+              // });
             } else {
               toast.success("Successfully saved as Draft");
-              queryClient.invalidateQueries({
-                queryKey: ["contractorDraft"],
-                exact: true,
-              });
+              // queryClient.invalidateQueries({
+              //   queryKey: ["contractorDraft"],
+              //   exact: true,
+              // });
             }
           } else {
             toast.error(r.message);

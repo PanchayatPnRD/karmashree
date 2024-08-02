@@ -119,7 +119,7 @@ export const addCreateScheme = async (
                 "ImplementingAgencyID": ImplementingAgencyID,
                 "ImplementingAgencyName": ImplementingAgencyName,
                 "StatusOfWork": StatusOfWork,
-                "tentativeStartDate": tentativeStartDate,
+                 "tentativeStartDate": tentativeStartDate,
                 "ActualtartDate": ActualtartDate,
                 "ExpectedCompletionDate": ExpectedCompletionDate,
                 "totalprojectCost": totalprojectCost,
@@ -137,8 +137,8 @@ export const addCreateScheme = async (
                 "CurrentYear": CurrentYear,
                 "finYear": finYear,
                 "Remarks": Remarks,
-                "userIndex": userIndex
-
+                "userIndex": userIndex,
+                "is_draft":"0"
             },
 
 

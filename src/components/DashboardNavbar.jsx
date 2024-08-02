@@ -6,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, DropdownItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { devApi } from "../WebApi/WebApi";
 import { fetch } from "../functions/Fetchfunctions";
 import classNames from "classnames";
 import { useNetworkState } from "@uidotdev/usehooks";
@@ -22,7 +20,7 @@ export const DashboardNavbar = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      const data = await fetch.get("/api/user/viewuser");
 
       return data.data.result;
     },

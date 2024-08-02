@@ -1,6 +1,6 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -19,7 +19,12 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
-import { useQuery, useQueryClient, useQueries } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useQueries,
+  useMutation,
+} from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
 
 const Scheme = () => {
@@ -27,23 +32,23 @@ const Scheme = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [departmentNo, setDepartmentNo] = useState();
-  const parastatalRef = useRef(null)
+  const parastatalRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
   const [municipality, setMunicipality] = useState();
   const [allBlockList, setAllBlockList] = useState([]);
-  const [gp, setGP] = useState();
-  const [block, setBlock] = useState();
-  const [district, setDistrict] = useState();
+  const [gp, setGP] = useState("");
+  const [block, setBlock] = useState("");
+  const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
-  const [sector, setSector] = useState("");
+  const [sector, setSector] = useState(0);
   const [allSectorList, setAllSectorList] = useState([]);
   const [schemeName, setSchemeName] = useState("");
   const [isValidSchemeName, setIsValidSchemeName] = useState(true);
   const [Location, setLocation] = useState("");
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState(0);
   const [allDepartmentList, setAllDepartmentList] = useState([]);
   const [status, setStatus] = useState("");
   const [tentativeWorkStartDate, setTentativeWorkStartDate] = useState(
@@ -51,8 +56,8 @@ const Scheme = () => {
   );
 
   const [expectedWorkDate, setExpectedWorkDate] = useState();
-  const [projectCost, setProjectCost] = useState("");
-  const [totalWages, setTotalWages] = useState("");
+  const [projectCost, setProjectCost] = useState(0);
+  const [totalWages, setTotalWages] = useState(0);
   const [persondaysWork, setPersondaysWork] = useState("");
   const [unskilled, setUnskilled] = useState("");
   const [semiskilled, setSemiskilled] = useState("");
@@ -100,7 +105,7 @@ const Scheme = () => {
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      const data = await fetch.get("/api/user/viewuser");
       return data.data.result;
     },
   });
@@ -121,8 +126,7 @@ const Scheme = () => {
           userDetails?.deptWing != "" ? userDetails?.deptWing : 0
         }`
       );
-      if (data.data.errorCode == 1)
-        return []
+      if (data.data.errorCode == 1) return [];
       return data.data.result;
     },
     enabled: departmentNo != undefined,
@@ -377,7 +381,6 @@ const Scheme = () => {
     "fatafatafa"
   );
   const onSubmit = () => {
-    console.log("clicked");
     if (area === "") {
       toast.error("Please Select Area Type");
     } else if (!district) {
@@ -452,14 +455,10 @@ const Scheme = () => {
         data?.departmentNo,
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
-
         data?.departmentNo,
-
         allDepartmentList.find((c) => c.departmentNo === data?.departmentNo)
           ?.departmentName,
-
         status,
-
         format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
         format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
         format(new Date(expectedWorkDate), "yyyy-MM-dd"),
@@ -479,6 +478,7 @@ const Scheme = () => {
         financialYear,
         remark,
         data?.userIndex,
+
         (r) => {
           console.log(r, "response");
           if (r.errorCode == 0) {
@@ -491,6 +491,126 @@ const Scheme = () => {
       );
     }
   };
+
+  const schemeData = useMemo(() => {
+    const fundingDeptName = allDepartmentList.find(
+      (c) => c.departmentNo == department
+    )?.departmentName
+      ? allDepartmentList.find((c) => c.departmentNo == department)
+          ?.departmentName
+      : "";
+
+    const userDept = userData?.departmentNo;
+
+    const userDeptName = allDepartmentList.find(
+      (c) => c.departmentNo === userData?.departmentNo
+    )?.departmentName
+      ? allDepartmentList.find((c) => c.departmentNo === userData?.departmentNo)
+          ?.departmentName
+      : "";
+
+    const startDate = new Date(tentativeWorkStartDate).toLocaleDateString(
+      "fr-CA"
+    );
+
+    const endDate = expectedWorkDate
+      ? new Date(expectedWorkDate).toLocaleDateString("fr-CA")
+      : "";
+
+    return {
+      schemeArea: area,
+      departmentNo: departmentNo,
+      deptWing: parastatalRef.current?.value,
+      districtcode: district?.length > 0 ? +district : 0,
+      municipalityCode: municipality?.length > 0 ? +municipality :  0,
+      blockcode: block?.length > 0 ? +block : 0,
+      gpCode: gp?.length > 0 ? +gp : 0,
+      sansadID: 0,
+      village: Location,
+      schemeSector: sector,
+      schemeSubsector: "-",
+      schemeName: schemeName,
+      FundingDepttID: department,
+      FundingDeptname: fundingDeptName,
+      ExecutingDepttID: userDept,
+      ImplementingAgencyID: userDept,
+      ExecutingDeptName: userDeptName,
+      ImplementingAgencyName: userDeptName,
+      StatusOfWork: status,
+      tentativeStartDate: startDate,
+      ActualtartDate: startDate,
+      ExpectedCompletionDate: endDate,
+      totalprojectCost: projectCost,
+      totalwagescostinvoled: totalWages,
+      totalLabour: 0,
+      personDaysGenerated: persondaysWork,
+      totalUnskilledWorkers: +unskilled,
+      totalSemiSkilledWorkers: +semiskilled,
+      totalSkilledWorkers: +skilled,
+      workorderNo: workOrderNumber === "" ? 0 : workOrderNumber,
+      workOderDate: new Date(workOrderDate).toLocaleDateString("fr-CA"),
+      ControctorID: contractor === "" ? 0 : contractor,
+      schemeStatus: "A",
+      CurrentMonth: currentMonth,
+      CurrentYear: currentYear,
+      finYear: financialYear,
+      Remarks: remark,
+      userIndex: userData?.userIndex,
+      is_draft: "1",
+      // ex1: "ex1",
+      // ex2: "ex2",
+      // ex3: "ex3",
+      // ex4: "ex4",
+      // ex5: "ex5",
+    };
+  }, [
+    area,
+    departmentNo,
+    parastatalRef.current?.value,
+    district,
+    municipality,
+    block,
+    gp,
+    Location,
+    sector,
+    schemeName,
+    department,
+    data?.departmentNo,
+    status,
+    tentativeWorkStartDate,
+    tentativeWorkStartDate,
+    expectedWorkDate,
+    projectCost,
+    totalWages,
+    persondaysWork,
+    unskilled,
+    semiskilled,
+    skilled,
+    workOrderNumber,
+    workOrderDate,
+    contractor,
+    currentMonth,
+    currentYear,
+    financialYear,
+    remark,
+  ]);
+
+  const { mutate: saveDraft, data: draftData } = useMutation({
+    mutationKey: ["schemeDraft"],
+    mutationFn: async () => {
+      const { data } = await fetch.post(
+        schemeData,
+        "/api/schememaster/createschememaster"
+      );
+      return data;
+    },
+    onSuccess: (data) => {
+      // toast.success("Successfully saved as Draft");
+      if (data?.errorCode) toast.error(data?.message);
+      else toast.success(data?.message);
+    },
+  });
+
   useEffect(() => {
     if (userDetails != null) setDepartmentNo(userDetails.departmentNo);
   }, [userDetails]);
@@ -602,9 +722,10 @@ const Scheme = () => {
                       {parastatal?.length == 1 && parastatal[0].pedestalName}
                       {parastatal?.length > 1 && "Select Parastatal"}
                     </option>
-                    {parastatal?.length > 1 && parastatal?.map((e) => (
-                      <option value={e.id}>{e.pedestalName}</option>
-                    ))}
+                    {parastatal?.length > 1 &&
+                      parastatal?.map((e) => (
+                        <option value={e.id}>{e.pedestalName}</option>
+                      ))}
 
                     {/* Add more options as needed */}
                   </select>
@@ -986,45 +1107,7 @@ const Scheme = () => {
                   />
                 </div>
               </div>
-              <div className="flex w-full space-x-4 mb-4 ">
-                {/* <div className="px-4 w-1/3">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  No of Semi-Skilled Workers to be engaged
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="No of Semi-Skilled Workers to be  engaged..."
-                  value={semiskilled}
-                  onChange={onSemiskilled}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                />
-              </div> */}
-                {/* <div className="px-4 w-1/3">
-                <label
-                  htmlFor="scheme_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  No of Skilled Workers to be engaged
-              
-                </label>
-                <input
-                  id="scheme_name"
-                  name="scheme_name"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="No of Skilled Workers to be  engaged..."
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  value={skilled}
-                  onChange={onSkilled}
-                />
-              </div> */}
-              </div>
+              <div className="flex w-full space-x-4 mb-4 "></div>
               <div className="flex w-full space-x-4 mb-4 ">
                 <div className="px-4 w-1/3">
                   <label
@@ -1032,7 +1115,6 @@ const Scheme = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Work Order Number
-                    {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <input
                     id="scheme_name"
@@ -1115,13 +1197,20 @@ const Scheme = () => {
                   )}
                 </div>
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center space-x-12 items-center">
                 <button
                   type="button"
                   className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={onSubmit}
                 >
                   Submit
+                </button>
+                <button
+                  type="button"
+                  className="w-1/5 py-2 px-4 border-2 mt-10 rounded-md shadow-sm text-indigo-600 border-indigo-600 bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={saveDraft}
+                >
+                  Draft
                 </button>
               </div>
             </div>

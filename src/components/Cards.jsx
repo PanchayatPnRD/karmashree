@@ -87,6 +87,7 @@ export const Cards = () => {
           end={Stats?.["Total Project Cost"]}
           duration={2.75}
           decimals={2}
+          prefix="₹"
           // delay={0}
         />
       ),
@@ -101,6 +102,7 @@ export const Cards = () => {
           end={Stats?.["Total Amount Spent"]}
           duration={2.75}
           decimals={2}
+          prefix="₹"
           // delay={0}
         />
       ),

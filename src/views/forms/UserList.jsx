@@ -24,7 +24,7 @@ const UserList = () => {
   const { data: userDetails, isSuccess } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
-      const data = await fetch.get("/api/user/viewuser/", userIndex);
+      const data = await fetch.get("/api/user/viewuser");
 
       return data.data.result;
     },
@@ -176,8 +176,7 @@ const UserList = () => {
 
   return (
     <>
-      
-      <BreadCrumb page={"Department User List"} className={"px-12"}/>
+      <BreadCrumb page={"Department User List"} className={"px-12"} />
       <div className="flex flex-col flex-grow px-12">
         <div className="flex justify-between items-center px-4">
           <select
@@ -282,7 +281,7 @@ const UserList = () => {
             </Table.Body>
           </Table>
         </div>
-      <Pagination data={data} table={table} />
+        <Pagination data={data} table={table} />
       </div>
     </>
   );

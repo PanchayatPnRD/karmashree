@@ -3,8 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/biswa.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <meta name="viewpor" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+              connect-src 'self' http://localhost:8094;
+              script-src 'self' 'unsafe-inline'; 
+              style-src 'self' 'unsafe-inline'; 
+              font-src 'self' https://fonts.gstatic.com;
+              frame-ancestors 'none';
+              base-uri 'self';
+              img-src *;"
+    />
+
     <link rel="stylesheet" href="./src/inter.css" />
     <title>Karmashree</title>
   </head>
