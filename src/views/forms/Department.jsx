@@ -64,9 +64,9 @@ const Department = () => {
 
   function perfromMutation() {
     if (deptNameRef.current.value === "") {
-      toast.error("Please Select Department");
+      toast.error("Please Enter Department");
     } else if (shortFormRef.current.value === "") {
-      toast.error("Please Type Pedestal name");
+      toast.error("Please Enter Short name");
     } else {
       if (mutationId === null)
         add({

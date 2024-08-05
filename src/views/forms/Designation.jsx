@@ -67,9 +67,9 @@ const Designation = () => {
 
   function performMutation() {
     if (designationTier.current.value === "") {
-      toast.error("Please Select Department");
+      toast.error("Please Select Designation Tier");
     } else if (designation.current.value === "") {
-      toast.error("Please Type Pedestal name");
+      toast.error("Please enter Designation");
     } else {
       if (mutationId === null)
         addPed({
