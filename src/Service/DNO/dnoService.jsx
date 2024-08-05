@@ -28,33 +28,7 @@ export const addNewDNO = async (
   onSuccess,
   onFailure
 ) => {
-  console.log(
-    departmentNo,"depart",
-    districtcode,
-    subDivision,
-    blockCode,
-    officeName,
-    nodalOfficerName,
-    contactNo,
-    email,
-    designation,
-    userAddress,
-    role,
-    category,
-    deptWing,
-    area,
-    gpCode,
-    userType,"usertype",
-    role_type,
-    pwd,
-    entryBy,
-    created_by,
-    technicalOfficerName,
-    technicalOfficerDesignation,
-    technicalOfficerContactNumber,
-    technicalOfficerEmail,
-    "formData"
-  );
+ 
   try {
     const res = await webApi.post(`/api/user/create_user`, {
       category: category,
@@ -86,20 +60,14 @@ export const addNewDNO = async (
     });
     if (res?.data?.errorCode == 0) {
       const r = res.data;
-      console.log(r, "rerere");
-
       return onSuccess(r);
     } else if (res?.data?.errorCode == 1) {
       const r = res.data;
-      console.log(r, "rerere");
-
       return onSuccess(r);
     } else {
       onFailure("Something Wrong! Please Try again later" + res.data);
     }
-  } catch (error) {
-    console.log("fdgdf");
-  }
+  } catch (error) {}
 };
 
 export const getAllDnoUserList = async (data) => {

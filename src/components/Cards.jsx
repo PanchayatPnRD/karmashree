@@ -18,12 +18,10 @@ export const Cards = () => {
         baseURL: devApi,
       });
 
-      axiosInstance.interceptors.request.use(
-        (config) => {
-          config.headers["x-api-key"] = import.meta.env.VITE_X_API_KEY;
-          return config;
-        }
-      );
+      axiosInstance.interceptors.request.use((config) => {
+        config.headers["x-api-key"] = import.meta.env.VITE_X_API_KEY;
+        return config;
+      });
       const response = await axiosInstance.get(
         "/api/schememaster/home_dashboard"
       );
@@ -122,7 +120,6 @@ export const Cards = () => {
     },
   ];
 
-  console.log(cardList);
   return (
     <>
       <div className="bg-banner h-64 flex items-center justify-evenly">

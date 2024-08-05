@@ -339,7 +339,6 @@ const WorkRequirement = () => {
   });
 
   const onAge = (e) => {
-    console.log(e, "age");
     if (e < 18 || e > 65) {
       toast.error("Age should be between 18-65 years");
     }
@@ -348,7 +347,6 @@ const WorkRequirement = () => {
   //Validation of mobile number
 
   const onMobile = (e) => {
-    console.log(e, "mobile");
     const value = e;
     const regex = /^[6-9]{1}[0-9]{9}$/;
     if (regex.test(value) || value === "") {
@@ -360,7 +358,6 @@ const WorkRequirement = () => {
   };
 
   const onAdhar = (e) => {
-    console.log(e, "mobile");
     const value = e;
     const regex = /^[0-9]{12}$/;
     if (regex.test(value) || value === "") {
@@ -374,7 +371,7 @@ const WorkRequirement = () => {
   function SaveDemandData() {
     setSavedData((prev) => [...prev, ...demandData]);
     setAllData([initialData]);
-    // console.log(GpData.data);
+    //;
     setDropdownData(["", "", ""]);
   }
 

@@ -16,7 +16,6 @@ import SuccessModal from "../../components/SuccessModal";
 import { getUserList } from "../../Service/ProfileEdit/ProfileEditService";
 const Profile = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(errorMessage, "erroreeeororor");
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
@@ -61,8 +60,6 @@ const Profile = () => {
     officeName_hd: "",
   });
 
-  console.log(allUserList, "allUserList");
-
   useEffect(() => {
     const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -80,7 +77,6 @@ const Profile = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-      console.log(response, "sibamdey");
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -101,8 +97,6 @@ const Profile = () => {
     });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList");
-
   //Designation list
   let designationListDropdown = <option>Loading...</option>;
   if (allDesignationList && allDesignationList.length > 0) {
@@ -148,7 +142,6 @@ const Profile = () => {
   };
 
   const onDistrict = (e) => {
-    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -257,14 +250,7 @@ const Profile = () => {
     setAllUserList({ ...allUserList, tech_email: e.target.value });
   };
 
-  console.log(
-    allDesignationList.find(
-      (c) => c.designationId === allUserList?.designationID
-    )?.designation,
-    "desdesdes"
-  );
-  console.log(allUserList?.designationID == 1, "idididididid");
-
+ 
   const onRegister = () => {
     if (allUserList?.userName === "") {
       toast.error("Please type your nodal officer name");
@@ -301,7 +287,6 @@ const Profile = () => {
         (r) => {
           setErrorMessage(r);
 
-          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
             toast.success(r.message);
@@ -314,7 +299,6 @@ const Profile = () => {
       );
     }
   };
-  console.log(errorMessage?.message, "message");
   return (
     <div className="flex-grow ">
       <SuccessModal

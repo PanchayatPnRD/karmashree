@@ -30,13 +30,13 @@ const OTPConfirm = () => {
     const userData = JSON.parse(jsonString);
     setUserData(userData);
   }, []);
-  // console.log(otp, "otp")
+  
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
       const updatedOtp = [...otp];
       updatedOtp[index] = value;
-      console.log(updatedOtp.join(""), "jinjoin");
+      
       setOtp(updatedOtp);
 
       // Auto-focus the next input field

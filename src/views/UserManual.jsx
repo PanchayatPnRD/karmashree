@@ -14,7 +14,6 @@ const UserManual = () => {
     });
   }, []);
 
-  console.log(LibraryList, "LibraryList");
   return (
     <>
       <div className="flex flex-grow flex-col space-y-16 p-4 px-12">
@@ -114,9 +113,7 @@ const UserManual = () => {
                       return (
                         <li>
                           <span className="flex items-center space-x-4">
-                            <span>
-                              {d?.caption}
-                            </span>
+                            <span>{d?.caption}</span>
                             <a href={devApi + "/api/" + d?.UploadFileLink}>
                               <Icon
                                 className="text-2xl cursor-pointer text-red-600"

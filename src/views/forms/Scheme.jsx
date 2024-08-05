@@ -72,7 +72,6 @@ const Scheme = () => {
   const [userData, setUserData] = useState(null);
   const [schemeId, setSchemeId] = useState();
 
-  console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
     const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -132,8 +131,6 @@ const Scheme = () => {
     enabled: departmentNo != undefined,
     gcTime: 0,
   });
-
-  console.log(allContractorList, "allContractorList");
 
   useEffect(() => {
     if (departmentNo != 0)
@@ -226,7 +223,6 @@ const Scheme = () => {
   };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
 
@@ -356,9 +352,6 @@ const Scheme = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
-
     // Financial year starts from April
     if (currentMonth >= 4) {
       financialYear =
@@ -372,14 +365,7 @@ const Scheme = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
-
-  console.log(
-    format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
-    "fatafatafa"
-  );
+ 
   const onSubmit = () => {
     if (area === "") {
       toast.error("Please Select Area Type");
@@ -480,7 +466,6 @@ const Scheme = () => {
         data?.userIndex,
 
         (r) => {
-          console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
             setSchemeId(r.schemeid);
@@ -522,7 +507,7 @@ const Scheme = () => {
       departmentNo: departmentNo,
       deptWing: parastatalRef.current?.value,
       districtcode: district?.length > 0 ? +district : 0,
-      municipalityCode: municipality?.length > 0 ? +municipality :  0,
+      municipalityCode: municipality?.length > 0 ? +municipality : 0,
       blockcode: block?.length > 0 ? +block : 0,
       gpCode: gp?.length > 0 ? +gp : 0,
       sansadID: 0,

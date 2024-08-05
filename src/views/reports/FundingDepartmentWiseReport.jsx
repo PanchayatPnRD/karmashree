@@ -20,17 +20,14 @@ const FundingDepartmentWiseReport = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
-  console.log(karmashree_data, "userIndex");
-
   const { data: fundingDeptWise } = useQuery({
     queryKey: ["fundingDeptWise"],
     queryFn: async () => {
       const data = await fetch.get(`/api/schememaster/funding-department-wise`);
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
   });
-  console.log(fundingDeptWise, "employmentList");
   const ListOptions = [10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
@@ -69,7 +66,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_scheme);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },
@@ -83,7 +79,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_sector);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },
@@ -101,7 +96,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Cost);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },
@@ -119,7 +113,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Spent);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },
@@ -136,7 +129,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_worker);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },
@@ -153,7 +145,6 @@ const FundingDepartmentWiseReport = () => {
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Mandays);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        console.log(total);
         return <span className="font-bold text-zinc-900">{total}</span>;
       },
     },

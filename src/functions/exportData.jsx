@@ -1,7 +1,7 @@
 import * as xlsx from "xlsx";
 import * as ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-export const exportToExcel = (rows, table,name) => {
+export const exportToExcel = (rows, table, name) => {
   const columnHeaders = table
     .getAllFlatColumns()
     .map((e) => e.columnDef.header);
@@ -23,11 +23,10 @@ export const exportToExcel = (rows, table,name) => {
   const data = new Blob([excelBuffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
   });
-  saveAs(data, name+".xlsx");
-  
+  saveAs(data, name + ".xlsx");
 };
 
-export const exportToCSV = (table,name) => {
+export const exportToCSV = (table, name) => {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Sheet1");
 
@@ -40,7 +39,7 @@ export const exportToCSV = (table,name) => {
   table.getFilteredRowModel().rows.forEach((row) => {
     const cells = row.getVisibleCells();
     const values = cells.map((cell) => cell.getValue());
-    // console.log(values);
+    //;
     array.push(values);
   });
   const new_row = array.map((e, idx) => {
@@ -52,6 +51,6 @@ export const exportToCSV = (table,name) => {
   // Generate CSV
   workbook.csv.writeBuffer().then((buffer) => {
     const blob = new Blob([buffer], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, name+".csv");
+    saveAs(blob, name + ".csv");
   });
 };

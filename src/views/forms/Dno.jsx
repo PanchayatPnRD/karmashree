@@ -14,8 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
 import classNames from "classnames";
-import BreadCrumb from "../../components/BreadCrumb"
-
+import BreadCrumb from "../../components/BreadCrumb";
 
 const Dno = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -69,7 +68,6 @@ const Dno = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-      console.log(response, "sibamdey");
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -90,8 +88,6 @@ const Dno = () => {
     });
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList");
-
   let GpListDropdown = <option>Loading...</option>;
   if (allGpList && allGpList.length > 0) {
     GpListDropdown = allGpList.map((gpRow, index) => (
@@ -124,8 +120,6 @@ const Dno = () => {
     ));
   }
 
-  console.log(districtListDropdown, "districtListDropdown");
-
   //Role list
   async function getRoleDataList() {
     getAllRoleList().then(function (result) {
@@ -146,7 +140,6 @@ const Dno = () => {
   };
 
   const onDistrict = (e) => {
-    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -307,7 +300,6 @@ const Dno = () => {
         (r) => {
           setErrorMessage(r);
           setOpenModal(true);
-          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             // setErrorMessage(r.message)
             // toast.success(r.message);
@@ -336,7 +328,7 @@ const Dno = () => {
       />
       <ToastContainer />
       <div className="mx-auto">
-        <BreadCrumb page={"Dno User"} className="px-12"/>
+        <BreadCrumb page={"Dno User"} className="px-12" />
         <form className="flex">
           <div className="w-full px-32 border rounded-md border-zinc-200 shadow-md mx-12 pt-6 space-y-6 pb-10">
             <div className="flex items-center space-x-4">

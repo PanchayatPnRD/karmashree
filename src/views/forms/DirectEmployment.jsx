@@ -92,7 +92,6 @@ const DirectEmployment = () => {
   };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
   const onScheme = (e) => {
@@ -145,7 +144,7 @@ const DirectEmployment = () => {
           block != undefined ? "&blockcode=" + block : ""
         }${gp != undefined ? "&gpCode=" + gp : ""}`
       );
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
     enabled: district != undefined,
@@ -163,7 +162,7 @@ const DirectEmployment = () => {
       const data = await fetch.get(
         `/api/demand/getDemandsforallocation_and_direct_emp?userIndex=${userIndex}&districtcode=${userDetails?.districtcode}`
       );
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
     enabled: isSuccess,
