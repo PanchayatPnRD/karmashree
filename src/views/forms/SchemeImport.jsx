@@ -63,7 +63,6 @@ const SchemeImport = () => {
   const [userData, setUserData] = useState(null);
   const [schemeId, setSchemeId] = useState();
 
-  console.log(tentativeWorkStartDate, "tentativeWorkStartDate");
   useEffect(() => {
     const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
@@ -90,7 +89,6 @@ const SchemeImport = () => {
     });
   }, []);
 
-  console.log(allContractorList, "allContractorList");
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -176,7 +174,6 @@ const SchemeImport = () => {
   };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
 
@@ -306,9 +303,6 @@ const SchemeImport = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
-
     // Financial year starts from April
     if (currentMonth >= 4) {
       financialYear =
@@ -322,16 +316,8 @@ const SchemeImport = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
 
-  console.log(
-    format(new Date(tentativeWorkStartDate), "yyyy-MM-dd"),
-    "fatafatafa"
-  );
   const onSubmit = () => {
-    console.log("clicked");
     if (area === "") {
       toast.error("Please Select Area Type");
     } else if (!district) {
@@ -433,7 +419,6 @@ const SchemeImport = () => {
         remark,
         data?.userIndex,
         (r) => {
-          console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
             setSchemeId(r.schemeid);

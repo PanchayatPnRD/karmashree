@@ -288,7 +288,7 @@ export const Sidebar = () => {
   const allocationHidden = [7, 13, 17, 29, 23, 29, 30, 31, 32, 33, 34, 35];
   const employmentHidden = [7, 13, 17, 24, 29, 30, 31, 32, 33, 34, 35];
   const reportHidden = [27, 30, 31, 32, 33, 34, 35];
-  
+
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
   const { data: userDetails, isSuccess } = useQuery({
@@ -305,7 +305,7 @@ export const Sidebar = () => {
     userDetails?.role_type,
     Boolean(parseInt(userDetails?.dno_status))
   )?.uniqueId;
-  // console.log(userRoleIndex, "permission");
+  //;
 
   return (
     <div className="z-20 flex flex-col p-3">
@@ -502,7 +502,6 @@ export const Sidebar = () => {
             })}
         </SidebarExpand>
       )}
-      
 
       {isSuccess && !userMasterHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Secretary Reports"} icon={"mdi:user"}>
@@ -526,7 +525,7 @@ export const Sidebar = () => {
       {isSuccess && !reportHidden.includes(userRoleIndex) && (
         <SidebarExpand text={"Reports"} icon={"bxs:report"}>
           {sideBarList
-            .slice(29, sideBarList.length-1)
+            .slice(29, sideBarList.length - 1)
             // .filter((e) => e.permissions.includes(userRoleIndex))
             .map((e) => {
               return (

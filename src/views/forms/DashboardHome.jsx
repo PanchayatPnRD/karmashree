@@ -23,10 +23,7 @@ const DashboardHome = () => {
     },
   });
 
-  const {
-    data: DashboardData,
-    isSuccess,
-  } = useQuery({
+  const { data: DashboardData, isSuccess } = useQuery({
     queryKey: ["dashboardData"],
     queryFn: async () => {
       const data = await fetch.get(
@@ -34,7 +31,7 @@ const DashboardHome = () => {
       );
       return data.data.result;
     },
-    enabled: userDetails?.category != undefined
+    enabled: userDetails?.category != undefined,
   });
 
   useEffect(() => {
@@ -42,9 +39,8 @@ const DashboardHome = () => {
       const response = result?.data?.result;
       setAllDashboardList(response);
     });
-    sessionStorage.setItem("resendToken","");
+    sessionStorage.setItem("resendToken", "");
   }, []);
-  console.log(allDashboardList, "allDashboardList");
   //Dashboard list
   // let dashboardListDropdown = <option>Loading...</option>;
   // if (allDashboardList && allDashboardList.length > 0) {
@@ -52,7 +48,7 @@ const DashboardHome = () => {
   //     <option>{DashRow.month}</option>
   //   ));
   // }
-  // console.log(dashboardListDropdown,"dashboardListDropdown")
+  //
 
   return (
     <div className="flex-grow">

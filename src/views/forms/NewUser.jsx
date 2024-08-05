@@ -25,7 +25,6 @@ import BreadCrumb from "../../components/BreadCrumb";
 const NewUser = () => {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(errorMessage, "erroreeeororor");
   const [openModal, setOpenModal] = useState();
   const [department, setDepartment] = useState("");
   const [allDepartmentList, setAllDepartmentList] = useState([]);
@@ -51,7 +50,6 @@ const NewUser = () => {
   const [areaBlock, setAreaBlock] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [role, setRole] = useState("");
-  console.log(role, "rolerole");
   const [allDesignationList, setAllDesignationList] = useState([]);
   const [designation, setDesignation] = useState("");
   const navigate = useNavigate();
@@ -72,12 +70,11 @@ const NewUser = () => {
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidTechnicalMobile, setIsValidTechnicalMobile] = useState(true);
 
-  console.log(pedastal, "pedastal");
   useEffect(() => {
     const jsonString = sessionStorage.getItem("karmashree_User");
     const data = JSON.parse(jsonString);
     setUserData(data);
-    // console.log("userData",userData?.districtcode, userData?.subDivision)
+    //
     getAllDepartmentList(data?.departmentNo).then(function (result) {
       const response = result?.data?.result;
       setAllDepartmentList(response);
@@ -99,7 +96,6 @@ const NewUser = () => {
 
     getAllDesignationList(data?.category).then(function (result) {
       const response = result?.data?.result;
-      console.log(response, "sibamdey");
       setAllDesignationList(response?.result);
     });
     getAllDistrictList(data?.districtcode).then(function (result) {
@@ -137,8 +133,6 @@ const NewUser = () => {
 
     getRoleDataList();
   }, []);
-  console.log(allDistrictList, "allDistrictList");
-
   //Designation list
   let designationListDropdown = <option>No data found...</option>;
   if (allDesignationList && allDesignationList.length > 0) {
@@ -194,7 +188,6 @@ const NewUser = () => {
   };
 
   const onDistrict = (e) => {
-    console.log(e.target.value, "district");
     setDistrict(e.target.value);
     getAllSubDivisionList(
       userData?.districtcode ? userData?.districtcode : e.target.value,
@@ -476,7 +469,6 @@ const NewUser = () => {
         technicalOfficerContactNumber ? technicalOfficerContactNumber : "",
         technicalOfficerEmailInput ? technicalOfficerEmailInput : "",
         (r) => {
-          console.log(r, "sibamdeyresponse");
           if (r.errorCode == 0) {
             setErrorMessage(r);
             setOpenModal(true);
@@ -501,7 +493,6 @@ const NewUser = () => {
     setAreaGP(e.target.value);
   };
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
 
@@ -522,8 +513,7 @@ const NewUser = () => {
         />
         <ToastContainer />
         <div className="mx-auto">
-          
-          <BreadCrumb page={"User Registration"} className={"px-12"}/>
+          <BreadCrumb page={"User Registration"} className={"px-12"} />
           <form className="flex">
             <div className="w-full px-12 space-y-6 pb-10">
               <div className="flex items-center space-x-6">

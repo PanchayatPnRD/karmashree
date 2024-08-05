@@ -48,7 +48,6 @@ const Contractor = () => {
   const [isValidPinCode, setIsValidPinCode] = useState(true);
   const [userData, setUserData] = useState();
 
-  console.log(userData?.category, "userData");
   const queryClient = useQueryClient();
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
@@ -240,7 +239,6 @@ const Contractor = () => {
   };
 
   const onMunicipality = (e) => {
-    console.log(e.target.value, "municipality");
     setMunicipality(e.target.value);
   };
 
@@ -257,9 +255,6 @@ const Contractor = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
-
     // Financial year starts from April
     if (currentMonth >= 4) {
       financialYear =
@@ -273,17 +268,7 @@ const Contractor = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
-  console.log(
-    data?.category === "HD"
-      ? 0
-      : data?.category === "Dist"
-      ? data?.districtcode
-      : "",
-    "dadadada"
-  );
+  
 
   const onSubmit = (draft) => {
     // if (area === "") {
@@ -331,7 +316,6 @@ const Contractor = () => {
         area,
         draft,
         (r) => {
-          console.log(r, "response");
           if (r.errorCode == 0) {
             if (+draft == 0) {
               setOpenModal(true);

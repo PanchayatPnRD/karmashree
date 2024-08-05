@@ -21,7 +21,6 @@ export const addCreateContractor = async (
   onSuccess,
   onFailure
 ) => {
-  console.log(districtcode, Municipality, block, gpCode, area, "contractor");
   try {
     const res = await webApi.post(`/api/contractor/createcontractor`, {
       contractorName: contractorName,
@@ -44,23 +43,16 @@ export const addCreateContractor = async (
     });
     if (res?.data?.errorCode == 0) {
       const r = res.data;
-      console.log(r, "rerere");
-
       return onSuccess(r);
     } else if (res?.data?.errorCode == 1) {
       const r = res.data;
-      console.log(r, "rerere");
-
       return onSuccess(r);
     } else {
       onFailure("Something Wrong! Please Try again later" + res.data);
     }
-  } catch (error) {
-    console.log("fdgdf");
-  }
+  } catch (error) {}
 };
 
 export const getAllContractorList = async (userId) => {
-  console.log(userId, "userId");
   return await webApi.get(`/api/contractor/getcontractorList/${userId}`);
 };

@@ -16,7 +16,7 @@ let instance = axios.create({
 });
 
 const authToken = sessionStorage.getItem("karmashree_AuthToken");
-console.log(authToken, "authToken")
+
 
 
 instance.interceptors.request.use(

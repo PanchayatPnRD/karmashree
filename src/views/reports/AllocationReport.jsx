@@ -20,19 +20,16 @@ const AllocationReport = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
-  console.log(karmashree_data, "userIndex");
-
   const { data: allocationReport } = useQuery({
     queryKey: ["allocationReport"],
     queryFn: async () => {
       const data = await fetch.get(
         `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
       );
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
   });
-  console.log(allocationReport, "allocationReport");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 

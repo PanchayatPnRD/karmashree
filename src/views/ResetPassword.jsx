@@ -30,7 +30,6 @@ export const ConfirmUser = () => {
       : "";
     const data = JSON.parse(jsonString);
     setUserData(data);
-    console.log(jsonString, "jsonString");
   }, []);
 
   const handleOtpChange = (index, value) => {
@@ -65,7 +64,6 @@ export const ConfirmUser = () => {
   //   else setShowOtp(true);
   // }
 
-  console.log(state, "state");
   function onVerifyUser() {
     if (userId === "") {
       toast.error("Please type your user id");
@@ -73,7 +71,6 @@ export const ConfirmUser = () => {
       toast.error("Please type 10 digit mobile number");
     } else {
       getPasswordReset(userId, phoneNumber, (res) => {
-        console.log(res, "response");
         if (res.errorCode == 0) {
           const userdata = {
             UserID: userId,
@@ -82,19 +79,15 @@ export const ConfirmUser = () => {
           setShowOtp(true);
           toast.success(res.message);
         } else if (res.errorCode == 1) {
-          console.log("nononononono");
           toast.error(res.message);
         } else {
         }
       });
     }
-
-    console.log("verify");
   }
 
   const onOtpVerify = () => {
     getVerifyOtpResetPassword(otp.join(""), userData?.UserID, (res) => {
-      console.log(res, "response");
       if (res.errorCode == 0) {
         toast.success(res.message);
 
@@ -102,7 +95,6 @@ export const ConfirmUser = () => {
 
         // window.location.reload();
       } else if (res.errorCode == 1) {
-        console.log("nononononono");
         toast.error(res.message);
       } else {
       }
@@ -247,12 +239,10 @@ export const ResetPassword = () => {
         newPassword,
         confirmPassword,
         (res) => {
-          console.log(res, "response");
           if (res.errorCode == 0) {
             toast.success(res.message);
             navigate("/login");
           } else if (res.errorCode == 1) {
-            console.log("nononononono");
             toast.error(res.message);
           } else {
           }

@@ -55,9 +55,7 @@ const ActionPlan = () => {
     const startYear = currentYear - index;
     return `${startYear}-${startYear + 1}`;
   });
-  console.log(department, "department");
   const onFinancialYear = (event) => {
-    console.log(event.target.value, "fififififi");
     setSelectedYear(event.target.value);
   };
 
@@ -94,7 +92,7 @@ const ActionPlan = () => {
     //   toast.error("Please add Parastatals")
     // }
   }, []);
-  // console.log(allPedastralList?.length,"allPedadddstralList")
+  //
 
   //Department list
   let departmentListDropdown = <option>No data found...</option>;
@@ -259,9 +257,6 @@ const ActionPlan = () => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
     let financialYear = "";
-    console.log(currentMonth);
-    console.log(currentYear);
-
     // Financial year starts from April
     if (currentMonth >= 4) {
       financialYear =
@@ -275,10 +270,6 @@ const ActionPlan = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  console.log(financialYear, "financialYear");
-  console.log(currentMonth, "currentMonth");
-  console.log(currentYear, "currentYear");
-
   const onRegister = () => {
     if (userData?.category === "HQ" && department === "") {
       toast.error("Please select a Department");
@@ -337,7 +328,6 @@ const ActionPlan = () => {
         currentYear,
         data?.userIndex,
         (r) => {
-          console.log(r, "response");
           if (r.errorCode == 0) {
             setOpenModal(true);
           } else {
@@ -361,9 +351,8 @@ const ActionPlan = () => {
         <ToastContainer />
         <div className="mx-auto">
           <div className="bg-white rounded-lg text-sm">
-
             <div className="bg-white shadow-md rounded-lg px-12 pb-8 mb-8">
-            <BreadCrumb page={"Action Plan"}/>
+              <BreadCrumb page={"Action Plan"} />
               <div className="flex flex-col w-full space-y-3 mb-6">
                 <div className="flex items-center px-4 space-x-4">
                   <div className="w-1/3">

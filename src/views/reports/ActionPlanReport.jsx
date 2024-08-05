@@ -20,17 +20,14 @@ const ActionPlanReport = () => {
   const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
-  console.log(karmashree_data, "userIndex");
-
   const { data: actionPlan } = useQuery({
     queryKey: ["actionPlan"],
     queryFn: async () => {
       const data = await fetch.get(`/api/schememaster/getactionplanreport`);
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
   });
-  console.log(actionPlan, "actionPlan");
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 

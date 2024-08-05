@@ -18,7 +18,6 @@ const UserManual = () => {
   const [image, setImage] = useState({ preview: "", raw: "" });
   const [getImage, setGetImage] = useState(null);
   const [getImageresult, setGetImageresult] = useState("");
-  console.log(getImage, "getImage");
   const jsonString = sessionStorage.getItem("karmashree_User");
   const karmashree_data = JSON.parse(jsonString);
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
@@ -28,8 +27,6 @@ const UserManual = () => {
   const onYoutubeLink = (e) => {
     setYoutube(e.target.value);
   };
-  console.log(youtube, "youtube");
-
   const onCaption = (e) => {
     setCaption(e.target.value);
   };
@@ -85,12 +82,10 @@ const UserManual = () => {
       toast.error("Please Choose a File");
     } else {
       addLibrary(formData, (r) => {
-        console.log(r, "response");
         if (r.errorCode == 0) {
           toast.success(r.message);
           navigate("/dashboard/manual");
         } else {
-          console.log("nononononono");
           toast.error(r.message);
         }
       });

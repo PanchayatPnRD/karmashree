@@ -25,7 +25,7 @@ const Department = () => {
     queryKey: ["departmentList"],
     queryFn: async () => {
       const data = await fetch.get("/api/mastertable/DepartmentList");
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
   });
@@ -165,9 +165,8 @@ const Department = () => {
     <>
       <ToastContainer />
       {(addPending || updatePending) && <Loading />}
-      <BreadCrumb page={"Department Master"} className="px-12"/>
+      <BreadCrumb page={"Department Master"} className="px-12" />
       <div className="overflow-hidden bg-white rounded-lg p-12 pt-0 flex flex-col flex-grow">
-        
         <div className="px-36 flex flex-col space-y-6 py-4 pt-1">
           <div>
             <label htmlFor="" className="capitalize text-black">

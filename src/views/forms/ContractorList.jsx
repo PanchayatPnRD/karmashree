@@ -26,7 +26,7 @@ const ContractorList = () => {
         "/api/contractor/getcontractorList/",
         userIndex
       );
-      // console.log(Array.isArray(data.data.result));
+      //);
       return data.data.result;
     },
   });
