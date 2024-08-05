@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/biswa.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'sha256-abc123' 'sha256-def456';
+    style-src 'self' 'sha256-ghi789';
+    img-src 'self' data:;
+    font-src 'self' https://fonts.googleapis.com;
+    connect-src 'self' http://karmashree.wbdeptemployment.in, http://wbkarmashree.in:8094;
+    frame-ancestors 'none';
+    base-uri 'self';
+    form-action 'self';
+    object-src 'none';
+    report-uri /csp-violation-report-endpoint;
+">
     <!-- <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
