@@ -62,13 +62,6 @@ const OTPConfirm = () => {
     }
   };
 
-  const encryptedData = CryptoJS.AES.encrypt(
-    {
-      userId: CryptoJS.AES.encrypt(userData?.UserID, secretKey).toString(),
-      otp: CryptoJS.AES.encrypt(otp.join(""), secretKey).toString(),
-    },
-    secretKey
-  ).toString();
 
   const {
     data: mutationData,
@@ -81,6 +74,8 @@ const OTPConfirm = () => {
         baseURL: devApi,
         headers: { "x-api-key": import.meta.env.VITE_X_API_KEY },
       });
+
+      console.log();
 
       const data = await api.post(
         `/api/auth/verify-otp`,
