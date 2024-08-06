@@ -11,8 +11,11 @@ import axios from "axios";
 import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
+import CryptoJS from "crypto-js";
 
 const OTPConfirm = () => {
+  const secretKey = import.meta.env.VITE_secret_key;
+
   const { stack } = useStack();
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
@@ -59,6 +62,14 @@ const OTPConfirm = () => {
     }
   };
 
+  const encryptedData = CryptoJS.AES.encrypt(
+    {
+      userId: userData?.UserID,
+      otp: otp.join(""),
+    },
+    secretKey
+  ).toString();
+
   const {
     data: mutationData,
     isSuccess,
@@ -73,10 +84,7 @@ const OTPConfirm = () => {
 
       const data = await api.post(
         `/api/auth/verify-otp`,
-        {
-          userId: userData?.UserID,
-          otp: otp.join(""),
-        },
+        encryptedData,
         {}
       );
       return data.data;
