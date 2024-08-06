@@ -4,14 +4,17 @@ import { Login_logo } from "../components/Logo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import classNames from "classnames";
+import { useSessionStorage } from "@uidotdev/usehooks";
 import { getVerifyOtp } from "../Service/Otp/otpService";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { fetch } from "../functions/Fetchfunctions";
 import { devApi } from "../WebApi/WebApi";
 import { useStack } from "../functions/Stack";
 import SuccessModal from "../components/SuccessModal";
 import CryptoJS from "crypto-js";
+import { jwtDecode } from "jwt-decode";
 
 const OTPConfirm = () => {
   const secretKey = import.meta.env.VITE_secret_key;
@@ -19,27 +22,19 @@ const OTPConfirm = () => {
   const { stack } = useStack();
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
-  const [timeLeft, setTimeLeft] = useState(59);
+  const [timeLeft, setTimeLeft] = useState(159);
   const [isValidating, setIsValidating] = useState(true);
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { state } = useLocation();
   const [openModal, setOpenModal] = useState();
 
-  useEffect(() => {
-    
-
-    const jsonString = sessionStorage.getItem("karmashree_User");
-    const userData = JSON.parse(jsonString);
-    setUserData(userData);
-  }, []);
-  
   const handleOtpChange = (index, value) => {
     // Only allow numeric input
     if (value.match(/^[0-9]$/)) {
       const updatedOtp = [...otp];
       updatedOtp[index] = value;
-      
+
       setOtp(updatedOtp);
 
       // Auto-focus the next input field
@@ -62,7 +57,6 @@ const OTPConfirm = () => {
     }
   };
 
-
   const {
     data: mutationData,
     isSuccess,
@@ -75,12 +69,17 @@ const OTPConfirm = () => {
         headers: { "x-api-key": import.meta.env.VITE_X_API_KEY },
       });
 
-      console.log();
+      console.log(
+        JSON.parse(sessionStorage.getItem("karmashree_User")).UserID.toString()
+      );
 
       const data = await api.post(
         `/api/auth/verify-otp`,
         {
-          userId: CryptoJS.AES.encrypt(userData?.UserID, secretKey).toString(),
+          userId: CryptoJS.AES.encrypt(
+            JSON.parse(sessionStorage.getItem("karmashree_User")).UserID.toString(),
+            secretKey
+          ).toString(),
           otp: CryptoJS.AES.encrypt(otp.join(""), secretKey).toString(),
         },
         {}
@@ -90,11 +89,16 @@ const OTPConfirm = () => {
     onSuccess: (data) => {
       // const { category}Payload
 
+      sessionStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
+
       sessionStorage.setItem(
         "karmashree_User",
-        JSON.stringify(data?.newPayload)
+        JSON.stringify(jwtDecode(data?.newPayload?.token))
       );
-      sessionStorage.setItem("karmashree_AuthToken", data?.newPayload?.token);
+
+      // console.log(jwtDecode(data?.newPayload?.token));
+
+      // setToken(data?.newPayload?.token);
 
       if (
         sessionStorage.getItem("karmashree_AuthToken") != "" ||
@@ -105,11 +109,11 @@ const OTPConfirm = () => {
         } else toast.error(data?.message);
     },
   });
-  
+
   const {
     data: NewOTP,
     isSuccess: resendSuccess,
-    mutate:resend_OTP,
+    mutate: resend_OTP,
   } = useMutation({
     mutationKey: ["resendOTP"],
     mutationFn: async () => {
@@ -126,14 +130,14 @@ const OTPConfirm = () => {
     onSuccess: (data) => {
       // const { category}Payload
 
-     toast.success("Resent OTP Successfully")
+      toast.success("Resent OTP Successfully");
     },
   });
 
   function resendOTP() {
-    setTimeLeft(59);
+    setTimeLeft(159);
     setIsValidating(true);
-    resend_OTP()
+    resend_OTP();
     //resend otp function login here
   }
 

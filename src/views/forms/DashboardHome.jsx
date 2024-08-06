@@ -9,11 +9,6 @@ import CountUp from "react-countup";
 import { getAllDashboardList } from "../../Service/DashboardService";
 const DashboardHome = () => {
   // const countUpRef = useRef(null);
-  const [allDashboardList, setAllDashboardList] = useState([]);
-
-  const { userIndex, category } = JSON.parse(
-    sessionStorage.getItem("karmashree_User")
-  );
 
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
@@ -29,18 +24,16 @@ const DashboardHome = () => {
       const data = await fetch.get(
         `/api/schememaster/dashboard?category=${userDetails?.category}&dno_status=${userDetails?.dno_status}&departmentNo=${userDetails?.departmentNo}&districtCode=${userDetails?.districtcode}&blockcode=${userDetails?.blockcode}&gpCode=${userDetails?.gpCode}`
       );
+
       return data.data.result;
     },
     enabled: userDetails?.category != undefined,
   });
 
   useEffect(() => {
-    getAllDashboardList().then(function (result) {
-      const response = result?.data?.result;
-      setAllDashboardList(response);
-    });
     sessionStorage.setItem("resendToken", "");
   }, []);
+
   //Dashboard list
   // let dashboardListDropdown = <option>Loading...</option>;
   // if (allDashboardList && allDashboardList.length > 0) {
