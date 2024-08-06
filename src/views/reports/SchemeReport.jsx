@@ -27,6 +27,8 @@ const SchemeReport = () => {
         `/api/employment/getemploymentList/${karmashree_data?.userIndex}`
       );
       //);
+      if (data.data.errorCode == 1)
+        return []
       return data.data.result;
     },
   });

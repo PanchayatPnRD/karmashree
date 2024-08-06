@@ -61,12 +61,20 @@ const FundingDepartmentWiseReport = () => {
       accessorKey: "Total_scheme",
       headclass: "cursor-pointer",
       className: "text-center",
+      cell: ({ row }) =>
+        row.original.Total_scheme == "" || row.original.Total_scheme == null
+          ? "0"
+          : parseInt(row.original.Total_scheme).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_scheme);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
     {
@@ -74,12 +82,20 @@ const FundingDepartmentWiseReport = () => {
       accessorKey: "Total_sector",
       headclass: "cursor-pointer",
       className: "text-center",
+      cell: ({ row }) =>
+        row.original.Total_sector == "" || row.original.Total_sector == null
+          ? "0"
+          : parseInt(row.original.Total_sector).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_sector);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
     {
@@ -90,13 +106,17 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_Cost == "" || row.original.Total_Cost == null
           ? "0"
-          : row.original.Total_Cost,
+          : parseInt(row.original.Total_Cost).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Cost);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
     {
@@ -107,13 +127,17 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_Spent == "" || row.original.Total_Spent == null
           ? "0"
-          : row.original.Total_Spent,
+          : parseInt(row.original.Total_Spent).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Spent);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
     {
@@ -123,13 +147,17 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_worker == "" || row.original.Total_worker == null
           ? "0"
-          : row.original.Total_worker,
+          : parseInt(row.original.Total_worker).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_worker);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
     {
@@ -139,13 +167,17 @@ const FundingDepartmentWiseReport = () => {
       cell: ({ row }) =>
         row.original.Total_Mandays == "" || row.original.Total_Mandays == null
           ? "0"
-          : row.original.Total_Mandays,
+          : parseInt(row.original.Total_Mandays).toLocaleString("en-IN"),
       footer: (props) => {
         const arr = props.table
           .getFilteredRowModel()
           .rows.map((e) => e.original.Total_Mandays);
         const total = arr.reduce((sum, row) => sum + JSON.parse(row), 0);
-        return <span className="font-bold text-zinc-900">{total}</span>;
+        return (
+          <span className="font-bold text-zinc-900">
+            {total.toLocaleString("en-IN")}
+          </span>
+        );
       },
     },
   ];
