@@ -64,8 +64,8 @@ const OTPConfirm = () => {
 
   const encryptedData = CryptoJS.AES.encrypt(
     {
-      userId: userData?.UserID,
-      otp: otp.join(""),
+      userId: CryptoJS.AES.encrypt(userData?.UserID, secretKey).toString(),
+      otp: CryptoJS.AES.encrypt(otp.join(""), secretKey).toString(),
     },
     secretKey
   ).toString();
@@ -84,7 +84,10 @@ const OTPConfirm = () => {
 
       const data = await api.post(
         `/api/auth/verify-otp`,
-        encryptedData,
+        {
+          userId: CryptoJS.AES.encrypt(userData?.UserID, secretKey).toString(),
+          otp: CryptoJS.AES.encrypt(otp.join(""), secretKey).toString(),
+        },
         {}
       );
       return data.data;

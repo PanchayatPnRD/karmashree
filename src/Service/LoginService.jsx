@@ -1,20 +1,15 @@
 import webApi, { baseURL } from "../WebApi/WebApi";
 import CryptoJS from "crypto-js";
 //FOR LOGIN
+const secretKey = import.meta.env.VITE_secret_key;
 
 export const getLogin = async (userId, password, onSuccess, onFailure) => {
-
-  const secretKey = import.meta.env.VITE_secret_key;
-  const encryptedData = CryptoJS.AES.encrypt(
-    {
-      userId: userId,
-      password: password,
-    },
-    secretKey
-  ).toString();
   
   try {
-    const res = await webApi.post(`/api/auth/User_login`, encryptedData);
+    const res = await webApi.post(`/api/auth/User_login`, {
+      userId: CryptoJS.AES.encrypt(userId, secretKey).toString(),
+      password: CryptoJS.AES.encrypt(password, secretKey).toString(),
+    });
 
     if (res?.data?.errorCode == 0) {
       const r = res.data;
