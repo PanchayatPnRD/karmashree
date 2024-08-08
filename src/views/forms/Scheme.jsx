@@ -101,6 +101,54 @@ const Scheme = () => {
   const queryClient = useQueryClient();
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
 
+  const { data: schemeDraft } = useQuery({
+    queryKey: ["schemeDraft"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/schememaster/get_scheme_draft_Details/" + userIndex
+      );
+
+      if (data.data.errorCode === 1) return {};
+
+      return data.data.result;
+    },
+  });
+
+  useEffect(() => {
+    if (schemeDraft?.scheme_sl) {
+      setArea(schemeDraft?.schemeArea);
+      onDistrict({ target: { value: schemeDraft?.districtcode.toString() } });
+      onBlock(
+        {
+          target: {
+            value:
+              schemeDraft?.blockcode == 0
+                ? ""
+                : schemeDraft?.blockcode.toString(),
+          },
+        },
+        schemeDraft?.districtcode.toString()
+      );
+      setGP(schemeDraft?.gpCode == 0 ? "" : schemeDraft?.gpCode.toString());
+      setSector(schemeDraft?.schemeSector.toString());
+      setSchemeName(schemeDraft?.schemeName);
+      setLocation(schemeDraft?.village);
+      setDepartment(schemeDraft?.FundingDepttID.toString());
+      setDepartmentNo(schemeDraft?.departmentNo);
+      setStatus(schemeDraft?.StatusOfWork);
+      setTentativeWorkStartDate(new Date(schemeDraft?.tentativeStartDate));
+      setExpectedWorkDate(new Date(schemeDraft?.ExpectedCompletionDate));
+      setProjectCost(schemeDraft?.totalprojectCost);
+      setTotalWages(schemeDraft?.totalwagescostinvoled);
+      setPersondaysWork(schemeDraft?.personDaysGenerated);
+      setUnskilled(schemeDraft?.totalUnskilledWorkers);
+      setWorkOrderNumber(schemeDraft?.workorderNo);
+      setWorkOrderDate(new Date(schemeDraft?.workOderDate));
+      setContractor(schemeDraft?.ControctorID.toString());
+      setRemark(schemeDraft?.Remarks);
+    }
+  }, [schemeDraft]);
+
   const { data: userDetails } = useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
@@ -203,7 +251,7 @@ const Scheme = () => {
     ));
   }
 
-  const onBlock = (e) => {
+  const onBlock = (e, district) => {
     setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
@@ -365,7 +413,7 @@ const Scheme = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
- 
+
   const onSubmit = () => {
     if (area === "") {
       toast.error("Please Select Area Type");
@@ -731,6 +779,7 @@ const Scheme = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
+                    value={area}
                     onChange={onArea}
                   >
                     <option value="" selected hidden>
@@ -756,6 +805,7 @@ const Scheme = () => {
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={district}
                     onChange={onDistrict}
                   >
                     <option value="" selected hidden>
@@ -806,7 +856,8 @@ const Scheme = () => {
                       name="scheme_name"
                       autoComplete="off"
                       className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                      onChange={onBlock}
+                      value={block}
+                      onChange={(e) => onBlock(e, district)}
                     >
                       <option value="" selected hidden>
                         Select Block List
@@ -833,6 +884,7 @@ const Scheme = () => {
                       name="scheme_name"
                       autoComplete="off"
                       className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                      value={gp}
                       onClick={onGP}
                     >
                       <option value="" selected hidden>
@@ -862,6 +914,7 @@ const Scheme = () => {
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={sector}
                     onChange={onSector}
                   >
                     <option selected hidden>
@@ -886,6 +939,7 @@ const Scheme = () => {
                     placeholder="Scheme Name..."
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
+                    value={schemeName}
                     onChange={onSchemeName}
                     // onKeyDown={handleKeyDown}
                   />
@@ -911,6 +965,7 @@ const Scheme = () => {
                     autoComplete="off"
                     placeholder="Worksite Location ..."
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={Location}
                     onChange={onLocation}
                   />
                 </div>
@@ -926,6 +981,7 @@ const Scheme = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
+                    value={department}
                     onChange={onDepartment}
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   >
@@ -951,6 +1007,7 @@ const Scheme = () => {
                     autoComplete="off"
                     className="p-2 block w-full border border-gray-300 rounded-md mt-1"
                     required
+                    value={status}
                     onChange={onStatus}
                   >
                     <option value="" selected hidden>
@@ -1108,6 +1165,7 @@ const Scheme = () => {
                     autoComplete="off"
                     placeholder="Work Order Number..."
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={workOrderNumber}
                     onChange={onWorkOrderNumber}
                   />
                   {!isValidWorkOrderNumber && (
@@ -1144,9 +1202,10 @@ const Scheme = () => {
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={contractor}
                     onChange={onContractor}
                   >
-                    <option value="" selected hidden>
+                    <option value="0" selected hidden>
                       Select Contractor List
                     </option>
                     {/* <option value="1">
@@ -1173,6 +1232,7 @@ const Scheme = () => {
                     autoComplete="off"
                     placeholder=" Remarks..."
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    value={remark}
                     onChange={onRemarks}
                   />
                   {!isValidRemark && (
