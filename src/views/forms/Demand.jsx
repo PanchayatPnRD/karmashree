@@ -99,6 +99,43 @@ const WorkRequirement = () => {
     },
   });
 
+  const { data: demandDraft } = useQuery({
+    queryKey: ["draftData"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/demand/get_demand_draft_Details/" + userIndex
+      );
+
+      return data.data.result;
+    },
+  });
+
+  useEffect(() => {
+    if (demandDraft?.length > 0) {
+      setSavedData(
+        demandDraft?.map((e) => {
+          const {
+            UpdateTime,
+            dateoflastallocation,
+            demandsl,
+            demanduniqueID,
+            ex1,
+            ex2,
+            ex3,
+            ex4,
+            ex5,
+            submitTime,
+            workallostatus,
+            workerdemandstatus,
+            ...rest
+          } = e;
+
+          return { ...rest };
+        })
+      );
+    }
+  }, [demandDraft]);
+
   const { data: jobcardNo, isLoading } = useQuery({
     queryKey: ["jobcardNo"],
     queryFn: async () => {
@@ -322,12 +359,12 @@ const WorkRequirement = () => {
 
   const {
     data: demand,
-    mutate,
+    mutate: submit,
     isSuccess: entryStatus,
   } = useMutation({
     mutationFn: async () => {
       const { data } = await fetch.post(
-        { DemandMasterDto: savedData },
+        { DemandMasterDto: savedData, is_draft: "0" },
         "/api/demand/createDemand"
       );
       return data.demand;
@@ -335,6 +372,24 @@ const WorkRequirement = () => {
     mutationKey: ["demandEntry"],
     onSuccess: () => {
       setOpenModal(true);
+    },
+  });
+
+  const {
+    data: draftData,
+    mutate: draft,
+    isSuccess: draftStatus,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.post(
+        { DemandMasterDto: savedData, is_draft: "1" },
+        "/api/demand/createDemand"
+      );
+      return data;
+    },
+    mutationKey: ["demandDraft"],
+    onSuccess: (data) => {
+      if (data?.errorCode === 0) toast.success(data?.message);
     },
   });
 
@@ -1059,14 +1114,20 @@ const WorkRequirement = () => {
             )}
           </div>
           {savedData.length > 0 && (
-            <div className="flex justify-center items-center">
-              <button
-                onClick={mutate}
-                className="text-white bg-indigo-500 hover:bg-indigo-500/90 hover:shadow-md transition-all  px-6 py-1 rounded-lg"
-              >
-                Submit Demands
-              </button>
-            </div>
+          <div className="flex justify-center items-center space-x-8">
+            <button
+              onClick={submit}
+              className="text-white bg-indigo-500 hover:bg-indigo-500/90 hover:shadow-md transition-all  px-6 py-1 rounded-lg"
+            >
+              Submit Demands
+            </button>
+            <button
+              onClick={draft}
+              className="text-indigo-500 border-2 border-indigo-500 bg-white hover:shadow-md transition-all  px-6 py-1 rounded-lg"
+            >
+              Draft Demands
+            </button>
+          </div>
           )}
         </div>
       </div>
