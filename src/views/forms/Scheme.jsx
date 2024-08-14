@@ -885,7 +885,7 @@ const Scheme = () => {
                       autoComplete="off"
                       className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                       value={gp}
-                      onClick={onGP}
+                      onChange={onGP}
                     >
                       <option value="" selected hidden>
                         Select GP List

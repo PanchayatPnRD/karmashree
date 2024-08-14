@@ -21,6 +21,7 @@ export const addCreateWorkRequirement = async (
   currentYear,
   financialYear,
   userIndex,
+  isDraft,
   dataArr,
   onSuccess,
   onFailure
@@ -51,6 +52,7 @@ export const addCreateWorkRequirement = async (
         currentYear: currentYear,
         finYear: financialYear,
         userIndex: userIndex,
+        is_draft: isDraft,
         createworkalloDto: dataArr,
       }
     );

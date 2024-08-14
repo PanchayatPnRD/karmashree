@@ -12,7 +12,7 @@ import {
 } from "../../Service/ActionPlan/ActionPlanService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { fetch } from "../../functions/Fetchfunctions";
 import {
   getAllContractorList,
@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import SuccessModal from "../../components/SuccessModal";
 
 const WorkRequirement = () => {
+  const min_Date = "2024-04-01"
   const navigate = useNavigate();
   const jsonString = sessionStorage.getItem("karmashree_User");
   // const { userIndex } = JSON.parse(jsonString);
@@ -52,7 +53,7 @@ const WorkRequirement = () => {
   const [nearestLandmark, setNearestLandmark] = useState("");
   const [isValidNearestLandmark, setIsValidNearestLandmark] = useState(true);
   const [allData, setAllData] = useState([]);
-  const [schemeAllList, setAllSchemeAllList] = useState([]);
+  // const [schemeAllList, setAllSchemeAllList] = useState([]);
   const [schemeSl, setSchemeSl] = useState();
   const [unSkilled, setUnSkilled] = useState("");
   const today = new Date();
@@ -65,6 +66,52 @@ const WorkRequirement = () => {
 
   const queryclient = useQueryClient();
   const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
+
+  const { data: requisitionDraft } = useQuery({
+    queryKey: ["requisitionDraft"],
+    queryFn: async () => {
+      const { data } = await fetch.get(
+        "/api/workerrequisition/draft-details?userIndex=" + userIndex
+      );
+      if (data.errorCode == 1) return {};
+
+      return data.result;
+    },
+  });
+
+  useEffect(
+    function setReqDraftData() {
+      if (requisitionDraft?.workerreqID) {
+        setArea(requisitionDraft?.schemeArea);
+        onDistrict({
+          target: { value: requisitionDraft?.districtcode.toString() },
+        });
+        onBlock(
+          {
+            target: { value: requisitionDraft?.blockcode.toString() },
+          },
+          requisitionDraft?.districtcode.toString()
+        );
+        setGP(requisitionDraft?.gpCode.toString());
+        setSchemeSl(requisitionDraft?.workCodeSchemeID.toString());
+        setPersonaName(requisitionDraft?.contactPersonName);
+        setPhoneNumber(requisitionDraft?.contactPersonPhoneNumber);
+        setReportingPlace(requisitionDraft?.reportingPlace);
+        setNearestLandmark(requisitionDraft?.nearestLandMark);
+        setDays(requisitionDraft?.createworkalloDto?.length);
+
+        // console.log(temp);
+        // setAllData(temp)
+      }
+    },
+    [requisitionDraft]
+  );
+
+  const labourNo = useMemo(() => {
+    return requisitionDraft?.createworkalloDto?.map((e) =>
+      e?.unskilledWorkers.toString()
+    );
+  }, [requisitionDraft]);
 
   const { data: schemeAll_List } = useQuery({
     queryKey: ["schemeAll_List"],
@@ -83,7 +130,7 @@ const WorkRequirement = () => {
   useEffect(() => {
     if (district !== undefined)
       queryclient.invalidateQueries({ queryKey: ["schemeAll_List"] });
-  }, [district, block, gp]);
+  }, [district, block, gp, requisitionDraft]);
 
   const schemeData = useMemo(() => {
     const data = schemeAll_List?.filter(
@@ -91,7 +138,7 @@ const WorkRequirement = () => {
     )[0];
 
     return data;
-  }, [schemeSl]);
+  }, [schemeSl, schemeAll_List]);
 
   const { data: contractorDetails } = useQuery({
     queryKey: ["contractorDetails"],
@@ -191,7 +238,7 @@ const WorkRequirement = () => {
     setGP(e.target.value);
   };
 
-  const onBlock = (e) => {
+  const onBlock = (e, district) => {
     setBlock(e.target.value);
     getAllGramPanchayatList(district, e.target.value).then(function (result) {
       const response = result?.data?.result;
@@ -311,7 +358,7 @@ const WorkRequirement = () => {
   };
 
   const financialYear = getCurrentFinancialYear();
-  const onSubmit = () => {
+  const onSubmit = (isDraft) => {
     if (area === "") {
       toast.error("Please Select Area Type");
     } else if (!district) {
@@ -365,11 +412,14 @@ const WorkRequirement = () => {
         currentYear,
         financialYear,
         userData?.userIndex,
+        isDraft,
         allData,
         (r) => {
-          if (r.errorCode == 0) {
+          if (r.errorCode == 0 && isDraft == "0") {
             setOpenModal(true);
             setCreatedReq(r?.requireid);
+          } else if (r.errorCode == 0 && isDraft == "1") {
+            toast.success(r.message);
           } else {
             toast.error(r.message);
           }
@@ -378,12 +428,15 @@ const WorkRequirement = () => {
     }
   };
 
-  useEffect(() => {
-    setDates(getDatesArray(startDate, days));
-  }, [days, startDate]);
+  useEffect(
+    function dates() {
+      setDates(getDatesArray(startDate, days));
+    },
+    [days, startDate]
+  );
 
   useEffect(() => {
-    if (allData.length == dates.length - 1)
+    if (allData.length == dates.length - 1) {
       setAllData([
         ...allData,
         {
@@ -408,7 +461,27 @@ const WorkRequirement = () => {
           ),
         },
       ]);
+    }
   }, [dates]);
+
+  useEffect(() => {
+    if (
+      labourNo?.length > 0 &&
+      allData?.length == labourNo?.length &&
+      allData[0].unskilledWorkers != labourNo[0]
+    ) {
+      setAllData(setApiArrayValues(allData, labourNo));
+    }
+  }, [allData,dates]);
+
+  function setApiArrayValues(allData, labourNo) {
+    const temp = [...allData];
+    if (labourNo?.length > 0)
+      return labourNo.map((e, i) => {
+        temp[i].unskilledWorkers = e;
+        return temp[i];
+      });
+  }
 
   const sum = useMemo(() => {
     const arr = allData.map((e) => +e.unskilledWorkers);
@@ -483,6 +556,7 @@ const WorkRequirement = () => {
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 required
+                value={area}
                 onChange={onArea}
               >
                 <option value="" selected hidden>
@@ -508,6 +582,7 @@ const WorkRequirement = () => {
                 name="scheme_name"
                 autoComplete="off"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                value={district}
                 onChange={onDistrict}
               >
                 <option value="" selected hidden>
@@ -531,6 +606,7 @@ const WorkRequirement = () => {
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={municipality}
                   onClick={onMunicipality}
                 >
                   <option value="" selected hidden>
@@ -558,7 +634,8 @@ const WorkRequirement = () => {
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  onChange={onBlock}
+                  value={block}
+                  onChange={(e) => onBlock(e, district)}
                 >
                   <option value="" selected hidden>
                     Select Block List
@@ -585,6 +662,7 @@ const WorkRequirement = () => {
                   name="scheme_name"
                   autoComplete="off"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  value={gp}
                   onClick={onGP}
                 >
                   <option value="" selected hidden>
@@ -618,6 +696,7 @@ const WorkRequirement = () => {
                   name=""
                   id=""
                   className="w-full rounded-md border-zinc-300"
+                  value={schemeSl}
                   onChange={onScheme}
                 >
                   <option value="" selected hidden>
@@ -639,7 +718,11 @@ const WorkRequirement = () => {
                 </label>
                 <input
                   type="text"
-                  value={contractorDetails?.contractorName}
+                  value={
+                    contractorDetails?.contractorName
+                      ? contractorDetails?.contractorName
+                      : ""
+                  }
                   disabled
                   placeholder="Please Enter Village Name"
                   className="w-full rounded-md border-zinc-300 disabled-input"
@@ -674,6 +757,7 @@ const WorkRequirement = () => {
                 <input
                   type="text"
                   className="w-full rounded-md border-zinc-300"
+                  value={personName}
                   onChange={onPersonName}
                   onKeyDown={handleKeyDown}
                   placeholder="Please Enter Contact Person Name"
@@ -695,6 +779,7 @@ const WorkRequirement = () => {
                 <input
                   type="text"
                   className="w-full rounded-md border-zinc-300"
+                  value={phoneNumber}
                   onChange={onContactPhoneNumber}
                   maxLength={10}
                   placeholder="Please Enter Contact Phone Number"
@@ -718,6 +803,7 @@ const WorkRequirement = () => {
                 <input
                   type="text"
                   className="w-full rounded-md border-zinc-300"
+                  value={reportingPlace}
                   onChange={onReportingPlace}
                   placeholder="Please Enter Reporting Place"
                 />
@@ -739,6 +825,7 @@ const WorkRequirement = () => {
                 <input
                   type="text"
                   className="w-full rounded-md border-zinc-300"
+                  value={nearestLandmark}
                   onChange={onNearestLandmark}
                   placeholder="Please Enter Nearest Landmark"
                 />
@@ -758,7 +845,7 @@ const WorkRequirement = () => {
                   Start Date
                 </label>
                 <DatePicker
-                  minDate={new Date()}
+                  minDate={new Date(min_Date)}
                   dateFormat="dd/MM/yyyy"
                   className="w-full border border-gray-300 rounded-md "
                   selected={startDate}
@@ -849,6 +936,7 @@ const WorkRequirement = () => {
                         type="number"
                         className="rounded-md border-zinc-300"
                         placeholder="Please Enter Unskilled"
+                        value={allData[index]?.unskilledWorkers ? allData[index]?.unskilledWorkers : "" }
                         onChange={(event) => {
                           const new_array = allData.map((e) => {
                             if (e.index === index) {
@@ -873,13 +961,20 @@ const WorkRequirement = () => {
             </Table>
           </div>
 
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-8">
             <button
               type="button"
               className="w-1/5 py-2 px-4 border mt-10 border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={onSubmit}
+              onClick={() => onSubmit("0")}
             >
               Submit
+            </button>
+            <button
+              type="button"
+              className="w-1/5 py-2 border-2 mt-10 text-indigo-500 border-indigo-500 bg-white hover:shadow-md transition-all  px-6 rounded-lg"
+              onClick={() => onSubmit("1")}
+            >
+              Draft
             </button>
           </div>
         </div>
