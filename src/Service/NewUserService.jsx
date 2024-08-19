@@ -162,7 +162,7 @@ export const updateNewUser = async (
 ) => {
   
   try {
-    const res = await webApi.put(`/api/user/updateUser/${userIndex}`, {
+    const res = await webApi.post(`/api/user/updateUser/${userIndex}`, {
       // category: category,
       // departmentNo: departmentNo,
       // districtcode: districtcode ? districtcode : 0,

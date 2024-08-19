@@ -51,7 +51,7 @@ const Designation = () => {
 
   const { mutate: updatePed, isPending: updatePending } = useMutation({
     mutationFn: (newTodo) => {
-      return fetch.put(
+      return fetch.post(
         newTodo,
         "/api/mastertable/UpdateDesigntion" + mutationId
       );

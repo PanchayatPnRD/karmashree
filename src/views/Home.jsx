@@ -56,7 +56,8 @@ const Home = () => {
             <WestBengalMap />
           </div> */}
         </div>
-        <div className="container mx-auto p-4 flex space-x-4">
+        <div className="h-4"></div>
+        {/* <div className="container mx-auto p-4 flex space-x-4">
           {portalList.map(({ href, src }) => {
             return (
               <div key={src} className="border rounded-xl overflow-hidden">
@@ -66,7 +67,7 @@ const Home = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
         <Cards />
         <div className="bg-curve h-[30px]"></div>
       </main>

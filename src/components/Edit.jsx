@@ -60,7 +60,7 @@ const Edit = () => {
 
   const { mutate, isSuccess: editStatus } = useMutation({
     mutationFn: (data) => {
-      return fetch.put(data, "/api/user/updateUser/", userId);
+      return fetch.post(data, "/api/user/updateUser/", userId);
     },
     mutationKey: ["update"],
     onSuccess: () => {

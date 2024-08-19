@@ -8,7 +8,8 @@
     "build": "cross-env NODE_ENV=production vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "cross-env NODE_ENV=production vite preview --host --port 3001",
-    "prev": "cross-env NODE_ENV=production vite preview --host --port 3003"
+    "prev": "cross-env NODE_ENV=production vite preview --host --port 3003",
+    "build:css": "tailwindcss build -i ./src/index.css -o ./src/output.css"
   },
   "dependencies": {
     "@iconify/react": "^4.1.1",

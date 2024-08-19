@@ -84,7 +84,7 @@ export const getNewPasswordGenerate = async (
   onFailure
 ) => {
   try {
-    const res = await webApi.put(`/api/auth/userId/${userId}`, {
+    const res = await webApi.post(`/api/auth/userId/${userId}`, {
       encryptpassword: newPassword,
     });
 

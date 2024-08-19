@@ -50,7 +50,6 @@ const UserManual = lazy(() => import("./views/UserManual"))
 const ManualEdit = lazy(() => import("./views/UsermanualEdit"));
 const SchemeEdit = lazy(() => import("./views/forms/SchemeEdit"));
 const SchemeView = lazy(() => import("./views/forms/SchemeView"));
-import { useNetworkState } from "@uidotdev/usehooks";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
   // const network = useNetworkState();
