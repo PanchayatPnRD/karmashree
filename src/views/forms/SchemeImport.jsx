@@ -1,6 +1,6 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   getAllDistrictActionList,
   getAllBlockList,
@@ -9,9 +9,11 @@ import {
   getAllSectorActionList,
   addCreateAction,
 } from "../../Service/ActionPlan/ActionPlanService";
+import { fetch } from "../../functions/Fetchfunctions";
 import { getAllDepartmentList } from "../../Service/NewUserService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import {
   getAllContractorList,
   addCreateScheme,
@@ -19,20 +21,22 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../components/SuccessModal";
+import classNames from "classnames";
 
 const SchemeImport = () => {
   const navigate = useNavigate();
+  const [selectedScheme, setSelectedScheme] = useState({});
   const jsonString = sessionStorage.getItem("karmashree_User");
   const data = JSON.parse(jsonString);
   const [openModal, setOpenModal] = useState(false);
   const [area, setArea] = useState("");
   const [allDistrictList, setAllDistrictList] = useState([]);
   const [allMunicipalityList, setAllMunicipalityList] = useState([]);
-  const [municipality, setMunicipality] = useState();
+  const [municipality, setMunicipality] = useState("");
   const [allBlockList, setAllBlockList] = useState([]);
-  const [gp, setGP] = useState();
-  const [block, setBlock] = useState();
-  const [district, setDistrict] = useState();
+  const [gp, setGP] = useState("");
+  const [block, setBlock] = useState("");
+  const [district, setDistrict] = useState("");
   const [allGpList, setAllGpList] = useState([]);
   const [sector, setSector] = useState("");
   const [allSectorList, setAllSectorList] = useState([]);
@@ -89,6 +93,55 @@ const SchemeImport = () => {
     });
   }, []);
 
+  //http://localhost:8094/api/schememaster/masterscheme_2024_2025?districtcode=320&blockcode=3027&departmentNo=33
+
+  const queryClient = useQueryClient();
+  const { userIndex } = JSON.parse(sessionStorage.getItem("karmashree_User"));
+
+  const { data: userDetails } = useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const data = await fetch.get("/api/user/viewuser");
+      return data.data.result;
+    },
+  });
+  const schemeQuery = useMemo(() => {
+    const query = [
+      area.length > 0 ? `schemeArea=${area == "R" ? "RURAL" : "URBAN"}` : "",
+      district.length > 0 ? `districtcode=${district}` : "",
+      block.length > 0 ? `blockcode=${block}` : "",
+      municipality.length > 0 ? `municipalityCode=${municipality}` : "",
+      gp.length > 0 ? `gpCode=${gp}` : "",
+      // `departmentNo=${userDetails?.departmentNo}`,
+      "departmentNo=33",
+    ];
+    return query.filter(Boolean).join("&");
+  }, [block, gp, district, municipality, area]);
+
+  const { data: schemeList } = useQuery({
+    queryKey: ["schemeList"],
+    queryFn: async () => {
+      const data = await fetch.get(
+        "/api/schememaster/masterscheme_2024_2025?" + schemeQuery
+      );
+      return data.data.result;
+    },
+  });
+
+  const {
+    data: schemeResult,
+    mutate: search,
+    isSuccess: searchStatus,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await fetch.get(
+        "/api/schememaster/masterscheme_2024_2025?" + schemeQuery
+      );
+      queryClient.invalidateQueries({ queryKey: ["schemeList"] });  
+      return data.result;
+    },
+    mutationKey: ["schemeSearch"],
+  });
   //District list
 
   let districtListDropdown = <option>Loading...</option>;
@@ -430,6 +483,10 @@ const SchemeImport = () => {
     }
   };
 
+  function handleSchemeSelection(event) {
+    setSelectedScheme(schemeResult?.filter((e) => e.schemeId == event.target.value)[0])
+  }
+
   return (
     <>
       <ToastContainer />
@@ -484,7 +541,7 @@ const SchemeImport = () => {
 
             <br></br>
             <div className="bg-white shadow-md rounded-lg p-12">
-              <div className="flex w-full space-x-4 mb-6">
+              <div className="flex w-full space-x-4 mb-2">
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -499,6 +556,7 @@ const SchemeImport = () => {
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                     required
+                    value={area}
                     onChange={onArea}
                   >
                     <option value="" selected hidden>
@@ -614,9 +672,54 @@ const SchemeImport = () => {
                 ) : (
                   ""
                 )}
+                {(block?.length > 0 || municipality?.length > 0) && (
+                  <div className="flex items-end py-1">
+                    <button
+                      className="bg-blue-500 text-white rounded-lg px-4 py-1 hover:bg-blue-600 transition-all duration-200"
+                      onClick={search}
+                    >
+                      Search
+                    </button>
+                  </div>
+                )}
               </div>
+              {schemeResult && (
+                <div
+                  className={classNames(
+                    "px-4 mb-6",
+                    schemeResult?.length > 0 ? "text-green-500" : "text-red-500"
+                  )}
+                >
+                  {schemeResult?.length} result
+                  {schemeResult?.length == 1 ? "" : "s"} found
+                </div>
+              )}
 
               <div className="flex flex-col w-full mb-4 space-y-4">
+                <div className="px-4">
+                  <label
+                    htmlFor="scheme_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Scheme List
+                    <span className="text-red-500 "> * </span>
+                  </label>
+                  <select
+                    id="scheme_name"
+                    name="scheme_name"
+                    autoComplete="off"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    onChange={handleSchemeSelection}
+                  >
+                    <option selected hidden>
+                      Select Scheme
+                    </option>
+                    {schemeResult?.map((e) => (
+                      <option value={e?.schemeId}>{e?.schemeName}</option>
+                    ))}
+                  </select>
+                </div>
+
                 <div className="px-4">
                   <label
                     htmlFor="scheme_name"
@@ -630,38 +733,14 @@ const SchemeImport = () => {
                     name="scheme_name"
                     autoComplete="off"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    onChange={onSector}
+                    value={selectedScheme.schemeSector}
+                    disabled
                   >
                     <option selected hidden>
                       Select Sector
                     </option>
                     {sectorListDropdown}
                   </select>
-                </div>
-                <div className="px-4">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Scheme Name
-                    <span className="text-red-500 "> * </span>
-                  </label>
-                  <input
-                    id="scheme_name"
-                    name="scheme_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Scheme Name..."
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                    onChange={onSchemeName}
-                    // onKeyDown={handleKeyDown}
-                  />
-                  {!isValidSchemeName && (
-                    <div style={{ color: "red" }}>
-                      Please enter a valid Scheme Name
-                    </div>
-                  )}
                 </div>
 
                 <div className="px-4">
@@ -694,7 +773,8 @@ const SchemeImport = () => {
                     id="scheme_name"
                     name="scheme_name"
                     autoComplete="off"
-                    onChange={onDepartment}
+                    disabled
+                    value={selectedScheme.OrganizerId}
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   >
                     <option value="" selected hidden>
@@ -724,8 +804,8 @@ const SchemeImport = () => {
                     <option value="" selected hidden>
                       Select Status of Work
                     </option>
-                    <option value="P">Proposed</option>
-                    <option value="S">Started</option>
+                    <option value="O">Ongoing</option>
+                    <option value="C">Completed</option>
 
                     {/* Add more options as needed */}
                   </select>
@@ -797,7 +877,7 @@ const SchemeImport = () => {
                     type="text"
                     autoComplete="off"
                     placeholder="Project Cost..."
-                    value={projectCost}
+                    value={selectedScheme?.projectCost}
                     onChange={onProjectCost}
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                   />
