@@ -97,7 +97,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total Amount Spent"]}
+          end={Stats?.["Total Amount Spent"].toLocaleString("en-IN")}
           duration={2.75}
           decimals={2}
           prefix="₹"

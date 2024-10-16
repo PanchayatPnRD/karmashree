@@ -13,7 +13,7 @@ dist
 dist-ssr
 src/WebApi/WebApi.jsx
 *.local
-
+output.css
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

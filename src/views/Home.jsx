@@ -4,32 +4,32 @@ import { Footer } from "../components/Footer";
 import WestBengalMap from "./WBMap";
 
 const Home = () => {
-  const portalList = [
-    {
-      src: "/assets/img/PublicGrievance.png",
-      href: "http://prdgrievance.wb.gov.in/",
-    },
-    {
-      src: "/assets/img/GA.png",
-      href: "https://play.google.com/store/apps/details?id=com.igmsmobile",
-    },
-    {
-      src: "/assets/img/OnlineBookingGuestHouse.png",
-      href: "https://prdtourism.wb.gov.in/",
-    },
-    {
-      src: "/assets/img/SHIR.png",
-      href: "http://www.wbprd.gov.in/HtmlPage/shisti.aspx",
-    },
-    {
-      src: "/assets/img/MRITTIKA.png",
-      href: "https://wbcadc.com/",
-    },
-    {
-      src: "/assets/img/bsk.jpg",
-      href: "https://bsk.wb.gov.in/",
-    },
-  ];
+  // const portalList = [
+  //   {
+  //     src: "/assets/img/PublicGrievance.png",
+  //     href: "http://prdgrievance.wb.gov.in/",
+  //   },
+  //   {
+  //     src: "/assets/img/GA.png",
+  //     href: "https://play.google.com/store/apps/details?id=com.igmsmobile",
+  //   },
+  //   {
+  //     src: "/assets/img/OnlineBookingGuestHouse.png",
+  //     href: "https://prdtourism.wb.gov.in/",
+  //   },
+  //   {
+  //     src: "/assets/img/SHIR.png",
+  //     href: "http://www.wbprd.gov.in/HtmlPage/shisti.aspx",
+  //   },
+  //   {
+  //     src: "/assets/img/MRITTIKA.png",
+  //     href: "https://wbcadc.com/",
+  //   },
+  //   {
+  //     src: "/assets/img/bsk.jpg",
+  //     href: "https://bsk.wb.gov.in/",
+  //   },
+  // ];
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-grow">
