@@ -137,7 +137,7 @@ const SchemeImport = () => {
       const { data } = await fetch.get(
         "/api/schememaster/masterscheme_2024_2025?" + schemeQuery
       );
-      queryClient.invalidateQueries({ queryKey: ["schemeList"] });  
+      queryClient.invalidateQueries({ queryKey: ["schemeList"] });
       return data.result;
     },
     mutationKey: ["schemeSearch"],
@@ -484,7 +484,9 @@ const SchemeImport = () => {
   };
 
   function handleSchemeSelection(event) {
-    setSelectedScheme(schemeResult?.filter((e) => e.schemeId == event.target.value)[0])
+    setSelectedScheme(
+      schemeResult?.filter((e) => e.schemeId == event.target.value)[0]
+    );
   }
 
   return (
@@ -726,7 +728,6 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Type of Sector
-                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
@@ -767,7 +768,6 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Funding Department
-                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
@@ -785,7 +785,7 @@ const SchemeImport = () => {
                 </div>
               </div>
               <div className="flex w-full space-x-4 mb-6 px-4 ">
-                <div className="w-1/4 flex flex-col">
+                <div className="w-1/3 flex flex-col">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
@@ -811,16 +811,16 @@ const SchemeImport = () => {
                   </select>
                 </div>
 
-                <div className="w-1/4 flex flex-col">
+                <div className="w-1/3 flex flex-col">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Tentative Work Start Date
+                    Start Date
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
-                    disabled={status == "" || status == "S"}
+                    disabled
                     dateFormat="dd/MM/yyyy"
                     className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
                     selected={tentativeWorkStartDate}
@@ -828,23 +828,7 @@ const SchemeImport = () => {
                   />
                 </div>
 
-                <div className="w-1/4 flex flex-col">
-                  <label
-                    htmlFor="scheme_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Actual Work Start Date
-                    {/* <span className="text-red-500 "> * </span> */}
-                  </label>
-                  <DatePicker
-                    disabled={status == "" || status == "P"}
-                    dateFormat="dd/MM/yyyy"
-                    className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
-                    selected={tentativeWorkStartDate}
-                    onChange={(date) => setTentativeWorkStartDate(date)}
-                  />
-                </div>
-                <div className="w-fit flex flex-col">
+                <div className="w-1/3 flex flex-col">
                   <label
                     htmlFor="scheme_name"
                     className="block text-sm font-medium text-gray-700 w-fit"
@@ -853,10 +837,11 @@ const SchemeImport = () => {
                     {/* <span className="text-red-500 "> * </span> */}
                   </label>
                   <DatePicker
+                    disabled={status == "C"}
                     minDate={tentativeWorkStartDate}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="dd-mm-yyyy"
-                    className="w-full border border-gray-300 rounded-md mt-1"
+                    className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
                     selected={expectedWorkDate}
                     onChange={(date) => setExpectedWorkDate(date)}
                   />
@@ -869,9 +854,9 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Project Cost (in Rs.)
-                    <span className="text-red-500 "> * </span>
                   </label>
                   <input
+                    disabled
                     id="scheme_name"
                     name="scheme_name"
                     type="text"
@@ -879,7 +864,7 @@ const SchemeImport = () => {
                     placeholder="Project Cost..."
                     value={selectedScheme?.projectCost}
                     onChange={onProjectCost}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-600/80 w-full border border-gray-300 rounded-md mt-1"
                   />
                 </div>
                 <div className="px-4 w-1/5">
@@ -888,7 +873,6 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Total Wage Cost Involved
-                    <span className="text-red-500 "> *</span>
                   </label>
                   <input
                     id="scheme_name"
@@ -907,7 +891,6 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Persondays to be generated
-                    <span className="text-red-500 w-fit"> * </span>
                   </label>
                   <input
                     id="scheme_name"
@@ -926,7 +909,6 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     No of Unskilled Workers to be engaged
-                    <span className="text-red-500 "> * </span>
                   </label>
                   <input
                     id="scheme_name"
@@ -986,7 +968,7 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Work Order Number
-                    {/* <span className="text-red-500 "> * </span> */}
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <input
                     id="scheme_name"
@@ -1009,7 +991,7 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Work Order Date
-                    {/* <span className="text-red-500 "> * </span> */}
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <DatePicker
                     dateFormat="dd/MM/yyyy"
@@ -1024,7 +1006,7 @@ const SchemeImport = () => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Contractor List
-                    {/* <span className="text-red-500 "> * </span> */}
+                    <span className="text-red-500 "> * </span>
                   </label>
                   <select
                     id="scheme_name"
