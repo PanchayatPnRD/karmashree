@@ -43,7 +43,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total No Of Funding"]}
+          end={Stats?.["Total No Of Funding"] ? Stats?.["Total No Of Funding"] : 0}
           duration={2.75}
           // delay={0}
         />
@@ -56,7 +56,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total Of Sectors"]}
+          end={Stats?.["Total Of Sectors"] ? Stats?.["Total Of Sectors"] :0}
           duration={2.75}
           // delay={0}
         />
@@ -69,7 +69,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total No Of Schemes"]}
+          end={Stats?.["Total No Of Schemes"] ? Stats?.["Total No Of Schemes"] : 0}
           duration={2.75}
           // delay={0}
         />
@@ -82,7 +82,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total Project Cost"]}
+          end={Stats?.["Total Project Cost"] ? Stats?.["Total Project Cost"] : 0}
           duration={2.75}
           decimals={2}
           prefix="₹"
@@ -97,7 +97,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={Stats?.["Total Amount Spent"].toLocaleString("en-IN")}
+          end={Stats?.["Total Amount Spent"].toLocaleString("en-IN") ? Stats?.["Total Amount Spent"].toLocaleString("en-IN") : 0}
           duration={2.75}
           decimals={2}
           prefix="₹"
@@ -112,7 +112,7 @@ export const Cards = () => {
       value: (
         <CountUp
           start={0}
-          end={formatNumberToINR(Stats?.["Total No Of Workers"], false)}
+          end={Stats?.["Total No Of Workers"] ? Stats?.["Total No Of Workers"] : 0}
           duration={2.75}
           // delay={0}
         />
