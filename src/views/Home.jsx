@@ -1,7 +1,7 @@
 import { Carousel } from "flowbite-react";
 import { Cards } from "../components/Cards";
 import { Footer } from "../components/Footer";
-import WestBengalMap from "./WBMap";
+
 
 const Home = () => {
   // const portalList = [
